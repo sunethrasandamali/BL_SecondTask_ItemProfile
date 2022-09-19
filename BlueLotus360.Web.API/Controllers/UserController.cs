@@ -13,7 +13,7 @@ namespace BlueLotus360.Web.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        ILogger<UserController> _logger;
+         ILogger<UserController> _logger;
         IUserService _userService;
         public UserController(ILogger<UserController> logger, IUserService userService)
         {
