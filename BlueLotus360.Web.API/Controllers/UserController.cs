@@ -41,8 +41,7 @@ namespace BlueLotus360.Web.API.Controllers
         [BLAuthorize(false)]
         [HttpPost("updateUserCompany")]
         public IActionResult UpdateUserCompany(UserCompanyUpdateRequest updateRequest)
-        {
-            
+        {            
             var companies = _userService.GetUserCompanies(Request.GetAuthenticatedUser());
             var selectedCompany=companies.Where(x=>x.CompanyKey==updateRequest.CompanyKey).FirstOrDefault();
             if (Request.GetAuthenticatedUser()==null || selectedCompany == null)

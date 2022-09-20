@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueLotus360.Data.SQL92", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueLotus360.Web.APIApplication", "BlueLotus360.Web.APIApplication\BlueLotus360.Web.APIApplication.csproj", "{9A95443D-8D41-4072-8634-E2EE3511B6D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueLotus360.UI.WPF", "BlueLotus360.UI.WPF\BlueLotus360.UI.WPF.csproj", "{16CE064C-56E2-49F2-A8F3-D13FA0B324E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueLotus360.UI.WPF", "BlueLotus360.UI.WPF\BlueLotus360.UI.WPF.csproj", "{16CE064C-56E2-49F2-A8F3-D13FA0B324E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueLotus360.Com.Infrastructure", "BlueLotus360.Com.Infrastructure\BlueLotus360.Com.Infrastructure.csproj", "{6B3301E9-FAC8-447D-8EFC-E9BAB1513674}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{16CE064C-56E2-49F2-A8F3-D13FA0B324E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16CE064C-56E2-49F2-A8F3-D13FA0B324E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16CE064C-56E2-49F2-A8F3-D13FA0B324E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B3301E9-FAC8-447D-8EFC-E9BAB1513674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B3301E9-FAC8-447D-8EFC-E9BAB1513674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B3301E9-FAC8-447D-8EFC-E9BAB1513674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B3301E9-FAC8-447D-8EFC-E9BAB1513674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
