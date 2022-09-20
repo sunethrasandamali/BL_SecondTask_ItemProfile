@@ -8,5 +8,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 {
     public class BaseEntity
     {
+        public int IsActive { get; set; }
+        public int IsApproved { get; set; }
     }
 }

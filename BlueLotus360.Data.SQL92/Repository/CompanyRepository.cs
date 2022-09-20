@@ -18,6 +18,66 @@ namespace BlueLotus360.Data.SQL92.Repository
         {
         }
 
+        public BaseServerResponse<Company> GetCompanyByCode(string CompanyCode)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                BaseServerResponse<Company> response = new BaseServerResponse<Company>();
+                string SPName = "GetCompanyByCCD";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    CreateAndAddParameter(dbCommand, "@CCD", CompanyCode);
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    Company company = new Company(); ;
+                    while (reader.Read())
+                    {
+
+                        company.CompanyKey = reader.GetColumn<int>("Cky");
+                        company.IsActive = 1;
+
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = company;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc  {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+
+            }
+        }
+
         public BaseServerResponse<IList<Company>> GetUserAssociatedCompanies(User user)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())

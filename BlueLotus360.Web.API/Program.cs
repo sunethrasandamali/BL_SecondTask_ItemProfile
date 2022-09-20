@@ -21,6 +21,7 @@ namespace BlueLotus360.Web.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IUserService,UserService>();
+            builder.Services.AddScoped<ICompanyService,CompanyService>();
             builder.Services.AddScoped<IJwtUtility, BasicJwtHelper>();
            builder.Services.AddSwaggerGen();
 

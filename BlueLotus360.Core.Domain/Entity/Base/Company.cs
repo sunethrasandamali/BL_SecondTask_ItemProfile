@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Entity.Base
 {
-    public class Company
+    public class Company:BaseEntity
     {
         public int CompanyKey { get; set; } = 1;
         public string CompanyName { get; set; }

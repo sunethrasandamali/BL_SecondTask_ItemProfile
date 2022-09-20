@@ -16,7 +16,7 @@ namespace BlueLotus360.Web.API.Authentication
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserService userService, IJwtUtility jwtUtils)
+        public async Task Invoke(HttpContext context, IUserService userService, IJwtUtility jwtUtils,ICompanyService companyService)
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             var authResp = jwtUtils.ValidateJwtToken(token);
@@ -29,7 +29,7 @@ namespace BlueLotus360.Web.API.Authentication
                 }
                 if (authResp.CompanyCode != null)
                 {
-                    context.Items["CCD"] = userService.GetUserByUserName(authResp.CompanyCode);
+                    context.Items["Company"] = companyService.GetCompanyByCode(authResp.CompanyCode);
 
                 }
             }

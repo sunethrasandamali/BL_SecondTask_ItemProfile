@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BlueLotus360.Data.SQL92": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:53770;http://localhost:53773"
+    }
+  }
+}

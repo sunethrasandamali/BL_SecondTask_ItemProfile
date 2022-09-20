@@ -12,5 +12,8 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     {
 
         BaseServerResponse<IList<Company>>  GetUserAssociatedCompanies(User user);
+        BaseServerResponse<Company>  GetCompanyByCode(string CompanyCode);
+
+
     }
 }
