@@ -10,6 +10,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace BlueLotus360.Web.API.Controllers
 {
+    [BLAuthorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -24,7 +25,7 @@ namespace BlueLotus360.Web.API.Controllers
             _userService = userService;
         }
 
-        [AllowAnonymous]
+        [BLAllowAnonymous]
         [HttpPost("authenticate")]
         public IActionResult Authenticate(UserAuthenticationRequest model)
         {

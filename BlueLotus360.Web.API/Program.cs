@@ -65,6 +65,7 @@ namespace BlueLotus360.Web.API
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
