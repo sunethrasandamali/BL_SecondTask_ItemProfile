@@ -20,6 +20,13 @@ namespace BlueLotus360.Web.API.Authentication
         {
             // skip authorization if action is decorated with [AllowAnonymous] attribute
             var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<BLAllowAnonymousAttribute>().Any();
+            if (context.HttpContext.Items["IntegrationID"]==null)
+            {
+                context.Result = new JsonResult(new { message = "No Integration ID found in request header" }) { StatusCode = StatusCodes.Status400BadRequest };
+                return;
+
+
+            }
             if (allowAnonymous)
             {
                 return;

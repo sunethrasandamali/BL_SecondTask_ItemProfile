@@ -41,5 +41,16 @@ namespace BlueLotus360.Web.API.Extension
                 return null;
             }
         }
+
+
+        public static void SetRefeshTokenCookie(this HttpResponse httpResponse,string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            httpResponse.Cookies.Append("refreshToken", token, cookieOptions);
+        }
     }
 }

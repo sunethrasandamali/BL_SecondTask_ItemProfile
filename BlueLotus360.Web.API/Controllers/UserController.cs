@@ -6,6 +6,7 @@ using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BlueLotus360.Web.API.Controllers
 {
@@ -15,6 +16,8 @@ namespace BlueLotus360.Web.API.Controllers
     {
         ILogger<UserController> _logger;
         IUserService _userService;
+
+      
         public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
@@ -49,6 +52,7 @@ namespace BlueLotus360.Web.API.Controllers
                 return BadRequest();
             }
             var resp = _userService.UpdateCompanySelection(Request.GetAuthenticatedUser(), selectedCompany, Request.GetRequestIP());
+            Response.SetRefeshTokenCookie(resp.RefreshToken);
             return Ok(resp);
         }
 
