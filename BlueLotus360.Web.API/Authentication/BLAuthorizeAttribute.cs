@@ -24,8 +24,6 @@ namespace BlueLotus360.Web.API.Authentication
             {
                 context.Result = new JsonResult(new { message = "No Integration ID found in request header" }) { StatusCode = StatusCodes.Status400BadRequest };
                 return;
-
-
             }
             if (allowAnonymous)
             {
