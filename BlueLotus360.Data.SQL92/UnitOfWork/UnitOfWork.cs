@@ -18,6 +18,7 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
         #region Privates
         private IUserRepository _userRepository;
         private ICompanyRepository _companyRepository;
+        private IAPIRepository _apiRepository;
         #endregion
 
 
@@ -28,6 +29,18 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                     _userRepository = new UserRepository(_dataLayer);
                 }
             return _userRepository;
+            }
+        }
+
+        public IAPIRepository APIRepository
+        {
+            get
+            {
+                if (_apiRepository == null)
+                {
+                    _apiRepository = new APIRepository(_dataLayer);
+                }
+                return _apiRepository;
             }
         }
 

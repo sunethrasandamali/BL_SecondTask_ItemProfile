@@ -14,6 +14,7 @@ namespace BlueLotus360.Core.Domain.Definitions.DataLayer
         IUserRepository UserRepository { get;  }
 
         ICompanyRepository CompanyRepository { get; }
+        IAPIRepository APIRepository { get; }
 
 
 

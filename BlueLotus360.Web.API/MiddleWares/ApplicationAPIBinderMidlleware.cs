@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Web.API.Authentication.Jwt;
+﻿using BlueLotus360.Core.Domain.Entity.API;
+using BlueLotus360.Web.API.Authentication.Jwt;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using Microsoft.Extensions.Options;
 using System.Net;
@@ -8,19 +9,20 @@ namespace BlueLotus360.Web.API.MiddleWares
     public class ApplicationAPIBinderMidlleware
     {
         private readonly RequestDelegate _next;
+        private readonly IAPIService _apiService;
+       
 
-
-        public ApplicationAPIBinderMidlleware(RequestDelegate next)
+        public ApplicationAPIBinderMidlleware(RequestDelegate next,IAPIService service)
         {
             _next = next;
-           
+            _apiService=service;
         }
 
 
         public async Task Invoke(HttpContext context)
         {
-            var token = context.Request.Headers["IntegrationID"].FirstOrDefault();
-            if(token == null)
+            var appId = context.Request.Headers["IntegrationID"].FirstOrDefault();
+            if(appId == null)
             {
                 // context.Items["IntegrationID"] = token;
 
@@ -29,6 +31,10 @@ namespace BlueLotus360.Web.API.MiddleWares
 
                 return;
             }
+
+            // information = _apiService.GetAPIInformationByAppId(appId);
+
+
             await _next(context);
         }
 
