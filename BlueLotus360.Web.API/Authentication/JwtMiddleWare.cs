@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.API.Authentication.Jwt;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
 namespace BlueLotus360.Web.API.Authentication
@@ -30,10 +31,10 @@ namespace BlueLotus360.Web.API.Authentication
                 if (authResp.CompanyCode != null)
                 {
                     context.Items["Company"] = companyService.GetCompanyByCode(authResp.CompanyCode);
-
                 }
             }
 
+           
             await _next(context);
         }
     }

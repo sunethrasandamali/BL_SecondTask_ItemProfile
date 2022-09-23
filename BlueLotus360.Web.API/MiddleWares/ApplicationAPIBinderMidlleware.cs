@@ -20,10 +20,14 @@ namespace BlueLotus360.Web.API.MiddleWares
         public async Task Invoke(HttpContext context)
         {
             var token = context.Request.Headers["IntegrationID"].FirstOrDefault();
-            if(token != null)
+            if(token == null)
             {
-                context.Items["IntegrationID"] = token;
+                // context.Items["IntegrationID"] = token;
 
+
+                await ReturnErrorResponse(context);
+
+                return;
             }
             await _next(context);
         }
@@ -32,7 +36,8 @@ namespace BlueLotus360.Web.API.MiddleWares
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await context.Response.WriteAsJsonAsync("Bad Request");
+            await context.Response.WriteAsJsonAsync("Bad Request: Integration Not Defined, " +
+                "Request ID Sould be defined in the Header section of the request");
             
 
         }
