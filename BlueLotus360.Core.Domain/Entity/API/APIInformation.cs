@@ -14,7 +14,7 @@ namespace BlueLotus360.Core.Domain.Entity.API
         public string Description { get; set; }
         public string ApplicationID { get; set; }
         public string SecretKey { get; set; }
-        public string RestrictToAPI { get; set; }
+        public string RestrictToIP { get; set; }
         public int MappedCompanyKey { get; set; } = 1;
         public int MappedUserKey { get; set; } = 1;
         public bool IsLocalOnly { get; set; } 

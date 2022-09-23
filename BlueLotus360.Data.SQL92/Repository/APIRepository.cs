@@ -25,12 +25,12 @@ namespace BlueLotus360.Data.SQL92.Repository
             {
                 IDataReader reader = null;
                 BaseServerResponse<APIInformation> response = new BaseServerResponse<APIInformation>();
-                string SPName = "Company_LookUpPOS";
+                string SPName = "BL10API_SelectWeb";
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
-                    CreateAndAddParameter(dbCommand, "@AppId", appId);
+                    CreateAndAddParameter(dbCommand, "@integrationId", appId);
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
@@ -47,7 +47,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         information.MappedUserKey = reader.GetColumn<int>("MappedCky");
                         information.IsLocalOnly = reader.GetColumn<bool>("IsLocalOnly");
                         information.IsActive = reader.GetColumn<int>("IsAct");
-                        information.RestrictToAPI = reader.GetColumn<string>("RestrictToIP");
+                        information.RestrictToIP = reader.GetColumn<string>("RestricrtToIP");
                         information.ISIPFilterd = reader.GetColumn<bool>("ISIPFilterd");
                         information.ValidateTokenOnly = reader.GetColumn<bool>("ValTokenOnly");
                         information.Scheme = reader.GetColumn<string>("Scheme");

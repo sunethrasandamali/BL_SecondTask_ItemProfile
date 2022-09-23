@@ -17,6 +17,15 @@ namespace BlueLotus360.Web.API.Extension
                 
         }
 
+        public static bool IsRequestMatchIP(this HttpRequest httpRequest,string IP)
+        {
+            if (string.IsNullOrEmpty(IP))
+            {
+                return false;
+            }
+            return httpRequest.GetRequestIP().ToLower().Equals(IP.ToLower());
+        }
+
 
         public static User  GetAuthenticatedUser(this HttpRequest httpRequest)
         {
