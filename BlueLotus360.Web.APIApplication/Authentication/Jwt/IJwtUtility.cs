@@ -6,10 +6,10 @@ namespace BlueLotus360.Web.API.Authentication.Jwt
 {
     public interface IJwtUtility
     {
-        public string GenerateJwtToken(User user);
-        public BLAuthResponse ValidateJwtToken(string token);
+        public string GenerateUserToken(User user);
+        public BLAuthResponse ValidateRequestToken(string token);
         public RefreshToken GenerateRefreshToken(string ipAddress);
-        public string GenerateJwtToken(User user,Company company);
+        public string GenerateUserToken(User user,Company company);
 
     }
 

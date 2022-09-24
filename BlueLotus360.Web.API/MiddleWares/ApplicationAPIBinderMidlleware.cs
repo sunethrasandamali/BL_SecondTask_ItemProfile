@@ -1,4 +1,7 @@
-﻿using BlueLotus360.Core.Domain.Definitions.Repository;
+﻿
+
+
+using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.Entity.API;
 using BlueLotus360.Web.API.Authentication.Jwt;
 using BlueLotus360.Web.API.Extension;
@@ -39,7 +42,6 @@ namespace BlueLotus360.Web.API.MiddleWares
 
                 return;
             }
-
             var information = _apiService.GetAPIInformationByAppId(appId);
             if (information == null || information.APIIntegrationKey < 11)
             {

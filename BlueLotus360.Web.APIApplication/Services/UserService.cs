@@ -29,7 +29,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             // validate
             if (user != null && user.AuthenticateUser(model.Password))
             {
-                var jwtToken = _jwtUtils.GenerateJwtToken(user);
+                var jwtToken = _jwtUtils.GenerateUserToken(user);
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
                 return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token);
                 removeOldRefreshTokens(user);
@@ -170,7 +170,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             // validate
             if (user != null && company!=null)
             {
-                var jwtToken = _jwtUtils.GenerateJwtToken(user,company);
+                var jwtToken = _jwtUtils.GenerateUserToken(user,company);
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
                 return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token);
                 removeOldRefreshTokens(user);

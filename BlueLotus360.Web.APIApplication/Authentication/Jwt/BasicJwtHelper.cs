@@ -22,7 +22,7 @@ namespace BlueLotus360.Web.API.Authentication.Jwt
             _appSettings = new AppSettings();
         }
 
-        public string GenerateJwtToken(User user)
+        public string GenerateUserToken(User user)
         {
             // generate token that is valid for 15 minutes
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -36,7 +36,7 @@ namespace BlueLotus360.Web.API.Authentication.Jwt
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        public string GenerateJwtToken(User user, Company company)
+        public string GenerateUserToken(User user, Company company)
         {
             // generate token that is valid for 15 minutes
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -56,7 +56,7 @@ namespace BlueLotus360.Web.API.Authentication.Jwt
             return tokenHandler.WriteToken(token);
         }
 
-        public BLAuthResponse ValidateJwtToken(string token)
+        public BLAuthResponse ValidateRequestToken(string token)
         {
             if (token == null)
             {
