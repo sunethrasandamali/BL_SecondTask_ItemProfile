@@ -8,6 +8,6 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 {
     public class CodeBaseSimple:BaseEntity
     {
-
+      
     }
 }

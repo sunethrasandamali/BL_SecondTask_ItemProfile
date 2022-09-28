@@ -10,6 +10,6 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     {
         public long ProjectKey { get; set; } = 1;
         public string ProjectName { get; set; }
-
+        
     }
 }
