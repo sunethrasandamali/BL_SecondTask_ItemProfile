@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BlueLotus360.Web.API.Authentication.Jwt
 {
-    public class BasicJwtHelper : IJwtUtility
+    public class BasicJwtHelper : IAuthenticationProvider
     {
 
         private IUnitOfWork _unitOfWork;

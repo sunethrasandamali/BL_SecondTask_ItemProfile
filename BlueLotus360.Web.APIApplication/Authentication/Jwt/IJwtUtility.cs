@@ -4,7 +4,7 @@ using BlueLotus360.Web.APIApplication.Authentication;
 
 namespace BlueLotus360.Web.API.Authentication.Jwt
 {
-    public interface IJwtUtility
+    public interface IAuthenticationProvider
     {
         public string GenerateUserToken(User user);
         public BLAuthResponse ValidateRequestToken(string token);

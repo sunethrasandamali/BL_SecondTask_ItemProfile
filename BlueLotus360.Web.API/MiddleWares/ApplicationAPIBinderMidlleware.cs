@@ -59,8 +59,7 @@ namespace BlueLotus360.Web.API.MiddleWares
                 await context.Response.WriteAsJsonAsync($"IP Validation failed {context.Request.GetRequestIP()}");
                 return;
             }
-
-
+            context.Items["APIInformation"] = information;
             await _next(context);
         }
 

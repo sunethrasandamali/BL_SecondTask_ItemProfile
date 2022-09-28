@@ -16,7 +16,7 @@ namespace BlueLotus360.Web.APIApplication.Services
     public class UserService : IUserService
     {
         IUnitOfWork _unitofWork { get; set; }
-        IJwtUtility _jwtUtils;
+        IAuthenticationProvider _jwtUtils;
         public UserService(IUnitOfWork unitOfWork)
         {
             _unitofWork = unitOfWork;
