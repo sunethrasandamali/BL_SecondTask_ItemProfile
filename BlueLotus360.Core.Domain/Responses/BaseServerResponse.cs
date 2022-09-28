@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,18 +16,19 @@ namespace BlueLotus360.Core.Domain.Responses
 
         public BaseServerResponse()
         {
-            Messages=new List<ServerResponseMessae>();  
+            Messages=new List<ServerResponseMessae>();
+            ResponseId = Guid.NewGuid().ToString();
         }
 
         public Exception ExecutionException   { get; set; }
-
         public DateTime ExecutionStarted { get; set; }
         public DateTime ExecutionEnded { get; set; }
-
         public TimeSpan GetExecutionTimeSpan()
         {
             return ExecutionEnded - ExecutionStarted;
         }
+
+        public string ResponseId { get; set; }
 
     }
 

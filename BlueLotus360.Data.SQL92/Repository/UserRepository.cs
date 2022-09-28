@@ -40,7 +40,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         user.UserKey = reader.GetColumn<int>("UsrKy");
                         user.UserID = reader.GetColumn<string>("UsrId");
                         user.HashedPassword = reader.GetColumn<string>("Password");
-                        user.UserAddress = new Address(reader.GetColumn<long>("AdrKy"));
+                        user.UserAddress = new Address (reader.GetColumn<long>("AdrKy"));
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = user;                 

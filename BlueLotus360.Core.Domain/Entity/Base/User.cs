@@ -13,7 +13,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string UserName { get; set; }
         public string UserID { get; set; }
         public string LoginUserID { get; set; }
-        public Address UserAddress { get; set; }
+        public Address  UserAddress { get; set; }
 
         public string HashedPassword {get; set; }
 

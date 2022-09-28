@@ -1,4 +1,6 @@
-﻿using BlueLotus360.Core.Domain.Responses;
+﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
     public interface ITransactionService
     {
-        BaseServerResponse<>
+       BaseServerResponse<BLTransaction> SaveTransaction(BLTransaction transaction,Company company,User user);
+
     }
 }
