@@ -103,7 +103,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long FromItemTransactionKey = 1;
         public long OfferItemTransactionKey = 1;
         public decimal LineAmount { get; set; }
-        public  Item ProcessItem { get; set; } = new Item();
+        public  ItemResponse ProcessItem { get; set; } = new ItemResponse();
 
         public decimal BalanceQuantity { get; set; }
 

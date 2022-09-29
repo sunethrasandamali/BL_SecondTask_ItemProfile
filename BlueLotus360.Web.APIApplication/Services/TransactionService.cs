@@ -19,13 +19,11 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public BaseServerResponse<BLTransaction> SaveTransaction(BLTransaction transaction, Company company, User user,UIObject uIObject)
+        public BaseServerResponse<BLTransaction> SaveTransaction(BLTransaction transaction, Company company, User user,UIObject uIObject, CodeBaseResponse trnTyp)
         {
-            var trnTyp = _unitOfWork.CodeBaseRepository.GetCodeByOurCodeAndConditionCode(company, user, uIObject.OurCode, "TrnTyp");
-            CodeBaseResponse TransactionType = trnTyp.Value;
 
             transaction.TransactionType = new CodeBaseResponse();
-            transaction.TransactionType.CodeKey = TransactionType.CodeKey;
+            transaction.TransactionType.CodeKey = trnTyp.CodeKey;
 
             if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
             {
@@ -82,5 +80,17 @@ namespace BlueLotus360.Web.APIApplication.Services
             return new BaseServerResponse<BLTransaction>();
         }
 
+        public BaseServerResponse<IList<GenericTransactionFindResponse>> FindTransaction(Company company, User user, TransactionFindRequest request)
+        {
+            return _unitOfWork.TransactionRepository.GenericFindTransaction(company, user, request);
+        }
+        public BaseServerResponse<BLTransaction> OpenTransaction(Company company, User user, TransactionOpenRequest request)
+        {
+            return _unitOfWork.TransactionRepository.GenericOpenTransaction(company, user, request);
+        }
+        public BaseServerResponse<IList<GenericTransactionLineItem>> GetTransactionLineItems(Company company, User user, TransactionOpenRequest request)
+        {
+            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);    
+        }
     }
 }

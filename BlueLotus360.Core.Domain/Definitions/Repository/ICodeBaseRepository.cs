@@ -11,7 +11,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     public interface ICodeBaseRepository
     {
         BaseServerResponse<CodeBaseResponse> GetCodeBaseByObject(Company company, User user, string ConditionCode, string OurCode);
-        BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string ConditionCode);
 
     }
 }

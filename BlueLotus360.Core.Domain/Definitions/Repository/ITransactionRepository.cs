@@ -18,5 +18,8 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         void UpdateTransactionLineItem(Company company, User user, GenericTransactionLineItem lineItem);
         void SaveOrUpdateSerialNumber(Company company, User user, ItemSerialNumber serialNumber);
         void PostAfterTranSaveActions(Company company, User user, long TransactionKey, long ObjectKey);
+        BaseServerResponse<IList<GenericTransactionFindResponse>> GenericFindTransaction(Company company, User user, TransactionFindRequest request);
+        BaseServerResponse<BLTransaction> GenericOpenTransaction(Company company, User user, TransactionOpenRequest trnRequest);
+        BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItems(Company company, User user, TransactionOpenRequest request);
     }
 }
