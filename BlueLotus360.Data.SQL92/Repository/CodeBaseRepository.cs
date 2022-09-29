@@ -19,12 +19,12 @@ namespace BlueLotus360.Data.SQL92.Repository
         {
         }
 
-        public BaseServerResponse<CodeBaseSimple> GetCodeBaseByObject(Company company, User user, string ConditionCode, string OurCode)
+        public BaseServerResponse<CodeBaseResponse> GetCodeBaseByObject(Company company, User user, string ConditionCode, string OurCode)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
                 IDataReader reader = null;
-                BaseServerResponse<CodeBaseSimple> response = new BaseServerResponse<CodeBaseSimple>();
+                BaseServerResponse<CodeBaseResponse> response = new BaseServerResponse<CodeBaseResponse>();
                 string SPName = "GetCdKyByOurCdWeb";
                 try
                 {
@@ -37,7 +37,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
-                    CodeBaseSimple codebase = new(); 
+                    CodeBaseResponse codebase = new(); 
                     while (reader.Read())
                     {
 
@@ -81,6 +81,74 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
 
+        }
+
+        public BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string ConditionCode)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                BaseServerResponse<CodeBaseResponse> response = new BaseServerResponse<CodeBaseResponse>();
+                string SPName = "GetCdKyByOurCdWeb";
+                try
+                {
+                    CodeBaseResponse codebase = new CodeBaseResponse();
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ConCd", ConditionCode);
+                    dbCommand.CreateAndAddParameter("@OurCd", OurCode);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        codebase.CodeKey = dataReader.GetColumn<int>("CdKy");
+                        codebase.OurCode = OurCode;
+                        codebase.ConditionCode = ConditionCode;
+                        //codebase.IsOption78On = dataReader.GetColumn<bool>("IsAlwMultiCrDr");
+
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = codebase;
+                    
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc  {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+            }
         }
     }
 }

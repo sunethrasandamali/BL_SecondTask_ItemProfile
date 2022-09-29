@@ -21,7 +21,8 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
         private IAPIRepository _apiRepository;
         private IObjectRepository _objectRepository;
         private ICodeBaseRepository _codeBaseRepository;
-       
+        private IAccountRepository _accountRepository;
+        private ITransactionRepository _transactionRepository;
         #endregion
 
 
@@ -83,6 +84,30 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
             }
         }
 
+        public IAccountRepository AccountRepository
+        {
+            get
+            {
+                if (_accountRepository == null)
+                {
+                    _accountRepository = new AccountRepository(_dataLayer);
+                }
+                return _accountRepository;
+            }
+        }
+
+        public ITransactionRepository TransactionRepository
+        {
+            get
+            {
+                if (_transactionRepository == null)
+                {
+                    _transactionRepository = new TransactionRepository(_dataLayer);
+                }
+                return _transactionRepository;
+            }
+        }
+
         private ISQLDataLayer _dataLayer;
         private string _connectionStrin;
         IConfiguration _configuration;
@@ -100,7 +125,7 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                 }
                 else
                 {
-                    throw new InvalidOperationException("Cannot Read Data Confiuration");
+                    throw new InvalidOperationException("Cannot Read Data Configuration");
                 }
             }
             catch (Exception ex)

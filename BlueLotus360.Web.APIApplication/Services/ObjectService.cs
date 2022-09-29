@@ -18,9 +18,9 @@ namespace BlueLotus360.Web.APIApplication.Services
             _unitOfWork=unitOfWork;
         }
 
-        public BaseServerResponse<UIObject> GetObjectByObjectKey(long ObjectKey, Company company, User user)
+        public BaseServerResponse<UIObject> GetObjectByObjectKey(long ObjectKey)
         {
-            throw new NotImplementedException();
+            return _unitOfWork.ObjectRepository.GetByID((int)ObjectKey);
         }
 
         public BaseServerResponse<IList<UIObject>> GetUIObjectsByParent(int ParentKey, Company company, User user)

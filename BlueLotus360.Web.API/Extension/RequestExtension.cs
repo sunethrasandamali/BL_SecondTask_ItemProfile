@@ -1,4 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
+using BlueLotus360.Web.APIApplication.Services;
 using System.Runtime.CompilerServices;
 
 namespace BlueLotus360.Web.API.Extension
@@ -60,6 +62,11 @@ namespace BlueLotus360.Web.API.Extension
                 Expires = DateTime.UtcNow.AddDays(7)
             };
             httpResponse.Cookies.Append("refreshToken", token, cookieOptions);
+        }
+
+        public static void ServicesBuilder(this IServiceCollection Services)
+        {
+            Services.AddScoped<ITransactionService, TransactionService>();
         }
     }
 }

@@ -32,9 +32,10 @@ namespace BlueLotus360.Web.API.Controllers
         {
             var user =  Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
-            var uobject = _objectService.GetObjectByObjectKey(transaction.ElementKey, company, user);
-            _transactionService.SaveTransaction(transaction, company, user, uobject.Value);
-            return Ok();
+            var uobject = _objectService.GetObjectByObjectKey(transaction.ElementKey);
+            var trn=_transactionService.SaveTransaction(transaction, company, user, uobject.Value);
+
+            return Ok(trn.Value);
         }
     }
 }

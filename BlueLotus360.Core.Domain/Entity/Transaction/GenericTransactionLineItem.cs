@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Entity.Transaction
 {
-    public class GenericTransactionLineItem
+    public class GenericTransactionLineItem : BaseEntity
     {
         public long TransactionKey { get; set; } = 1;
         public long ElementKey { get; set; } = 1;
@@ -16,29 +16,29 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public DateTime EffectiveDate { get; set; } = DateTime.Now;
         public int LineNumber { get; set; }
         public long ItemTransferLinkKey = 1;
-        public Item TransactionItem { get; set; } = new Item();
-        public CodeBaseSimple TransactionLocation { get; set; } = new CodeBaseSimple();
+        public ItemResponse TransactionItem { get; set; } = new ItemResponse();
+        public CodeBaseResponse TransactionLocation { get; set; } = new CodeBaseResponse();
         public decimal Quantity { get; set; }
         public decimal TransactionQuantity { get; set; }
         public decimal TransactionRate { get; set; }
         public decimal TransactionPrice { get; set; }
         public decimal Rate { get; set; }
-        public UnitSimple TransactionUnit { get; set; } = new UnitSimple();
-        public CodeBaseSimple BussinessUnit { get; set; } = new CodeBaseSimple();
+        public UnitResponse TransactionUnit { get; set; } = new UnitResponse();
+        public CodeBaseResponse BussinessUnit { get; set; } = new CodeBaseResponse();
         public decimal DiscountAmount { get; set; }
         public decimal TransactionDiscountAmount { get; set; }
         public decimal DiscountPercentage { get; set; }
-        public CodeBaseSimple TransactionProject { get; set; }
-        public CodeBaseSimple Address { get; set; }
-        public CodeBaseSimple ItemProperty { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple ConditionsState { get; set; } = new CodeBaseSimple();
+        public ProjectResponse TransactionProject { get; set; }
+        public AddressResponse Address { get; set; }
+        public CodeBaseResponse ItemProperty { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ConditionsState { get; set; } = new CodeBaseResponse();
         public int IsInventory { get; set; } = 1;
         public int IsCosting { get; set; } = 1;
         public int IsSetOff { get; set; } = 0;
         public int OrderDetailKey { get; set; } = 1;
         public long ReferenceItemTransactionKey { get; set; } = 1;
-        public CodeBaseSimple Code1 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Code2 { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse Code1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Code2 { get; set; } = new CodeBaseResponse();
         public string Description { get; set; }
         public string Remarks { get; set; }
         public long OrderKey { get; set; } = 1;
@@ -53,8 +53,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal ToNo { get; set; }
         public decimal NextActionNo { get; set; }
         public DateTime NextActionDate { get; set; }
-        public CodeBaseSimple NextActionType { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple ItemPack { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse NextActionType { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemPack { get; set; } = new CodeBaseResponse();
         public decimal CommisionPercentage { get; set; }
         public decimal ItemTaxType1 { get; set; }
         public decimal ItemTaxType2 { get; set; }
@@ -71,14 +71,14 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long ProcessDetailKey { get; set; } = 1;
         public long LCDetailKey { get; set; } = 1;
         public long LoanDetailKey { get; set; } = 1;
-        public CodeBaseSimple Analysis1 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Analysis2 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Analysis3 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Analysis4 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Analysis5 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Analysis6 { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse Analysis1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis2 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis3 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis4 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis5 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis6 { get; set; } = new CodeBaseResponse();
         public decimal SalesPrice2 { get; set; }
-        public Address ReservationAddress { get; set; } = new Address();
+        public AddressResponse ReservationAddress { get; set; } = new AddressResponse();
         public long ItemBudgetKey { get; } = 1;
         public bool IsQuantiy { get; set; } = false;
 
@@ -97,8 +97,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public DateTime DateTime1 { get; set; }
         public DateTime DateTime2 { get; set; }
         public DateTime DateTime3 { get; set; }
-        public CodeBaseSimple TransactionType { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple ProjectTaskLocation { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse TransactionType { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ProjectTaskLocation { get; set; } = new CodeBaseResponse();
         public long ObjectKey = 1;
         public long FromItemTransactionKey = 1;
         public long OfferItemTransactionKey = 1;
@@ -108,8 +108,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal BalanceQuantity { get; set; }
 
 
-        public CodeBaseSimple ItemCategory1;
-        public CodeBaseSimple ItemCategory2;
+        public CodeBaseResponse ItemCategory1;
+        public CodeBaseResponse ItemCategory2;
 
         public decimal MarkupPercentage { get; set; }
         public decimal MarkupAmount { get; set; }

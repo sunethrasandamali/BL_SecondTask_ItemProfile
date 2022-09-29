@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Definitions\Repository\NewFolder\" />
+    <Folder Include="DTOs\ResponseDTO\" />
+    <Folder Include="DTOs\RequestDTO\" />
   </ItemGroup>
 
 </Project>

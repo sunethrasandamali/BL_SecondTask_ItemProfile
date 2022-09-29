@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
-    public interface IObjectRepository : IRepository<UIObject>
+    public interface IAccountRepository
     {
-        BaseServerResponse<IList<UIObject>> GetUIDefinitions(int ParentKey, Company company, User user);
+        BaseServerResponse<AddressResponse> GetAddressByAccount(Company company, User user, long AccountKey = 1);
     }
 }

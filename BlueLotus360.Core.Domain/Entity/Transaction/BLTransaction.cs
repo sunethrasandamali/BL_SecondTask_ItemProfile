@@ -12,36 +12,36 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long TransactionKey { get; set; } = 1;
         public string TransactionNumber { get; set; }
         public long ElementKey { get; set; } = 1;
-        public CodeBaseSimple TransactionType { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse TransactionType { get; set; } = new CodeBaseResponse();
         public decimal Amount { get; set; }
         public decimal DiscountAmount { get; set; }
         public decimal DiscountPercentage { get; set; }
         public decimal HeaderDiscountAmount { get; set; }
-        public CodeBaseSimple TransactionCurrency { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse TransactionCurrency { get; set; } = new CodeBaseResponse();
         public decimal TransactionExchangeRate { get; set; }
         public string DocumentNumber { get; set; }
         public string YourReference { get; set; }
         public DateTime TransactionDate { get; set; } = DateTime.Now;
         public DateTime YourReferenceDate { get; set; }
-        public CodeBaseSimple PaymentTerm { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse PaymentTerm { get; set; } = new CodeBaseResponse();
         public int IsPrinted { get; set; }
         public int IsRecurrence { get; set; }
         public DateTime ReminderDate { get; set; }
         public int IsLocked { get; set; }
-        public CodeBaseSimple AccessLevel { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple ConfidentialLevel { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple ApproveState { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse AccessLevel { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ConfidentialLevel { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ApproveState { get; set; } = new CodeBaseResponse();
         public long ObjectKey { get; set; } = 1;
-        public Project TransactionProject { get; set; }
-        public CodeBaseSimple BussinessUnit { get; set; } = new CodeBaseSimple();
+        public ProjectResponse TransactionProject { get; set; }
+        public CodeBaseResponse BussinessUnit { get; set; } = new CodeBaseResponse();
         public long HeaderTransferLinkKey = 1;
         public long ContraAccountObjectKey { get; set; } = 1;
-        public Account ContraAccount { get; set; } = new Account();
-        public CodeBaseSimple Location { get; set; } = new CodeBaseSimple();
+        public AccountResponse ContraAccount { get; set; } = new AccountResponse();
+        public CodeBaseResponse Location { get; set; } = new CodeBaseResponse();
         public string Description { get; set; } = "";
         public string Remarks { get; set; } = "";
-        public Item CustomItem { get; set; } = new Item();
-        public CodeBaseSimple Shift { get; set; } = new CodeBaseSimple();
+        public ItemResponse CustomItem { get; set; } = new ItemResponse();
+        public CodeBaseResponse Shift { get; set; } = new CodeBaseResponse();
         public decimal CommisionPercentage { get; set; }
 
         public int IsQuantityPosted { get; set; }
@@ -54,17 +54,17 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal Amount5 { get; set; }
         public decimal Amount6 { get; set; }
         public string OtherNumber { get; set; }
-        public CodeBaseSimple Code1 { get; set; } = new CodeBaseSimple();
-        public CodeBaseSimple Code2 { get; set; } = new CodeBaseSimple();
-        public Address Rep { get; set; }
+        public CodeBaseResponse Code1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Code2 { get; set; } = new CodeBaseResponse();
+        public AddressResponse Rep { get; set; }
         public decimal RepCommissionPercentage { get; set; }
         public long OrderDetailKey { get; set; } = 1;
         public long AccountObjectKey { get; set; } = 1;
-        public Account Account { get; set; } = new Account();
-        public Address Address { get; set; } = new Address();
+        public AccountResponse Account { get; set; } = new AccountResponse();
+        public AddressResponse Address { get; set; } = new AddressResponse();
         public long OrderNumberKey { get; set; } = 1;
-        public Address Address1 { get; set; } = new Address();
-        public Address Address2 { get; set; } = new Address();
+        public AddressResponse Address1 { get; set; } = new AddressResponse();
+        public AddressResponse Address2 { get; set; } = new AddressResponse();
         public long FromOrderKey { get; set; } = 1;
         public long FromTransactionKey { get; set; } = 1;
         public long RecurenceDeliveryKey { get; set; } = 1;
@@ -78,7 +78,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public bool IsFromImport { get; set; }
         public bool IsHold { get; set; }
         public bool IsBlock { get; set; }
-        public CodeBaseSimple ApproveReason { get; set; } = new CodeBaseSimple();
+        public CodeBaseResponse ApproveReason { get; set; } = new CodeBaseResponse();
 
         public ItemSerialNumber SerialNumber { get; set; }
 
@@ -97,13 +97,11 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public bool IsVarcar1On { get; set; }
         public decimal Quantity1 { get; set; }
 
-        public bool IsPersisted { get; set; }
-
         public BLTransaction()
         {
-            Location = new CodeBaseSimple();
-            PaymentTerm = new CodeBaseSimple();
-            Address = new Address();
+            Location = new CodeBaseResponse();
+            PaymentTerm = new CodeBaseResponse();
+            Address = new AddressResponse();
             InvoiceLineItems = new List<GenericTransactionLineItem>();
             YourReferenceDate = DateTime.Now;
             SerialNumber = new ItemSerialNumber();

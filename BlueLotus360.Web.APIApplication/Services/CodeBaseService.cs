@@ -17,7 +17,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public BaseServerResponse<CodeBaseSimple> GetCodeBaseByObject(Company company, User user, string Condition, string OurCode)
+        public BaseServerResponse<CodeBaseResponse> GetCodeBaseByObject(Company company, User user, string Condition, string OurCode)
         {
            return _unitOfWork.CodeBaseRepository.GetCodeBaseByObject(company, user, Condition, OurCode);
         }

@@ -10,5 +10,18 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     {
         public int IsActive { get; set; }
         public int IsApproved { get; set; }
+        public bool IsRecordLocked { get; set; }
+        public bool IsPersisted { get; set; }
+        public bool IsDirty { get; set; }
+        public DateTime CreatedDate { get ; set; }
+        public DateTime UpdatedDate { get ; set; }
+        public DateTime EffectiveDate { get; set; }
+        public IDictionary<string, object> AddtionalData { get; set; }
+
+        public BaseEntity()
+        {
+            AddtionalData = new Dictionary<string, object>();
+
+        }
     }
 }

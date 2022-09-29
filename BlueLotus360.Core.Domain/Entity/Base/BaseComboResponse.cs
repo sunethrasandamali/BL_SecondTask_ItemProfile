@@ -17,30 +17,30 @@ namespace BlueLotus360.Core.Domain.Entity.Base
                 return 1;
             }
 
-            if (response is CodeBaseSimple)
+            if (response is CodeBaseResponse)
             {
-                return (response as CodeBaseSimple).CodeKey;
+                return (response as CodeBaseResponse).CodeKey;
             }
-            if (response is Address)
+            if (response is AddressResponse)
             {
-                return (response as Address).AddressKey;
+                return (response as AddressResponse).AddressKey;
             }
-            if (response is Account)
+            if (response is AccountResponse)
             {
-                return (response as Account).AccountKey;
+                return (response as AccountResponse).AccountKey;
             }
-            if (response is UnitSimple)
+            if (response is UnitResponse)
             {
-                return (response as UnitSimple).UnitKey;
+                return (response as UnitResponse).UnitKey;
             }
-            if (response is Item)
+            if (response is ItemResponse)
             {
-                return (response as Item).ItemKey;
+                return (response as ItemResponse).ItemKey;
             }
 
-            if (response is Project)
+            if (response is ProjectResponse)
             {
-                return (response as Project).ProjectKey;
+                return (response as ProjectResponse).ProjectKey;
             }
 
             return 1;
@@ -52,17 +52,17 @@ namespace BlueLotus360.Core.Domain.Entity.Base
             {
                 return 1;  
             }
-            if (response is Item)
+            if (response is ItemResponse)
             {
-                return (response as Item).ItemKey;
+                return (response as ItemResponse).ItemKey;
             }
-            if (response is CodeBaseSimple)
+            if (response is CodeBaseResponse)
             {
-                return (response as CodeBaseSimple).CodeKey;
+                return (response as CodeBaseResponse).CodeKey;
             }
-            if (response is Address)
+            if (response is AddressResponse)
             {
-                return (response as Address).AddressKey;
+                return (response as AddressResponse).AddressKey;
             }
             return 1;
         }

@@ -21,58 +21,63 @@ namespace BlueLotus360.Web.APIApplication.Services
         }
         public BaseServerResponse<BLTransaction> SaveTransaction(BLTransaction transaction, Company company, User user,UIObject uIObject)
         {
-                       
-           
-            //if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
-            //{
-            //    transaction.Address = UOW.AccountRepository.GetAddressByAccount(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, transaction.Account.AccountKey);
-            //}
-            //if (!transaction.IsPersisted)
-            //{
-            //    UOW.TransactionRepository.SaveGenericTransaction(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, transaction);
+            var trnTyp = _unitOfWork.CodeBaseRepository.GetCodeByOurCodeAndConditionCode(company, user, uIObject.OurCode, "TrnTyp");
+            CodeBaseResponse TransactionType = trnTyp.Value;
 
-            //}
-            //else if (transaction.IsPersisted)
-            //{
-            //    UOW.TransactionRepository.UpdateGenericTransaction(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, transaction);
-            //}
+            transaction.TransactionType = new CodeBaseResponse();
+            transaction.TransactionType.CodeKey = TransactionType.CodeKey;
 
-            //if (transaction.SerialNumber != null && !string.IsNullOrWhiteSpace(transaction.SerialNumber.SerialNumber))
-            //{
-            //    transaction.SerialNumber.TransactionKey = transaction.TransactionKey;
-            //    UOW.TransactionRepository.SaveOrUpdateTranHeaderSerialNumber(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, transaction.SerialNumber);
-            //}
+            if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
+            {
+                var address = _unitOfWork.AccountRepository.GetAddressByAccount(company, user, transaction.Account.AccountKey);
+                if(address!=null)
+                    transaction.Address = address.Value;
+            }
+            if (!transaction.IsPersisted)
+            {
+                _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
 
-            //foreach (GenericTransactionLineItem line in transaction.InvoiceLineItems)
-            //{
-            //    line.ElementKey = transaction.ElementKey;
-            //    line.TransactionKey = transaction.TransactionKey;
-            //    line.TransactionType = transaction.TransactionType;
-            //    line.Address = transaction.Address;
-            //    line.TransactionLocation = transaction.Location;
-            //    line.EffectiveDate = transaction.TransactionDate;
-            //    line.DeliveryDate = transaction.DeliveryDate;
-            //    if (!line.IsPersisted)
-            //    {
-            //        UOW.TransactionRepository.SaveTransactionLineItem(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, line);
-            //    }
-            //    else if (line.IsPersisted && line.IsDirty)
-            //    {
-            //        UOW.TransactionRepository.UpdateTransactionLineItem(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, line);
-            //    }
+            }
+            else if (transaction.IsPersisted)
+            {
+                _unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction );
+            }
+
+            if (transaction.SerialNumber != null && !string.IsNullOrWhiteSpace(transaction.SerialNumber.SerialNumber))
+            {
+                transaction.SerialNumber.TransactionKey = transaction.TransactionKey;
+                _unitOfWork.TransactionRepository.SaveOrUpdateTranHeaderSerialNumber(company, user, transaction.SerialNumber);
+            }
+
+            foreach (GenericTransactionLineItem line in transaction.InvoiceLineItems)
+            {
+                line.ElementKey = transaction.ElementKey;
+                line.TransactionKey = transaction.TransactionKey;
+                line.TransactionType = transaction.TransactionType;
+                line.Address = transaction.Address;
+                line.TransactionLocation = transaction.Location;
+                line.EffectiveDate = transaction.TransactionDate;
+                line.DeliveryDate = transaction.DeliveryDate;
+                if (!line.IsPersisted)
+                {
+                    _unitOfWork.TransactionRepository.SaveTransactionLineItem(company, user, line);
+                }
+                else if (line.IsPersisted && line.IsDirty)
+                {
+                    _unitOfWork.TransactionRepository.UpdateTransactionLineItem(company, user, line);
+                }
 
 
-            //    foreach (ItemSerialNumber serialNumber in line.SerialNumbers)
-            //    {
-            //        serialNumber.ItemTransactionKey = line.ItemTransactionKey;
-            //        serialNumber.ItemKey = line.TransactionItem.ItemKey;
-            //        serialNumber.PersistingElementKey = transaction.ElementKey;
-            //        UOW.TransactionRepository.SaveOrUpdateSerialNumber(Auth.AuthenticatedCompany, Auth.AuthenticatedUser, serialNumber);
-            //    }
+                foreach (ItemSerialNumber serialNumber in line.SerialNumbers)
+                {
+                    serialNumber.ItemTransactionKey = line.ItemTransactionKey;
+                    serialNumber.ItemKey = line.TransactionItem.ItemKey;
+                    serialNumber.PersistingElementKey = transaction.ElementKey;
+                    _unitOfWork.TransactionRepository.SaveOrUpdateSerialNumber(company, user, serialNumber);
+                }
 
-            //}
-            //UOW.TransactionRepository.PostAfterTranSaveActions(Auth.AuthenticatedCompany,
-            //    Auth.AuthenticatedUser, transaction.TransactionKey, transaction.ElementKey);
+            }
+            _unitOfWork.TransactionRepository.PostAfterTranSaveActions(company, user, transaction.TransactionKey, transaction.ElementKey);
 
             return new BaseServerResponse<BLTransaction>();
         }

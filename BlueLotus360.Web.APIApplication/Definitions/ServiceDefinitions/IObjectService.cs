@@ -11,7 +11,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
     public interface IObjectService
     {
         BaseServerResponse<IList<UIObject>>  GetUIObjectsByParent(int ParentKey,Company company,User user);
-         
-        BaseServerResponse<UIObject>   GetObjectByObjectKey(long ObjectKey,Company company,User user);
+
+        BaseServerResponse<UIObject> GetObjectByObjectKey(long ObjectKey);
     }
 }
