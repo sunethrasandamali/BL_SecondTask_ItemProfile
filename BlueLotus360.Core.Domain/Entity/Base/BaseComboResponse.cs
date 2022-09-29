@@ -50,7 +50,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         {
             if (response == null)
             {
-                return 1;
+                return 1;  
             }
             if (response is Item)
             {
