@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Entity.Base
 {
-    public class Address :BaseEntity
+    public class Address : BaseComboResponse
     {
         public long AddressKey { get; set; }
 

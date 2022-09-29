@@ -97,6 +97,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public bool IsVarcar1On { get; set; }
         public decimal Quantity1 { get; set; }
 
+        public bool IsPersisted { get; set; }
+
         public BLTransaction()
         {
             Location = new CodeBaseSimple();

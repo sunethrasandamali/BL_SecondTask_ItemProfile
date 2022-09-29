@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Entity.Base
 {
-    public class Account:BaseEntity
+    public class Account:BaseComboResponse
     {
         public long AccountKey { get; set; } = 1;
         public string AccountName { get; set; }

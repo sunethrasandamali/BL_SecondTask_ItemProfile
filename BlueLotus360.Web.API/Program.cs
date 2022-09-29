@@ -52,6 +52,9 @@ namespace BlueLotus360.Web.API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<IAPIService, APIService>();
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
+            builder.Services.AddScoped<IObjectService, ObjectService>();
+            builder.Services.AddScoped<ICodeBaseService, CodeBaseService>();
             builder.Services.AddScoped<IAuthenticationProvider, BasicJwtHelper>();
             
             builder.Services.AddSwaggerGen();

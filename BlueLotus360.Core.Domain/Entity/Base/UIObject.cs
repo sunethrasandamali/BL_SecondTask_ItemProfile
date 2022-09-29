@@ -8,7 +8,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 {
     public class UIObject:BaseEntity
     {
-        public int ObjectKey { get; set; } = 1;
+        public long ObjectKey { get; set; } = 1;
         public string ObjectName { get; set; }
         public string ObjectCaption { get; set; }
         public string OurCode { get; set; }
@@ -16,14 +16,14 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public int ParentKey { get; set; } = 1;
         public int ParentKey2 { get; set; } = 1;
         public int Level1ObjectKey { get; set; } = 1;
-        public string Level1ObjectName { get; set; } = 1;
-        public string ToolTip { get; set; } = 1;
+        public string Level1ObjectName { get; set; } 
+        public string ToolTip { get; set; } 
         public int UserObjectKey { get; set; } = 1;
         public string DefaultValue { get; set; }
         public string DefaultPath { get; set; }
         public bool IsFreeze { get; set; }
         public bool IsEnable { get; set; }
-        public bool Alignment { get; set; }
+        public string Alignment { get; set; }
         public long DefaultKey { get; set; } = 1;
         public DateTime DefaultDate { get; set; }
         public bool IsVisible { get; set; } 
@@ -45,7 +45,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string NextObjectName { get; set; }
         public string NextObjectType { get; set; }
         public bool IsMust { get; set; }
-        public bool ValidationMessae { get; set; }
+        public string ValidationMessae { get; set; }
         public short ValidationOrder { get; set; }
         public string CssClass { get; set; }
         public string OnClickAction { get; set; }
@@ -82,6 +82,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public bool IsEnableRowFilter { get; set; }
         public short NumberOfRows { get; set; }
         public int ReferenceObjectKey  { get; set; }=1;
+        public string EnterKeyAction { get; set; }  
 
 
     }
@@ -89,4 +90,4 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
 
 }
-}
+

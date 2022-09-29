@@ -1,5 +1,4 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
-using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;
@@ -9,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
-    public interface ITransactionService
+    public interface IObjectService
     {
-       BaseServerResponse<BLTransaction> SaveTransaction(BLTransaction transaction,Company company,User user,UIObject uIObject);
-
+        BaseServerResponse<IList<UIObject>>  GetUIObjectsByParent(int ParentKey,Company company,User user);
+         
+        BaseServerResponse<UIObject>   GetObjectByObjectKey(long ObjectKey,Company company,User user);
     }
 }
