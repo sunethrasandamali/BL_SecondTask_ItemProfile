@@ -69,6 +69,8 @@ namespace BlueLotus360.Web.API.Extension
             Services.AddScoped<ITransactionService, TransactionService>();
             Services.AddScoped<IObjectService, ObjectService>();
             Services.AddScoped<ICodeBaseService, CodeBaseService>();
+            Services.AddScoped<IOrderService,OrderService>();
+            Services.AddScoped<IMenuService, MenuService>();
         }
     }
 }

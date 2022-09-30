@@ -23,6 +23,9 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
         private ICodeBaseRepository _codeBaseRepository;
         private IAccountRepository _accountRepository;
         private ITransactionRepository _transactionRepository;
+        private IOrderRepository _orderRepository;
+        private IItemRepository _itemRepository;
+        private IMenuRepository _menuRepository;
         #endregion
 
 
@@ -105,6 +108,40 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                     _transactionRepository = new TransactionRepository(_dataLayer);
                 }
                 return _transactionRepository;
+            }
+        }
+        public IOrderRepository OrderRepository
+        {
+            get
+            {
+                if (_orderRepository == null)
+                {
+                    _orderRepository = new OrderRepository(_dataLayer);
+                }
+                return _orderRepository;
+            }
+        }
+
+        public IItemRepository ItemRepository
+        {
+            get
+            {
+                if (_itemRepository == null)
+                {
+                    _itemRepository = new ItemRepository(_dataLayer);
+                }
+                return _itemRepository;
+            }
+        }
+        public IMenuRepository MenuRepository
+        {
+            get
+            {
+                if (_menuRepository == null)
+                {
+                    _menuRepository = new MenuRepository(_dataLayer);
+                }
+                return _menuRepository;
             }
         }
 

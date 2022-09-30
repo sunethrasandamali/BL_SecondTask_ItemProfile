@@ -1,8 +1,11 @@
-﻿using BlueLotus360.Data.SQL92.Definition;
+﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Data.SQL92.Definition;
+using BlueLotus360.Data.SQL92.Extenstions;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -86,5 +89,6 @@ namespace BlueLotus360.Data.SQL92.Repository
         {
             _dataLayer = dataLayer;
         }
+        
     }
 }

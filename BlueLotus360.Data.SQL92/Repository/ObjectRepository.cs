@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Object;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
 using BlueLotus360.Data.SQL92.Extenstions;
@@ -392,6 +393,111 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
 
             }
+        }
+
+        public BLUIElement GetUIElements(long parentKy, Company company, User user)
+        {
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                SqlDataReader sqlDataReader = null;
+                string SPName = "AllObjPrpObjMas_SelectPOS";
+                try
+                {
+                    BLUIElement element = new BLUIElement();
+
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    CreateAndAddParameter(dbCommand, "PrntKy", parentKy);
+                    CreateAndAddParameter(dbCommand, "CKy", company.CompanyKey);
+                    CreateAndAddParameter(dbCommand, "UsrKy", user.UserKey);
+                    dbCommand.Connection.Open();
+
+                    sqlDataReader = dbCommand.ExecuteReader() as SqlDataReader;
+
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            BLUIElement uielement = new BLUIElement();
+
+                            uielement.CssClass = GetColumn<string>("CSSClass", sqlDataReader);
+                            uielement.DataType = GetColumn<string>("DataType", sqlDataReader);
+                            uielement.DefaultValue = GetColumn<string>("DefaultValue", sqlDataReader);
+                            uielement.EnterKeyAction = GetColumn<string>("EntKyAction", sqlDataReader);
+                            uielement.Format = GetColumn<string>("Format", sqlDataReader);
+                            uielement.IsFreeze = GetColumn<bool>("IsFreeze", sqlDataReader);
+                            uielement.IsEnable = GetColumn<bool>("IsEnable", sqlDataReader);
+                            uielement.IsMust = GetColumn<bool>("isMust", sqlDataReader);
+                            uielement.IsVisible = GetColumn<bool>("IsVisible", sqlDataReader);
+                            uielement.ElementCaption = GetColumn<string>("ObjCaptn", sqlDataReader);
+                            uielement.ElementKey = sqlDataReader.GetColumn<int>("ObjKy");
+                            uielement._internalElementName = sqlDataReader.GetColumn<string>("ObjNm");
+                            uielement.ElementType = sqlDataReader.GetColumn<string>("ObjTyp");
+                            uielement.OnClickAction = sqlDataReader.GetColumn<string>("OnClickAction");
+                            uielement.OurCode = sqlDataReader.GetColumn<string>("OurCd");
+                            uielement.OurCode2 = sqlDataReader.GetColumn<string>("OurCd2");
+                            uielement.ParentKey = sqlDataReader.GetColumn<int>("PrntKy");
+                            uielement.Width = sqlDataReader.GetColumn<int>("Width");
+                            uielement.UiSection = sqlDataReader.GetColumn<string>("Lvl1ObjNm");
+                            uielement.UrlAction = sqlDataReader.GetColumn<string>("URLAction");
+                            uielement.UrlController = sqlDataReader.GetColumn<string>("UrlController");
+                            //uiObject.SortingOrder = sqlDataReader.GetColumn<decimal>("SO");
+                            //uiObject.NextObjectName = sqlDataReader.GetColumn<string>("NxtEntObjNm");
+                            uielement.ElementID = sqlDataReader.GetColumn<string>("UiDomId");
+                            uielement.ElementName = sqlDataReader.GetColumn<string>("UiDomNm");
+                            uielement.MapKey = sqlDataReader.GetColumn<string>("MapId");
+                            uielement.MapName = sqlDataReader.GetColumn<string>("MapNm");
+                            uielement.CollectionName = sqlDataReader.GetColumn<string>("CollectionNm");
+                            //uiObject.IsAjaxForm = sqlDataReader.GetColumn<bool>("IsFA");
+                            uielement.ToolTip = sqlDataReader.GetColumn<string>("ToolTip");
+                            //uiObject.NextObjectType = sqlDataReader.GetColumn<string>("NxtObjTyp");
+                            //uiObject.ReferenceObjectKey = sqlDataReader.GetColumn<int>("DTObjKy"); //DTObjKy
+
+                            uielement.ParentCssClass = sqlDataReader.GetColumn<string>("ParentCssClass"); //DTObjKy
+                            uielement.IconCss = sqlDataReader.GetColumn<string>("IconCssClass");
+                            uielement.ObjectTypeKey = sqlDataReader.GetColumn<int>("thisObjTypKy");
+                            uielement.IsAllowEdit = sqlDataReader.GetColumn<bool>("isAlwUpdate");
+
+                            uielement.DefaultAccessPath = sqlDataReader.GetColumn<string>("DefaultPath");
+                            uielement.ValidationMessage = sqlDataReader.GetColumn<string>("ValidationMesg");
+                            uielement.ReferenceElementKey = sqlDataReader.GetColumn<long>("DTObjKy");
+                            uielement.IsServerFiltering = sqlDataReader.GetColumn<bool>("IsComboServerFilter");
+                            element.Children.Add(uielement);
+                        }
+                    }
+
+                    return element;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (sqlDataReader != null)
+                    {
+                        if (!sqlDataReader.IsClosed)
+                        {
+                            sqlDataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    sqlDataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+            }
+
         }
 
     }

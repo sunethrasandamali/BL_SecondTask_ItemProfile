@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
-    public interface IAccountRepository
+    public interface IItemRepository
     {
-        BaseServerResponse<AddressResponse> GetAddressByAccount(Company company, User user, long AccountKey = 1);
-        BaseServerResponse<AccountResponse> GetAccountByAddress(AddressResponse address, Company company, User user);
+        decimal GetCostPriceByLocAndItmKy(Company company, CodeBaseResponse location, DateTime effectiveDate, long ItemKey, int ProjectKey = 1);
     }
 }

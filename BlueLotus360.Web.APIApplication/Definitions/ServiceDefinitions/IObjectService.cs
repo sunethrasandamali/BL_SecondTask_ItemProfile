@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Object;
 using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<UIObject>>  GetUIObjectsByParent(int ParentKey,Company company,User user);
 
         BaseServerResponse<UIObject> GetObjectByObjectKey(long ObjectKey);
+        BLUIElement GetUIElementsService(long parentKy, Company company, User user);
+        
     }
 }

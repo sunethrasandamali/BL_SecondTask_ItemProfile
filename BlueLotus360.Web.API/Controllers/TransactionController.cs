@@ -15,12 +15,12 @@ namespace BlueLotus360.Web.API.Controllers
     public class TransactionController : ControllerBase
     {
 
-        ILogger<UserController> _logger;
+        ILogger<TransactionController> _logger;
         ITransactionService _transactionService;
         IObjectService _objectService;
         ICodeBaseService _codeBaseService;
 
-        public TransactionController(ILogger<UserController> logger, 
+        public TransactionController(ILogger<TransactionController> logger, 
                                     ITransactionService transactionService,
                                     IObjectService objectService,ICodeBaseService codeBaseService)
         {

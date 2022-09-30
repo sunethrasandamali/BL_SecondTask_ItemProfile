@@ -10,16 +10,17 @@ namespace BlueLotus360.Core.Domain.Definitions.DataLayer
     public interface IUnitOfWork
     {
 
-      
-        IUserRepository UserRepository { get;  }
 
+        IUserRepository UserRepository { get; }
+        IMenuRepository MenuRepository { get; } 
         ICompanyRepository CompanyRepository { get; }
         IAPIRepository APIRepository { get; }
         IObjectRepository ObjectRepository { get; }
         ICodeBaseRepository CodeBaseRepository { get; }
         IAccountRepository AccountRepository { get; }
         ITransactionRepository TransactionRepository { get; }
-
+        IOrderRepository OrderRepository{get;}
+        IItemRepository ItemRepository { get; }
 
     }
 }

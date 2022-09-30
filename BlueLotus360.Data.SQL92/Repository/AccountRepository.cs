@@ -79,5 +79,67 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+
+        public BaseServerResponse<AccountResponse> GetAccountByAddress(AddressResponse address, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader dataReader = null;
+                string SPName = "AccAdr_SelectSingleWebV2";
+                BaseServerResponse<AccountResponse> baseResponse = new BaseServerResponse<AccountResponse>();
+                try
+                {
+                    AccountResponse response = new AccountResponse();
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@AdrKy", address.AddressKey);
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+
+                    baseResponse.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+                    while (dataReader.Read())
+                    {
+                        response.AccountKey = dataReader.GetColumn<long>("AccKy");
+                        response.AccountCode = dataReader.GetColumn<string>("AccCd");
+                        response.AccountName = dataReader.GetColumn<string>("AccNm");
+                    }
+                    baseResponse.ExecutionEnded = DateTime.UtcNow;
+                    baseResponse.Value = response;
+
+                }
+                catch (Exception exp)
+                {
+                    baseResponse.ExecutionEnded = DateTime.UtcNow;
+                    baseResponse.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    baseResponse.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return baseResponse;
+            }
+        }
     }
 }

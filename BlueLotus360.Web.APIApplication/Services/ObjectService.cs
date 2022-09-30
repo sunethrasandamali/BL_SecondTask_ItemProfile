@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Object;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -26,6 +27,27 @@ namespace BlueLotus360.Web.APIApplication.Services
         public BaseServerResponse<IList<UIObject>> GetUIObjectsByParent(int ParentKey, Company company, User user)
         {
             return _unitOfWork.ObjectRepository.GetUIDefinitions(ParentKey,company, user);
+        }
+
+        public BLUIElement GetUIElementsService(long parentKy, Company company, User user)
+        {
+            BLUIElement element = _unitOfWork.ObjectRepository.GetUIElements(parentKy, company, user);
+            element.ElementKey = parentKy;
+
+            var ob = _unitOfWork.ObjectRepository.GetByID((int)element.ElementKey);
+
+            element.ReadAction = ob.Value.ReadAction;
+            element.ReadController = ob.Value.ReadController;
+
+            element.CreateAction = ob.Value.CreateAction;
+            element.CreateController = ob.Value.CreateController;
+
+            element.UpdateAction = ob.Value.UpdateAction;
+            element.UpdateController = ob.Value.UpdateController;
+            element.DeleteAction = ob.Value.DeleteAction;
+            element.DeleteController = ob.Value.DeleteController;
+
+            return element;
         }
     }
 }
