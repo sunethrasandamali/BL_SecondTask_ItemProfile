@@ -1,9 +1,6 @@
-﻿
-
-
-using BlueLotus360.Core.Domain.Definitions.Repository;
+﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.Entity.API;
-using BlueLotus360.Web.API.Authentication.Jwt;
+using BlueLotus360.Web.API.Authentication.Providers;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;

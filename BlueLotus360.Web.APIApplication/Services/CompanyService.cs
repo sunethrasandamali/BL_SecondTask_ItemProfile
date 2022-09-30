@@ -1,6 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.Entity.Base;
-using BlueLotus360.Web.API.Authentication.Jwt;
+using BlueLotus360.Web.API.Authentication.Providers;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
 using System.Collections.Generic;

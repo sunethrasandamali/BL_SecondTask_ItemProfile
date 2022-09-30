@@ -8,15 +8,15 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace BlueLotus360.Web.API.Authentication.Jwt
+namespace BlueLotus360.Web.API.Authentication.Providers
 {
-    public class BasicJwtHelper : IAuthenticationProvider
+    public class JwtAuthenticatonProvider : IAuthenticationProvider
     {
 
         private IUnitOfWork _unitOfWork;
         private readonly AppSettings _appSettings;
 
-        public BasicJwtHelper(IUnitOfWork unitOfWork)
+        public JwtAuthenticatonProvider(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _appSettings = new AppSettings();
