@@ -5,6 +5,7 @@ using BlueLotus360.Web.API.Authentication.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +14,12 @@ namespace BlueLotus360.Web.APIApplication.Authentication.Providers
     public class HMACAuthenticatonProvider : IAuthenticationProvider
     {
         private readonly IUnitOfWork _unitOfWork;
-        public HMACAuthenticatonProvider(IUnitOfWork unitOfWork)
+        private readonly HMACParameter _parameter;
+        
+        public HMACAuthenticatonProvider(IUnitOfWork unitOfWork,HMACParameter parameter)
         {
             _unitOfWork = unitOfWork;
+            _parameter = parameter;
         }
         public RefreshToken GenerateRefreshToken(string ipAddress)
         {
@@ -34,6 +38,7 @@ namespace BlueLotus360.Web.APIApplication.Authentication.Providers
 
         public BLAuthResponse ValidateRequestToken(string token)
         {
+           
             return null;
         }
     }

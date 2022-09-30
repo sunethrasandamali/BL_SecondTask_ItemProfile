@@ -5,12 +5,14 @@ using BlueLotus360.Web.API.Authentication.Providers;
 using BlueLotus360.Web.APIApplication.Authentication.Providers;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Options;
 using System.Net;
+using System.Text;
 
 namespace BlueLotus360.Web.API.MiddleWares
 {
-    public class AuthenticationProviderMiddleware 
+    public class AuthenticationProviderMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly AppSettings _appSettings;
@@ -24,7 +26,7 @@ namespace BlueLotus360.Web.API.MiddleWares
         public async Task InvokeAsync(HttpContext context, IUserService userService, ICompanyService companyService, IUnitOfWork unitOfWork)
         {
 
-            IAuthenticationProvider authProvider=null;
+            IAuthenticationProvider authProvider = null;
             var apiInformation = context.Items["APIInformation"] as APIInformation;
             if (apiInformation == null || apiInformation.APIIntegrationKey < 11)
             {
@@ -50,7 +52,21 @@ namespace BlueLotus360.Web.API.MiddleWares
             }
             if (apiInformation.AuthenticationType.Equals("HMACProvider"))
             {
-                authProvider = new HMACAuthenticatonProvider(unitOfWork);
+                context.Request.EnableBuffering();
+                HMACParameter parameter = new HMACParameter();
+                string BodyString = "";
+                using (StreamReader reader
+                  = new StreamReader(context.Request.Body))
+                {
+                    BodyString =  await reader.ReadToEndAsync();
+                }
+                parameter.HTTPVerb = context.Request.Method;
+                parameter.ContentStrng = BodyString;
+                parameter.ContentType = context.Request.ContentType;
+                parameter.TimeStamp = context.Request.Headers["TimeStamp"];
+                parameter.RequestURI = context.Request.GetDisplayUrl();
+                parameter.SecretKey = apiInformation.SecretKey;                
+                authProvider = new HMACAuthenticatonProvider(unitOfWork,parameter);
             }
 
 
@@ -66,7 +82,7 @@ namespace BlueLotus360.Web.API.MiddleWares
 
 
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-             
+
             var authResp = authProvider.ValidateRequestToken(token);
             if (authResp != null)
             {
