@@ -1,7 +1,7 @@
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Data.SQL92.UnitOfWork;
 using BlueLotus360.Web.API.Authentication;
-using BlueLotus360.Web.API.Authentication.Jwt;
+using BlueLotus360.Web.API.Authentication.Providers;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.API.MiddleWares;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
@@ -53,7 +53,7 @@ namespace BlueLotus360.Web.API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ICompanyService, CompanyService>();
             builder.Services.AddScoped<IAPIService, APIService>();
-            builder.Services.AddScoped<IAuthenticationProvider, BasicJwtHelper>();
+            builder.Services.AddScoped<IAuthenticationProvider, JwtAuthenticatonProvider>();
             builder.Services.ServicesBuilder();
             builder.Services.AddSwaggerGen();
 
@@ -74,7 +74,7 @@ namespace BlueLotus360.Web.API
 
             app.MapControllers();
             app.UseMiddleware<ApplicationAPIBinderMidlleware>();
-            app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<AuthenticationProviderMiddleware>();
 
             app.Run();
         }

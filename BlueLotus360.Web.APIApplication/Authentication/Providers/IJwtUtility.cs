@@ -2,7 +2,7 @@
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.APIApplication.Authentication;
 
-namespace BlueLotus360.Web.API.Authentication.Jwt
+namespace BlueLotus360.Web.API.Authentication.Providers
 {
     public interface IAuthenticationProvider
     {

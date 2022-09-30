@@ -61,7 +61,6 @@ namespace BlueLotus360.Web.API.Controllers
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
-
             var trn = _transactionService.OpenTransaction(company, user, request);
             BLTransaction transaction=trn.Value;
             request.TrasctionTypeKey = transaction.TransactionType.CodeKey;

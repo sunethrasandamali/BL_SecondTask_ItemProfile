@@ -2,7 +2,7 @@
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Models;
-using BlueLotus360.Web.API.Authentication.Jwt;
+using BlueLotus360.Web.API.Authentication.Providers;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         public UserService(IUnitOfWork unitOfWork)
         {
             _unitofWork = unitOfWork;
-            _jwtUtils = new BasicJwtHelper(_unitofWork);
+            _jwtUtils = new JwtAuthenticatonProvider(_unitofWork);
         }
         public UserAuthenticationResponse AuthenticateUser(UserAuthenticationRequest model, string ipAddress)
         {
