@@ -1,4 +1,6 @@
-﻿using BlueLotus360.Core.Domain.Entity.Base;
+﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
+using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Data.SQL92.UnitOfWork;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using System.Runtime.CompilerServices;
@@ -66,6 +68,10 @@ namespace BlueLotus360.Web.API.Extension
 
         public static void ServicesBuilder(this IServiceCollection Services)
         {
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            Services.AddScoped<IUserService, UserService>();
+            Services.AddScoped<ICompanyService, CompanyService>();
+            Services.AddScoped<IAPIService, APIService>();
             Services.AddScoped<ITransactionService, TransactionService>();
             Services.AddScoped<IObjectService, ObjectService>();
             Services.AddScoped<ICodeBaseService, CodeBaseService>();
