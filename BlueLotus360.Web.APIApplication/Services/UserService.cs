@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Authentication;
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
+using BlueLotus360.Core.Domain.Entity.Auth;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.API.Authentication.Providers;
@@ -31,7 +32,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             {
                 var jwtToken = _jwtUtils.GenerateUserToken(user);
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
-                return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token);
+                return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token,true);
                 removeOldRefreshTokens(user);
             }
             else
@@ -172,7 +173,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             {
                 var jwtToken = _jwtUtils.GenerateUserToken(user,company);
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
-                return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token);
+                return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token,true);
                 removeOldRefreshTokens(user);
             }
             else
