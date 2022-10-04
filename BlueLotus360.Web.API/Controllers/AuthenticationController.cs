@@ -36,9 +36,8 @@ namespace BlueLotus360.Web.API.Controllers
 
         [BLAuthorize(false)]
         [HttpPost("getUserCompanies")]
-
         public IActionResult GetUserCompanies()
-        {
+        { 
             var companies = _userService.GetUserCompanies(Request.GetAuthenticatedUser());
             return Ok(companies);
         }
@@ -47,6 +46,7 @@ namespace BlueLotus360.Web.API.Controllers
         [HttpPost("updateSelectedCompany")]
         public IActionResult UpdateSelectedCompany(CompanyResponse updateRequest)
         {
+            //CompanyResponse updateRequest
             var companies = _userService.GetUserCompanies(Request.GetAuthenticatedUser());
             var selectedCompany = companies.Where(x => x.CompanyKey == updateRequest.CompanyKey).FirstOrDefault();
             if (Request.GetAuthenticatedUser() == null || selectedCompany == null)
@@ -59,7 +59,7 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
         [BLAuthorize]
-        [HttpPost("checkDetails")]
+        [HttpGet("getCompanyInformation")]
         public IActionResult CheckDetails()
         {
             var s = new

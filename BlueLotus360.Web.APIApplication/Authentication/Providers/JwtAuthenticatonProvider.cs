@@ -4,6 +4,7 @@ using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.APIApplication.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Sockets;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,15 +39,20 @@ namespace BlueLotus360.Web.API.Authentication.Providers
         }
         public string GenerateUserToken(User user, Company company)
         {
-            // generate token that is valid for 15 minutes
+            // generate token that is valid for 60 minutes
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
+                    new Claim(ClaimTypes.Name, user.UserID),
+                    new Claim(ClaimTypes.NameIdentifier,user.UserID),
+                    new Claim(ClaimTypes.Role, "User"),
                     new Claim("ID", user.UserID.ToString()),
-                    new Claim("CCD", company.CompanyCode.ToString())
+                    new Claim("CCD", company.CompanyCode.ToString()),
+                    new Claim("FirstName", user.UserID),
+                    new Claim("LastName", user.UserID),
                 }),
 
                 Expires = DateTime.UtcNow.AddMinutes(15),
@@ -56,6 +62,29 @@ namespace BlueLotus360.Web.API.Authentication.Providers
             return tokenHandler.WriteToken(token);
         }
 
+        public string GenerateCompanyAddedToken(User user, Company company)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, user.UserID),
+                    new Claim(ClaimTypes.NameIdentifier,user.UserID),
+                    new Claim(ClaimTypes.Role, "CompanyAuthSuccess"),
+                    new Claim("ID", user.UserID.ToString()),
+                    new Claim("CCD", company.CompanyCode.ToString()),
+                    new Claim("FirstName", user.UserID),
+                    new Claim("LastName", user.UserID),
+                }),
+
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
         public BLAuthResponse ValidateRequestToken(string token)
         {
             if (token == null)

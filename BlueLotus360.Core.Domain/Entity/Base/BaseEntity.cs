@@ -17,6 +17,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public DateTime UpdatedDate { get ; set; }
         public DateTime EffectiveDate { get; set; }
         public IDictionary<string, object> AddtionalData { get; set; }
+        public bool IsDefault { get; set; }
 
         public BaseEntity()
         {

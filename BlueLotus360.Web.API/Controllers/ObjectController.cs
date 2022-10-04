@@ -3,6 +3,7 @@ using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Object;
 using BlueLotus360.Core.Domain.Utility;
+using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
@@ -10,6 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlueLotus360.Web.API.Controllers
 {
+    [BLAuthorize]
+    [Route("api/[controller]")]
+    [ApiController]
     public class ObjectController : ControllerBase
     {
         ILogger<ObjectController> _logger;
@@ -25,7 +29,8 @@ namespace BlueLotus360.Web.API.Controllers
             _menuService = menuService;
         }
 
-        [HttpGet("fetchSidemenu")]
+        
+        [HttpGet("fetchSideMenu")]
         public IActionResult FetchSideMenu()
         {
             var user = Request.GetAuthenticatedUser();

@@ -12,9 +12,6 @@ namespace BlueLotus360.Core.Domain.DTOs.ResponseDTO
         public string CompanyCode { get; set; }
         public string CompanyName { get; set; }
 
-        public override string ToString()
-        {
-            return $"{CompanyCode} - {CompanyName}";
-        }
+       
     }
 }

@@ -21,6 +21,12 @@ namespace BlueLotus360.Web.APIApplication.Authentication.Providers
             _unitOfWork = unitOfWork;
             _parameter = parameter;
         }
+
+        public string GenerateCompanyAddedToken(User user, Company company)
+        {
+            throw new NotImplementedException();
+        }
+
         public RefreshToken GenerateRefreshToken(string ipAddress)
         {
             throw new InvalidOperationException();

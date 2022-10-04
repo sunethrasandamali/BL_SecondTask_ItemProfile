@@ -167,11 +167,19 @@ namespace BlueLotus360.Web.APIApplication.Services
 
         public UserAuthenticationResponse UpdateCompanySelection(User user,Company company, string ipAddress)
         {
-            
+
             // validate
+            var jwtToken = "";
             if (user != null && company!=null)
             {
-                var jwtToken = _jwtUtils.GenerateUserToken(user,company);
+                if (company != null && company.CompanyKey > 11)
+                {
+                    jwtToken = _jwtUtils.GenerateCompanyAddedToken(user, company);
+                }
+                else
+                {
+                    jwtToken = _jwtUtils.GenerateUserToken(user, company);
+                }
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
                 return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token,true);
                 removeOldRefreshTokens(user);
