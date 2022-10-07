@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Entity.Base;
+﻿using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
+using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
@@ -13,13 +14,13 @@ namespace BlueLotus360.Web.API.Controllers
     [BLAuthorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
-        ILogger<UserController> _logger;
+        ILogger<AuthenticationController> _logger;
         IUserService _userService;
 
       
-        public UserController(ILogger<UserController> logger, IUserService userService)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
@@ -35,17 +36,17 @@ namespace BlueLotus360.Web.API.Controllers
 
         [BLAuthorize(false)]
         [HttpPost("getUserCompanies")]
-
         public IActionResult GetUserCompanies()
-        {
+        { 
             var companies = _userService.GetUserCompanies(Request.GetAuthenticatedUser());
             return Ok(companies);
         }
 
         [BLAuthorize(false)]
-        [HttpPost("updateUserCompany")]
-        public IActionResult UpdateUserCompany(UserCompanyUpdateRequest updateRequest)
+        [HttpPost("updateSelectedCompany")]
+        public IActionResult UpdateSelectedCompany(CompanyResponse updateRequest)
         {
+            //CompanyResponse updateRequest
             var companies = _userService.GetUserCompanies(Request.GetAuthenticatedUser());
             var selectedCompany = companies.Where(x => x.CompanyKey == updateRequest.CompanyKey).FirstOrDefault();
             if (Request.GetAuthenticatedUser() == null || selectedCompany == null)
@@ -58,7 +59,7 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
         [BLAuthorize]
-        [HttpPost("checkDetails")]
+        [HttpGet("getCompanyInformation")]
         public IActionResult CheckDetails()
         {
             var s = new

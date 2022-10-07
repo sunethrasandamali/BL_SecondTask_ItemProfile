@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueLotus360.Core.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 {
     public class ItemSimple : BaseEntity
     {
-        public string ItemName { get; set; }  // Added
+        public string ItemName { get; set; } = ""; // Added
         public long ItemKey { get; set; } // Added
-        public string ItemCode { get; set; }  // Added
-        public string ItemNameOnly { get; set; }  // Added
+        public string ItemCode { get; set; } = "";  // Added
+        public string ItemNameOnly { get; set; } = "";   // Added
 
-        public string ItemCodeOnly { get; set; }  // Added
+        public string ItemCodeOnly { get; set; } = "";  // Added
 
 
         public int FilterKey { get; set; }
@@ -44,7 +45,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         }
 
 
-        public CodeBaseResponse ItemType { get; set; }
+        public CodeBaseResponse ItemType { get; set; }= new CodeBaseResponse();
 
         public string Base64ImageDocument { get; set; } = "data:image/jpeg;base64,/9j/4QUmRXhpZgAASUkqAAgAAAAOAAABAwABAAAAZAIAAAEBAwABAAAAZAIAAAIBAwADAAAAtgAAAAYBAwABAAAAAgAAAA4BAgBpAA" +
          "AAvAAAABIBAwABAAAAAQAAABUBAwABAAAAAwAAABoBBQABAAAAJQEAABsBBQABAAAALQEAACgBAwABAAAAAgAAADEBAgAiAAAANQEAADIBAgAUAAAAVwEAADsBAgAJAAAAawEAAGmHBAABAAAAdAEAAKwBAAAIAAgACABObyBpbWFnZSBhdmF" +
@@ -210,6 +211,56 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
 
 
+
+
+
+
+    }
+
+    public class RateRetrivalModel : BaseModel
+    {
+        public long ObjectKey { get; set; } = 1;
+
+        public long ItemKey { get; set; } = 1;
+        public DateTime EffectiveDate { get; set; }
+        public long LocationKey { get; set; } = 1;
+        public long TransactionTypeKey { get; set; } = 1;
+        public long BussienssUnitKey { get; set; } = 1;
+        public long ProjectKey { get; set; } = 1;
+
+        public long AddressKey { get; set; } = 1;
+
+        public long AccountKey { get; set; } = 1;
+        public long PayementTermKey { get; set; } = 1;
+        public long Code1Key { get; set; } = 1;
+        public long Code2Key { get; set; } = 1;
+
+        public decimal Rate { get; set; }
+        public string ConditionCode { get; set; } = "";
+    }
+
+    public class ItemRateResponse : BaseEntity
+    {
+        public decimal TransactionRate { get; set; }
+        public decimal DiscountPercentage { get; set; }
+        public decimal ItemTaxType1 { get; set; }
+        public decimal ItemTaxType2 { get; set; }
+        public decimal ItemTaxType3 { get; set; }
+        public decimal ItemTaxType4 { get; set; }
+        public decimal ItemTaxType5 { get; set; }
+        public int UnitKey { get; set; }
+
+        public string AddressTaxType1 { get; set; } = "";
+
+        public ItemSimple RateItem { get; set; } = new ItemSimple();
+
+        public decimal Rate { get; set; }
+
+        public decimal SplitLength { get; set; }
+        public decimal MarkUpPercentage { get; set; }
+        public decimal MinimumSalesPrice { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Length { get; set; }
 
 
 

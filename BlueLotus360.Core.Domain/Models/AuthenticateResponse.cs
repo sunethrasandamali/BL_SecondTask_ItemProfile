@@ -14,19 +14,21 @@ namespace BlueLotus360.Core.Domain.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        public string JwtToken { get; set; }
+        public string Token { get; set; }
 
         [JsonIgnore] // refresh token is returned in http only cookie
         public string RefreshToken { get; set; }
-
-        public UserAuthenticationResponse(User user, string jwtToken, string refreshToken)
+        public bool IsSuccess { get; set; }
+        public string UserImageURL { get; set; } = "";
+        public UserAuthenticationResponse(User user, string jwtToken, string refreshToken,bool isSuccess)
         {
             Id = user.UserKey;
             FirstName = user.UserID;
             LastName = user.UserID;
             Username = user.UserID;
-            JwtToken = jwtToken;
+            Token = jwtToken;
             RefreshToken = refreshToken;
+            IsSuccess = isSuccess;
         }
     }
 }

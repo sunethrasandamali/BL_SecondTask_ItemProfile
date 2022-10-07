@@ -12,27 +12,27 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     public class Order
     {
         private int supplierKey;
-        private string itemName;
-        private string itemCode;
-        private string eAN;
+        private string itemName = "";
+        private string itemCode = "";
+        private string eAN = "";
         private int itemKey;
         private int locationKey;
         private decimal priceAfterTax;
         private decimal qty;
         private decimal discount;
-        private string trnDate;
+        private string trnDate = "";
         private decimal taxPercentage;
         private decimal unitPrice;
         private int objKy;
-        private string docNo;
-        private string yurRef;
+        private string docNo = "";
+        private string yurRef = "";
         private decimal taxValue;
         private decimal subTotalDiscount;
-        private Guid posTrnKy;
+        private Guid posTrnKy=new Guid();
         private int liNo;
-        private string ourCd;
+        private string ourCd = "";
         private int isApr;
-        private Guid posItmTrnKy;
+        private Guid posItmTrnKy = new Guid();
         private int wrkstnKy;
         private int trnTypKy;
         private int trnNo;
@@ -44,7 +44,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
 
         public decimal Qty { get => qty; set => qty = value; }
-        public string ItemName { get => itemName; set => itemName = value; }
+        public string ItemName { get => itemName; set => itemName = value; } 
         public int ItemKey { get => itemKey; set => itemKey = value; }
         public int LocationKey { get => locationKey; set => locationKey = value; }
         public int SupplierKey { get => supplierKey; set => supplierKey = value; }
@@ -85,21 +85,21 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public long OrderKey { get; set; } = 1;
         public int OrderDetailKey { get; set; } = 1;
 
-        public CodeBaseResponse OrderType { get; set; }
+        public CodeBaseResponse OrderType { get; set; } = new CodeBaseResponse();
         public DateTime OrderDate { get; set; }
 
-        public CodeBaseResponse Location { get; set; }
-        public CodeBaseResponse BuissenssUnit { get; set; }
-        public Address OrderAddress { get; set; }
-        public Account OrderAccount { get; set; }
+        public CodeBaseResponse Location { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse BuissenssUnit { get; set; } = new CodeBaseResponse();
+        public AddressResponse OrderAddress { get; set; } = new AddressResponse();
+        public AccountResponse OrderAccount { get; set; } = new AccountResponse();
         public int LineNumber { get; set; }
 
-        public Item TransactionItem { get; set; }
+        public ItemResponse TransactionItem { get; set; } = new ItemResponse();
 
 
         public decimal TransactionQuantity { get; set; }
 
-        public UnitResponse TransactionUnit { get; set; }
+        public UnitResponse TransactionUnit { get; set; }=new UnitResponse();
         public decimal Rate { get; set; }
         public decimal TransactionRate { get; set; }
 
@@ -115,51 +115,51 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public DateTime RequestedDate { get; set; }
 
-        public CodeBaseResponse ItemProperty1 { get; set; }
+        public CodeBaseResponse ItemProperty1 { get; set; } = new CodeBaseResponse();
 
         public bool IsCodeBase { get; set; }
-        public ProjectResponse Project1 { get; set; }
-        public ProjectResponse Project2 { get; set; }
-        public ProjectResponse Project3 { get; set; }
-        public ProjectResponse Project4 { get; set; }
-        public ProjectResponse Project5 { get; set; }
+        public ProjectResponse Project1 { get; set; } = new ProjectResponse();
+        public ProjectResponse Project2 { get; set; } = new ProjectResponse();
+        public ProjectResponse Project3 { get; set; } = new ProjectResponse();
+        public ProjectResponse Project4 { get; set; } = new ProjectResponse();
+        public ProjectResponse Project5 { get; set; } = new ProjectResponse();
 
-        public CodeBaseResponse LCKey { get; set; }
-        public CodeBaseResponse LoanKey { get; set; }
+        public CodeBaseResponse LCKey { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse LoanKey { get; set; } = new CodeBaseResponse();
 
-        public Process Process1 { get; set; }
-        public Process Process2 { get; set; }
-        public Process Process3 { get; set; }
-        public Process Process4 { get; set; }
-        public Process Process5 { get; set; }
+        public Process Process1 { get; set; } = new();
+        public Process Process2 { get; set; } = new();
+        public Process Process3 { get; set; } = new();
+        public Process Process4 { get; set; }=new();
+        public Process Process5 { get; set; }=new();
 
-        public CodeBaseResponse LoandDetail { get; set; }
-        public CodeBaseResponse LCDetail { get; set; }
+        public CodeBaseResponse LoandDetail { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse LCDetail { get; set; } = new CodeBaseResponse();
 
-        public CodeBaseResponse Analysis1 { get; set; }
-        public CodeBaseResponse Analysis2 { get; set; }
-        public CodeBaseResponse Analysis3 { get; set; }
-        public CodeBaseResponse Analysis4 { get; set; }
-        public CodeBaseResponse Analysis5 { get; set; }
-        public CodeBaseResponse Analysis6 { get; set; }
+        public CodeBaseResponse Analysis1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis2 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis3 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis4 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis5 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Analysis6 { get; set; } = new CodeBaseResponse();
 
         public string OrderItemName { get; set; } = "";
         public string Remarks { get; set; } = "";
 
         public decimal LineNumberRate { get; set; }
 
-        public CodeBaseResponse LineNumberCurrency { get; set; }
+        public CodeBaseResponse LineNumberCurrency { get; set; } = new CodeBaseResponse();
         public string DesCription { get; set; } = "";
         public bool ISVirtualItem { get; set; }
-        public CodeBaseResponse ItemTaxType1 { get; set; }
-        public CodeBaseResponse ItemTaxType2 { get; set; }
-        public CodeBaseResponse ItemTaxType3 { get; set; }
-        public CodeBaseResponse ItemTaxType4 { get; set; }
-        public CodeBaseResponse ItemTaxType5 { get; set; }
+        public CodeBaseResponse ItemTaxType1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemTaxType2 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemTaxType3 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemTaxType4 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemTaxType5 { get; set; } = new CodeBaseResponse();
         public decimal Amount1 { get; set; }
 
-        public AddressResponse DeliveryAddress { get; set; }
-        public AddressResponse ReserveAddress { get; set; }
+        public AddressResponse DeliveryAddress { get; set; } = new AddressResponse();
+        public AddressResponse ReserveAddress { get; set; } = new AddressResponse();
 
         public bool IsRateIncludedInTotal { get; set; }
 
@@ -173,28 +173,28 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public decimal ItemTaxPercenrage5 { get; set; }
 
 
-        public CodeBaseResponse ApprovePririty { get; set; }
+        public CodeBaseResponse ApprovePririty { get; set; } = new CodeBaseResponse();
 
-        public CodeBaseResponse ApproveStatus { get; set; }
+        public CodeBaseResponse ApproveStatus { get; set; } = new CodeBaseResponse();
 
         public bool IsProduction { get; set; }
 
         public bool IsNotProduction { get; set; }
 
-        public OrderItem FromOrderItem { get; set; }
+        public OrderItem FromOrderItem { get; set; }=new OrderItem();
 
         public decimal ConversionRate { get; set; } = 1;
 
         public decimal TransactionPrice { get; set; }
 
-        public string ItemNumber { get; set; }
+        public string ItemNumber { get; set; } = "";
         public bool IsSetOff { get; set; }
 
         public int ParentItemKey { get; set; } = 1;
 
-        public string ParentItemName { get; set; }
+        public string ParentItemName { get; set; } = "";
 
-        public string ParentItemCode { get; set; }
+        public string ParentItemCode { get; set; } = "";
 
 
 
@@ -204,8 +204,8 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
     public class OrderSaveResponse
     {
-        public string OrderNumber { get; set; }
-        public string Prefix { get; set; }
+        public string OrderNumber { get; set; } = "";
+        public string Prefix { get; set; } = "";  
 
         public long OrderKey { get; set; } = 1;
     }
@@ -213,16 +213,16 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     public class OrderCreateModelSimple : BaseModel
     {
         public DateTime OrderDate { get; set; }
-        public string OrderReference { get; set; }
-        public string Prefix { get; set; }
-        public string OrderType { get; set; }
+        public string OrderReference { get; set; } = "";
+        public string Prefix { get; set; } = "";
+        public string OrderType { get; set; } = "";
         public int CustomerReference { get; set; }
-        public string PaymentMethodReference { get; set; }
+        public string PaymentMethodReference { get; set; } = "";
         public decimal TotalQuantity { get; set; }
         public decimal OrderTotal { get; set; }
         public decimal DiscountAmount { get; set; }
-        public string Remarks { get; set; }
-        public string OrderStatus { get; set; }
+        public string Remarks { get; set; } = "";
+        public string OrderStatus { get; set; } = ""; 
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
 
         public IList<OrderSimpleLineItem> LineItems { get; set; }
@@ -231,17 +231,17 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         /// Following are for Linked Transaction onlly. Like Purchase Return and so on.
         /// </summary>
 
-        public string PreviousTransactionReference { get; set; }
-        public string PreviousTransactionType { get; set; }
+        public string PreviousTransactionReference { get; set; } = "";
+        public string PreviousTransactionType { get; set; } = "";
 
 
         public bool ForceEmail { get; set; } = false;
 
         public decimal DeliveryFee { get; set; }
 
-        public DeliveryDetail deliveryDetail { get; set; }
+        public DeliveryDetail deliveryDetail { get; set; }= new DeliveryDetail();
 
-        public ShippingAddress shippingAddress { get; set; }
+        public ShippingAddress shippingAddress { get; set; }=new ShippingAddress();
 
 
         public int LocationKey { get; set; } = 1;
@@ -273,9 +273,9 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
     public class OrderSimpleLineItem
     {
-        public string OrderReference { get; set; }
+        public string OrderReference { get; set; } = "";
         public DateTime TransactionDate { get; set; }
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = "";
 
         public int SKU { get; set; }
         public decimal Quantity { get; set; }
@@ -287,16 +287,16 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
 
         public DateTime DeliveryDate { get; set; }
-        public string DeliveryTypeReference { get; set; }
-        public string DeliveryAddressReference { get; set; }
-        public string CustomerReference { get; set; }
+        public string DeliveryTypeReference { get; set; } = "";
+        public string DeliveryAddressReference { get; set; } = "";
+        public string CustomerReference { get; set; } = "";
         public int LineNumber { get; set; }
 
 
         /// <summary>
         /// Following are only for dispatch
         /// </summary>
-        public string BatchID { get; set; }
+        public string BatchID { get; set; } = "";
 
         public int ProjectKey { get; set; } = 1;
 
@@ -323,18 +323,18 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     }
     public class ShippingAddress
     {
-        public string address_type { get; set; }
-        public string city { get; set; }
-        public string country_id { get; set; }
-        public string email { get; set; }
+        public string address_type { get; set; } = "";
+        public string city { get; set; } = "";
+        public string country_id { get; set; } = "";
+        public string email { get; set; } = "";
         public int entity_id { get; set; }
-        public string firstname { get; set; }
-        public string lastname { get; set; }
+        public string firstname { get; set; } = "";
+        public string lastname { get; set; } = "";    
         public int parent_id { get; set; }
-        public string postcode { get; set; }
-        public string region { get; set; }
-        public string region_code { get; set; }
-        public List<string> street { get; set; }
-        public string telephone { get; set; }
+        public string postcode { get; set; } = "";
+        public string region { get; set; } = "";
+        public string region_code { get; set; } = "";
+        public List<string> street { get; set; } = new List<string>();
+        public string telephone { get; set; } = "";
     }
 }

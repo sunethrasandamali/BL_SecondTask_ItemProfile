@@ -10,6 +10,7 @@ namespace BlueLotus360.Web.API.Authentication.Providers
         public BLAuthResponse ValidateRequestToken(string token);
         public RefreshToken GenerateRefreshToken(string ipAddress);
         public string GenerateUserToken(User user,Company company);
+        public string GenerateCompanyAddedToken(User user, Company company);
 
     }
 

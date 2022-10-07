@@ -49,7 +49,7 @@ namespace BlueLotus360.Web.API
         }
     });
             });
-          
+            
             builder.Services.AddScoped<IAuthenticationProvider, JwtAuthenticatonProvider>();
             builder.Services.ServicesBuilder();
             builder.Services.AddSwaggerGen();

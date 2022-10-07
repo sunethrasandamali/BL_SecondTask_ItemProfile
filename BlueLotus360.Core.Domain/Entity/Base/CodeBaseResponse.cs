@@ -12,10 +12,10 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public long CodeKey { get; set; } = 1;
         public string Code { get; set; } = "";
         public string ConditionCode { get; set; } = "";
-        public string OurCode { get ; set ; }
+        public string OurCode { get ; set ; } = "";
         public string CodeName { get; set; } = "";
 
-        public string CodeNameOnly { get; set; }
+        public string CodeNameOnly { get; set; } = "";
 
 
         public CodeBaseResponse()

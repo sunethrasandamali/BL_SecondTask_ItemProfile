@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,9 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
         private IOrderRepository _orderRepository;
         private IItemRepository _itemRepository;
         private IMenuRepository _menuRepository;
+        private IUnitRepository _unitRepository;
+        private IAddressRepository _addressRepository;
+        private ICommonRepository _commonRepository;    
         #endregion
 
 
@@ -36,6 +40,18 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                     _userRepository = new UserRepository(_dataLayer);
                 }
             return _userRepository;
+            }
+        }
+
+        public IAddressRepository AddressRepository
+        {
+            get
+            {
+                if (_addressRepository == null)
+                {
+                    _addressRepository = new AddressRepository(_dataLayer);
+                }
+                return _addressRepository;
             }
         }
 
@@ -50,7 +66,19 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                 return _apiRepository;
             }
         }
-        
+
+        public ICommonRepository CommonRepository
+        {
+            get
+            {
+                if (_commonRepository == null)
+                {
+                    _commonRepository = new CommonRepository(_dataLayer);
+                }
+                return _commonRepository;
+            }
+        }
+
         public ICompanyRepository CompanyRepository
         {
             get
@@ -142,6 +170,18 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                     _menuRepository = new MenuRepository(_dataLayer);
                 }
                 return _menuRepository;
+            }
+        }
+
+        public IUnitRepository UnitMasRepository
+        {
+            get
+            {
+                if (_unitRepository == null)
+                {
+                    _unitRepository = new UnitRepository(_dataLayer);
+                }
+                return _unitRepository;
             }
         }
 
