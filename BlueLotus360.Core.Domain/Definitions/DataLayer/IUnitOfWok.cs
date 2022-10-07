@@ -21,6 +21,8 @@ namespace BlueLotus360.Core.Domain.Definitions.DataLayer
         ITransactionRepository TransactionRepository { get; }
         IOrderRepository OrderRepository{get;}
         IItemRepository ItemRepository { get; }
-
+        IUnitRepository UnitMasRepository { get; }
+        IAddressRepository AddressRepository { get; }
+        ICommonRepository CommonRepository { get; }
     }
 }

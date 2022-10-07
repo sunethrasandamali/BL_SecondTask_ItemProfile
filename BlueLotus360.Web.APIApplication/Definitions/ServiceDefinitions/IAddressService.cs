@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
-    public interface ICodeBaseService
+    public interface IAddressService
     {
-        BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string Condition);
-        BaseServerResponse<IList<CodeBaseResponse>> ReadCodes(Company company, User user, ComboRequestDTO requestDTO);
+        BaseServerResponse<IList<AddressResponse>>  GetComboAddresses(Company company, User user, ComboRequestDTO dto);
     }
 }

@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
-    public interface ICodeBaseRepository
+    public interface IAddressRepository
     {
-        BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string ConditionCode);
-        BaseServerResponse<IList<CodeBaseResponse>> GetCodeBaseByObject(Company company, User user, ComboRequestDTO requestDTO);
+        BaseServerResponse<IList<AddressResponse>> GetAddresses(Company company, User user, ComboRequestDTO dto);
     }
 }

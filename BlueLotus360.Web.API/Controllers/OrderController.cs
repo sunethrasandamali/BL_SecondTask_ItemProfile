@@ -26,39 +26,43 @@ namespace BlueLotus360.Web.API.Controllers
         {
             _logger = logger;
             _orderService = orderService;
+            _objectService = objectService;
+            _codeBaseService= codeBaseService;
         }
 
-        [HttpPost("saveOrder")]
+        [HttpPost("createGenericOrder")]
         public IActionResult CreateGenericOrder(GenericOrder orderDetails)
         {
+            //
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
-            var ordTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
             var ord = _orderService.SaveOrder(company, user, orderDetails, ordTyp.Value);
             OrderSaveResponse orderServerResponse = ord.Value;
             return Ok(orderServerResponse);
+
         }
 
-        [HttpPost("updateOrder")]
+        [HttpPost("updateGenericOrder")]
         public IActionResult UpdateGenericOrder(GenericOrder orderDetails)
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
-            var ordTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
             _orderService.UpdateOrder(company, user, orderDetails, ordTyp.Value);
             
             return Ok();
         }
 
-        [HttpPost("findOrder")]
+        [HttpPost("findOrders")]
         public IActionResult FindOrder(OrderFindDto request)
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey((int)request.ObjectKey);
-            var ordTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
 
             BaseServerResponse<IList<OrderFindResults>> orders = _orderService.FindOrders(request,company, user, ordTyp.Value);
             return Ok(orders.Value);
@@ -81,8 +85,8 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey((int)request.ObjKy);
 
-            var ordTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "OrdTyp");
-            var preOrdTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode2, "OrdTyp");
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var preOrdTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode2, "OrdTyp");
 
             IList<GetFromQuotResults> QuotationList = _orderService.RetrieveQuotation(request, company, user,ordTyp.Value, preOrdTyp.Value).Value;
 
@@ -96,7 +100,7 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey((int)request.ObjKy);
 
-            var ordTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
             
 
             GenericOrder ord = _orderService.OpenQuotation( company, user, request, ordTyp.Value).Value;

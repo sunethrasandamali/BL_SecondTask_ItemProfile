@@ -55,7 +55,7 @@ namespace BlueLotus360.Web.API.Authentication.Providers
                     new Claim("LastName", user.UserID),
                 }),
 
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(120),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -79,7 +79,7 @@ namespace BlueLotus360.Web.API.Authentication.Providers
                     new Claim("LastName", user.UserID),
                 }),
 
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(120),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

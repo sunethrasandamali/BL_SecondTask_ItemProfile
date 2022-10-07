@@ -19,15 +19,16 @@ namespace BlueLotus360.Web.API.Controllers
         ITransactionService _transactionService;
         IObjectService _objectService;
         ICodeBaseService _codeBaseService;
-
+        IItemService _itemService;
         public TransactionController(ILogger<TransactionController> logger, 
                                     ITransactionService transactionService,
-                                    IObjectService objectService,ICodeBaseService codeBaseService)
+                                    IObjectService objectService, ICodeBaseService codeBaseService, IItemService itemService)
         {
             _logger = logger;
             _transactionService = transactionService;
             _objectService = objectService;
             _codeBaseService = codeBaseService;
+            _itemService = itemService;
         }
 
 
@@ -37,7 +38,7 @@ namespace BlueLotus360.Web.API.Controllers
             var user =  Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(transaction.ElementKey);
-            var trnTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "TrnTyp");
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "TrnTyp");
             var trn=_transactionService.SaveTransaction(transaction, company, user, uiObject.Value, trnTyp.Value);
 
             return Ok(trn.Value);
@@ -49,7 +50,7 @@ namespace BlueLotus360.Web.API.Controllers
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(request.ElementKey);
-            var trnTyp = _codeBaseService.GetCodeBaseByObject(company, user, uiObject.Value.OurCode, "TrnTyp");
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "TrnTyp");
             request.TransactionType=trnTyp.Value;   
             var trn = _transactionService.FindTransaction(company, user, request);
             IList<GenericTransactionFindResponse> responses = trn.Value;
@@ -69,6 +70,15 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(transaction);
 
+        }
+
+        [HttpPost("getStockAsAtByLocation")]
+        public IActionResult GetStockAsAtByLocation(StockAsAtRequest request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            StockAsAtResponse response = _itemService.GetStockAsAtByLocation(company, user, request);
+            return Ok(response);
         }
     }
 }

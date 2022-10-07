@@ -17,7 +17,7 @@ namespace BlueLotus360.Core.Domain.DTOs.RequestDTO
         public long PreviousKey { get; set; } = 1;
 
         public long TransactionTypeKey { get; set; } = 1;
-        public IDictionary<string, object> AddtionalData { get; set; }
+        public IDictionary<string, object> AddtionalData { get; set; }=new Dictionary<string,object>();
 
 
         public string SearchQuery { get; set; } = "";

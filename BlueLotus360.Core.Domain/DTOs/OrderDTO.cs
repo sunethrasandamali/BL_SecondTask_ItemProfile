@@ -20,14 +20,14 @@ namespace BlueLotus360.Core.Domain.DTOs
         public AccountResponse OrderAccount { get; set; }
         public CodeBaseResponse OrderType { get; set; } = new CodeBaseResponse();
         public IList<GenericOrderItem> OrderItems { get; set; }
-        public OrderItem SelectedOrderItem { get; set; }
+       // public OrderItem SelectedOrderItem { get; set; }
         public int FormObjectKey { get; set; } = 1;
         public decimal HeaderLevelDisountPrecentage { get; set; }
         public CodeBaseResponse BussinessUnit { get; set; } = new CodeBaseResponse();
         public int OrderDetKy { get; set; } = 1;
         public int FromOrderKey { get; set; } = 1;
         public bool IsFromQuotation { get; set; }
-        public string HeaderDescription { get; set; }
+        public string HeaderDescription { get; set; } = "";
         public CodeBaseResponse OrderApproveState { get; set; }
         public CodeBaseResponse OrderPrefix { get; set; }
         public GenericOrder()
@@ -35,8 +35,13 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderLocation = new CodeBaseResponse();
             OrderPaymentTerm = new CodeBaseResponse();
             OrderCustomer = new AddressResponse();
+            OrderRepAddress= new AddressResponse();
+            OrderAccount=new AccountResponse();
+            OrderType = new CodeBaseResponse();
             OrderDocumentNumber = "";
             OrderItems = new List<GenericOrderItem>();
+            //SelectedOrderItem = new OrderItem();
+            BussinessUnit = new CodeBaseResponse();
             OrderApproveState = new CodeBaseResponse();
             OrderPrefix = new CodeBaseResponse();
         }
@@ -85,8 +90,8 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal VAT { get; set; } = 0;
         public decimal SVAT { get; set; } = 0;
         public decimal AvlStk { get; set; } = 0;
-        public string Description { get; set; }
-        public string Remark { get; set; }
+        public string Description { get; set; } = "";
+        public string Remark { get; set; } = "";
 
         public GenericOrderItem()
         {
@@ -324,12 +329,12 @@ namespace BlueLotus360.Core.Domain.DTOs
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int OrderTypeKey { get; set; }
-        public string OrderNo { get; set; }
+        public string OrderNo { get; set; } = "";
         public int FromOrderNumber { get; set; } = 0;
         public int ToOrderNumber { get; set; } = int.MaxValue;
 
-        public string DocumentNumber { get; set; }
-        public string YourReference { get; set; }
+        public string DocumentNumber { get; set; } = "";
+        public string YourReference { get; set; } = ""; 
 
         public int LocationKey { get; set; } = 1;
 
@@ -348,6 +353,12 @@ namespace BlueLotus360.Core.Domain.DTOs
         public int ObjectKey { get; set; } = 1;
         public CodeBaseResponse Location { get; set; }
         public CodeBaseResponse Prefix { get; set; }
+
+        public OrderFindDto()
+        {
+            Location = new CodeBaseResponse();
+            Prefix = new CodeBaseResponse();
+        }
 
 
     }
@@ -395,32 +406,40 @@ namespace BlueLotus360.Core.Domain.DTOs
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public CodeBaseResponse Project { get; set; }
-        public string SoNo { get; set; }
+        public string SoNo { get; set; } = "";
         public int OrdNo { get; set; } = 1;
         public int PreOrdPreFixKy { get; set; } = 1;
         public long ObjKy { get; set; }
+
+        public GetFromQuoatationDTO()
+        {
+            Supplier = new();
+            AdvAnalysis = new();
+            Location = new CodeBaseResponse();
+            Project = new CodeBaseResponse();
+        }
 
     }
 
     public class GetFromQuotResults
     {
         public int OrdKy { get; set; }
-        public string OrdNo { get; set; }
+        public string OrdNo { get; set; } = "";
         public DateTime OrdDt { get; set; }
-        public string DocNo { get; set; }
+        public string DocNo { get; set; } = "";
         public int PrjId { get; set; }
-        public string PrjNm { get; set; }
-        public string SupAccCd { get; set; }
-        public string SupAccNm { get; set; }
-        public string Prefix { get; set; }
-        public string LocCd { get; set; }
+        public string PrjNm { get; set; } = "";
+        public string SupAccCd { get; set; } = "";
+        public string SupAccNm { get; set; } = "";
+        public string Prefix { get; set; } = "";
+        public string LocCd { get; set; } = "";
     }
 
     public class QuotationDetails : OrderLineCreateDTO
     {
-        public string OrdNo { get; set; }
-        public string DocNo { get; set; }
-        public string YourReference { get; set; }
+        public string OrdNo { get; set; } = "";
+        public string DocNo { get; set; } = "";
+        public string YourReference { get; set; } = "";
         public decimal AvailableQuantity { get; set; }
         public UnitResponse Unit { get; set; }
         public CodeBaseResponse HdrLocation { get; set; }

@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
@@ -139,6 +140,77 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbConnection.Dispose();
                 }
                 return baseResponse;
+            }
+        }
+
+        public BaseServerResponse<IList<AccountResponse>> GetAccounts(Company company, User user, ComboRequestDTO requestDTO)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader dataReader = null;
+                string SPName = "AccCdNm_SelectMob";
+                BaseServerResponse<IList<AccountResponse>> response = new BaseServerResponse<IList<AccountResponse>>();
+                try
+                {
+                    IList<AccountResponse> accounts = new List<AccountResponse>();
+
+
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", requestDTO.RequestingElementKey);
+                    dbCommand.CreateAndAddParameter("@PreKy", requestDTO.PreviousKey);
+                    dbCommand.CreateAndAddParameter("@TrnTypKy", requestDTO.TransactionTypeKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+                    AccountResponse account;
+                    while (dataReader.Read())
+                    {
+                        account = new AccountResponse();
+                        account.AccountKey = dataReader.GetColumn<int>("AccKy");
+                        account.AccountName = dataReader.GetColumn<string>("AccCdNm");
+                        account.IsDefault = account.AccountKey == dataReader.GetColumn<int>("DefaultKey");
+                        accounts.Add(account);
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = accounts;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc  {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
             }
         }
     }

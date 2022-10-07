@@ -12,13 +12,13 @@ namespace BlueLotus360.Core.Domain.DTOs
 
         public int UserKey { get; set; }
 
-        public string Enviorement { get; set; }
+        public string Enviorement { get; set; } = "";
 
         public int ObjectKey { get; set; } = 1;
 
-        public string RequestId { get; set; }
+        public string RequestId { get; set; } = "";
 
-        public string IntegrationId { get; set; }
+        public string IntegrationId { get; set; } = "";
 
         public int RequestingUser { get; set; } = 1;
 

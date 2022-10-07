@@ -193,4 +193,19 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
 
 
     }
+
+    public class StockAsAtResponse
+    {
+        public long ItemKey { get; set; }
+        public decimal StockAsAt { get; set; }
+
+    }
+    public class StockAsAtRequest
+    {
+        public long ItemKey { get; set; }
+        public long LocationKey { get; set; }
+        public long ElementKey { get; set; } = 1;
+        public long ProjectKey { get; set; } = 1;
+
+    }
 }
