@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BlueLotus.Mobile.MAUI.Pages.LoginPage"
+             Title="LoginPage">
+    <Grid IgnoreSafeArea="True"  Background="{StaticResource Secondary}">
+        <ScrollView HorizontalScrollBarVisibility="Always">
+            <VerticalStackLayout
+            Spacing="0"
+            Padding="0,0"
+            VerticalOptions="Center" Background="{StaticResource Secondary}">
+                <Border
+                    Padding="24,12"
+                    BackgroundColor="{StaticResource Gray100}"
+                    Stroke="{StaticResource Gray300}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="End"
+                    Margin="20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="1"/>
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout
+        Spacing="16">
+
+                        <Label
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Start"
+          
+            Text="User Name"/>
+                        <Frame>
+                            <Entry Placeholder="User Name" />
+                        </Frame>
+                        <Label
+            HorizontalOptions="Start"
+            HorizontalTextAlignment="Start"
+            LineBreakMode="WordWrap"
+           
+            Text="Password"/>
+                        <Frame>
+                            <Entry Placeholder="Password" 
+                               IsPassword="True"
+                               
+                               />
+                        </Frame>
+
+                        <Button
+            
+            Text="Explore Now"
+            HorizontalOptions="Center"
+            Margin="0,12,0,6"
+            Clicked="Button_Clicked"
+          />
+
+                    </VerticalStackLayout>
+
+                </Border>
+
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

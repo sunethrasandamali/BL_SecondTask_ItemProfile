@@ -32,7 +32,6 @@ namespace BlueLotus360.Web.APIApplication.Services
                 var jwtToken = _jwtUtils.GenerateUserToken(user);
                 var refreshToken = _jwtUtils.GenerateRefreshToken(ipAddress);
                 return new UserAuthenticationResponse(user, jwtToken, refreshToken.Token);
-                removeOldRefreshTokens(user);
             }
             else
             {
