@@ -20,7 +20,7 @@ namespace BlueLotus360.Core.Domain.Models
         public string RefreshToken { get; set; }
         public bool IsSuccess { get; set; }
         public string UserImageURL { get; set; } = "";
-        public UserAuthenticationResponse(User user, string jwtToken, string refreshToken,bool isSuccess)
+        public UserAuthenticationResponse(User user, string jwtToken, string refreshToken,bool isSuccess=false)
         {
             Id = user.UserKey;
             FirstName = user.UserID;
