@@ -200,6 +200,9 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal StockAsAt { get; set; }
 
     }
+
+
+
     public class StockAsAtRequest
     {
         public long ItemKey { get; set; }

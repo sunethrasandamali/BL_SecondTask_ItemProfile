@@ -72,13 +72,13 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
-        //[HttpPost("getStockAsAtByLocation")]
-        //public IActionResult GetStockAsAtByLocation(StockAsAtRequest request)
-        //{
-        //    var user = Request.GetAuthenticatedUser();
-        //    var company = Request.GetAssignedCompany();
-        //    StockAsAtResponse response = _itemService.GetStockAsAtByLocation(company, user, request);
-        //    return Ok(response);
-        //}
+        [HttpPost("getStockAsAtByLocation")]
+        public IActionResult GetStockAsAtByLocation(StockAsAtRequest request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            StockAsAtResponse response = _itemService.GetStockAsAtByLocation(company, user, request);
+            return Ok(response);
+        }
     }
 }
