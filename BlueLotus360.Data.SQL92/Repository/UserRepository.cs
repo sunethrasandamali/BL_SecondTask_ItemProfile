@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
 using BlueLotus360.Data.SQL92.Extenstions;
@@ -18,7 +19,12 @@ namespace BlueLotus360.Data.SQL92.Repository
         public UserRepository(ISQLDataLayer dataLayer) : base(dataLayer)
         {
         }
-       
+
+        public BaseServerResponse<User> AuthenticateUser(UserAuthenticationRequest model)
+        {
+            throw new NotImplementedException();
+        }
+
         public BaseServerResponse<User> GetUserByUserId(string userId)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())

@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Definitions.DataLayer
 {
-    public interface IUnitOfWork
-    {
+    public interface IUnitOfWork     {
 
 
         IUserRepository UserRepository { get; }
