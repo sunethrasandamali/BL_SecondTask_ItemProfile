@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using RestSharp;
 using RestSharp.Serializers;
@@ -18,6 +19,11 @@ namespace BlueLotus360.Data.APIConsumer.Repository
         {
             this.restClient = restClient;
             
+        }
+
+        public BaseServerResponse<User> AuthenticateUser(UserAuthenticationRequest model)
+        {
+            throw new NotImplementedException();
         }
 
         public BaseServerResponse<User> GetUserByUserId(string userId)
