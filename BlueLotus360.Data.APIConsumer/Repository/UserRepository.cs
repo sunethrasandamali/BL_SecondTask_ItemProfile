@@ -29,8 +29,8 @@ namespace BlueLotus360.Data.APIConsumer.Repository
         public BaseServerResponse<User> GetUserByUserId(string userId)
         {
 
-            var restRequest = new RestRequest("Authentication\authenticate", Method.Post);
-            var objRequestPayLoad = new  { };
+            throw new NotImplementedException();
+
         }
     }
 }

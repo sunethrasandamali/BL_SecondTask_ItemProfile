@@ -43,18 +43,18 @@ namespace BlueLotus360.Web.API.Controllers
             //return Ok();
         }
 
-        [HttpPost("getItemRateEx")]
-        public IActionResult GetItemRate(RateRetrivalModel model)
-        {
-            var user = Request.GetAuthenticatedUser();
-            var company = Request.GetAssignedCompany();
+        //[HttpPost("getItemRateEx")]
+        //public IActionResult GetItemRate(RateRetrivalModel model)
+        //{
+        //    var user = Request.GetAuthenticatedUser();
+        //    var company = Request.GetAssignedCompany();
 
-            var uiObject = _objectService.GetObjectByObjectKey((int)model.ObjectKey);
-            var typ = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, model.ConditionCode);
+        //    var uiObject = _objectService.GetObjectByObjectKey((int)model.ObjectKey);
+        //    var typ = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, model.ConditionCode);
 
-            ItemRateResponse response = _itemService.GetItemRateEx(model, company, user,typ.Value);
+        //    ItemRateResponse response = _itemService.GetItemRateEx(model, company, user,typ.Value);
 
-            return Ok(response);
-        }
+        //    return Ok(response);
+        //}
     }
 }
