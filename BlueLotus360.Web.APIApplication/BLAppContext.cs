@@ -9,6 +9,7 @@ namespace BlueLotus360.Web.APIApplication
 {
     public class BLAppContext
     {
+        public bool IsUserLoggedIn { get; set; }
         public User ApplicationUser { get; set; }
         public Company ApplicationCompany { get; set; }
     }
