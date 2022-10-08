@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Web.APIApplication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Maui.LifecycleEvents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
     {
         public static MauiAppBuilder RegisterAdditionalServices(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<BLAppContext>();            
+            mauiAppBuilder.Services.AddSingleton<BLAppContext>();
             return mauiAppBuilder;
         }
 
@@ -26,8 +27,28 @@ namespace BlueLotus.Mobile.MAUI.Extensions
                 .AddJsonStream(stream)
                 .Build();
             mauiAppBuilder.Configuration.AddConfiguration(config);
-           
+
             return mauiAppBuilder;
         }
+
+        public static MauiAppBuilder ConfureAndroidLifeCycleEvents(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.ConfigureLifecycleEvents(events =>
+            {
+                #if ANDROID
+                                events.AddAndroid(android => android
+                                    .OnCreate((activity, bundle) => MakeStatusBarTranslucent(activity)));
+
+                                static void MakeStatusBarTranslucent(Android.App.Activity activity)
+                                {
+                                    
+                                    activity.Window.SetStatusBarColor(Android.Graphics.Color.Black);
+                                }
+                #endif
+            });
+
+            return mauiAppBuilder;
+        }
+
     }
 }

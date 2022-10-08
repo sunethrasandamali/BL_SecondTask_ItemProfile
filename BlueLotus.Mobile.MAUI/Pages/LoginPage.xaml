@@ -1,68 +1,33 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlueLotus.Mobile.MAUI.Pages.LoginPage"
-             Title="LoginPage"
-             xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication"
-             x:DataType="viewmodel:UserLoginModel"
-             >
-    <Grid IgnoreSafeArea="True"  Background="{StaticResource Secondary}">
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="BlueLotus.Mobile.MAUI.Pages.LoginPage" Title="LoginPage" 
+             x:DataType="viewmodel:UserLoginModel">
+    <Grid IgnoreSafeArea="True">
         <ScrollView HorizontalScrollBarVisibility="Always">
-            <VerticalStackLayout
-            Spacing="0"
-            Padding="0,0"
-            VerticalOptions="Center" Background="{StaticResource Secondary}">
-
+            <VerticalStackLayout Spacing="0" Padding="0,0" VerticalOptions="Center">
                 <Label Text="{Binding ApplicationName}" HorizontalTextAlignment="Center" FontSize="32" />
-
-                <Border
-                    Padding="24,12"
-                    BackgroundColor="{StaticResource Gray100}"
-                    Stroke="{StaticResource Gray300}"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="End"
-                    Margin="20">
+                <Border Padding="24,12" HorizontalOptions="Fill" VerticalOptions="End" Margin="10">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="1"/>
+                        <RoundRectangle CornerRadius="1" />
                     </Border.StrokeShape>
-
-                    <VerticalStackLayout
-        Spacing="16">
-
-                        <Label
-            HorizontalOptions="Start"
-            HorizontalTextAlignment="Start"
-          
-            Text="User Name"/>
+                    <VerticalStackLayout Spacing="16">
+                        <ListView>
+                            <ListView.ItemTemplate>
+                                <DataTemplate></DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="User Name" />
                         <Frame>
-                            <Entry Placeholder="User Name" />
+                            <Entry Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" />
                         </Frame>
-                        <Label
-            HorizontalOptions="Start"
-            HorizontalTextAlignment="Start"
-            LineBreakMode="WordWrap"
-           
-            Text="Password"/>
+                        <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" LineBreakMode="WordWrap" Text="Password" />
                         <Frame>
-                            <Entry Placeholder="Password" 
-                               IsPassword="True"
-                               
-                               />
+                            <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" />
                         </Frame>
-
-                        <Button
-            
-            Text="Explore Now"
-            HorizontalOptions="Center"
-            Margin="0,12,0,6"
-            Clicked="Button_Clicked"
-          />
-
+                        <Button Text="  Log In  " HorizontalOptions="Center" Padding="15" WidthRequest="300" Command="{Binding LoginClickCommand}" />
                     </VerticalStackLayout>
-
                 </Border>
-
-
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
