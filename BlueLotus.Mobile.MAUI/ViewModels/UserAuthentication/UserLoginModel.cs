@@ -1,4 +1,5 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
+using BlueLotus.Mobile.MAUI.Pages;
 using BlueLotus.Mobile.MAUI.Validators.UserAuthentication;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
@@ -34,8 +35,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication
                 UserAuthenticationRequest request = new UserAuthenticationRequest();
                 request.UserName = userName;
                 request.Password = password;
-               BaseServerResponse<UserAuthenticationResponse> response = await RestsharpAPIConsumer.GetDefaultAPIConsumner().AuthenticationConsumer.AuthenticateUserAsync(request);
-                if(response.Value!=null)
+                BaseServerResponse<UserAuthenticationResponse> response = await RestsharpAPIConsumer.GetDefaultAPIConsumner().AuthenticationConsumer.AuthenticateUserAsync(request);
+                if (response.Value != null)
                 {
                     if (response.Value.IsSuccess)
                     {
@@ -44,7 +45,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication
                         appContext.ApplicationUser.UserKey = response.Value.Id;
                         appContext.ApplicationUser.UserID = response.Value.Username;
                         appContext.ApplicationUser.UserID = response.Value.Username;
-                        appContext.IsUserLoggedIn=true;
+                        appContext.IsUserLoggedIn = true;
+                        Application.Current.MainPage = MauiProgram.Services.GetService<CompanySelectionPage>();
 
 
                     }

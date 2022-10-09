@@ -20,6 +20,8 @@ public static class MauiProgram
 
         builder.RegisterAdditionalServices();
         builder.LoadAndInjectConfiuration();
+        builder.RegisterPages();
+        builder.RegisterRouting();
         builder.ConfureAndroidLifeCycleEvents();
         var app = builder.Build();
         Services = app.Services;

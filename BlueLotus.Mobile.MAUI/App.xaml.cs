@@ -7,17 +7,18 @@ namespace BlueLotus.Mobile.MAUI;
 
 public partial class App : Application
 {
-    public App()
+    public App(BLMAUIAppContext appContext)
     {
         InitializeComponent();
-        var appContext = MauiProgram.Services.GetService<BLMAUIAppContext>();
-        if(appContext == null && appContext.IsUserLoggedIn)
+        
+        if (appContext == null && appContext.IsUserLoggedIn)
         {
-            MainPage = new AppShell();
+            MainPage = MauiProgram.Services.GetService<AppShell>();
         }
         else 
         {
-            MainPage = new LoginPage();
+          MainPage = MauiProgram.Services.GetService<LoginPage>();
+
 
         }
 

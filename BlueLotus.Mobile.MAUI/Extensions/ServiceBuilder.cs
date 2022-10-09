@@ -1,4 +1,5 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
+using BlueLotus.Mobile.MAUI.Pages;
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
@@ -17,6 +18,21 @@ namespace BlueLotus.Mobile.MAUI.Extensions
         public static MauiAppBuilder RegisterAdditionalServices(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddSingleton<BLMAUIAppContext>();
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<MainPage>();
+            mauiAppBuilder.Services.AddSingleton<LoginPage>();
+            mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+            return mauiAppBuilder;
+        }
+        public static MauiAppBuilder RegisterRouting(this MauiAppBuilder mauiAppBuilder)
+        {
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
+            Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
             return mauiAppBuilder;
         }
 
