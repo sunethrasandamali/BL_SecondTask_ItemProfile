@@ -30,5 +30,9 @@ namespace BlueLotus360.Core.Domain.Models
             RefreshToken = refreshToken;
             IsSuccess = isSuccess;
         }
+        public UserAuthenticationResponse()
+        {
+
+        }
     }
 }

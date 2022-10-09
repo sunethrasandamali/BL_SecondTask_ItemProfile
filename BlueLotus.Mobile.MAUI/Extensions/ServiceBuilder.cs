@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
+﻿using BlueLotus.Mobile.MAUI.Context;
+using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Microsoft.Maui.LifecycleEvents;
@@ -15,7 +16,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
     {
         public static MauiAppBuilder RegisterAdditionalServices(this MauiAppBuilder mauiAppBuilder)
         {
-                    
+            mauiAppBuilder.Services.AddSingleton<BLMAUIAppContext>();
             return mauiAppBuilder;
         }
 

@@ -10,6 +10,6 @@ namespace BlueLotus360.Data.APIConsumer.Definitions
 {
     public interface IAuthenticationConsumer
     {
-      Task<BaseServerResponse<UserAuthenticationResponse>> AuthenticateUser(UserAuthenticationRequest request);
+      Task<BaseServerResponse<UserAuthenticationResponse>> AuthenticateUserAsync(UserAuthenticationRequest request);
     }
 }
