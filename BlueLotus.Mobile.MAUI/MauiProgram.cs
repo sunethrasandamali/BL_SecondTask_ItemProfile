@@ -22,11 +22,11 @@ public static class MauiProgram
         builder.ConfureAndroidLifeCycleEvents();
         var app = builder.Build();
         Services=app.Services;
-        Configuration = app.Configuration;
+        MAUIConfiguration.configuration = app.Configuration;
         return app ;
 
     }
 
     public static IServiceProvider Services { get; private set; }
-    public static IConfiguration Configuration { get; private set; }
+    
 }

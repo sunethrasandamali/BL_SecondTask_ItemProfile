@@ -8,7 +8,7 @@ public partial class LoginPage : ContentPage
 
     public LoginPage()
     {
-        configuration = MauiProgram.Configuration;
+      configuration =  MauiProgram.Services.GetService<IConfiguration>();
         var appInfo = configuration.GetRequiredSection("AppInfo:ApplicaionName");
         UserLoginModel model = new UserLoginModel();
         BindingContext = model;

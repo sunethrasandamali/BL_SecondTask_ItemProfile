@@ -10,8 +10,4 @@
     <Folder Include="Definitions\Repository\NewFolder\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="RestSharp" Version="108.0.2" />
-  </ItemGroup>
-
 </Project>
