@@ -1,3 +1,4 @@
+using BlueLotus.Mobile.MAUI.Extensions;
 using BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication;
 using Microsoft.Extensions.Configuration;
 
@@ -8,7 +9,7 @@ public partial class LoginPage : ContentPage
 
     public LoginPage()
     {
-      configuration =  MauiProgram.Services.GetService<IConfiguration>();
+        configuration = MAUIConfiguration.configuration;
         var appInfo = configuration.GetRequiredSection("AppInfo:ApplicaionName");
         UserLoginModel model = new UserLoginModel();
         BindingContext = model;

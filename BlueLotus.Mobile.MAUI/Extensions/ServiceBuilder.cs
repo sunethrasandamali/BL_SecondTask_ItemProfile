@@ -28,7 +28,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
                 .AddJsonStream(stream)
                 .Build();
             mauiAppBuilder.Configuration.AddConfiguration(config);
-            mauiAppBuilder.Services.AddSingleton<IConfiguration,MAUIConfiguration >();
+           // mauiAppBuilder.Services.AddSingleton<IConfiguration,MAUIConfiguration >();
 
 
 
