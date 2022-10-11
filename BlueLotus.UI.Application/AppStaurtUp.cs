@@ -17,8 +17,7 @@ namespace BlueLotus.UI.Application
     {
         public string IntegrationID { get; set; }
         public string BaseDevURL { get; set; }
-        public string SelectedEnviorement { get; d
-                ssssxd
+        public string SelectedEnviorement { get; 
                 set; }
     }
 
