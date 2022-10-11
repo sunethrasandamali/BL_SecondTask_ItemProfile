@@ -1,5 +1,6 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
+using BlueLotus.UI.Application.Context;
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Compatibility.Hosting;

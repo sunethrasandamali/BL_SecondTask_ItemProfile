@@ -70,8 +70,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\BlueLotus.UI.Application\BlueLotus.UI.Application.csproj" />
 	  <ProjectReference Include="..\BlueLotus360.Core.Domain\BlueLotus360.Core.Domain.csproj" />
 	  <ProjectReference Include="..\BlueLotus360.Data.APIConsumer\BlueLotus360.Data.APIConsumer.csproj" />
+	  <ProjectReference Include="..\BlueLotus360.Mobile.CustomControl\BlueLotus360.Mobile.CustomControl.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

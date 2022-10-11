@@ -73,5 +73,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
         public string ApplicationId { get => _applicationId; set => _applicationId = value; }
         public string ApplicationName { get => _applicationName; set => _applicationName = value; }
         public string BaseURL { get => _baseURL; set => _baseURL = value; }
+
+        public string MyProperty { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
 using BlueLotus.Mobile.MAUI.Validators.UserAuthentication;
+using BlueLotus.UI.Application.Context;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;

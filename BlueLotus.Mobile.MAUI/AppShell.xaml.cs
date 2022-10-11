@@ -1,5 +1,6 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
+using BlueLotus.UI.Application.Context;
 
 namespace BlueLotus.Mobile.MAUI;
 
