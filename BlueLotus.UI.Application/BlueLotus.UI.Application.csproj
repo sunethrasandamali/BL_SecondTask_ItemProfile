@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlueLotus360.Core.Domain\BlueLotus360.Core.Domain.csproj" />
+    <ProjectReference Include="..\BlueLotus360.Data.APIConsumer\BlueLotus360.Data.APIConsumer.csproj" />
   </ItemGroup>
 
 </Project>

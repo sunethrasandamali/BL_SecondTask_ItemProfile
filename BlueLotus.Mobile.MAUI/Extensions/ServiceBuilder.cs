@@ -1,7 +1,13 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
+using BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication;
+using BlueLotus.UI.Application;
 using BlueLotus.UI.Application.Context;
+using BlueLotus.UI.Application.Services.Defintions;
+using BlueLotus.UI.Application.Services.Implementation;
 using BlueLotus360.Core.Domain.Definitions.DataLayer;
+using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Microsoft.Maui.LifecycleEvents;
@@ -18,7 +24,11 @@ namespace BlueLotus.Mobile.MAUI.Extensions
     {
         public static MauiAppBuilder RegisterAdditionalServices(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<BLMAUIAppContext>();
+            mauiAppBuilder.Services.AddSingleton<BLUIAppContext>();
+            mauiAppBuilder.Services.AddSingleton<AppStaurtUp>();
+   
+            mauiAppBuilder.Services.AddSingleton<IUserService,UserService>();
+
             return mauiAppBuilder;
         }
 
@@ -27,6 +37,17 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<MainPage>();
             mauiAppBuilder.Services.AddSingleton<LoginPage>();
             mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+       
+            return mauiAppBuilder;
+        }
+
+
+        public static MauiAppBuilder RegisterModels(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddTransient<UserLoginModel>();
+               
+          
+
             return mauiAppBuilder;
         }
         public static MauiAppBuilder RegisterRouting(this MauiAppBuilder mauiAppBuilder)

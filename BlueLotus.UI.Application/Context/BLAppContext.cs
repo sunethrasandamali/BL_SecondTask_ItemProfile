@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlueLotus.UI.Application.Context
 {
-    public class BLMAUIAppContext
+    public class BLUIAppContext
     {
         public User ApplicationUser { get; set; }
         public Company ApllicationCompany { get; set; }
@@ -19,7 +19,7 @@ namespace BlueLotus.UI.Application.Context
         public bool IsCompleteAuthOK { get { return IsCompanyPicked && IsUserLoggedIn; } }
 
         public string InstanceID { get; private set; }
-        public BLMAUIAppContext()
+        public BLUIAppContext()
         {
             InstanceID = Guid.NewGuid().ToString();
         }

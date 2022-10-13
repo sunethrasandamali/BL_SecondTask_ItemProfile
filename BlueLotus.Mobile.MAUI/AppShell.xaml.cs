@@ -10,7 +10,7 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
         Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
-		var appContext = MauiProgram.Services.GetService<BLMAUIAppContext>();
+		var appContext = MauiProgram.Services.GetService<BLUIAppContext>();
 		if (!appContext.IsCompleteAuthOK)
 		{
 		 

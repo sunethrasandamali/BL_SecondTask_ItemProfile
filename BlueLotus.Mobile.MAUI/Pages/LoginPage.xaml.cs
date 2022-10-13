@@ -7,11 +7,11 @@ public partial class LoginPage : ContentPage
 {
     private readonly IConfiguration configuration;
 
-    public LoginPage()
+    public LoginPage(UserLoginModel loginModel)
     {
         configuration = MAUIConfiguration.configuration;
         var appInfo = configuration.GetRequiredSection("AppInfo:ApplicaionName");
-        UserLoginModel model = new UserLoginModel();
+        UserLoginModel model = loginModel;
         BindingContext = model;
         model.ApplicationName = appInfo.Value;
         InitializeComponent();

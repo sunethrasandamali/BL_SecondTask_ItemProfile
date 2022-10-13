@@ -13,7 +13,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
     {
         #region privates
         private RestClient _restClient;
-        private static APISettins aPISettins;
+        private static APISettings aPISettins;
         private static RestsharpAPIConsumer _consumer;
         private RestsharpAPIConsumer()
         {
@@ -39,7 +39,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
         }
         #endregion
 
-        public static void Initilize(APISettins settins)
+        public static void Initilize(APISettings settins)
         {
              aPISettins = settins;
 
@@ -64,7 +64,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
     }
 
 
-    public class APISettins
+    public class APISettings
     {
         private string _applicationId;
         private string _applicationName;
@@ -74,6 +74,5 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
         public string ApplicationName { get => _applicationName; set => _applicationName = value; }
         public string BaseURL { get => _baseURL; set => _baseURL = value; }
 
-        public string MyProperty { get; set; }
     }
 }
