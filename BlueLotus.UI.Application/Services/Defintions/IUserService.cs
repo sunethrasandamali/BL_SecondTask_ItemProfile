@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueLotus360.Data.APIConsumer.Definitions
+namespace BlueLotus.UI.Application.Services.Defintions
 {
-    public interface IAuthenticationConsumer
+    public interface  IAppUserService
     {
         Task<BaseServerResponse<UserAuthenticationResponse>> AuthenticateUserAsync(UserAuthenticationRequest request);
-        Task<BaseServerResponse<IList<Company>>> GetUserCompanies(BaseAPIRequest request);
-        Task<BaseServerResponse<UserAuthenticationResponse>> UpdateUserCompany(CompanyResponse request);
+        Task<BaseServerResponse<IList<Company>>> GetUserCompanies();
+        Task<BaseServerResponse<UserAuthenticationResponse>> UpdateSelectedCompany(CompanyResponse companyResponse);
 
     }
 }

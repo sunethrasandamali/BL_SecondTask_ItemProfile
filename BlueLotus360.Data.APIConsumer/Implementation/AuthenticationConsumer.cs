@@ -1,4 +1,6 @@
-﻿using BlueLotus360.Core.Domain.Models;
+﻿using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
+using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.APIConsumer.Definitions;
 using RestSharp;
@@ -27,6 +29,23 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
             var serverResponse = await ExecuteConsumerRequestAsync<UserAuthenticationResponse>(restRequest);
             return serverResponse;
         }
+
+        public async Task<BaseServerResponse<IList<Company>>> GetUserCompanies(BaseAPIRequest request)
+        {
+            var restRequest = new RestRequest("Authentication/getUserCompanies");
+            restRequest.AddJsonBody(request);           
+            var serverResponse = await ExecuteConsumerRequestAsync<IList<Company>>(restRequest);
+            return serverResponse;
+        }
+
+        public async Task<BaseServerResponse<UserAuthenticationResponse>> UpdateUserCompany(CompanyResponse request)
+        {
+            var restRequest = new RestRequest("Authentication/updateSelectedCompany");
+            restRequest.AddJsonBody(request);           
+            var serverResponse = await ExecuteConsumerRequestAsync<UserAuthenticationResponse>(restRequest);
+            return serverResponse;
+        }
+
     }
 
     public class BaseAPIConsumer
