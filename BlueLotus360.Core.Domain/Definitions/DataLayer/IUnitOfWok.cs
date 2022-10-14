@@ -23,5 +23,6 @@ namespace BlueLotus360.Core.Domain.Definitions.DataLayer
         IUnitRepository UnitMasRepository { get; }
         IAddressRepository AddressRepository { get; }
         ICommonRepository CommonRepository { get; }
+        IWorkShopManagementRepository WorkShopManagementRepository { get; }
     }
 }

@@ -121,6 +121,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     while (dataReader.Read())
                     {
                         CodeBaseResponse codeBase = new CodeBaseResponse(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.Code= dataReader.GetColumn<string>("CdNmOnly");
                         codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
                         codeBase.CodeNameOnly = dataReader.GetColumn<string>("CdNmOnly");
                         codeBase.IsDefault = codeBase.CodeKey == dataReader.GetColumn<int>("DefaultKey");
