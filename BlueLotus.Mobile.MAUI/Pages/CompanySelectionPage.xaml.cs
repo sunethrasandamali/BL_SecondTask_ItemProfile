@@ -6,12 +6,12 @@ namespace BlueLotus.Mobile.MAUI.Pages;
 
 public partial class CompanySelectionPage : ContentPage
 {
-	public CompanySelectionPage()
+	public CompanySelectionPage(CompanySelectionModel m)
 	{
-		CompanySelectionModel model = new CompanySelectionModel();
-		model.Companies.Add(new Company() { CompanyCode = "BL", CompanyName = "Blue Lotus 360" });
+		CompanySelectionModel model = m;
 		BindingContext = model;
 		InitializeComponent();
-		
-	}
+		model.ReadCompanies();
+
+    }
 }

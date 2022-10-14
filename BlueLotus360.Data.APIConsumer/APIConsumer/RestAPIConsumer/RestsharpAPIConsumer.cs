@@ -4,6 +4,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,13 +25,25 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
 
         }
 
+
+        public void AddUserToken(string requestToken)
+        {
+            var authParam = _restClient.DefaultParameters.TryFind("Authorization");
+            if (authParam != null)
+            {
+                _restClient.DefaultParameters.RemoveParameter(authParam);
+            }
+            _restClient.AddDefaultHeader("Authorization", $"Bearer {requestToken}");
+
+        }
+
         private IAuthenticationConsumer authenticationConsumer;
 
         public IAuthenticationConsumer AuthenticationConsumer
         {
             get
             {
-                if(authenticationConsumer == null)
+                if (authenticationConsumer == null)
                 {
                     authenticationConsumer = new AuthenticationConsumer(_restClient);
                 }
@@ -41,7 +54,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
 
         public static void Initilize(APISettings settins)
         {
-             aPISettins = settins;
+            aPISettins = settins;
 
             if (_consumer == null)
             {

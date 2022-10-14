@@ -27,7 +27,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<BLUIAppContext>();
             mauiAppBuilder.Services.AddSingleton<AppStaurtUp>();
    
-            mauiAppBuilder.Services.AddSingleton<IUserService,UserService>();
+            mauiAppBuilder.Services.AddSingleton<IAppUserService,AppUserService>();
 
             return mauiAppBuilder;
         }
@@ -35,6 +35,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
         public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddSingleton<MainPage>();
+            mauiAppBuilder.Services.AddSingleton<AppShell>();
             mauiAppBuilder.Services.AddSingleton<LoginPage>();
             mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
        
@@ -45,6 +46,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
         public static MauiAppBuilder RegisterModels(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddTransient<UserLoginModel>();
+            mauiAppBuilder.Services.AddTransient<CompanySelectionModel>();
                
           
 
