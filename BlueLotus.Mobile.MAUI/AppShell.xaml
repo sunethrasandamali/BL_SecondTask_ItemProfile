@@ -7,12 +7,19 @@
     xmlns:pages="clr-namespace:BlueLotus.Mobile.MAUI.Pages"
    
 
-    Shell.FlyoutBehavior="Flyout">
+    Shell.FlyoutBehavior="Flyout" x:Name="ShellPage">
 
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate pages:MainPage}"
-        Route="MainPage" />
+        Route="MainPage"
+         />
 
-  
+    <ShellContent
+        Title="Orders"
+        
+        ContentTemplate="{DataTemplate pages:OrderPage}"
+        Route="OrderPae" />
+
+
 </Shell>
