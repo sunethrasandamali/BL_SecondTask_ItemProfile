@@ -35,7 +35,6 @@ namespace BlueLotus360.Web.API.Controllers
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
-
             UIMenu Menus = _menuService.GetMenusByUserAndCompanyService(user, company).BuildTree();
             return Ok(Menus);
         }
