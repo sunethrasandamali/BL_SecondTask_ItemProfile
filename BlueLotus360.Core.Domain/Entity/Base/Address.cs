@@ -22,14 +22,29 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
     public class AddressMaster : AddressResponse
     {
-        public string Email { get; set; } = "";
-        public string City { get; set; } = "";
-        public string Address { get; set; } = "";
-        public string NIC { get; set; } = "";
-        public CodeBaseResponse AddressPrefix { get; set; }=new CodeBaseResponse();
-        public decimal VAT { get; set; } 
-        public decimal SVAT { get; set; }
+        public long ElementKey { get; set; }
 
+        public string Email { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string NIC { get; set; }
+        public CodeBaseResponse AddressPrefix { get; set; } = new CodeBaseResponse();
+        public string VAT { get; set; }
+        public string SVAT { get; set; }
+
+        //Vehicle Details
+        public DateTime RegistrationDate { get; set; } = new DateTime();
+        public CodeBaseResponse Province { get; set; } = new CodeBaseResponse();
+        public string RegistraionNumber { get; set; }
+        public string ChassiNumber { get; set; }
+        public CodeBaseResponse Make { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Model { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse MakeYear { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Category { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse SubCategory { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse MaintainPackage { get; set; } = new CodeBaseResponse();
+        public string Message { get; set; }
+        public bool HasError { get; set; }
     }
 
     public class AddAdvAnl
