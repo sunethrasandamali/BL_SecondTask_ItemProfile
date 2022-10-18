@@ -1,5 +1,6 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
+using BlueLotus.Mobile.MAUI.ViewModels.HomePage;
 using BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication;
 using BlueLotus.UI.Application;
 using BlueLotus.UI.Application.Context;
@@ -28,6 +29,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<AppStaurtUp>();
    
             mauiAppBuilder.Services.AddSingleton<IAppUserService,AppUserService>();
+            mauiAppBuilder.Services.AddSingleton<IAppObjectService, ObjectService>();
 
             return mauiAppBuilder;
         }
@@ -47,6 +49,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
         {
             mauiAppBuilder.Services.AddTransient<UserLoginModel>();
             mauiAppBuilder.Services.AddTransient<CompanySelectionModel>();
+            mauiAppBuilder.Services.AddTransient<AppShellModel>();
                
           
 

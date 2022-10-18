@@ -60,7 +60,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
             {
                 if (objectConsumer == null)
                 {
-                    objectConsumer = new AuthenticationConsumer(_restClient);
+                    objectConsumer = new ObjectAPIConsumer(_restClient);
                 }
                 return objectConsumer;
             }
