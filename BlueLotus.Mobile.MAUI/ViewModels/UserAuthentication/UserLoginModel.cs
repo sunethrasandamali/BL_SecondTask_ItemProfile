@@ -2,6 +2,7 @@
 using BlueLotus.Mobile.MAUI.Pages;
 using BlueLotus.Mobile.MAUI.Validators.UserAuthentication;
 using BlueLotus.UI.Application.Context;
+using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
@@ -36,17 +37,11 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication
                 UserAuthenticationRequest request = new UserAuthenticationRequest();
                 request.UserName = userName;
                 request.Password = password;
-                BaseServerResponse<UserAuthenticationResponse> response = await RestsharpAPIConsumer.GetDefaultAPIConsumner().AuthenticationConsumer.AuthenticateUserAsync(request);
+                BaseServerResponse<UserAuthenticationResponse> response = await _userService.AuthenticateUserAsync(request);
                 if (response.Value != null)
                 {
                     if (response.Value.IsSuccess)
-                    {
-                        var appContext = MauiProgram.Services.GetService<BLMAUIAppContext>();
-                        appContext.ApplicationUser = new BlueLotus360.Core.Domain.Entity.Base.User();
-                        appContext.ApplicationUser.UserKey = response.Value.Id;
-                        appContext.ApplicationUser.UserID = response.Value.Username;
-                        appContext.ApplicationUser.UserID = response.Value.Username;
-                        appContext.IsUserLoggedIn = true;
+                    {                       
                         Application.Current.MainPage = MauiProgram.Services.GetService<CompanySelectionPage>();
 
 
@@ -58,6 +53,15 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication
 
             }
 
+        }
+
+        private readonly IAppUserService _userService;
+        private readonly BLUIAppContext _appContext;
+
+        public UserLoginModel(IAppUserService service,BLUIAppContext appContext)
+        {
+            _userService = service;
+            _appContext = appContext;
         }
 
     }

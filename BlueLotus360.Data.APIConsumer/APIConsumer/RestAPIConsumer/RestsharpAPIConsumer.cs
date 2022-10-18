@@ -4,6 +4,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,8 +14,11 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
     {
         #region privates
         private RestClient _restClient;
-        private static APISettins aPISettins;
+        private static APISettings aPISettins;
         private static RestsharpAPIConsumer _consumer;
+        private IAuthenticationConsumer authenticationConsumer;
+        private IObjectAPIConsumer objectConsumer;
+        #endregion
         private RestsharpAPIConsumer()
         {
 
@@ -24,24 +28,48 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
 
         }
 
-        private IAuthenticationConsumer authenticationConsumer;
+
+        public void AddUserToken(string requestToken)
+        {
+            var authParam = _restClient.DefaultParameters.TryFind("Authorization");
+            if (authParam != null)
+            {
+                _restClient.DefaultParameters.RemoveParameter(authParam);
+            }
+            _restClient.AddDefaultHeader("Authorization", $"Bearer {requestToken}");
+
+        }
+
+
 
         public IAuthenticationConsumer AuthenticationConsumer
         {
             get
             {
-                if(authenticationConsumer == null)
+                if (authenticationConsumer == null)
                 {
                     authenticationConsumer = new AuthenticationConsumer(_restClient);
                 }
                 return authenticationConsumer;
             }
         }
-        #endregion
 
-        public static void Initilize(APISettins settins)
+        public IObjectAPIConsumer ObjectConsumer
         {
-             aPISettins = settins;
+            get
+            {
+                if (objectConsumer == null)
+                {
+                    objectConsumer = new AuthenticationConsumer(_restClient);
+                }
+                return objectConsumer;
+            }
+        }
+
+
+        public static void Initilize(APISettings settins)
+        {
+            aPISettins = settins;
 
             if (_consumer == null)
             {
@@ -64,7 +92,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
     }
 
 
-    public class APISettins
+    public class APISettings
     {
         private string _applicationId;
         private string _applicationName;
@@ -74,6 +102,5 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
         public string ApplicationName { get => _applicationName; set => _applicationName = value; }
         public string BaseURL { get => _baseURL; set => _baseURL = value; }
 
-        public string MyProperty { get; set; }
     }
 }

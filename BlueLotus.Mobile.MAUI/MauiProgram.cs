@@ -20,6 +20,7 @@ public static class MauiProgram
 
         builder.RegisterAdditionalServices();
         builder.LoadAndInjectConfiuration();
+        builder.RegisterModels();
         builder.RegisterPages();
         builder.RegisterRouting();
         builder.ConfureAndroidLifeCycleEvents();
@@ -34,11 +35,7 @@ public static class MauiProgram
 
     private static void InitAPIConsumer()
     {
-        APISettins aPISettins = new APISettins();
-        aPISettins.ApplicationId= MAUIConfiguration.configuration.GetRequiredSection("APISettings:IntegrationID").Value;      
-        string SelecttedDevURL = MAUIConfiguration.configuration.GetRequiredSection("APISettings:SelectedEnviorement").Value;
-        aPISettins.BaseURL= MAUIConfiguration.configuration.GetRequiredSection($"APISettings:{SelecttedDevURL}").Value;
-        RestsharpAPIConsumer.Initilize(aPISettins);
+      
     }
 
     public static IServiceProvider Services { get; private set; }

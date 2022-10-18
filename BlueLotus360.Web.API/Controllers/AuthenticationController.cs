@@ -60,14 +60,14 @@ namespace BlueLotus360.Web.API.Controllers
 
         [BLAuthorize]
         [HttpGet("getCompanyInformation")]
-        public IActionResult CheckDetails()
+        public IActionResult GetCompanyInformation()
         {
-            var s = new
+            var company = new
             {
                 User = Request.GetAuthenticatedUser(),
                 Company = Request.GetAssignedCompany()
             };
-            return Ok(s);
+            return Ok(company);
         }
     }
 }
