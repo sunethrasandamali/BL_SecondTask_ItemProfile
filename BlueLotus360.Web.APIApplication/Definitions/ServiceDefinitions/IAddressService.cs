@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Responses;
 using System;
@@ -12,5 +13,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
     public interface IAddressService
     {
         BaseServerResponse<IList<AddressResponse>>  GetComboAddresses(Company company, User user, ComboRequestDTO dto);
+        BaseServerResponse<AddressMaster> CreateCustomer(Company company, User user, AddressMaster address);
+        BaseServerResponse<AddressMaster> CustomerValidation(Company company, User user, AddressMaster address);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
@@ -22,6 +23,16 @@ namespace BlueLotus360.Web.APIApplication.Services
         public BaseServerResponse<IList<AddressResponse>> GetComboAddresses(Company company, User user, ComboRequestDTO dto)
         {
            return _unitOfWork.AddressRepository.GetAddresses(company, user, dto);
+        }
+
+        public BaseServerResponse<AddressMaster> CreateCustomer(Company company, User user, AddressMaster address)
+        {
+            return _unitOfWork.AddressRepository.CustomerRegistration(company, user, address);
+        }
+
+        public BaseServerResponse<AddressMaster> CustomerValidation(Company company, User user, AddressMaster address)
+        { 
+            return _unitOfWork.AddressRepository.CustomerRegistrationValidation(company, user, address);
         }
     }
 }
