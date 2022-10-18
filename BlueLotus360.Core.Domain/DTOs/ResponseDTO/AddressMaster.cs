@@ -1,0 +1,46 @@
+﻿using BlueLotus360.Core.Domain.Entity.Base;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BlueLotus360.Core.Domain.DTOs.ResponseDTO
+{
+    public class AddressMaster : AddressResponse
+    {
+        public long ElementKey { get; set; }
+
+        public string Email { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string NIC { get; set; }
+        public CodeBaseResponse AddressPrefix { get; set; } = new CodeBaseResponse();
+        public string VAT { get; set; }
+        public string SVAT { get; set; }
+
+        //Vehicle Details
+        public DateTime RegistrationDate { get; set; } = new DateTime();
+        public CodeBaseResponse Province { get; set; } = new CodeBaseResponse();
+        public string RegistraionNumber { get; set; }
+        public string ChassiNumber { get; set; }
+        public CodeBaseResponse Make { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Model { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse MakeYear { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse Category { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse SubCategory { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse MaintainPackage { get; set; } = new CodeBaseResponse();
+        public string Message { get; set; }
+        public bool HasError { get; set; }
+    }
+
+    public class AddAdvAnl
+    {
+        public CodeBaseResponse AdvAnlTyp { get; set; } = new CodeBaseResponse();
+        public string Email { get; set; }
+        public string City { get; set; }
+        public string Street { get; set; }
+        public string VATNo { get; set; }
+        public string SVATNo { get; set; }
+    }
+}
