@@ -38,5 +38,11 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.ItemRepository.GetStockAsAtByLocation(company, user, request);   
         }
+
+        public IList<ItemSerialNumber> GetSerialNumbers(Company company, User user, ComboRequestDTO comboRequest)
+        {
+            BaseServerResponse<IList<ItemSerialNumber>> serialNumbers = _unitOfWork.ItemRepository.GetItemsSerialNoForTransaction(company, user, comboRequest);
+            return serialNumbers.Value;
+        }
     }
 }

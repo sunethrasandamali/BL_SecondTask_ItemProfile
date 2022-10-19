@@ -30,6 +30,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public decimal VAT { get; set; } 
         public decimal SVAT { get; set; }
 
+
     }
 
     public class AddAdvAnl

@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Entity.WorkOrder;
+﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
     public interface IWorkshopManagementService
     {
-        public IList<Vehicle> GetVehicleDetails(int regId=1);
+        public IList<Vehicle> GetVehicleDetails(VehicleSearch request, Company company, User user);
+        IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user);
     }
 }

@@ -43,6 +43,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
             {
                 return (response as ProjectResponse).ProjectKey;
             }
+            
 
             return 1;
         }

@@ -298,5 +298,84 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+
+        public BaseServerResponse<IList<ItemSerialNumber>> GetItemsSerialNoForTransaction(Company company, User user, ComboRequestDTO FilterOptions)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                SqlDataReader sqlDataReader = null;
+                string SPName = "SerNoTyp2_SelectMob";
+                BaseServerResponse<IList<ItemSerialNumber>> response = new BaseServerResponse<IList<ItemSerialNumber>>();
+                try
+                {
+                    IList<ItemSerialNumber> items = new List<ItemSerialNumber>();
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", FilterOptions.RequestingElementKey);
+                    dbCommand.CreateAndAddParameter("@SearchVal", FilterOptions.SearchQuery);
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    sqlDataReader = dbCommand.ExecuteReader() as SqlDataReader;
+
+
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            ItemSerialNumber item = new ItemSerialNumber()
+                            {
+                                ItemKey = sqlDataReader.GetColumn<int>("ItmKy"),
+                                SerialNumberKey = sqlDataReader.GetColumn<int>("SerNoKy"),
+                                SerialNumber= sqlDataReader.GetColumn<string>("SerNo"),
+                               
+                            };
+
+
+                            items.Add(item);
+
+
+                        }
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = items;
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (sqlDataReader != null)
+                    {
+                        if (!sqlDataReader.IsClosed)
+                        {
+                            sqlDataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    sqlDataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+            }
+        }
     }
 }
