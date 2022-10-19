@@ -6,6 +6,7 @@ using BlueLotus.UI.Application.Context;
 using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Responses;
+using static Android.Net.LocalSocketAddress;
 
 namespace BlueLotus.Mobile.MAUI;
 
@@ -43,16 +44,36 @@ public partial class AppShell : Shell
         {
             foreach (UIMenu menu in mobmenu.SubMenus)
             {
-                Items.Insert(1, (new ShellContent()
+                Type pageType = GetPageByName(menu.MenuName);
+                if (pageType != null)
                 {
-                    Title = menu.MenuName,
+                    Items.Add((new ShellContent()
+                    {
+                        Title = menu.MenuCaption,
+                        ContentTemplate = new DataTemplate(pageType),
+                       
+                       
 
-                }));
+                    })); ;
+                }
+               
 
             }
         }
 
 
+
+    }
+
+    private Type GetPageByName(string pageName)
+    {
+        string @namespace = "BlueLotus.Mobile.MAUI.Pages";
+        var myClassType = Type.GetType(String.Format("{0}.{1}", @namespace, pageName));
+        return myClassType;
+    }
+
+    private void MenuItem_Clicked(object sender, EventArgs e)
+    {
 
     }
 }

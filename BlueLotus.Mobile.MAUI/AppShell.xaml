@@ -25,8 +25,8 @@
                             <Label Text="{Binding ShellCompany}" Margin="0,0,0,0" />
                         </VerticalStackLayout>
                         
-                        <VerticalStackLayout  >
-                            <Button Text="Logout"  />
+                        <VerticalStackLayout  HorizontalOptions="Fill" WidthRequest="240" >
+                            <Button Text="Logout" HorizontalOptions="End"  Command="{Binding LogOutClickCommand}" />
                         </VerticalStackLayout>
                     </HorizontalStackLayout>
 
@@ -39,11 +39,18 @@
 
 
     <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}">
-
+        <ShellContent.Icon>
+            <FontImageSource
+                FontFamily="FontAwesome"
+                Glyph="&#xf015;"
+                Color="{StaticResource Black}"
+                Size="20"
+                
+                >
+            </FontImageSource>
+        </ShellContent.Icon>
     </ShellContent>
-    <ShellContent Title="Se" ContentTemplate="{DataTemplate pages:OrderPage}">
 
-    </ShellContent>
-
+   
 
 </Shell>
