@@ -1,10 +1,12 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace BlueLotus360.Web.API.Controllers
 {
@@ -33,6 +35,30 @@ namespace BlueLotus360.Web.API.Controllers
             IList<AddressResponse> addresses = result.Value;
 
             return Ok(addresses);
+        }
+
+        [HttpPost("createCustomer")]
+        public IActionResult CreateCustomer(AddressMaster address)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var result = _addressService.CreateCustomer(company, user, address);
+            AddressMaster addressMaster = result.Value;
+
+            return Ok(addressMaster);
+        }
+
+        [HttpPost("customerValidation")]
+        public IActionResult CustomerValidation(AddressMaster address) 
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var result = _addressService.CustomerValidation(company, user, address);
+            AddressMaster addressMaster = result.Value;
+
+            return Ok(addressMaster);
         }
     }
 }

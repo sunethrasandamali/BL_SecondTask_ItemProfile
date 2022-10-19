@@ -11,24 +11,26 @@ namespace BlueLotus360.Core.Domain.Models
     public class BaseAPIRequest
     {
         [JsonIgnore]
-        public string RequestToken { get; set; } = "";
+        public string? RequestToken { get; set; }
 
         public string RequestId { get; set; } =string.Empty;
-        
+
+        public int MenuKey { get; set; } = 1;
+
 
     }
 
     public class UserAuthenticationRequest: BaseAPIRequest
     {
-        public string UserName  { get; set; } = "";
-        public string Password  { get; set; } = "";
+        public string? UserName  { get; set; }
+        public string? Password  { get; set; }
     }
 
     public class UserCompanyUpdateRequest: BaseAPIRequest
     {
         public int CompanyKey { get; set; }
-        public string CompanyCode { get; set; } = "";
-        public string CompanyName { get; set; } = "";
+        public string? CompanyCode { get; set; }
+        public string? CompanyName { get; set; }
 
     }
 }

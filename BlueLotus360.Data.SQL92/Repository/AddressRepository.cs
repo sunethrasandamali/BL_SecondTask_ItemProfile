@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.DataLayer;
@@ -50,21 +51,12 @@ namespace BlueLotus360.Data.SQL92.Repository
                             AddressName = reader.GetColumn<string>("AdrIdNm"),
                             IsDefault = reader.GetColumn<int>("AdrKy") == reader.GetColumn<int>("DefaultKey")
                         };
-
-
-
-
                         addresses.Add(address);
                         
                     }
                     
                     response.ExecutionEnded= DateTime.UtcNow;
                     response.Value = addresses;
-
-
-
-
-
 
                 }
                 catch (Exception exp)
@@ -91,5 +83,133 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
         }
+
+        public BaseServerResponse<AddressMaster> CustomerRegistration(Company company, User user, AddressMaster addressMaster)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "CARCusVeh_InsertWeb";
+                BaseServerResponse<AddressMaster> response = new BaseServerResponse<AddressMaster>();
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", addressMaster.ElementKey);
+                    dbCommand.CreateAndAddParameter("@RegDt", addressMaster.RegistrationDate);
+                    dbCommand.CreateAndAddParameter("@RegNo", addressMaster.RegistraionNumber);
+                    dbCommand.CreateAndAddParameter("@ChassiNo", addressMaster.ChassiNumber);
+                    dbCommand.CreateAndAddParameter("@MakeKy", addressMaster.Make.CodeKey);
+                    dbCommand.CreateAndAddParameter("@ModelKy", addressMaster.Model.CodeKey);
+                    dbCommand.CreateAndAddParameter("@MakeYr", addressMaster.MakeYear.CodeKey);
+                    dbCommand.CreateAndAddParameter("@AdrCat1Ky", addressMaster.Category.CodeKey);
+                    dbCommand.CreateAndAddParameter("@AdrCat2Ky", addressMaster.SubCategory.CodeKey);
+                    dbCommand.CreateAndAddParameter("@MaintPckg", addressMaster.MaintainPackage.CodeKey);
+                    dbCommand.CreateAndAddParameter("@CusAdrNm", addressMaster.Address);
+                    dbCommand.CreateAndAddParameter("@NIC", addressMaster.NIC);
+                    dbCommand.CreateAndAddParameter("@Email", addressMaster.Email);
+                    dbCommand.CreateAndAddParameter("@AdrCat4Ky", addressMaster.Province.CodeKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<AddressMaster> CustomerRegistrationValidation(Company company, User user, AddressMaster addressMaster)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "CARCusVeh_ValidateWeb";
+                BaseServerResponse<AddressMaster> response = new BaseServerResponse<AddressMaster>();
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", addressMaster.ElementKey);
+                    dbCommand.CreateAndAddParameter("@RegNo", addressMaster.RegistraionNumber);
+                    dbCommand.CreateAndAddParameter("@ChassiNo", addressMaster.ChassiNumber);
+                    dbCommand.CreateAndAddParameter("@NIC", addressMaster.NIC);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        response.Value.Message = reader.GetColumn<string>("Msg");
+                        response.Value.HasError = reader.GetColumn<bool>("hasError");
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
     }
 }

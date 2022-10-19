@@ -19,11 +19,12 @@
 
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
                         <Frame>
-                            <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  > </Picker>
+                            <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}"
+                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  > </Picker>
                            
                         </Frame>
 
-                        <Button Text="Continue..."  Command="{Binding ContuneClickCommand}" HorizontalOptions="Center" Padding="15" WidthRequest="300" />
+                        <Button Text="Continue..."  Command="{Binding ContuneClickCommand}" VerticalOptions="Fill"  />
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>

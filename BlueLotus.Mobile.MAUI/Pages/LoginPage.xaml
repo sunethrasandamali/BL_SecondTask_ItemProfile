@@ -25,7 +25,7 @@
                         <Frame>
                             <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" />
                         </Frame>
-                        <Button Text="  Log In  " HorizontalOptions="Center" Padding="15" WidthRequest="300" Command="{Binding LoginClickCommand}" />
+                        <Button Text="  Log In  " HorizontalOptions="Fill"  Command="{Binding LoginClickCommand}" />
                     </VerticalStackLayout>
                 </Border>
             </VerticalStackLayout>

@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueLotus360.Core.Domain.DTOs.RequestDTO
+namespace BlueLotus.Mobile.MAUI.ViewModels
 {
-    public class ObjectFromRequest
+    public class HomePageModel :BaseViewModel
     {
-        public long MenuKey { get; set; } = 1;
-
     }
 }

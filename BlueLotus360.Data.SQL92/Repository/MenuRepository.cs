@@ -53,7 +53,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
                     if (reader["ObjNm"] != DBNull.Value)
                     {
-                        menu.Menuname = Convert.ToString(reader["ObjNm"]);
+                        menu.MenuName = Convert.ToString(reader["ObjNm"]);
                     }
                     if (reader["ObjCaptn"] != DBNull.Value)
                     {
@@ -148,7 +148,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
                     if (reader["ObjNm"] != DBNull.Value)
                     {
-                        menu.Menuname = Convert.ToString(reader["ObjNm"]);
+                        menu.MenuName = Convert.ToString(reader["ObjNm"]);
                     }
                     if (reader["ObjCaptn"] != DBNull.Value)
                     {
@@ -241,7 +241,110 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
                     if (reader["ObjNm"] != DBNull.Value)
                     {
-                        menu.Menuname = Convert.ToString(reader["ObjNm"]);
+                        menu.MenuName = Convert.ToString(reader["ObjNm"]);
+                    }
+                    if (reader["ObjCaptn"] != DBNull.Value)
+                    {
+                        menu.MenuCaption = Convert.ToString(reader["ObjCaptn"]);
+                    }
+                    if (reader["URLController"] != DBNull.Value)
+                    {
+                        menu.ControllerName = Convert.ToString(reader["URLController"]);
+                    }
+                    if (reader["URLAction"] != DBNull.Value)
+                    {
+                        menu.ControllerAction = Convert.ToString(reader["URLAction"]);
+                    }
+                    if (reader["CSSClass"] != DBNull.Value)
+                    {
+                        menu.CustomeStyle = Convert.ToString(reader["CSSClass"]);
+                    }
+                    if (reader["Target"] != DBNull.Value)
+                    {
+                        menu.Target = Convert.ToString(reader["Target"]);
+                    }
+                    if (reader["PrntKy"] != DBNull.Value)
+                    {
+                        menu.ParentId = Convert.ToInt32(reader["PrntKy"]);
+                    }
+                    if (reader["OurCd"] != DBNull.Value)
+                    {
+                        menu.OurCode = Convert.ToString(reader["OurCd"]);
+                    }
+                    if (reader["IsDebug"] != DBNull.Value)
+                    {
+                        menu.IsDebug = Convert.ToBoolean(reader["IsDebug"]);
+                    }
+
+
+                    if (reader["IconCSSClass"] != DBNull.Value)
+                    {
+                        menu.MenuIcon = Convert.ToString(reader["IconCSSClass"]);
+                    }
+                    menues.Add(menu);
+
+
+                }
+                if (!reader.IsClosed)
+                {
+                    reader.Close();
+                }
+
+                if (dbCommand.Connection.State != ConnectionState.Closed)
+                {
+                    dbCommand.Connection.Close();
+                }
+            }
+            catch (Exception exp)
+            {
+                if (reader != null)
+                {
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+                }
+
+            }
+            return menues;
+        }
+
+        public List<UIMenu> GetMobileMenusByUserAndCompany(User user, Company company)
+        {
+            IDataReader reader = null;
+            IDbCommand dbCommand = null;
+            List<UIMenu> menues = new List<UIMenu>();
+            string SPName = "GetAllCompanyMenuAccessBLLite";
+            try
+            {
+                dbCommand = _dataLayer.GetCommandAccess();
+
+                dbCommand.Connection.Open();
+
+
+                dbCommand.CommandType = CommandType.StoredProcedure;
+                //dbCommand.CommandText = "GetAllCompanyMenuAccessWasm";
+                dbCommand.CommandText = SPName;
+                CreateAndAddParameter(dbCommand, "@UsrKy", user.UserKey);
+                CreateAndAddParameter(dbCommand, "@Cky", company.CompanyKey);
+                reader = dbCommand.ExecuteReader();
+                UIMenu menu;
+                while (reader.Read())
+                {
+                    menu = new UIMenu();
+
+
+                    if (reader["ObjKy"] != DBNull.Value)
+                    {
+                        menu.MenuId = Convert.ToInt32(reader["ObjKy"]);
+                    }
+                    if (reader["ObjCd"] != DBNull.Value)
+                    {
+                        menu.MenuCode = Convert.ToString(reader["ObjCd"]);
+                    }
+                    if (reader["ObjNm"] != DBNull.Value)
+                    {
+                        menu.MenuName = Convert.ToString(reader["ObjNm"]);
                     }
                     if (reader["ObjCaptn"] != DBNull.Value)
                     {
@@ -423,7 +526,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
                     if (reader["ObjNm"] != DBNull.Value)
                     {
-                        menu.Menuname = Convert.ToString(reader["ObjNm"]);
+                        menu.MenuName = Convert.ToString(reader["ObjNm"]);
                     }
                     if (reader["ObjCaptn"] != DBNull.Value)
                     {

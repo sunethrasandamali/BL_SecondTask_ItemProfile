@@ -16,5 +16,7 @@ namespace BlueLotus.UI.Application.Services.Defintions
         Task<BaseServerResponse<IList<Company>>> GetUserCompanies();
         Task<BaseServerResponse<UserAuthenticationResponse>> UpdateSelectedCompany(CompanyResponse companyResponse);
 
+        Task LogOutAsync();
+
     }
 }

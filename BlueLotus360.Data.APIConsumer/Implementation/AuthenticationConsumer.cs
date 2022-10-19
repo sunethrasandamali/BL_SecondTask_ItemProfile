@@ -26,7 +26,7 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         {
             var restRequest = new RestRequest("Authentication/authenticate");
             restRequest.AddJsonBody(request);
-            var serverResponse = await ExecuteConsumerRequestAsync<UserAuthenticationResponse>(restRequest);
+            var serverResponse = await ExecuteConsumerPostAsync<UserAuthenticationResponse>(restRequest);
             return serverResponse;
         }
 
@@ -34,7 +34,7 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         {
             var restRequest = new RestRequest("Authentication/getUserCompanies");
             restRequest.AddJsonBody(request);           
-            var serverResponse = await ExecuteConsumerRequestAsync<IList<Company>>(restRequest);
+            var serverResponse = await ExecuteConsumerPostAsync<IList<Company>>(restRequest);
             return serverResponse;
         }
 
@@ -42,7 +42,7 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         {
             var restRequest = new RestRequest("Authentication/updateSelectedCompany");
             restRequest.AddJsonBody(request);           
-            var serverResponse = await ExecuteConsumerRequestAsync<UserAuthenticationResponse>(restRequest);
+            var serverResponse = await ExecuteConsumerPostAsync<UserAuthenticationResponse>(restRequest);
             return serverResponse;
         }
 
@@ -57,10 +57,23 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         }
 
 
-        protected async Task<BaseServerResponse<T>> ExecuteConsumerRequestAsync<T>(RestRequest restRequest) where T : class
+        protected async Task<BaseServerResponse<T>> ExecuteConsumerPostAsync<T>(RestRequest restRequest) where T : class
         {
             BaseServerResponse<T> response = new BaseServerResponse<T>();
             RestResponse<T> restResponse = await _restClient.ExecutePostAsync<T>(restRequest);
+            if (restResponse.IsSuccessful)
+            {
+                response.Value = restResponse.Data;
+            }
+            return response;
+
+
+
+        }
+        protected async Task<BaseServerResponse<T>> ExecuteConsumerGetAsync<T>(RestRequest restRequest) where T : class
+        {
+            BaseServerResponse<T> response = new BaseServerResponse<T>();
+            RestResponse<T> restResponse = await _restClient.ExecuteGetAsync<T>(restRequest);
             if (restResponse.IsSuccessful)
             {
                 response.Value = restResponse.Data;
