@@ -28,9 +28,10 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
+        <Setter Property="CornerRadius" Value="30"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="CornerRadius" Value="1"/>
-        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="Padding" Value="14,24"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

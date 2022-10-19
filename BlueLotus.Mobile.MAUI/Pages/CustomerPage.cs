@@ -7,19 +7,17 @@ using BlueLotus360.Data.APIConsumer.Implementation;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
-public class OrderOPage : ContentPage
+public class CustomerPage : ContentPage
 {
 
     private readonly IAppObjectService _objectAppService
         ;
 
 
-    public OrderOPage()
+    public CustomerPage()
     {
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
-        Title = "Purchase Order";
-    
-
+       
     }
 
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
@@ -27,21 +25,23 @@ public class OrderOPage : ContentPage
         base.OnNavigatingFrom(args);
     }
 
-    protected override async  void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         if (BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
         {
             UIMenu menu = (UIMenu)BindingContext;
+            Title = menu.MenuCaption;
             BindingContext = null;
             var elem = await _objectAppService.FetchObjects(menu);
             if (elem.Value != null)
             {
+              
                 ViewGenerator vbuilder = new ViewGenerator();
                 Content = vbuilder.BuildViewFromObjects(elem.Value);
 
             }
         }
-        
+       
         base.OnNavigatedTo(args);
     }
 }

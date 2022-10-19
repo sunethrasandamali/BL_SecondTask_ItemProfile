@@ -14,7 +14,9 @@ namespace BlueLotus360.Core.Domain.Models
         public string? RequestToken { get; set; }
 
         public string RequestId { get; set; } =string.Empty;
-        
+
+        public int MenuKey { get; set; } = 1;
+
 
     }
 

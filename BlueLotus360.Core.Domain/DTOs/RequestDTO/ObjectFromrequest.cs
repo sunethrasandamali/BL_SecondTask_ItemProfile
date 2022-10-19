@@ -8,7 +8,7 @@ namespace BlueLotus360.Core.Domain.DTOs.RequestDTO
 {
     public class ObjectFromRequest
     {
-        public long MenuKey { get; set; }
+        public long MenuKey { get; set; } = 1;
 
     }
 }

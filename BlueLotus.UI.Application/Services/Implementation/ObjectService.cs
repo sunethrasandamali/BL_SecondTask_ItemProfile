@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace BlueLotus.UI.Application.Services.Implementation
 {
-    public class ObjectService : BaseService, IAppObjectService
+    public class AppObjectService : BaseService, IAppObjectService
     {
-        public ObjectService(BLUIAppContext _context) : base(_context)
+        public AppObjectService(BLUIAppContext _context) : base(_context)
         {
         }
 

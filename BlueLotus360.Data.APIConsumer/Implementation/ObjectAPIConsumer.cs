@@ -29,8 +29,9 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         public async Task<BaseServerResponse<BLUIElement>> FetchObjects(UIMenu uIMenu)
         {
             BaseAPIRequest request = new();
+            request.MenuKey = uIMenu.MenuId;
             var restRequest = new RestRequest("Object/fetchObjects");
-            restRequest.AddJsonBody(uIMenu);
+            restRequest.AddJsonBody(request);
             var serverResponse = await ExecuteConsumerPostAsync<BLUIElement>(restRequest);
             return serverResponse;
 
