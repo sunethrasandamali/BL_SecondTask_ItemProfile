@@ -23,7 +23,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.HomePage
         [RelayCommand]
         private async Task OnLogOutClick()
         {
-            await _userService.LogOutAsync();
+            await _userService.LogOutAsync();          
             await Shell.Current.GoToAsync($"LoginPage");
 
         }

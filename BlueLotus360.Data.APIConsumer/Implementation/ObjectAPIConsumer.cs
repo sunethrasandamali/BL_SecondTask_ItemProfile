@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Object;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.APIConsumer.Definitions;
@@ -22,6 +23,15 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
             BaseAPIRequest request = new();
             var restRequest = new RestRequest("Object/fetchSideMenu");
             var serverResponse = await ExecuteConsumerGetAsync<UIMenu>(restRequest);
+            return serverResponse;
+
+        }
+        public async Task<BaseServerResponse<BLUIElement>> FetchObjects(UIMenu uIMenu)
+        {
+            BaseAPIRequest request = new();
+            var restRequest = new RestRequest("Object/fetchObjects");
+            restRequest.AddJsonBody(uIMenu);
+            var serverResponse = await ExecuteConsumerPostAsync<BLUIElement>(restRequest);
             return serverResponse;
 
         }

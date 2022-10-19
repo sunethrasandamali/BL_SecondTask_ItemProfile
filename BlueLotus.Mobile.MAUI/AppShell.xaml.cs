@@ -51,10 +51,11 @@ public partial class AppShell : Shell
                     {
                         Title = menu.MenuCaption,
                         ContentTemplate = new DataTemplate(pageType),
-                       
-                       
+                        BindingContext = menu
 
-                    })); ;
+
+
+                    }));
                 }
                
 

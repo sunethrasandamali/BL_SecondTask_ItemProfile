@@ -38,13 +38,16 @@
     </Shell.FlyoutHeader>
 
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}">
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}"
+                  
+                  >
         <ShellContent.Icon>
             <FontImageSource
                 FontFamily="FontAwesome"
                 Glyph="&#xf015;"
                 Color="{StaticResource Black}"
                 Size="20"
+                
                 
                 >
             </FontImageSource>

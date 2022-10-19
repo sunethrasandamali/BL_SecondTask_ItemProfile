@@ -50,9 +50,6 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddTransient<UserLoginModel>();
             mauiAppBuilder.Services.AddTransient<CompanySelectionModel>();
             mauiAppBuilder.Services.AddTransient<AppShellModel>();
-               
-          
-
             return mauiAppBuilder;
         }
         public static MauiAppBuilder RegisterRouting(this MauiAppBuilder mauiAppBuilder)
