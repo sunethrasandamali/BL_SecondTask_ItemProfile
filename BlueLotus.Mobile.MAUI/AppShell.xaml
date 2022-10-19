@@ -5,11 +5,45 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:BlueLotus.Mobile.MAUI"
     xmlns:pages="clr-namespace:BlueLotus.Mobile.MAUI.Pages"
-   
+    xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.HomePage"
+    x:DataType="viewmodel:AppShellModel"
 
-    Shell.FlyoutBehavior="Flyout" x:Name="ShellPage">
+    Shell.FlyoutBehavior="Flyout" x:Name="shellPage">
 
-   
+    <Shell.FlyoutHeader>
+        <Grid>
+            <VerticalStackLayout>
+                <Image Source="bl360.png"
+          HeightRequest="80"
+          VerticalOptions="Center"
+          WidthRequest="300"
+          HorizontalOptions="Center" />
+                <Frame BorderColor="White">
+                    <HorizontalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding ShellUser}" FontAttributes="Bold"  Margin="0,0,0,0" />
+                            <Label Text="{Binding ShellCompany}" Margin="0,0,0,0" />
+                        </VerticalStackLayout>
+                        
+                        <VerticalStackLayout  >
+                            <Button Text="Logout"  />
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+
+                </Frame>
+            </VerticalStackLayout>
+        </Grid>
+
+    </Shell.FlyoutHeader>
+
+
+    <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}">
+
+    </ShellContent>
+    <ShellContent Title="Se" ContentTemplate="{DataTemplate pages:OrderPage}">
+
+    </ShellContent>
 
 
 </Shell>

@@ -19,7 +19,8 @@
 
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
                         <Frame>
-                            <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}" SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  > </Picker>
+                            <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}"
+                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  > </Picker>
                            
                         </Frame>
 

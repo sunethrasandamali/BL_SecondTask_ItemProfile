@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueLotus360.Data.APIConsumer.Definitions
+namespace BlueLotus.UI.Application.Services.Defintions
 {
-    public interface IObjectAPIConsumer
+    public interface IAppObjectService
     {
-
-       Task<BaseServerResponse<UIMenu>> FetchSideMenu();
+        Task<BaseServerResponse<UIMenu>>FetchSideMenu();
     }
 }

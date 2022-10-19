@@ -29,7 +29,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public int MenuId { get => menuId; set => menuId = value; }
         public string MenuCode { get => menuCode; set => menuCode = value; }
-        public string Menuname { get => menuname; set => menuname = value; }
+        public string MenuName { get => menuname; set => menuname = value; }
         public string MenuCaption { get => menuCaption; set => menuCaption = value; }
         public string ControllerName { get => controllerName; set => controllerName = value; }
         public string ControllerAction { get => controllerAction; set => controllerAction = value; }
@@ -53,7 +53,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public override string ToString()
         {
-            return MenuId.ToString() + "-" + Menuname;
+            return MenuId.ToString() + "-" + MenuName;
         }
 
     }

@@ -17,9 +17,12 @@ namespace BlueLotus360.Data.APIConsumer.Implementation
         {
         }
 
-        public BaseServerResponse<UIMenu> FetchSideMenu()
+        public async Task<BaseServerResponse<UIMenu>> FetchSideMenu()
         {
             BaseAPIRequest request = new();
+            var restRequest = new RestRequest("Object/fetchSideMenu");
+            var serverResponse = await ExecuteConsumerGetAsync<UIMenu>(restRequest);
+            return serverResponse;
 
         }
     }
