@@ -29,8 +29,8 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string? Address { get; set; }
         public string? NIC { get; set; }
         public CodeBaseResponse AddressPrefix { get; set; } = new CodeBaseResponse();
-        public string? VAT { get; set; }
-        public string? SVAT { get; set; }
+        public decimal VAT { get; set; }
+        public decimal SVAT { get; set; }
 
         //Vehicle Details
         public DateTime RegistrationDate { get; set; } = new DateTime();
