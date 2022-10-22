@@ -27,7 +27,7 @@ public partial class AppShell : Shell
         {
             shellModel.ShellUser = appContext.ApplicationUser.UserID;
             shellModel.ShellCompany = appContext.ApllicationCompany.CompanyName;
-
+            shellModel.ShellAvatarText = appContext.ApplicationUser.UserID.Substring(0, 2).ToUpper();
         }
 
 
@@ -47,11 +47,21 @@ public partial class AppShell : Shell
                 Type pageType = GetPageByName(menu.MenuName);
                 if (pageType != null)
                 {
+                    var unicodeValue = (char)int.Parse(menu.MenuIcon, System.Globalization.NumberStyles.AllowHexSpecifier);
                     Items.Add((new ShellContent()
                     {
                         Title = menu.MenuCaption,
                         ContentTemplate = new DataTemplate(pageType),
-                        BindingContext = menu
+                        BindingContext = menu,
+                        Icon= new FontImageSource()
+                        {
+                            FontFamily = "FontAwesome",
+                            Glyph= unicodeValue.ToString(),
+                            Size =20,
+                            Color=Color.FromRgb(0,0,0),
+
+                        }
+                       
 
 
 
