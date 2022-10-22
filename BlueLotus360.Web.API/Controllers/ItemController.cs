@@ -40,7 +40,6 @@ namespace BlueLotus360.Web.API.Controllers
             Items = Items.Take(300).ToList();
 
             return Ok(Items);
-            //return Ok();
         }
 
         [HttpPost("getItemRateEx")]
@@ -56,6 +55,18 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(response);
         }
-    
+
+        [HttpPost("readSerialNumbers")]
+        public IActionResult GetSerialNumbers(ComboRequestDTO comboRequest)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var list = _itemService.GetItems(company, user, comboRequest);
+
+            IList<ItemSerialNumber> serialNumbers = _itemService.GetSerialNumbers(company, user, comboRequest);
+
+            return Ok(serialNumbers);
+        }
+
     }
 }

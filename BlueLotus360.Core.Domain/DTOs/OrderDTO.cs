@@ -13,6 +13,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string OrderNumber { get; set; } = "";
         public string OrderDocumentNumber { get; set; } = "";
         public DateTime OrderDate { get; set; }
+        public DateTime OrderFinishDate { get; set; } 
         public CodeBaseResponse OrderLocation { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse OrderPaymentTerm { get; set; } = new CodeBaseResponse();
         public AddressResponse OrderCustomer { get; set; } = new AddressResponse();

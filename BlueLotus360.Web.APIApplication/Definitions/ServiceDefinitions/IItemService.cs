@@ -15,5 +15,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<ItemSimple>> GetItems(Company company, User user, ComboRequestDTO comboRequest);
         ItemRateResponse GetItemRateEx(RateRetrivalModel rateRetrivalModel, Company company, User user,CodeBaseResponse type);
         StockAsAtResponse GetStockAsAtByLocation(Company company, User user, StockAsAtRequest request);
+        IList<ItemSerialNumber> GetSerialNumbers(Company company, User user, ComboRequestDTO comboRequest);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
+using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -18,9 +19,16 @@ namespace BlueLotus360.Web.APIApplication.Services
             _unitOfWork = unitOfWork;
         }
 
-        public IList<Vehicle> GetVehicleDetails(int regId = 1)
+        public IList<Vehicle> GetVehicleDetails(VehicleSearch request,Company company,User user)
         {
-            throw new NotImplementedException();
+            var response =_unitOfWork.WorkShopManagementRepository.SelectVehicle(request, company, user);
+            return response.Value;
+        }
+
+        public IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user)
+        {
+            var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
+            return response.Value;
         }
     }
 }
