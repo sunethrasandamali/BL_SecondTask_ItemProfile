@@ -42,12 +42,15 @@ public partial class AppShell : Shell
         var mobmenu = men.Value.SubMenus.Where(x => x.MenuName.Equals("__MB_MENU_ENTRY__")).FirstOrDefault();
         if (mobmenu != null)
         {
+            int outV;
             foreach (UIMenu menu in mobmenu.SubMenus)
             {
                 Type pageType = GetPageByName(menu.MenuName);
                 if (pageType != null)
                 {
-                    var unicodeValue = (char)int.Parse(menu.MenuIcon, System.Globalization.NumberStyles.AllowHexSpecifier);
+                   int.TryParse(menu.MenuIcon, System.Globalization.NumberStyles.AllowHexSpecifier,
+    System.Globalization.CultureInfo.InvariantCulture, out outV);
+                    var unicodeValue = (char)outV;
                     Items.Add((new ShellContent()
                     {
                         Title = menu.MenuCaption,
