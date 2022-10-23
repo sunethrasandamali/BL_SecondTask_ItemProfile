@@ -25,6 +25,7 @@ namespace BlueLotus360.Data.SQL92.Repository
             {
                 IDataReader reader = null;
                 BaseServerResponse<APIInformation> response = new BaseServerResponse<APIInformation>();
+                APIInformation information = new APIInformation();
                 string SPName = "BL10API_SelectWeb";
                 try
                 {
@@ -34,7 +35,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
-                    APIInformation information = new APIInformation();
+                    
 
                     while (reader.Read())
                     {
