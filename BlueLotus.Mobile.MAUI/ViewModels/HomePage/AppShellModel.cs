@@ -20,6 +20,9 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.HomePage
         [ObservableProperty]
         private string shellCompany;
 
+        [ObservableProperty]
+        private string shellAvatarText;
+
         [RelayCommand]
         private async Task OnLogOutClick()
         {
