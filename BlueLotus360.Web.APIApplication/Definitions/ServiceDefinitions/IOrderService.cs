@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;

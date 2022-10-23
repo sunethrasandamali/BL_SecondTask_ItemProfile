@@ -32,6 +32,7 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
         private ICommonRepository _commonRepository;    
         private IWorkShopManagementRepository _workShopManagementRepository;
         private IDocumentRepository _documentRepository;
+        private IProjectRepository _projectRepository;
         #endregion
 
 
@@ -208,6 +209,18 @@ namespace BlueLotus360.Data.SQL92.UnitOfWork
                     _documentRepository = new DocumentRepository(_dataLayer);
                 }
                 return _documentRepository;
+            }
+        }
+
+        public IProjectRepository ProjectRepository
+        {
+            get
+            {
+                if (_projectRepository == null)
+                {
+                    _projectRepository = new ProjectRepository(_dataLayer);
+                }
+                return _projectRepository;
             }
         }
 
