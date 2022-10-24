@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueLotus360.Core.Domain.Entity.MastrerData;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;

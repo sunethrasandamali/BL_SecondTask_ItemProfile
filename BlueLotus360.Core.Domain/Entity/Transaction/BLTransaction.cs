@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 
 namespace BlueLotus360.Core.Domain.Entity.Transaction
 {
@@ -148,24 +149,24 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long TransactionKey { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public CodeBaseResponse Prefix { get; set; }
-        public CodeBaseResponse ApproveStatus { get; set; }
-        public string TransactionNumber { get; set; }
+        public CodeBaseResponse? Prefix { get; set; }
+        public CodeBaseResponse? ApproveStatus { get; set; }
+        public string? TransactionNumber { get; set; }
         public string DocumentNumber { get; set; } = "";
         public string YourReference { get; set; } = "";
-        public CodeBaseResponse Location { get; set; }
-        public AddressResponse Address { get; set; }
-        public ProjectResponse Project { get; set; }
-        public AccountResponse Suuplier { get; set; }
-        public ItemResponse Item { get; set; }
+        public CodeBaseResponse? Location { get; set; }
+        public AddressResponse? Address { get; set; }
+        public ProjectResponse? Project { get; set; }
+        public AccountResponse? Suuplier { get; set; }
+        public ItemResponse? Item { get; set; }
         public int IsRecurrence { get; set; } = 0;
         public int IsPrinted { get; set; } = 0;
         public long ElementKey { get; set; } = 1;
 
-        public CodeBaseResponse PaymentTerm { get; set; }
+        public CodeBaseResponse? PaymentTerm { get; set; }
 
         public decimal Amount { get; set; }
-        public CodeBaseResponse TransactionType { get; set; }
+        public CodeBaseResponse? TransactionType { get; set; }
 
     }
 

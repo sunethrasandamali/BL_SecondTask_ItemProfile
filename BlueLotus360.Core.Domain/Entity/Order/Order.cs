@@ -1,4 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlueLotus360.Core.Domain.Entity.Base
+namespace BlueLotus360.Core.Domain.Entity.Order
 {
 
     public class Order
@@ -28,7 +30,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         private string yurRef = "";
         private decimal taxValue;
         private decimal subTotalDiscount;
-        private Guid posTrnKy=new Guid();
+        private Guid posTrnKy = new Guid();
         private int liNo;
         private string ourCd = "";
         private int isApr;
@@ -44,7 +46,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
 
         public decimal Qty { get => qty; set => qty = value; }
-        public string ItemName { get => itemName; set => itemName = value; } 
+        public string ItemName { get => itemName; set => itemName = value; }
         public int ItemKey { get => itemKey; set => itemKey = value; }
         public int LocationKey { get => locationKey; set => locationKey = value; }
         public int SupplierKey { get => supplierKey; set => supplierKey = value; }
@@ -99,7 +101,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public decimal TransactionQuantity { get; set; }
 
-        public UnitResponse TransactionUnit { get; set; }=new UnitResponse();
+        public UnitResponse TransactionUnit { get; set; } = new UnitResponse();
         public decimal Rate { get; set; }
         public decimal TransactionRate { get; set; }
 
@@ -130,8 +132,8 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public Process Process1 { get; set; } = new();
         public Process Process2 { get; set; } = new();
         public Process Process3 { get; set; } = new();
-        public Process Process4 { get; set; }=new();
-        public Process Process5 { get; set; }=new();
+        public Process Process4 { get; set; } = new();
+        public Process Process5 { get; set; } = new();
 
         public CodeBaseResponse LoandDetail { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse LCDetail { get; set; } = new CodeBaseResponse();
@@ -181,7 +183,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public bool IsNotProduction { get; set; }
 
-        public OrderItem FromOrderItem { get; set; }=new OrderItem();
+        public OrderItem FromOrderItem { get; set; } = new OrderItem();
 
         public decimal ConversionRate { get; set; } = 1;
 
@@ -205,7 +207,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     public class OrderSaveResponse
     {
         public string OrderNumber { get; set; } = "";
-        public string Prefix { get; set; } = "";  
+        public string Prefix { get; set; } = "";
 
         public long OrderKey { get; set; } = 1;
     }
@@ -222,7 +224,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public decimal OrderTotal { get; set; }
         public decimal DiscountAmount { get; set; }
         public string Remarks { get; set; } = "";
-        public string OrderStatus { get; set; } = ""; 
+        public string OrderStatus { get; set; } = "";
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
 
         public IList<OrderSimpleLineItem> LineItems { get; set; }
@@ -239,9 +241,9 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public decimal DeliveryFee { get; set; }
 
-        public DeliveryDetail deliveryDetail { get; set; }= new DeliveryDetail();
+        public DeliveryDetail deliveryDetail { get; set; } = new DeliveryDetail();
 
-        public ShippingAddress shippingAddress { get; set; }=new ShippingAddress();
+        public ShippingAddress shippingAddress { get; set; } = new ShippingAddress();
 
 
         public int LocationKey { get; set; } = 1;
@@ -329,7 +331,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string email { get; set; } = "";
         public int entity_id { get; set; }
         public string firstname { get; set; } = "";
-        public string lastname { get; set; } = "";    
+        public string lastname { get; set; } = "";
         public int parent_id { get; set; }
         public string postcode { get; set; } = "";
         public string region { get; set; } = "";

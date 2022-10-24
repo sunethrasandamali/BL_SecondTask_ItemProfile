@@ -1,5 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
-using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.API.Authentication;

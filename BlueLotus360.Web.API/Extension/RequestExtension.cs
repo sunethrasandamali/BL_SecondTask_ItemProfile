@@ -83,6 +83,8 @@ namespace BlueLotus360.Web.API.Extension
             Services.AddScoped<IUnitService, UnitService>();
             Services.AddScoped<ICommonService, CommonService>();
             Services.AddScoped<IWorkshopManagementService, WorkshopManagementService>();
+            Services.AddScoped<IDocumentService,DocumentService>();
+            Services.AddScoped<IProjectService, ProjectService>();
         }
     }
 }

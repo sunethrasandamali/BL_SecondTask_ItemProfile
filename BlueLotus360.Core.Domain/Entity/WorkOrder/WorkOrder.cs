@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,6 +130,13 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public int ComplainID { get; set; }
         public string? ComplainName { get; set; }
         public int IsActive { get; set; }
+        public DateTime EnteredDate { get; set; }
+        public AddressResponse? EnteredBy { get; set; }
+        public CustomerComplain()
+        {
+            EnteredBy = new AddressResponse();
+        }
+
     }
 
     public class Estimation
