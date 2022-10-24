@@ -31,7 +31,7 @@
         <Setter Property="CornerRadius" Value="30"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="CornerRadius" Value="1"/>
-        <Setter Property="Padding" Value="14,24"/>
+        <Setter Property="Padding" Value="7,14"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -128,8 +128,10 @@
     <Style TargetType="Frame">
 
         <Setter Property="HasShadow" Value="False" />
-       
-      
+        <Setter Property="Padding" Value="5,5,5,5" />
+        <Setter Property="Margin" Value="0,15,0,15" />
+
+
         <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}" />
         <Setter Property="CornerRadius" Value="2" />

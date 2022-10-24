@@ -1,4 +1,6 @@
+using BlueLotus.Mobile.MAUI.Pages.BasePage;
 using BlueLotus.Mobile.MAUI.UIBuilder;
+using BlueLotus.Mobile.MAUI.ViewModels;
 using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Object;
@@ -7,17 +9,15 @@ using BlueLotus360.Data.APIConsumer.Implementation;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
-public class CustomerPage : ContentPage
+public class CustomerPage : BaseUIPage
 {
+    
 
-    private readonly IAppObjectService _objectAppService
-        ;
 
 
     public CustomerPage()
     {
-        _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
-       
+        __bindContext = new CustomerPageModel() { ApplicationName = "I See" ,CustomerDate=new DateTime(2000,10,10)};
     }
 
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
@@ -25,23 +25,5 @@ public class CustomerPage : ContentPage
         base.OnNavigatingFrom(args);
     }
 
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        if (BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
-        {
-            UIMenu menu = (UIMenu)BindingContext;
-            Title = menu.MenuCaption;
-            BindingContext = null;
-            var elem = await _objectAppService.FetchObjects(menu);
-            if (elem.Value != null)
-            {
-              
-                ViewGenerator vbuilder = new ViewGenerator();
-                Content = vbuilder.BuildViewFromObjects(elem.Value);
 
-            }
-        }
-       
-        base.OnNavigatedTo(args);
-    }
 }

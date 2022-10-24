@@ -15,6 +15,8 @@ public partial class LoginPage : ContentPage
         BindingContext = model;
         model.ApplicationName = appInfo.Value;
         InitializeComponent();
+        
+
 
     }
   
