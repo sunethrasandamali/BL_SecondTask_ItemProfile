@@ -85,12 +85,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="BLControls\CusotomerListPanel\CustomerList.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="BLControls\ListView\AddressListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\CompanySelectionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="BLControls\Picker\" />
 	</ItemGroup>
 
 </Project>

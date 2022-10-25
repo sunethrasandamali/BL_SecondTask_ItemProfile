@@ -26,40 +26,31 @@ namespace BlueLotus.Mobile.MAUI.UIBuilder
             {
                 if (child.ElementType != null && child.ElementType.Equals("TextBox"))
                 {
-                    var lbl = new Label();
-                    lbl.Text = child.ElementCaption;
-                    
-                    var txtFrame = new Frame()
-                    { };
-                    var txtBox = new Entry() { };
-                    txtBox.SetBinding(Entry.TextProperty, child.DefaultAccessPath, BindingMode.TwoWay);
-                    txtFrame.Content = txtBox;
-                    verticalStackLayout.Children.Add(lbl);
-                    verticalStackLayout.Children.Add(txtFrame);
+                    AddTextBox(verticalStackLayout, child);
                 }
                 if (child.ElementType != null && child.ElementType.Equals("DatePicker"))
                 {
-                    var lbl = new Label();
-                    lbl.Text = child.ElementCaption;
-                    var txtFrame = new Frame()
-                    { };
-                    var datePicker = new DatePicker() { };
-                    datePicker.SetBinding(DatePicker.DateProperty, child.DefaultAccessPath, BindingMode.TwoWay);
-                    txtFrame.Content = datePicker;
-                    verticalStackLayout.Children.Add(lbl);
-                    verticalStackLayout.Children.Add(txtFrame);
+                    AddDatePicker(verticalStackLayout, child);
                 }
 
                 if (child.ElementType != null && child.ElementType.Equals("Button"))
                 {
-                    
-               
-                    var button = new Button() {
-                    Text = child.ElementCaption,
-                    };
-                    button.SetBinding(Button.CommandProperty, child.OnClickAction, BindingMode.TwoWay);                   
-                   
-                    verticalStackLayout.Children.Add(button);
+                    AddButton(verticalStackLayout, child);
+                }
+                if (child.ElementType != null && child.ElementType.Equals("NumericBox"))
+                {
+                    AddNumericBox(verticalStackLayout, child);
+                }
+                if (child.ElementType != null && child.ElementType.Equals("CheckBox"))
+                {
+                    AddCheckBox(verticalStackLayout, child);
+
+                }
+
+                if (child.ElementType != null && child.ElementType.Equals("ToggleButton"))
+                {
+                    AddSwitchBox(verticalStackLayout, child);
+
                 }
 
             }
@@ -74,6 +65,78 @@ namespace BlueLotus.Mobile.MAUI.UIBuilder
             //      };
 
             return grid;
+        }
+
+        private void AddSwitchBox(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var lbl = new Label();
+            lbl.Text = child.ElementCaption;
+            var ckBox = new Switch() { };
+            ckBox.SetBinding(Switch.IsToggledProperty, child.DefaultAccessPath, BindingMode.TwoWay);
+            verticalStackLayout.Children.Add(lbl);
+            verticalStackLayout.Children.Add(ckBox);
+        }
+
+        private void AddCheckBox(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var lbl = new Label();
+            lbl.Text = child.ElementCaption;           
+            var ckBox = new CheckBox() { };
+            ckBox.SetBinding(CheckBox.IsCheckedProperty, child.DefaultAccessPath, BindingMode.TwoWay);
+            verticalStackLayout.Children.Add(lbl);
+            verticalStackLayout.Children.Add(ckBox);
+        }
+
+        private void AddNumericBox(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var lbl = new Label();
+            lbl.Text = child.ElementCaption;
+
+            var txtFrame = new Frame()
+            { };
+            var txtBox = new Entry() { Keyboard = Keyboard.Numeric };
+            txtBox.SetBinding(Entry.TextProperty, child.DefaultAccessPath, BindingMode.TwoWay);
+            txtFrame.Content = txtBox;
+            verticalStackLayout.Children.Add(lbl);
+            verticalStackLayout.Children.Add(txtFrame);
+        }
+
+        private  void AddButton(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var button = new Button()
+            {
+                Text = child.ElementCaption,
+            };
+            button.SetBinding(Button.CommandProperty, child.OnClickAction, BindingMode.TwoWay);
+
+            verticalStackLayout.Children.Add(button);
+        }
+
+        private  void AddDatePicker(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var lbl = new Label();
+            lbl.Text = child.ElementCaption;
+            var txtFrame = new Frame()
+            { };
+            var datePicker = new DatePicker() { };
+            datePicker.SetBinding(DatePicker.DateProperty, child.DefaultAccessPath, BindingMode.TwoWay);
+            txtFrame.Content = datePicker;
+            verticalStackLayout.Children.Add(lbl);
+            verticalStackLayout.Children.Add(txtFrame);
+        }
+
+        private  void AddTextBox(VerticalStackLayout verticalStackLayout, BLUIElement child)
+        {
+            var lbl = new Label();
+            lbl.Text = child.ElementCaption;
+
+            var txtFrame = new Frame()
+            { };
+            var txtBox = new Entry() { };
+            txtBox.SetBinding(Entry.TextProperty, child.DefaultAccessPath, BindingMode.TwoWay);
+            txtFrame.Content = txtBox;
+            verticalStackLayout.Children.Add(lbl);
+            verticalStackLayout.Children.Add(txtFrame);
         }
     }
 }
