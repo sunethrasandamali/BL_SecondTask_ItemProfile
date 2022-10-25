@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.ListView.AddressListView"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView"
+            
              >
     <Grid IgnoreSafeArea="True"  Background="{StaticResource Gray100}">
+
         <ScrollView HorizontalScrollBarVisibility="Always">
             <VerticalStackLayout
             Spacing="0"
@@ -16,301 +19,53 @@
                         <ColumnDefinition Width="30*"/>
                     </Grid.ColumnDefinitions>
                     <Frame Grid.Column="0">
-                        <Entry></Entry>
+                        <Entry ></Entry>
                     </Frame>
 
                     <Button Margin="15" Text="Search" Grid.Column="1" />
-                 
+
                 </Grid>
-                <Border
+                <CollectionView ItemsSource="{Binding Addresses}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
                     Padding="12,12"
                     BackgroundColor="{StaticResource White}"
                     Stroke="{StaticResource Gray100}"
                     HorizontalOptions="Fill"                    
                     Margin="5,2"
                     >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="2"/>
+                                </Border.StrokeShape>
 
-                    <HorizontalStackLayout       Spacing="8">
+                                <HorizontalStackLayout       Spacing="8">
 
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
+                                    <VerticalStackLayout>
+                                        <toolkit:AvatarView 
+                                Text="{Binding AddressId}"  
                                 TextColor="White" 
                                 BorderColor="{StaticResource Black}" 
                                 BackgroundColor="{StaticResource Secondary}"  
                                 Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
+                                    </VerticalStackLayout>
+                                    <VerticalStackLayout>
+                                        <Label Text="{Binding AddressName}"/>
+                                        <Label Text="{Binding Email}"/>
+                                        <Label Text="0777931312"/>
 
 
 
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </HorizontalStackLayout>
 
-                </Border>
-
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
 
 
 
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
-                <Border
-                    Padding="12,12"
-                    BackgroundColor="{StaticResource White}"
-                    Stroke="{StaticResource Gray100}"
-                    HorizontalOptions="Fill"                    
-                    Margin="5,2"
-                    >
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="2"/>
-                    </Border.StrokeShape>
-
-                    <HorizontalStackLayout       Spacing="8">
-
-                        <VerticalStackLayout>
-                            <toolkit:AvatarView 
-                                Text="MG"  
-                                TextColor="White" 
-                                BorderColor="{StaticResource Black}" 
-                                BackgroundColor="{StaticResource Secondary}"  
-                                Margin="0,0,10,0"/>
-                        </VerticalStackLayout>
-                        <VerticalStackLayout>
-                            <Label Text="Janaka Perera"/>
-                            <Label Text="janaka@gmail.com"/>
-                            <Label Text="0777931312"/>
-
-
-
-                        </VerticalStackLayout>
-                    </HorizontalStackLayout>
-
-                </Border>
 
             </VerticalStackLayout>
         </ScrollView>
