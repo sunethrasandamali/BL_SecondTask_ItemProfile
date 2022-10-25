@@ -19,7 +19,7 @@
                         <ColumnDefinition Width="30*"/>
                     </Grid.ColumnDefinitions>
                     <Frame Grid.Column="0">
-                        <Entry ></Entry>
+                        <Entry Text="{Binding SearchQuery, Mode=TwoWay}" TextChanged="Entry_TextChanged"></Entry>
                     </Frame>
 
                     <Button Margin="15" Text="Search" Grid.Column="1" />

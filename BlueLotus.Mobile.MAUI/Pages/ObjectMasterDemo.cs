@@ -9,13 +9,13 @@ using BlueLotus360.Data.APIConsumer.Implementation;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
-public class CustomerPage : BaseUIPage
+public class ObjectMasterDemo : BaseUIPage
 {
     
 
 
 
-    public CustomerPage()
+    public ObjectMasterDemo()
     {
         __bindContext = new CustomerPageModel() { ApplicationName = "I See" ,CustomerDate=new DateTime(2000,10,10)};
     }

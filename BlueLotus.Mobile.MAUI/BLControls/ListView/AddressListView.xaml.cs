@@ -7,19 +7,42 @@ namespace BlueLotus.Mobile.MAUI.BLControls.ListView;
 public partial class AddressListView : ContentView
 {
 
-	public BLUIElement UIElement { get; set; }
-	public AddressListView()
-	{
-		AddressListViewModel model = new AddressListViewModel();
-		BindingContext = model;
-		model.Addresses.Add(new AddressMaster()
-		{
-			AddressName="Reyal",
-			AddressId= "RE",
-			Email= "hirashriyal@outlook.com"
+    public BLUIElement UIElement { get; set; }
+    AddressListViewModel model;
+    private TimeSpan debounceInterval;
+    private DateTime PreviousChange;
+    public AddressListView()
+    {
+        model = new AddressListViewModel();
+       
+        debounceInterval = new TimeSpan(0, 0, 0, 2, 750);
+        PreviousChange = DateTime.Now;
 
-        });
-
+        for(int i = 0; i < 10; i++)
+        {
+            model.Add(new AddressMaster()
+            {
+                AddressName= Guid.NewGuid().ToString(),
+                Email= Guid.NewGuid().ToString(),
+            });;
+        }
+        model.Finalze();
+        BindingContext = model;
         InitializeComponent();
-	}
+
+    }
+
+
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        TimeSpan elapsed = DateTime.Now - PreviousChange;
+
+        if (elapsed > debounceInterval)
+        {
+            model.Finalze();
+            PreviousChange = DateTime.Now;
+          
+        }
+
+    }
 }
