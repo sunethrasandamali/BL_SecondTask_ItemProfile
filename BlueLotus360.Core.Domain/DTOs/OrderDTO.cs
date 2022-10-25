@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string HeaderDescription { get; set; } = "";
         public CodeBaseResponse OrderApproveState { get; set; }
         public CodeBaseResponse OrderPrefix { get; set; }
+        public CodeBaseResponse OrderCategory1 { get; set; }
+        public CodeBaseResponse OrderCategory2 { get; set; }
+        public ProjectResponse OrderProject { get; set; }
+        public int Cd1Ky { get; set; } = 1;
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -45,6 +50,9 @@ namespace BlueLotus360.Core.Domain.DTOs
             BussinessUnit = new CodeBaseResponse();
             OrderApproveState = new CodeBaseResponse();
             OrderPrefix = new CodeBaseResponse();
+            OrderCategory1=new CodeBaseResponse();
+            OrderCategory2=new CodeBaseResponse();
+            OrderProject=new ProjectResponse();
         }
 
     }

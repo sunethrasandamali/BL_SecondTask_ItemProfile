@@ -78,6 +78,10 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("LocKy", BaseComboResponse.GetKeyValue(orderHeader.OrderLocation));
                     dbCommand.CreateAndAddParameter("LocKy2", orderHeader.Location2Key);
                     dbCommand.CreateAndAddParameter("AccKy", orderHeader.AccountKey);
+                    dbCommand.CreateAndAddParameter("OrdCat1", orderHeader.OrderCategory1Key);
+                    dbCommand.CreateAndAddParameter("OrdCat2", orderHeader.OrderCategory2Key);
+                    dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
+                    dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -702,7 +706,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.TransactionDiscountAmount = reader.GetColumn<decimal>("TrnDisAmt");
                         oorderV3.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         oorderV3.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
-                        oorderV3.OrderPrefix = new CodeBaseResponse(reader.GetColumn<int>("OrdPrefixKy"));
+                        //oorderV3.OrderPrefix = new CodeBaseResponse(reader.GetColumn<int>("OrdPrefixKy"));
                         oorderV3.YourReference = reader.GetColumn<string>("YurRef");
                         oorderV3.Amount = reader.GetColumn<decimal>("Amt");
                         oorderV3.TransactionAmount = reader.GetColumn<decimal>("TrnAmt");

@@ -9,16 +9,17 @@ namespace BlueLotus360.Core.Domain.Entity.MastrerData
 {
     public class Project
     {
-        public long ProjectKey { get; set; }
+        public long ObjectKey { get; set; } = 1;
+        public long ProjectKey { get; set; } = 1;
         public string? ProjectNumber { get; set; }
         public string? ProjectID { get; set; }
         public string? ProjectName { get; set; }
         public CodeBaseResponse ProjectType { get; set; } = new CodeBaseResponse();//PrjTypKy/PrjTypNm
-        public int ParentKey { get; set; }
+        public int ParentKey { get; set; } = 1;
         public string? ParentProjectID { get; set; }
         public string? ParentProjectName { get; set; }
         public CodeBaseResponse ProjectStatus { get; set; } = new CodeBaseResponse();//PrjStsKy/PrjStsNm
-        public int IsActive { get; set; }
+        public int IsActive { get; set; } = 1;
         public int IsApproved { get; set; }
         public int IsAllowTransaction { get; set; }
         public int IsParent { get; set; }

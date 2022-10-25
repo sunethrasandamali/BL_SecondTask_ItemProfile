@@ -44,6 +44,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@isPrnt", request.IsParent);
                     dbCommand.CreateAndAddParameter("@PrjStDt", request.ProjectStartDate);
                     dbCommand.CreateAndAddParameter("@FinDt", request.ProjectEndDate);
+                    dbCommand.CreateAndAddParameter("@Adrky", BaseComboResponse.GetKeyValue(request.Address));
 
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
@@ -51,7 +52,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     
                     while (reader.Read())
                     {
-
+                        response.ProjectKey= reader.GetColumn<int>("PrjKy");
                     }
 
                     if (!reader.IsClosed)

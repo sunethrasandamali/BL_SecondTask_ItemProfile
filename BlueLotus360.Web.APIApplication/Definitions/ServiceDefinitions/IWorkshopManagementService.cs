@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
     {
         public IList<Vehicle> GetVehicleDetails(VehicleSearch request, Company company, User user);
         IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user);
+        IList<ProjectResponse> GetProgressingProjectDetails(Vehicle request, Company company, User user);
     }
 }

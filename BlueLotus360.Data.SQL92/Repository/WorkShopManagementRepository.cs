@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
@@ -136,7 +137,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("ObjKy", dto.ObjectKey);
-                    dbCommand.CreateAndAddParameter("VehAdrKy", BaseComboResponse.GetKeyValue(dto.VehicleAddress));
+                    dbCommand.CreateAndAddParameter("AdrKy", BaseComboResponse.GetKeyValue(dto.VehicleAddress));
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -205,5 +206,84 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
+        public BaseServerResponse<IList<ProjectResponse>> SelectOngoingProjectDetails(Vehicle dto, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                IList<ProjectResponse> list = new List<ProjectResponse>();
+                BaseServerResponse<IList<ProjectResponse>> response = new BaseServerResponse<IList<ProjectResponse>>();
+                string SPName = "CARProgressingPrjDetails_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", dto.ObjectKey);
+                    dbCommand.CreateAndAddParameter("AdrKy", BaseComboResponse.GetKeyValue(dto.VehicleAddress));
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ProjectResponse project = new ProjectResponse();
+                        project.ProjectKey= reader.GetColumn<int>("PrjKy");
+                        project.ProjectId = reader.GetColumn<string>("PrjID");
+                        project.ProjectName = reader.GetColumn<string>("PrjNm");
+
+                        list.Add(project);
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = list;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    if (reader != null)
+                    {
+                        reader.Dispose();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
     }
 }

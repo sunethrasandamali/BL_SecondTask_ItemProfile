@@ -26,7 +26,6 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
     }
     public class WorkOrder : GenericOrder
     {
-        public CodeBaseResponse WorkOrderCategory { get; set; }
         public Vehicle SelectedVehicle { get; set; }
         public DateTime DeliveryDate { get; set; }
         public string WorkOrderStaus { get; set; }
@@ -43,7 +42,6 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
 
         public WorkOrder()
         {
-            WorkOrderCategory = new CodeBaseResponse();
             SelectedVehicle = new Vehicle();
             Department = new CodeBaseResponse();
             WorkOrderSimpleEstimation = new Estimation();
