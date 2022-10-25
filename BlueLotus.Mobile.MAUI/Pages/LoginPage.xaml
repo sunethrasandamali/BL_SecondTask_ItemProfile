@@ -19,7 +19,7 @@
                         </ListView>
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="User Name" />
                         <Frame>
-                            <Entry Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" />
+                            <Entry Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" x:Name="Smos"/>
                         </Frame>
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" LineBreakMode="WordWrap" Text="Password" />
                         <Frame>
