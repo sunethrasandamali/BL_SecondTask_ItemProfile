@@ -43,6 +43,11 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.DiscountPercentage = orderDetails.HeaderLevelDisountPrecentage;
             OH.IsActive = 1;
             OH.IsApproved = 1;
+            OH.OrderCategory1Key =(int)orderDetails.OrderCategory1.CodeKey;
+            OH.OrderCategory2Key = (int)orderDetails.OrderCategory2.CodeKey;
+            OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
+            OH.Code1Key = orderDetails.Cd1Ky;
+
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
                 OH.AccountKey = orderDetails.OrderAccount.AccountKey;
@@ -57,55 +62,58 @@ namespace BlueLotus360.Web.APIApplication.Services
             IList<OrderLineCreateDTO> orderLineItems = new List<OrderLineCreateDTO>();
             _unitOfWork.OrderRepository.CreateOrder(OH, company, user);
 
-
-            foreach (GenericOrderItem item in orderDetails.OrderItems)
+            if (orderDetails.OrderItems.Count()>0)
             {
-                OrderLineCreateDTO lineItem = new OrderLineCreateDTO();
-                lineItem.ItemKey = item.TransactionItem.ItemKey;
-                lineItem.OrderKey = OH.OrderKey;
-                lineItem.TransactionQuantity = item.TransactionQuantity;
-                lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
-                lineItem.TransactionRate = item.TransactionRate;
-                lineItem.AddressKey = OH.AddressKey;
+                foreach (GenericOrderItem item in orderDetails.OrderItems)
+                {
+                    OrderLineCreateDTO lineItem = new OrderLineCreateDTO();
+                    lineItem.ItemKey = item.TransactionItem.ItemKey;
+                    lineItem.OrderKey = OH.OrderKey;
+                    lineItem.TransactionQuantity = item.TransactionQuantity;
+                    lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
+                    lineItem.TransactionRate = item.TransactionRate;
+                    lineItem.AddressKey = OH.AddressKey;
 
-                lineItem.ObjectKey = orderDetails.FormObjectKey;
-                lineItem.OrderLineLocation = new CodeBaseResponse();
-                lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
-                lineItem.CompanyKey = company.CompanyKey;
-                lineItem.UserKey = user.UserKey;
-                lineItem.DiscountPercentage = item.DiscountPercentage;
-                lineItem.AccountKey = OH.AccountKey;
-                //  lineItem.TransactionDiscountAmount = Math.Abs(item.GetLineDiscount());
-                lineItem.LineNumber = item.LineNumber;
-                lineItem.IsActive = item.IsActive;
-                lineItem.OriginalQuantity = item.RequestedQuantity;
+                    lineItem.ObjectKey = orderDetails.FormObjectKey;
+                    lineItem.OrderLineLocation = new CodeBaseResponse();
+                    lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
+                    lineItem.CompanyKey = company.CompanyKey;
+                    lineItem.UserKey = user.UserKey;
+                    lineItem.DiscountPercentage = item.DiscountPercentage;
+                    lineItem.AccountKey = OH.AccountKey;
+                    //  lineItem.TransactionDiscountAmount = Math.Abs(item.GetLineDiscount());
+                    lineItem.LineNumber = item.LineNumber;
+                    lineItem.IsActive = item.IsActive;
+                    lineItem.OriginalQuantity = item.RequestedQuantity;
 
 
-                lineItem.IsApproved = item.IsApproved;
-                lineItem.OrderType = new CodeBaseResponse();
-                lineItem.OrderType.CodeKey = ordTyp.CodeKey;
-                lineItem.IsTransfer = item.IsTransfer;
-                lineItem.IsConfirmed = item.IsTransferConfirmed;
+                    lineItem.IsApproved = item.IsApproved;
+                    lineItem.OrderType = new CodeBaseResponse();
+                    lineItem.OrderType.CodeKey = ordTyp.CodeKey;
+                    lineItem.IsTransfer = item.IsTransfer;
+                    lineItem.IsConfirmed = item.IsTransferConfirmed;
 
-                lineItem.DisocuntAmount = item.DiscountAmount;
-                lineItem.TransactionDiscountAmount = item.DiscountAmount;
-                lineItem.ItemTaxType1 = item.ItemTaxType1;
-                lineItem.ItemTaxType2 = item.ItemTaxType2;
-                lineItem.ItemTaxType3 = item.ItemTaxType3;
-                lineItem.ItemTaxType4 = item.ItemTaxType4;
-                lineItem.ItemTaxType5 = item.ItemTaxType5;
+                    lineItem.DisocuntAmount = item.DiscountAmount;
+                    lineItem.TransactionDiscountAmount = item.DiscountAmount;
+                    lineItem.ItemTaxType1 = item.ItemTaxType1;
+                    lineItem.ItemTaxType2 = item.ItemTaxType2;
+                    lineItem.ItemTaxType3 = item.ItemTaxType3;
+                    lineItem.ItemTaxType4 = item.ItemTaxType4;
+                    lineItem.ItemTaxType5 = item.ItemTaxType5;
 
-                lineItem.ItemTaxType1Per = item.ItemTaxType1Per;
-                lineItem.ItemTaxType2Per = item.ItemTaxType2Per;
-                lineItem.ItemTaxType3Per = item.ItemTaxType3Per;
-                lineItem.ItemTaxType4Per = item.ItemTaxType4Per;
-                lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
-                lineItem.Remarks = item.Remark;
-                lineItem.Description = item.Description;
+                    lineItem.ItemTaxType1Per = item.ItemTaxType1Per;
+                    lineItem.ItemTaxType2Per = item.ItemTaxType2Per;
+                    lineItem.ItemTaxType3Per = item.ItemTaxType3Per;
+                    lineItem.ItemTaxType4Per = item.ItemTaxType4Per;
+                    lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
+                    lineItem.Remarks = item.Remark;
+                    lineItem.Description = item.Description;
 
-                //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
-                _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
+                    //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
+                    _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
+                }
             }
+            
 
             _unitOfWork.OrderRepository.PostInterLocationTransfers(company, user, OH.OrderKey, orderDetails.FormObjectKey);
 

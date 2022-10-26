@@ -26,7 +26,6 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
     }
     public class WorkOrder : GenericOrder
     {
-        public CodeBaseResponse WorkOrderCategory { get; set; }
         public Vehicle SelectedVehicle { get; set; }
         public DateTime DeliveryDate { get; set; }
         public string WorkOrderStaus { get; set; }
@@ -37,19 +36,18 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public CodeBaseResponse Department { get; set; }
         public Estimation WorkOrderSimpleEstimation { get; set; }
         public IList<CustomerComplain> CustomerComplains { get; set; }
-        public IList<Material> Materials { get; set; }
-        public IList<Service> Services { get; set; }
+        public IList<GenericOrderItem> WorkOrderMaterials { get; set; }
+        public IList<GenericOrderItem> WorkOrderServices { get; set; }
         public IList<WorkOrder> JobHistory { get; set; }
 
         public WorkOrder()
         {
-            WorkOrderCategory = new CodeBaseResponse();
             SelectedVehicle = new Vehicle();
             Department = new CodeBaseResponse();
             WorkOrderSimpleEstimation = new Estimation();
             CustomerComplains = new List<CustomerComplain>();
-            Materials = new List<Material>();
-            Services = new List<Service>();
+            WorkOrderMaterials = new List<GenericOrderItem>();
+            WorkOrderServices = new List<GenericOrderItem>();
             JobHistory = new List<WorkOrder>();
         }
     }
@@ -90,41 +88,6 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public DateTime WarrantyEndDate { get; set; } = DateTime.Now;
     }
 
-    public class Material : OrderItem
-    {
-        public UnitResponse Unit { get; set; }
-        public decimal Quantity { get; set; }
-        public decimal SubTotal { get; set; }
-        public decimal PrinciplePrecentage { get; set; }
-        public decimal PrincipleAmount { get; set; }
-        public decimal CarmartPrecentage { get; set; }
-        public decimal CarmartAmount { get; set; }
-        public decimal CustomerAmount { get; set; }
-        public int IsSelected { get; set; }
-        public Material()
-        {
-            Unit = new UnitResponse();
-        }
-    }
-
-    public class Service : OrderItem
-    {
-        public int ServiceID { get; set; }
-        public decimal Time { get; set; }
-        public UnitResponse Unit { get; set; }
-        public decimal SubTotal { get; set; }
-        public decimal PrinciplePrecentage { get; set; }
-        public decimal PrincipleAmount { get; set; }
-        public decimal CarmartPrecentage { get; set; }
-        public decimal CarmartAmount { get; set; }
-        public decimal CustomerAmount { get; set; }
-        public int IsSelected { get; set; }
-        public Service()
-        {
-            Unit = new UnitResponse();
-        }
-    }
-
     public class CustomerComplain
     {
         public int ComplainID { get; set; }
@@ -141,13 +104,13 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
 
     public class Estimation
     {
-        public IList<Material> EstimatedMaterials { get; set; }
-        public IList<Service> EstimatedServices { get; set; }
+        public IList<GenericOrderItem> EstimatedMaterials { get; set; }
+        public IList<GenericOrderItem> EstimatedServices { get; set; }
         public decimal TotalValue { get; set; }
         public Estimation()
         {
-            EstimatedMaterials = new List<Material>();
-            EstimatedServices = new List<Service>();
+            EstimatedMaterials = new List<GenericOrderItem>();
+            EstimatedServices = new List<GenericOrderItem>();
         }
 
     }

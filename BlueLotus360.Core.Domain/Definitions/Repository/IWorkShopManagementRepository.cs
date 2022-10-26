@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using System;
@@ -14,5 +15,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     {
         BaseServerResponse<IList<Vehicle>> SelectVehicle(VehicleSearch dto, Company company, User user);
         BaseServerResponse<IList<WorkOrder>> SelectJobhistory(Vehicle dto, Company company, User user);
+        BaseServerResponse<IList<ProjectResponse>> SelectOngoingProjectDetails(Vehicle dto, Company company, User user);
     }
 }

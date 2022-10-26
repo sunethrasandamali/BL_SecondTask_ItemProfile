@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
@@ -37,6 +38,15 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             IList<WorkOrder> WorkOrders = _workshopManagementService.GetJobHistoryDetails(request, company, user);
             return Ok(WorkOrders);
+        }
+
+        [HttpPost("getCarProgessingProjectDetails")]
+        public IActionResult GetCarProgessingProjectDetails(Vehicle request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            IList<ProjectResponse> list = _workshopManagementService.GetProgressingProjectDetails(request, company, user);
+            return Ok(list);
         }
 
     }

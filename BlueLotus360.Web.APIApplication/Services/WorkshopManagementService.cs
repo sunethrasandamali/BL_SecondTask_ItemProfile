@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -28,6 +29,12 @@ namespace BlueLotus360.Web.APIApplication.Services
         public IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user)
         {
             var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
+            return response.Value;
+        }
+
+        public IList<ProjectResponse> GetProgressingProjectDetails(Vehicle request, Company company, User user)
+        {
+            var response = _unitOfWork.WorkShopManagementRepository.SelectOngoingProjectDetails(request, company, user);
             return response.Value;
         }
     }
