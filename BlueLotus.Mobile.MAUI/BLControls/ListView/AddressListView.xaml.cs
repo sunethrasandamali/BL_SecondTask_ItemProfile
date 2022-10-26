@@ -33,16 +33,18 @@ public partial class AddressListView : ContentView
     }
 
 
-    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    private async void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
         TimeSpan elapsed = DateTime.Now - PreviousChange;
 
-        if (elapsed > debounceInterval)
+        if (elapsed > debounceInterval )
         {
-            model.Finalze();
+         
             PreviousChange = DateTime.Now;
           
         }
+        await model.Finalze();
+    
 
     }
 }

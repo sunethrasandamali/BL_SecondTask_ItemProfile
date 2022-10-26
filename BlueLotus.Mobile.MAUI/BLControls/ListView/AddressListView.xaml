@@ -15,15 +15,21 @@
             VerticalOptions="Start" Background="{StaticResource Gray100}">
                 <Grid Padding="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="70*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="30*"/>
                         <ColumnDefinition Width="30*"/>
                     </Grid.ColumnDefinitions>
                     <Frame Grid.Column="0">
                         <Entry Text="{Binding SearchQuery, Mode=TwoWay}" TextChanged="Entry_TextChanged"></Entry>
                     </Frame>
-
                     <Button Margin="15" Text="Search" Grid.Column="1" />
-
+                    <Frame Grid.Column="2">
+                        <Entry Text="{Binding TimeToSearch, Mode=TwoWay}" IsReadOnly="True" ></Entry>
+                    </Frame>
+                    <Frame Grid.Column="3">
+                        <Entry Text="{Binding TimeToDisplay, Mode=TwoWay}" IsReadOnly="True" ></Entry>
+                    </Frame>
                 </Grid>
                 <CollectionView ItemsSource="{Binding Addresses}" SelectionMode="None">
                     <CollectionView.ItemTemplate>
