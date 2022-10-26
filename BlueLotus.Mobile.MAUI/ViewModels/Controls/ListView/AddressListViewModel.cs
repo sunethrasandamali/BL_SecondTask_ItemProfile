@@ -49,6 +49,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
                 __addressList = new List<AddressMaster>();
             }
             __addressList.Add(master);
+            addresses.Add(master);
         }
 
         public async Task Finalze()
@@ -76,7 +77,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
                 TimeToSearch = ts1.TotalMilliseconds.ToString();
             }
 
-            Addresses = addressMasters.ToObservableCollection();
+            addresses = addressMasters.ToObservableCollection();
             DateTime rootTime2 = DateTime.Now;
             TimeToDisplay = (rootTime2 - rootTime1).TotalMilliseconds.ToString();
             await Task.CompletedTask;

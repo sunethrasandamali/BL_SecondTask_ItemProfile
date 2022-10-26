@@ -26,7 +26,7 @@ public partial class AddressListView : ContentView
                 Email= Guid.NewGuid().ToString(),
             });;
         }
-        model.Finalze();
+    
         BindingContext = model;
         InitializeComponent();
 
