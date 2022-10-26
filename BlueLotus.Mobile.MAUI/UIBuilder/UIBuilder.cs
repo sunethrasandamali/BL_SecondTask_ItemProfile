@@ -106,6 +106,7 @@ namespace BlueLotus.Mobile.MAUI.UIBuilder
             var button = new Button()
             {
                 Text = child.ElementCaption,
+              
             };
             button.SetBinding(Button.CommandProperty, child.OnClickAction, BindingMode.TwoWay);
 
@@ -131,8 +132,12 @@ namespace BlueLotus.Mobile.MAUI.UIBuilder
             lbl.Text = child.ElementCaption;
 
             var txtFrame = new Frame()
-            { };
-            var txtBox = new Entry() { };
+            {
+          
+            };
+            var txtBox = new Entry() { 
+            
+            };
             txtBox.SetBinding(Entry.TextProperty, child.DefaultAccessPath, BindingMode.TwoWay);
             txtFrame.Content = txtBox;
             verticalStackLayout.Children.Add(lbl);

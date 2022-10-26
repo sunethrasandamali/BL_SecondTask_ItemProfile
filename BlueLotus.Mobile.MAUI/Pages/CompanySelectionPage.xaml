@@ -16,12 +16,16 @@
                         <RoundRectangle CornerRadius="1" />
                     </Border.StrokeShape>
                     <VerticalStackLayout Spacing="16">
-
+                        <Image Source="bl360.png"
+          HeightRequest="100"
+          VerticalOptions="Center"
+          WidthRequest="500"
+          HorizontalOptions="Center" />
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
                         <Frame>
                             <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}"
-                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  > </Picker>
-                           
+                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  ></Picker>
+
                         </Frame>
 
                         <Button Text="Continue..."  Command="{Binding ContuneClickCommand}" VerticalOptions="Fill"  />
