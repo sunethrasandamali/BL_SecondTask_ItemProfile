@@ -6,7 +6,11 @@
     <Grid IgnoreSafeArea="True">
         <ScrollView HorizontalScrollBarVisibility="Always">
             <VerticalStackLayout Spacing="0" Padding="0,0" VerticalOptions="Center">
-                <Label Text="{Binding ApplicationName}" HorizontalTextAlignment="Center" FontSize="32" />
+                <Image Source="bl360.png"
+          HeightRequest="100"
+          VerticalOptions="Center"
+          WidthRequest="500"
+          HorizontalOptions="Center" />
                 <Border Padding="24,12" HorizontalOptions="Fill" VerticalOptions="End" Margin="10">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="1" />
@@ -17,11 +21,9 @@
                                 <DataTemplate></DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="User Name" />
                         <Frame>
                             <Entry Placeholder="User Name" Text="{Binding UserName, Mode=TwoWay}" x:Name="Smos"/>
                         </Frame>
-                        <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" LineBreakMode="WordWrap" Text="Password" />
                         <Frame>
                             <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" />
                         </Frame>

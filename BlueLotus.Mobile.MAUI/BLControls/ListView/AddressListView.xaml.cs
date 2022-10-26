@@ -26,23 +26,25 @@ public partial class AddressListView : ContentView
                 Email= Guid.NewGuid().ToString(),
             });;
         }
-        model.Finalze();
+    
         BindingContext = model;
         InitializeComponent();
 
     }
 
 
-    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    private async void Entry_TextChanged(object sender, TextChangedEventArgs e)
     {
         TimeSpan elapsed = DateTime.Now - PreviousChange;
 
-        if (elapsed > debounceInterval)
+        if (elapsed > debounceInterval )
         {
-            model.Finalze();
+         
             PreviousChange = DateTime.Now;
           
         }
+        await model.Finalze();
+    
 
     }
 }
