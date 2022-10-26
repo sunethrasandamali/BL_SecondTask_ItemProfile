@@ -436,6 +436,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     reader = dbCommand.ExecuteReader();
                     while (reader.Read())
                     {
+                        orderV3.OrderKey = reader.GetColumn<int>("OrdKy");
                         //req qty -org qty 
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
