@@ -716,6 +716,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.IsApproved = reader.GetColumn<int>("IsApr");
                         oorderV3.Description = reader.GetColumn<string>("Des");
                         oorderV3.OrderPrefix = new CodeBaseResponse() { CodeName = reader.GetColumn<string>("Prefix") ?? "" };
+                        //oorderV3.OrderCategory1=
+                        //oorderV3.OrderCategory2=
+                        //oorderV3.ProjectKey=
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -865,6 +868,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ItemTaxType5Per = reader.GetColumn<decimal>("ItmTaxTyp5Per");
                         oorderV3.Remarks = reader.GetColumn<string>("Rem");
                         oorderV3.Description = reader.GetColumn<string>("Des");
+                        //carmrt and principle values customer amount
+
                         itemList.Add(oorderV3);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
