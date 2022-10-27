@@ -34,6 +34,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public CodeBaseResponse OrderPrefix { get; set; }
         public CodeBaseResponse OrderCategory1 { get; set; }
         public CodeBaseResponse OrderCategory2 { get; set; }
+        public CodeBaseResponse OrderStatus { get; set; }
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
         public GenericOrder()
@@ -53,6 +54,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderCategory1=new CodeBaseResponse();
             OrderCategory2=new CodeBaseResponse();
             OrderProject=new ProjectResponse();
+            OrderStatus = new CodeBaseResponse();
         }
 
     }
@@ -341,6 +343,9 @@ namespace BlueLotus360.Core.Domain.DTOs
         public int IsConfirmed { get; set; } = 0;
 
         public decimal OriginalQuantity { get; set; }
+        public int ItemTypeKey { get; set; }
+        public string? ItemTypeName { get; set; }
+        public string? ItemTypeOurCode { get; set; }
 
     }
 

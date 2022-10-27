@@ -868,6 +868,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ItemTaxType5Per = reader.GetColumn<decimal>("ItmTaxTyp5Per");
                         oorderV3.Remarks = reader.GetColumn<string>("Rem");
                         oorderV3.Description = reader.GetColumn<string>("Des");
+                        oorderV3.ItemTypeKey= reader.GetColumn<int>("itmtyp");
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);
