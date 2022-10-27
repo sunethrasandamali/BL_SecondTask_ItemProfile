@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
+using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.API.Authentication;
@@ -18,10 +19,16 @@ namespace BlueLotus360.Web.API.Controllers
     {
         ILogger<WorkShopManagementController> _logger;
         IWorkshopManagementService _workshopManagementService;
-        public WorkShopManagementController(ILogger<WorkShopManagementController> logger,IWorkshopManagementService workshopManagementService)
+        IObjectService _objectService;
+        ICodeBaseService _codeBaseService;
+        public WorkShopManagementController(ILogger<WorkShopManagementController> logger,
+                                            IWorkshopManagementService workshopManagementService,
+                                            IObjectService objectService,ICodeBaseService codeBase)
         {
             _logger = logger;
             _workshopManagementService = workshopManagementService;
+            _objectService = objectService;
+            _codeBaseService = codeBase;
         }
 
         [HttpPost("searchVehicle")]
@@ -49,6 +56,32 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             IList<ProjectResponse> list = _workshopManagementService.GetProgressingProjectDetails(request, company, user);
             return Ok(list);
+        }
+
+        [HttpPost("createWorkOrder")]
+        public IActionResult CreateWorkOrder(GenericOrder orderDetails)
+        {
+            //
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            var ord = _workshopManagementService.SaveWorkOrder(company, user, orderDetails, ordTyp.Value);
+            OrderSaveResponse orderServerResponse = ord.Value;
+            return Ok(orderServerResponse);
+
+        }
+
+        [HttpPost("updateWorkOrder")]
+        public IActionResult UpdateWorkOrder(GenericOrder orderDetails)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails, ordTyp.Value);
+
+            return Ok(orderServerResponse);
         }
 
         [HttpPost("openWorkOrder")]

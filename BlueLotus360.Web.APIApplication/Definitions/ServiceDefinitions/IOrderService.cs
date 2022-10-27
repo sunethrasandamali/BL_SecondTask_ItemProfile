@@ -18,7 +18,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<OrderFindResults>> FindOrders(OrderFindDto request, Company company, User user,CodeBaseResponse ordTyp);
 
         BaseServerResponse<GenericOrder> OpenOrder(Company company, User user, OrderOpenRequest request);
-
         BaseServerResponse<IList<GetFromQuotResults>> RetrieveQuotation(GetFromQuoatationDTO request, Company company, User user, CodeBaseResponse ordTyp, CodeBaseResponse preOrdTyp);
 
         BaseServerResponse<GenericOrder> OpenQuotation(Company company, User user, OrderOpenRequest request, CodeBaseResponse ordTyp);

@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
+using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using System;
@@ -16,6 +17,9 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         public IList<Vehicle> GetVehicleDetails(VehicleSearch request, Company company, User user);
         IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user);
         IList<ProjectResponse> GetProgressingProjectDetails(Vehicle request, Company company, User user);
+        BaseServerResponse<OrderSaveResponse> SaveWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp);
+        OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp);
         BaseServerResponse<WorkOrder> OpenWorkOrder(Company company, User user, OrderOpenRequest request);
+
     }
 }

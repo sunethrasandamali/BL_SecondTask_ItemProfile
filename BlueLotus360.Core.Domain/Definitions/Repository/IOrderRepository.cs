@@ -20,6 +20,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         void UpdateGenericOrderLineItem(OrderLineCreateDTO item, long ObjKy, Company company, User user);
         BaseServerResponse<IList<OrderFindResults>> GenericFindOrders(OrderFindDto dto, Company company, User user);
         BaseServerResponse<OrderHeaderEditDTO> GetGenericOrderByOrderKey(long Orderkey, Company company, User user);
+        BaseServerResponse<OrderHeaderEditDTO> GetGenericOrderByOrderKeyV2(long Orderkey, Company company, User user);
         BaseServerResponse<IList<OrderLineCreateDTO>> GetGenericOrderLineItemsByOrderKey(long Orderkey, long ObjKy, Company company, User user);
         CodeBaseResponse OrderStatusFindByOrdKy(Company company, User user, int objky, int ordky);
         BaseServerResponse<IList<GetFromQuotResults>> GenericRetrieveQuotation(GetFromQuoatationDTO request, Company company, User user);

@@ -444,5 +444,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             return quote;
         }
+
+      
     }
 }

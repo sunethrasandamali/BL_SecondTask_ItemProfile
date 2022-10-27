@@ -129,7 +129,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 IDataReader reader = null;
                 IList<WorkOrder> list = new List<WorkOrder>();
                 BaseServerResponse<IList<WorkOrder>> response = new BaseServerResponse<IList<WorkOrder>>();
-                string SPName = "CARJobHostory_SelectWeb";
+                string SPName = "CARJobHistory_SelectWeb";
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
