@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
@@ -108,6 +109,17 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(ord);
         }
 
-        
+        [HttpPost("insertUpdateOrder")]
+
+        public IActionResult InsertUpdateGenericOrder(WorkOrderAmountByAccount request) 
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var result = _orderService.InsertUpdateOrder(company, user, request);
+            WorkOrderAmountByAccount response = result.Value;
+            return Ok(response);
+        }
+
     }
 }

@@ -3,6 +3,7 @@ using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
 using BlueLotus360.Data.SQL92.Extenstions;
@@ -1262,6 +1263,68 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.Dispose();
                     dbConnection.Dispose();
 
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateGenericOrder(Company company, User user, WorkOrderAmountByAccount orderItem)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "OrdDetAcc_InsertUpdateWeb";
+                BaseServerResponse<WorkOrderAmountByAccount> response = new BaseServerResponse<WorkOrderAmountByAccount>();
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", response.Value.ObjectKey);
+                    dbCommand.CreateAndAddParameter("@OrdDetAccKy", response.Value.CarMartAccount.AccountKey);
+                    dbCommand.CreateAndAddParameter("@OrdDetKy", response.Value.FromOrderDetailKey);
+                    dbCommand.CreateAndAddParameter("@ControlConKy", response.Value.ControlConKey);
+                    dbCommand.CreateAndAddParameter("@AccKy", BaseComboResponse.GetKeyValue(response.Value.CarMartAccount));
+                    dbCommand.CreateAndAddParameter("@AdrKy", response.Value.CarMartAddress.AddressKey);
+                    dbCommand.CreateAndAddParameter("@LiNo", response.Value.LineNumber);
+                    dbCommand.CreateAndAddParameter("@Val", response.Value.Value);
+                    dbCommand.CreateAndAddParameter("@Amt", response.Value.Percentage);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
                 }
 
                 return response;

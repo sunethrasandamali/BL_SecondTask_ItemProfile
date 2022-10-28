@@ -2,6 +2,7 @@
 using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
+using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -445,6 +446,9 @@ namespace BlueLotus360.Web.APIApplication.Services
             return quote;
         }
 
-      
+        public BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateOrder(Company company, User user, WorkOrderAmountByAccount genericOrder)
+        {
+            return _unitOfWork.OrderRepository.InsertUpdateGenericOrder(company, user, genericOrder);
+        }
     }
 }

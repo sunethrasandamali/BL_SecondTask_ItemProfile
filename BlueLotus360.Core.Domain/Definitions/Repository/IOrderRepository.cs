@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
+using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         CodeBaseResponse OrderStatusFindByOrdKy(Company company, User user, int objky, int ordky);
         BaseServerResponse<IList<GetFromQuotResults>> GenericRetrieveQuotation(GetFromQuoatationDTO request, Company company, User user);
         BaseServerResponse<IList<QuotationDetails>> GenericOpenQuotation(OrderOpenRequest request, Company company, User user);
+        BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateGenericOrder(Company company, User user, WorkOrderAmountByAccount orderItem);
     }
 }

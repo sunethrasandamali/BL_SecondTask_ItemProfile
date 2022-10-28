@@ -9,6 +9,20 @@ using System.Threading.Tasks;
 
 namespace BlueLotus360.Core.Domain.Entity.WorkOrder
 {
+    public class WorkOrderAmountByAccount : GenericOrderItem
+    {
+        public AccountResponse CarMartAccount { get; set; }
+        public int ControlConKey { get; set; }
+        public AddressResponse CarMartAddress { get; set; }
+        public decimal Value { get; set; }
+        public decimal Percentage { get; set; }
+
+        public WorkOrderAmountByAccount() 
+        {
+            CarMartAccount = new AccountResponse();
+            CarMartAddress = new AddressResponse();
+        }
+    }
     public class VehicleSearch
     {
         public long ObjectKey { get; set; }

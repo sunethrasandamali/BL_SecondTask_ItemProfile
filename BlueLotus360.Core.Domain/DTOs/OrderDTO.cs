@@ -105,11 +105,6 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string Remark { get; set; } = "";
 
         //
-        public decimal PrinciplePrecentage { get; set; }
-        public decimal PrincipleAmount { get; set; }
-        public decimal CarmartPrecentage { get; set; }
-        public decimal CarmartAmount { get; set; }
-        public decimal CustomerAmount { get; set; }
         public int IsSelected { get; set; }
         public decimal Time { get; set; }
         public int IsMaterialItem { get; set; }
@@ -122,8 +117,6 @@ namespace BlueLotus360.Core.Domain.DTOs
             TransactionItem = new ItemResponse();
             OrderType = new CodeBaseResponse();
         }
-
-
 
     }
 
