@@ -382,5 +382,11 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             return response;
         }
+
+        //public IList<WorkOrder> GetRecentBooking(Vehicle request, Company company, User user)
+        //{
+        //    var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
+        //    return response.Value;
+        //}
     }
 }

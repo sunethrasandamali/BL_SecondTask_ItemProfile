@@ -93,5 +93,14 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(order.Value);
         }
 
+        //[HttpPost("getRecentBookingDetails")]
+        //public IActionResult getRecentBookingDetails(Vehicle request)
+        //{
+        //    var user = Request.GetAuthenticatedUser();
+        //    var company = Request.GetAssignedCompany();
+        //    BaseServerResponse<WorkOrder> order = _workshopManagementService.OpenWorkOrder(company, user, request);
+        //    return Ok(order.Value);
+        //}
+
     }
 }
