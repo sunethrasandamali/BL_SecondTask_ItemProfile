@@ -130,7 +130,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             return orderSaveResponse;
         }
 
-        public void UpdateOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp)
+        public OrderSaveResponse UpdateOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp)
         {
             OrderHeaderEditDTO OH = new OrderHeaderEditDTO();
             OH.OrderKey = orderDetails.OrderKey;
@@ -259,6 +259,16 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
 
             _unitOfWork.OrderRepository.PostInterLocationTransfers(company,user, OH.OrderKey, orderDetails.FormObjectKey);
+            
+            var ordb = _unitOfWork.OrderRepository.GetOrderByOrderKey(OH.OrderKey, user);
+            OrderSaveResponse orderServerResponse = new OrderSaveResponse();
+            orderServerResponse.OrderKey = ordb.OrderKey;
+            orderServerResponse.OrderNumber = ordb.OrderReference.ToString();
+            orderServerResponse.Prefix = ordb.Prefix;
+
+            
+
+            return orderServerResponse;
         }
 
         public BaseServerResponse<IList<OrderFindResults>> FindOrders(OrderFindDto request, Company company, User user, CodeBaseResponse ordTyp) 
@@ -434,5 +444,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             return quote;
         }
+
+      
     }
 }

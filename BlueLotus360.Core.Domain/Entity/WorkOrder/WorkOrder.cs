@@ -28,7 +28,6 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
     {
         public Vehicle SelectedVehicle { get; set; }
         public DateTime DeliveryDate { get; set; }
-        public string WorkOrderStaus { get; set; }
         public decimal PrincipalPercentage { get; set; }
         public decimal PrincipalValue { get; set; }
         public decimal CarmartlPercentage { get; set; }

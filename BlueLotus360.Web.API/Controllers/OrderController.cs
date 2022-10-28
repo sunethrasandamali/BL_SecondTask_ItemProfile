@@ -51,9 +51,9 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
             var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
-            _orderService.UpdateOrder(company, user, orderDetails, ordTyp.Value);
+            OrderSaveResponse orderServerResponse= _orderService.UpdateOrder(company, user, orderDetails, ordTyp.Value);
             
-            return Ok();
+            return Ok(orderServerResponse);
         }
 
         [HttpPost("findOrders")]
@@ -107,5 +107,7 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(ord);
         }
+
+        
     }
 }

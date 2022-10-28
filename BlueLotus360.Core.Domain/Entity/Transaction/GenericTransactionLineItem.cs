@@ -118,6 +118,17 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public DateTime DeliveryDate { get; set; }
         public IList<ItemSerialNumber> SerialNumbers { get; set; }
 
+        // CarMart
+        public decimal PrinciplePrecentage { get; set; }
+        public decimal PrincipleAmount { get; set; }
+        public decimal CarmartPrecentage { get; set; }
+        public decimal CarmartAmount { get; set; }
+        public decimal CustomerAmount { get; set; }
+        public int IsSelected { get; set; }
+        public decimal Time { get; set; }
+        public int IsMaterialItem { get; set; }
+        public int IsServiceItem { get; set; }
+        public decimal SubTotal { get; set; }
 
         public GenericTransactionLineItem()
         {
