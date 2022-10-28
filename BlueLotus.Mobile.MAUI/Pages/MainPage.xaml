@@ -4,8 +4,69 @@
              x:Class="BlueLotus.Mobile.MAUI.Pages.MainPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:blUiControls="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.ListView"
+             xmlns:pages="clr-namespace:BlueLotus.Mobile.MAUI.Pages"
+             xmlns:productCotrols="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
              >
 
-    <blUiControls:AddressListView />
+   
+
+        <Grid ColumnDefinitions="*,*,*" RowDefinitions="50,*"  >
+            <Button ClassId="IsPr" Text="Products" Style="{StaticResource TabButton}" Grid.Column="0"/>
+            <Button Text="Customers" Style="{StaticResource TabButton}" Grid.Column="1"/>
+            <Button Text="Orders" Style="{StaticResource TabButton}" Grid.Column="2"/>
+          
+                <Grid Background="Yellow" Grid.Row="1" Grid.ColumnSpan="3"   >
+
+
+
+                <Grid>
+                    <ScrollView>
+                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="#FFF" Margin="1"  >
+
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                        <productCotrols:ProductView />
+                    </FlexLayout>
+                    </ScrollView>
+                </Grid>
+
+
+            </Grid>
+         
+        </Grid>
+        
+       
+
+
 
 </ContentPage>

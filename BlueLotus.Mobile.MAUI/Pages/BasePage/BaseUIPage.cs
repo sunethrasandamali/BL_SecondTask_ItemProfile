@@ -17,10 +17,11 @@ namespace BlueLotus.Mobile.MAUI.Pages.BasePage
         protected readonly IAppObjectService _objectAppService;
 
         protected BaseViewModel __bindContext;
+        private View _renderSpace;
         public BaseUIPage()
         {
             _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
-
+            _renderSpace = Content;
         }
 
         protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -28,6 +29,7 @@ namespace BlueLotus.Mobile.MAUI.Pages.BasePage
             if (BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
             {
                 UIMenu menu = (UIMenu)BindingContext;
+                
                 Title = menu.MenuCaption;
                 BindingContext = null;
                 var elem = await _objectAppService.FetchObjects(menu);

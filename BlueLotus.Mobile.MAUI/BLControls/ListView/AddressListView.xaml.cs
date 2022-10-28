@@ -20,10 +20,10 @@ public partial class AddressListView : ContentView
 
         for(int i = 0; i < 10; i++)
         {
-            model.Add(new AddressMaster()
+            model.Add(new AddressResponse()
             {
                 AddressName= Guid.NewGuid().ToString(),
-                Email= Guid.NewGuid().ToString(),
+              
             });;
         }
     
