@@ -204,7 +204,7 @@ namespace BlueLotus360.Core.Domain.DTOs
 
         public CodeBaseResponse OrderType { get; set; } = new CodeBaseResponse();
 
-
+        
     }
 
     public class OrderHeaderEditDTO : OrderHeaderCreateDTO

@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
@@ -66,7 +67,11 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
             var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
-            var ord = _workshopManagementService.SaveWorkOrder(company, user, orderDetails, ordTyp.Value);
+            orderDetails.OrderType = ordTyp.Value;
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, orderDetails.OrderStatus.OurCode, "OrdSts");
+            orderDetails.OrderStatus = ordsts.Value;
+
+            var ord = _workshopManagementService.SaveWorkOrder(company, user, orderDetails);
             OrderSaveResponse orderServerResponse = ord.Value;
             return Ok(orderServerResponse);
 
@@ -78,8 +83,14 @@ namespace BlueLotus360.Web.API.Controllers
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
             var uiObject = _objectService.GetObjectByObjectKey(orderDetails.FormObjectKey);
+
             var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
-            OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails, ordTyp.Value);
+            orderDetails.OrderType = ordTyp.Value;
+
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, orderDetails.OrderStatus.OurCode, "OrdSts");
+            orderDetails.OrderStatus = ordsts.Value;
+
+            OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails);
 
             return Ok(orderServerResponse);
         }
@@ -93,14 +104,14 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(order.Value);
         }
 
-        //[HttpPost("getRecentBookingDetails")]
-        //public IActionResult getRecentBookingDetails(Vehicle request)
-        //{
-        //    var user = Request.GetAuthenticatedUser();
-        //    var company = Request.GetAssignedCompany();
-        //    BaseServerResponse<WorkOrder> order = _workshopManagementService.OpenWorkOrder(company, user, request);
-        //    return Ok(order.Value);
-        //}
+        [HttpPost("getRecentBookingDetails")]
+        public IActionResult GetRecentBookingDetails(Vehicle request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            IList<BookingDetails> booked = _workshopManagementService.GetRecentBooking(request, company, user);
+            return Ok(booked);
+        }
 
     }
 }

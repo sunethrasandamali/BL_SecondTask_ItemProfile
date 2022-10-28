@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
@@ -41,7 +42,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             return response.Value;
         }
 
-        public BaseServerResponse<OrderSaveResponse> SaveWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp)
+        public BaseServerResponse<OrderSaveResponse> SaveWorkOrder(Company company, User user, GenericOrder orderDetails)
         {
             OrderHeaderCreateDTO OH = new OrderHeaderCreateDTO();
             OH.DocumentNumber = orderDetails.OrderDocumentNumber;
@@ -52,7 +53,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             //OH.DeliveryDate = orderDetails.DeliveryDate;
             OH.OrderDate = DateTime.Now;
             OH.OrderType = new CodeBaseResponse();
-            OH.OrderType.CodeKey = ordTyp.CodeKey;
+            OH.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
             OH.AccountKey = 1;
             OH.Description = orderDetails.HeaderDescription;
             OH.PayementTerm = new CodeBaseResponse();
@@ -68,6 +69,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.OrderCategory2Key = (int)orderDetails.OrderCategory2.CodeKey;
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
+            OH.OrderStatusKey = (int)orderDetails.OrderStatus.CodeKey;
 
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
@@ -110,7 +112,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
                     lineItem.IsApproved = item.IsApproved;
                     lineItem.OrderType = new CodeBaseResponse();
-                    lineItem.OrderType.CodeKey = ordTyp.CodeKey;
+                    lineItem.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
                     lineItem.IsTransfer = item.IsTransfer;
                     lineItem.IsConfirmed = item.IsTransferConfirmed;
 
@@ -151,7 +153,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             return orderSaveResponse;
         }
 
-        public OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp)
+        public OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails)
         {
             OrderHeaderEditDTO OH = new OrderHeaderEditDTO();
             OH.OrderKey = orderDetails.OrderKey;
@@ -159,7 +161,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.OrderLocation.CodeKey = orderDetails.OrderLocation.CodeKey;
             OH.OrderDate = orderDetails.OrderDate;
             OH.OrderType = new CodeBaseResponse();
-            OH.OrderType.CodeKey = ordTyp.CodeKey;
+            OH.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
             OH.PayementTerm = new CodeBaseResponse();
             OH.PayementTerm.CodeKey = orderDetails.OrderPaymentTerm.CodeKey;
             OH.DocumentNumber = orderDetails.OrderDocumentNumber;
@@ -178,7 +180,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.OrderCategory2 = new CodeBaseResponse() { CodeKey = (int)orderDetails.OrderCategory2.CodeKey };
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
-
+            OH.OrderStatus = orderDetails.OrderStatus;
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
                 OH.AccountKey = orderDetails.OrderAccount.AccountKey;
@@ -261,7 +263,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.OriginalQuantity = item.RequestedQuantity;
                     lineItem.IsApproved = 1;
                     lineItem.OrderType = new CodeBaseResponse();
-                    lineItem.OrderType.CodeKey = ordTyp.CodeKey;
+                    lineItem.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
                     lineItem.IsTransfer = item.IsTransfer;
                     lineItem.IsConfirmed = item.IsTransferConfirmed;
                     lineItem.DisocuntAmount = item.DiscountAmount;
@@ -383,10 +385,10 @@ namespace BlueLotus360.Web.APIApplication.Services
             return response;
         }
 
-        //public IList<WorkOrder> GetRecentBooking(Vehicle request, Company company, User user)
-        //{
-        //    var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
-        //    return response.Value;
-        //}
+        public IList<BookingDetails> GetRecentBooking(Vehicle request, Company company, User user)
+        {
+            var response = _unitOfWork.WorkShopManagementRepository.RecentBookingDetails(request, company, user);
+            return response.Value;
+        }
     }
 }
