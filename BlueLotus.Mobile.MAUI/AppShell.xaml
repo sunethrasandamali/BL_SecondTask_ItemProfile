@@ -41,6 +41,7 @@
     </Shell.FlyoutHeader>
 
 
+
     <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}"
                   
                   >
