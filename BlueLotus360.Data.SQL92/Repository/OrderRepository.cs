@@ -199,6 +199,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp3Per", item.ItemTaxType3Per);
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp4Per", item.ItemTaxType4Per);
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp5Per", item.ItemTaxType5Per);
+                    dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
 
                     //  dbCommand.CreateAndAddParameter("ItmPrpKy", item.ItemProperty1);
 
@@ -430,6 +431,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("Maint", 1);
                     dbCommand.CreateAndAddParameter("@Original_TmStmp", 1);
                     dbCommand.CreateAndAddParameter("BuKy", BaseComboResponse.GetKeyValue(orderV3.BussinessUnit));
+                    dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
+                    dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -531,6 +534,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@FrmOrdDetKy", item.FromOrderDetailKey);
                     dbCommand.CreateAndAddParameter("@TrnPri", item.TransactionPrice);
                     dbCommand.CreateAndAddParameter("@OrgQty", item.OriginalQuantity);
+                    dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -716,9 +720,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.IsApproved = reader.GetColumn<int>("IsApr");
                         oorderV3.Description = reader.GetColumn<string>("Des");
                         oorderV3.OrderPrefix = new CodeBaseResponse() { CodeName = reader.GetColumn<string>("Prefix") ?? "" };
-                        //oorderV3.OrderCategory1=
-                        //oorderV3.OrderCategory2=
-                        //oorderV3.ProjectKey=
+                        oorderV3.OrderCategory1= this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
+                        oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
+                        oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -786,6 +790,7 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     while (dataReader.Read())
                     {
+                        codebase.Code = dataReader.GetColumn<string>("Code");
                         codebase.CodeName = dataReader.GetColumn<string>("CdNm");
                         codebase.ConditionCode = dataReader.GetColumn<string>("ConCd");
                         codebase.CodeKey = dataReader.GetColumn<int>("CdKy");
@@ -868,7 +873,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ItemTaxType5Per = reader.GetColumn<decimal>("ItmTaxTyp5Per");
                         oorderV3.Remarks = reader.GetColumn<string>("Rem");
                         oorderV3.Description = reader.GetColumn<string>("Des");
-                        oorderV3.ItemTypeKey= reader.GetColumn<int>("itmtyp");
+                        oorderV3.ItemTypeKey= reader.GetColumn<int>("itmtypKy");
+                        oorderV3.ItemTypeName = reader.GetColumn<string>("ItmTypNm");
+                        oorderV3.ItemTypeOurCode = reader.GetColumn<string>("ItmTypOurCd");
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);
@@ -1119,6 +1126,103 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = quotation;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<OrderHeaderEditDTO> GetGenericOrderByOrderKeyV2(long Orderkey, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                OrderHeaderEditDTO oorderV3 = new OrderHeaderEditDTO();
+                BaseServerResponse<OrderHeaderEditDTO> response = new BaseServerResponse<OrderHeaderEditDTO>();
+                string SPName = "OrdHdrV2_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("OrdKy", Orderkey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        oorderV3 = new OrderHeaderEditDTO();
+                        oorderV3.OrderKey = reader.GetColumn<int>("OrdKy");
+                        oorderV3.OrderType = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdTypKy"));
+                        oorderV3.OrderNumber = reader.GetColumn<int>("OrdNo");
+                        oorderV3.OrderDate = reader.GetColumn<DateTime>("OrdDt");
+                        oorderV3.PayementTerm = this.GetCdMasByCdKy(reader.GetColumn<int>("PmtTrmKy"));
+                        oorderV3.DocumentNumber = reader.GetColumn<string>("DocNo");
+                        oorderV3.OrderLocation = new CodeBaseResponse();
+                        oorderV3.OrderLocation.CodeKey = reader.GetColumn<int>("OrdHdrLocKy");
+                        oorderV3.OrderLocation.CodeName = reader.GetColumn<string>("OrdHdrLocNm");
+                        oorderV3.OrderAdress = new AddressResponse(reader.GetColumn<int>("AdrKy"), reader.GetColumn<string>("AdrId"), reader.GetColumn<string>("AdrNm"));
+                        oorderV3.RepAdress = new AddressResponse(reader.GetColumn<int>("RepAdrKy"), "", reader.GetColumn<string>("RepAdrNm"));
+                        oorderV3.ObjectKey = reader.GetColumn<int>("ObjKy");
+                        oorderV3.TransactionDiscountAmount = reader.GetColumn<decimal>("TrnDisAmt");
+                        oorderV3.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+                        oorderV3.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        //oorderV3.OrderPrefix = new CodeBaseResponse(reader.GetColumn<int>("OrdPrefixKy"));
+                        oorderV3.YourReference = reader.GetColumn<string>("YurRef");
+                        oorderV3.Amount = reader.GetColumn<decimal>("Amt");
+                        oorderV3.TransactionAmount = reader.GetColumn<decimal>("TrnAmt");
+                        oorderV3.OrderStatus = new CodeBaseResponse(reader.GetColumn<int>("OrdStsKy"));
+                        oorderV3.IsActive = reader.GetColumn<int>("IsAct");//check isact or objky 
+                        oorderV3.IsApproved = reader.GetColumn<int>("IsApr");
+                        oorderV3.Description = reader.GetColumn<string>("Des");
+                        oorderV3.OrderPrefix = new CodeBaseResponse() { CodeName = reader.GetColumn<string>("Prefix") ?? "" };
+                        oorderV3.OrderCategory1 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
+                        oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
+                        oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = oorderV3;
 
                     if (!reader.IsClosed)
                     {
