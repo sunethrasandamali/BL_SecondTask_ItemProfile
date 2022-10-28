@@ -389,7 +389,7 @@
     </Style>
 
     <Style TargetType="NavigationPage" ApplyToDerivedTypes="True">
-        <Setter Property="BarBackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Gray950}}" />
+        <Setter Property="BarBackgroundColor" Value="#E3242B" />
         <Setter Property="BarTextColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}" />
         <Setter Property="IconColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource White}}" />
     </Style>
@@ -407,5 +407,18 @@
         <Setter Property="Padding" Value="0"/>
     </Style>
 
+
+
+    <Style x:Key="TabButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+        <Setter Property="CornerRadius" Value="1" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Style.Triggers>
+            <Trigger TargetType="Button" Property="ClassId" Value="IsPr">
+                <Setter Property="BackgroundColor"
+                    Value="{StaticResource Alternate}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

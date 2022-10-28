@@ -1213,7 +1213,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.YourReference = reader.GetColumn<string>("YurRef");
                         oorderV3.Amount = reader.GetColumn<decimal>("Amt");
                         oorderV3.TransactionAmount = reader.GetColumn<decimal>("TrnAmt");
-                        oorderV3.OrderStatus = new CodeBaseResponse(reader.GetColumn<int>("OrdStsKy"));
+                        oorderV3.OrderStatus = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdStsKy"));
                         oorderV3.IsActive = reader.GetColumn<int>("IsAct");//check isact or objky 
                         oorderV3.IsApproved = reader.GetColumn<int>("IsApr");
                         oorderV3.Description = reader.GetColumn<string>("Des");

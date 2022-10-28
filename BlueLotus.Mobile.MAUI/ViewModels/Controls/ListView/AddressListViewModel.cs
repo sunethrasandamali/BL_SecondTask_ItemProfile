@@ -26,10 +26,10 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
         private string timeToDisplay;
 
         [ObservableProperty]
-        private ObservableCollection<AddressMaster> addresses;
+        private ObservableCollection<AddressResponse> addresses;
 
 
-        private IList<AddressMaster> __addressList;
+        private IList<AddressResponse> __addressList;
 
         public BLUIElement BLUIElement { get; set; }
 
@@ -37,16 +37,16 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
 
         public AddressListViewModel()
         {
-            addresses = new ObservableCollection<AddressMaster>();
+            addresses = new ObservableCollection<AddressResponse>();
 
         }
 
 
-        public void Add(AddressMaster master)
+        public void Add(AddressResponse master)
         {
             if (__addressList == null)
             {
-                __addressList = new List<AddressMaster>();
+                __addressList = new List<AddressResponse>();
             }
             __addressList.Add(master);
             addresses.Add(master);
@@ -61,10 +61,10 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
         private async Task Search()
         {
             DateTime rootTime1 = DateTime.Now;
-            IEnumerable<AddressMaster> addressMasters;
+            IEnumerable<AddressResponse> addressMasters;
             if (string.IsNullOrWhiteSpace(searchQuery) || SearchQuery.Length < 4)
             {
-                addressMasters = new ObservableCollection<AddressMaster>(__addressList);
+                addressMasters = new ObservableCollection<AddressResponse>(__addressList);
             }
             else
             {
@@ -77,9 +77,11 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
                 TimeToSearch = ts1.TotalMilliseconds.ToString();
             }
 
-            addresses = addressMasters.ToObservableCollection();
+            Addresses = addressMasters.ToObservableCollection();
             DateTime rootTime2 = DateTime.Now;
+            
             TimeToDisplay = (rootTime2 - rootTime1).TotalMilliseconds.ToString();
+         
             await Task.CompletedTask;
 
         }
@@ -92,7 +94,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
                 Interlocked.Exchange(ref _throttleCts, new CancellationTokenSource()).Cancel();
 
                 //NOTE THE 500 HERE - WHICH IS THE TIME TO WAIT
-                await Task.Delay(TimeSpan.FromMilliseconds(500), _throttleCts.Token)
+                await Task.Delay(TimeSpan.FromMilliseconds(300), _throttleCts.Token)
 
                     //NOTICE THE "ACTUAL" SEARCH METHOD HERE
                     .ContinueWith(async task => await Search(),
@@ -100,9 +102,9 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Controls.ListView
                         TaskContinuationOptions.OnlyOnRanToCompletion,
                         TaskScheduler.FromCurrentSynchronizationContext());
             }
-            catch
+            catch(Exception ex)
             {
-                //Ignore any Threading errors
+                var c = ex.Data;
             }
         }
     

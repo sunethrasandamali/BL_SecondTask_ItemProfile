@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.DTOs;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
@@ -235,6 +236,89 @@ namespace BlueLotus360.Data.SQL92.Repository
                         project.ProjectName = reader.GetColumn<string>("PrjNm");
 
                         list.Add(project);
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = list;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    if (reader != null)
+                    {
+                        reader.Dispose();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<IList<BookingDetails>> RecentBookingDetails(Vehicle dto, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                IList<BookingDetails> list = new List<BookingDetails>();
+                BaseServerResponse<IList<BookingDetails>> response = new BaseServerResponse<IList<BookingDetails>>();
+                string SPName = "CARRecentBookings_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", dto.ObjectKey);
+                    dbCommand.CreateAndAddParameter("Dt", DateTime.Now);
+                    dbCommand.CreateAndAddParameter("AdrKy", BaseComboResponse.GetKeyValue(dto.VehicleAddress));
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        BookingDetails book = new BookingDetails();
+                        book.PrcsDetKy= reader.GetColumn<int>("PrcsDetKy");
+                        book.PrjKy = reader.GetColumn<int>("PrjKy");
+                        book.TaskID = reader.GetColumn<int>("TaskID");
+                        book.TaskNm = reader.GetColumn<string>("TaskSNm");
+                        book.FrmDt = reader.GetColumn<DateTime>("FrmDt");
+                        book.ToDt = reader.GetColumn<DateTime>("ToDt");
+                        list.Add(book);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = list;
