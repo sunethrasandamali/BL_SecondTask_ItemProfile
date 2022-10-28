@@ -416,7 +416,7 @@
         <Style.Triggers>
             <Trigger TargetType="Button" Property="ClassId" Value="IsPr">
                 <Setter Property="BackgroundColor"
-                    Value="{StaticResource White}" />
+                    Value="{StaticResource Alternate}" />
             </Trigger>
         </Style.Triggers>
     </Style>

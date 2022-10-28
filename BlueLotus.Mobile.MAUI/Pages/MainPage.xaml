@@ -21,8 +21,9 @@
 
                 <Grid>
                     <ScrollView>
-                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="#FFF" Margin="1"  >
+                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" >
 
+                            
                         <productCotrols:ProductView />
                         <productCotrols:ProductView />
                         <productCotrols:ProductView />

@@ -2,11 +2,18 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.ProductView" 
-             WidthRequest="245" HeightRequest="245">
+             WidthRequest="245" HeightRequest="330">
 
-    <VerticalStackLayout Padding="1" Background="Aqua" WidthRequest="243" HeightRequest="243" VerticalOptions="Start">
-        <Grid BackgroundColor="Blue" HeightRequest="240" WidthRequest="240">
-
-        </Grid>
+    <VerticalStackLayout   WidthRequest="243" HeightRequest="330" VerticalOptions="Start">
+        <Frame CornerRadius="5" BorderColor="#EAEAEA" WidthRequest="243" Margin="5" Padding="5">
+            <Grid HeightRequest="318" RowDefinitions="278,40" >
+                <Grid BackgroundColor="#CFCFCF" Grid.Row="0">
+                    <Image Source="shoe1.jpg" WidthRequest="280" />
+                </Grid>
+                <Grid Grid.Row="1" >
+                    <Label Text="Shoes" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                </Grid>
+            </Grid>
+        </Frame>
     </VerticalStackLayout>
 </ContentView>
