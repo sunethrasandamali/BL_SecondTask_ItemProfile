@@ -20,7 +20,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<OrderSaveResponse> SaveWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp);
         OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails, CodeBaseResponse ordTyp);
         BaseServerResponse<WorkOrder> OpenWorkOrder(Company company, User user, OrderOpenRequest request);
-        IList<WorkOrder> GetRecentBooking(Vehicle request, Company company, User user);
+        //IList<WorkOrder> GetRecentBooking(Vehicle request, Company company, User user);
 
     }
 }
