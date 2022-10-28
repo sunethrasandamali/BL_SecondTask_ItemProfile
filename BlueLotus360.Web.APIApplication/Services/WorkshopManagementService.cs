@@ -330,6 +330,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.OrderCategory1 = responses.OrderCategory1;    
             order.OrderCategory2 = responses.OrderCategory2;
             order.OrderProject=new ProjectResponse() { ProjectKey=responses.ProjectKey};
+            order.OrderStatus = responses.OrderStatus;
 
             foreach (OrderLineCreateDTO item in itemList)
             {
