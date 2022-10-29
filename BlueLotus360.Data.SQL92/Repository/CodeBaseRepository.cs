@@ -233,7 +233,7 @@ namespace BlueLotus360.Data.SQL92.Repository
             {
 
                 IDataReader dataReader = null;
-                string SPName = "CodeNm_SelectMob";
+                string SPName = "CdMas_SelectMAUI";
                 try
                 {
 
@@ -260,8 +260,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                         CodeBase codeBase = new CodeBase(dataReader.GetColumn<int>("CdKy"));
                         codeBase.Code = dataReader.GetColumn<string>("CdNmOnly");
                         codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
-                        codeBase.CodeNameOnly = dataReader.GetColumn<string>("CdNmOnly");
                         codeBase.CodeExtraCharacter1 = dataReader.GetColumn<string>("CdExtChr1");
+                        codeBase.CodeExtraCharacter2 = dataReader.GetColumn<string>("CdExtChr2");
+                        codeBase.CodeInt1 = dataReader.GetColumn<int>("CdInt1");
+                        codeBase.CodeInt2 = dataReader.GetColumn<int>("CdInt2");
+                        codeBase.CodeInt3 = dataReader.GetColumn<int>("CdInt3");
 
 
                         codeBases.Add(codeBase);
@@ -291,12 +294,13 @@ namespace BlueLotus360.Data.SQL92.Repository
                         {
                             dataReader.Close();
                         }
+                        dataReader.Dispose();
                     }
                     if (dbConnection.State != ConnectionState.Closed)
                     {
                         dbConnection.Close();
                     }
-                    dataReader.Dispose();
+                   
                     dbCommand.Dispose();
                     dbConnection.Dispose();
 

@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Entity.Object;
+﻿
+using BlueLotus360.Core.Domain.Entity.Object;
 using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace BlueLotus.Mobile.MAUI.UIBuilder
         public View BuildViewFromObjects(BLUIElement elem)
         {
             Grid grid = new Grid();
+         
             grid.BindingContext = DataContext;
             VerticalStackLayout verticalStackLayout = new VerticalStackLayout();
             verticalStackLayout.Padding = new Thickness(10);

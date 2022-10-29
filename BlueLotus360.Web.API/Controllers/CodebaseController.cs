@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Extended;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
@@ -41,8 +42,8 @@ namespace BlueLotus360.Web.API.Controllers
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
 
-            var response = _codebaseService.ReadCodes(company, user, comboRequest);
-            IList<CodeBaseResponse> codeBases = response.Value;
+            var response = _codebaseService.ReadCategories(company, user, comboRequest);
+            IList<CodeBase> codeBases = response.Value;
 
             return Ok(codeBases);
         }

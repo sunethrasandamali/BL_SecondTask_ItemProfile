@@ -6,4 +6,9 @@ public partial class ProductView : ContentView
 	{
 		InitializeComponent();
 	}
+
+	private void ImageButton_Clicked(object sender, EventArgs e)
+	{
+
+	}
 }
