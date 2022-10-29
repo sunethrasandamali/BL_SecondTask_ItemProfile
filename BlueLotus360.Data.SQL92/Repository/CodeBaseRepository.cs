@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Extended;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Data.SQL92.Definition;
 using BlueLotus360.Data.SQL92.Extenstions;
@@ -232,6 +233,92 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     dbCommand.Dispose();
                     dbConnection.Dispose();
+                }
+                return response;
+            }
+        }
+
+        public BaseServerResponse<IList<CodeBase>> ReadCategories(Company company, User user, ComboRequestDTO requestDTO)
+        {
+            IList<CodeBase> codeBases = new List<CodeBase>();
+            BaseServerResponse<IList<CodeBase>> response = new BaseServerResponse<IList<CodeBase>>();
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "CdMas_SelectMAUI";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", requestDTO.RequestingElementKey);
+
+                    if (requestDTO.AddtionalData != null)
+                    {
+                        foreach (var item in requestDTO.AddtionalData)
+                        {
+                            dbCommand.CreateAndAddParameter("@" + item.Key, item.Value);
+                        }
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        CodeBase codeBase = new CodeBase(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.Code = dataReader.GetColumn<string>("CdNmOnly");
+                        codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
+                        codeBase.CodeExtraCharacter1 = dataReader.GetColumn<string>("CdExtChr1");
+                        codeBase.CodeExtraCharacter2 = dataReader.GetColumn<string>("CdExtChr2");
+                        codeBase.CodeInt1 = dataReader.GetColumn<int>("CdInt1");
+                        codeBase.CodeInt2 = dataReader.GetColumn<int>("CdInt2");
+                        codeBase.CodeInt3 = dataReader.GetColumn<int>("CdInt3");
+
+
+                        codeBases.Add(codeBase);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = codeBases;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                        dataReader.Dispose();
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                   
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
                 }
                 return response;
             }

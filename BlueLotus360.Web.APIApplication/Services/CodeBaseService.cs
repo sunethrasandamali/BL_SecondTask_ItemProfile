@@ -1,6 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Extended;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -24,6 +25,13 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
            return _unitOfWork.CodeBaseRepository.GetCodeByOurCodeAndConditionCode(company, user, OurCode, Condition);
         }
+
+        public BaseServerResponse<IList<CodeBase>> ReadCategories(Company company, User user, ComboRequestDTO requestDTO)
+        {
+            return _unitOfWork.CodeBaseRepository.ReadCategories(company, user, requestDTO);
+
+        }
+
         public BaseServerResponse<CodeBaseResponse> GetControlConditionCode(Company company, User user, int ObjKy, string TableName)
         {
             return _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, ObjKy, TableName);

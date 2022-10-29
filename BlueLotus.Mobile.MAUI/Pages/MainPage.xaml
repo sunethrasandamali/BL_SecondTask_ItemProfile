@@ -24,7 +24,7 @@
                         <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" >
 
                             
-                        <productCotrols:ProductView />
+                        <productCotrols:ProductView  />
                         <productCotrols:ProductView />
                         <productCotrols:ProductView />
                         <productCotrols:ProductView />
