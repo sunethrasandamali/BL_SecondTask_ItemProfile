@@ -15,5 +15,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string ConditionCode);
         BaseServerResponse<IList<CodeBaseResponse>> GetCodeBaseByObject(Company company, User user, ComboRequestDTO requestDTO);
         BaseServerResponse<CodeBaseResponse> GetControlConditionCode(Company company, User user, int ObjectKey, string TableName);
+        BaseServerResponse<IList<CodeBase>> ReadCategories(Company company, User user, ComboRequestDTO requestDTO);
     }
 }
