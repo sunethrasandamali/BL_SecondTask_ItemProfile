@@ -1,5 +1,6 @@
 ﻿using BlueLotus.Mobile.MAUI.Extensions;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -17,8 +18,11 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 fonts.AddFont("FontAwesome.otf", "FontAwesome");
-            });
-
+            })
+            
+            
+            ;
+        builder.UseMauiCommunityToolkit();
         builder.RegisterAdditionalServices();
         builder.LoadAndInjectConfiuration();
         builder.RegisterModels();

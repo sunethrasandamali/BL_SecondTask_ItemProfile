@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Extended;
 using BlueLotus360.Core.Domain.Responses;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     {
         BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string ConditionCode);
         BaseServerResponse<IList<CodeBaseResponse>> GetCodeBaseByObject(Company company, User user, ComboRequestDTO requestDTO);
+        BaseServerResponse<IList<CodeBase>> ReadCategories(Company company, User user, ComboRequestDTO requestDTO);
         int GetControlConditionCode(Company company, User user, int ObjectKey, string TableName);
     }
 }

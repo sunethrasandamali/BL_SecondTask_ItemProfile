@@ -35,5 +35,18 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(codeBases);
         }
 
+        [HttpPost("readCategories")]
+        public IActionResult ReadCategories(ComboRequestDTO comboRequest)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var response = _codebaseService.ReadCodes(company, user, comboRequest);
+            IList<CodeBaseResponse> codeBases = response.Value;
+
+            return Ok(codeBases);
+        }
+
+
     }
 }

@@ -35,7 +35,7 @@ namespace BlueLotus360.Web.API.MiddleWares
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync("Bad Request: IntegrationID Not Defined, " +
-                    "IntegrationID Sould be defined in the Header section of the request");
+                    "IntegrationID Sould be defined in the Header section of the request EC:20221028");
 
                 return;
             }
