@@ -112,6 +112,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
                     //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
                     _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
+
                 }
             }
             
@@ -446,9 +447,6 @@ namespace BlueLotus360.Web.APIApplication.Services
             return quote;
         }
 
-        public BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateOrder(Company company, User user, WorkOrderAmountByAccount genericOrder)
-        {
-            return _unitOfWork.OrderRepository.InsertUpdateGenericOrder(company, user, genericOrder);
-        }
+       
     }
 }

@@ -12,6 +12,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
     public interface ICodeBaseService
     {
         BaseServerResponse<CodeBaseResponse> GetCodeByOurCodeAndConditionCode(Company company, User user, string OurCode, string Condition);
+        BaseServerResponse<CodeBaseResponse> GetControlConditionCode(Company company, User user, int ObjKy, string TableName);
         BaseServerResponse<IList<CodeBaseResponse>> ReadCodes(Company company, User user, ComboRequestDTO requestDTO);
     }
 }

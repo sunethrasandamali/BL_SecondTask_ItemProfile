@@ -70,6 +70,8 @@ namespace BlueLotus360.Web.API.Controllers
             orderDetails.OrderType = ordTyp.Value;
             var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, orderDetails.OrderStatus.OurCode, "OrdSts");
             orderDetails.OrderStatus = ordsts.Value;
+            var ordControlCon = _codeBaseService.GetControlConditionCode(company, user, orderDetails.FormObjectKey, "OrdDetAcc");
+            orderDetails.OrderControlCondition=ordControlCon.Value;
 
             var ord = _workshopManagementService.SaveWorkOrder(company, user, orderDetails);
             OrderSaveResponse orderServerResponse = ord.Value;
@@ -90,6 +92,9 @@ namespace BlueLotus360.Web.API.Controllers
             var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, orderDetails.OrderStatus.OurCode, "OrdSts");
             orderDetails.OrderStatus = ordsts.Value;
 
+            var ordControlCon = _codeBaseService.GetControlConditionCode(company, user, orderDetails.FormObjectKey, "OrdDetAcc");
+            orderDetails.OrderControlCondition = ordControlCon.Value;
+
             OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails);
 
             return Ok(orderServerResponse);
@@ -100,6 +105,7 @@ namespace BlueLotus360.Web.API.Controllers
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
+
             BaseServerResponse<WorkOrder> order = _workshopManagementService.OpenWorkOrder(company, user, request);
             return Ok(order.Value);
         }
