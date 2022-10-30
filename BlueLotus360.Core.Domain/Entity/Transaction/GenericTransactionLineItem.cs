@@ -29,8 +29,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal DiscountAmount { get; set; }
         public decimal TransactionDiscountAmount { get; set; }
         public decimal DiscountPercentage { get; set; }
-        public ProjectResponse TransactionProject { get; set; }
-        public AddressResponse Address { get; set; }
+        public ProjectResponse TransactionProject { get; set; } = new ProjectResponse();
+        public AddressResponse Address { get; set; } = new AddressResponse();
         public CodeBaseResponse ItemProperty { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse ConditionsState { get; set; } = new CodeBaseResponse();
         public int IsInventory { get; set; } = 1;
@@ -40,20 +40,20 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long ReferenceItemTransactionKey { get; set; } = 1;
         public CodeBaseResponse Code1 { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse Code2 { get; set; } = new CodeBaseResponse();
-        public string Description { get; set; }
-        public string Remarks { get; set; }
+        public string? Description { get; set; }
+        public string? Remarks { get; set; }
         public long OrderKey { get; set; } = 1;
         public long Skey { get; set; } = 1;
         public decimal QuantityPercentage { get; set; }
         public decimal HeaderDiscountAmount { get; set; }
-        public Project Project2 { get; set; }
+        public Project Project2 { get; set; } = new Project();
         public decimal Quantity2 { get; set; }
         public decimal TaskQuantity { get; set; }
-        public UnitSimple TaskUnit { get; set; }
+        public UnitSimple? TaskUnit { get; set; }
         public decimal FromNo { get; set; }
         public decimal ToNo { get; set; }
         public decimal NextActionNo { get; set; }
-        public DateTime NextActionDate { get; set; }
+        public DateTime NextActionDate { get; set; }= DateTime.Now;
         public CodeBaseResponse NextActionType { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse ItemPack { get; set; } = new CodeBaseResponse();
         public decimal CommisionPercentage { get; set; }
@@ -95,9 +95,9 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal Amount9 { get; set; }
         public decimal Amount10 { get; set; }
         public decimal LooseQuantity { get; set; }
-        public DateTime DateTime1 { get; set; }
-        public DateTime DateTime2 { get; set; }
-        public DateTime DateTime3 { get; set; }
+        public DateTime DateTime1 { get; set; }= DateTime.Now;
+        public DateTime DateTime2 { get; set; } = DateTime.Now;
+        public DateTime DateTime3 { get; set; } = DateTime.Now;
         public CodeBaseResponse TransactionType { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse ProjectTaskLocation { get; set; } = new CodeBaseResponse();
         public long ObjectKey = 1;
@@ -109,22 +109,21 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal BalanceQuantity { get; set; }
 
 
-        public CodeBaseResponse ItemCategory1;
-        public CodeBaseResponse ItemCategory2;
+        public CodeBaseResponse ItemCategory1 { get; set; } = new CodeBaseResponse();
+        public CodeBaseResponse ItemCategory2 { get; set; } = new CodeBaseResponse();
 
         public decimal MarkupPercentage { get; set; }
         public decimal MarkupAmount { get; set; }
         public decimal TotalMarkupAmount { get; set; }
-        public DateTime DeliveryDate { get; set; }
-        public IList<ItemSerialNumber> SerialNumbers { get; set; }
+        public DateTime DeliveryDate { get; set; } = DateTime.Now;
+        public IList<ItemSerialNumber> SerialNumbers { get; set; }= new List<ItemSerialNumber>();   
 
         // CarMart
         public decimal PrinciplePrecentage { get; set; }
         public decimal PrincipleAmount { get; set; }
-        public decimal CarmartPrecentage { get; set; }
-        public decimal CarmartAmount { get; set; }
+        public decimal CompanyPrecentage { get; set; }
+        public decimal CompanyAmount { get; set; }
         public decimal CustomerAmount { get; set; }
-        public int IsSelected { get; set; }
         public decimal Time { get; set; }
         public int IsMaterialItem { get; set; }
         public int IsServiceItem { get; set; }

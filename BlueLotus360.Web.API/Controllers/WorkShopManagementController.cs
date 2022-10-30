@@ -3,6 +3,7 @@ using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.Order;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.API.Authentication;
@@ -117,6 +118,34 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             IList<BookingDetails> booked = _workshopManagementService.GetRecentBooking(request, company, user);
             return Ok(booked);
+        }
+
+        [HttpPost("saveTransactionOfWorkOrder")]
+        public IActionResult SaveTransactionOfWorkOrder(BLTransaction transaction)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(transaction.ElementKey);
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "TrnTyp");
+            transaction.TransactionType = trnTyp.Value;
+            var trn = _workshopManagementService.SaveWorkOrderTransaction(transaction, company, user, uiObject.Value);
+
+            return Ok(trn.Value);
+        }
+
+        [HttpPost("openTransactionOfWorkOrder")]
+        public IActionResult OpenTransactionOfWorkOrder(TransactionOpenRequest request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var trn = _workshopManagementService.OpenWorkOrderTransaction(company, user, request);
+            BLTransaction transaction = trn.Value;
+            request.TrasctionTypeKey = transaction.TransactionType.CodeKey;
+            var linItm = _workshopManagementService.GetWorkOrderTransactionLineItems(company, user, request);
+            transaction.InvoiceLineItems = linItm.Value;
+
+            return Ok(transaction);
+
         }
 
     }

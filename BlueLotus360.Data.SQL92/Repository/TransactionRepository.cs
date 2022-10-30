@@ -82,6 +82,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         CreateAndAddParameter(dbCommand, "@VarChar1", transaction.Value.IsVarcar1On);
                         CreateAndAddParameter(dbCommand, "@Qty1", transaction.Value.Quantity1);
                         CreateAndAddParameter(dbCommand, "@DlryDt", transaction.Value.DeliveryDate);
+                        //service advisor where to map
                     }
                     
 
@@ -185,6 +186,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         dbCommand.CreateAndAddParameter("@MarkUpAmt", transaction.TotalMarkupValue);
                         dbCommand.CreateAndAddParameter("@VarChar1", transaction.IsVarcar1On);
                         dbCommand.CreateAndAddParameter("@Qty1", transaction.Quantity1);
+                    
                     
 
 
@@ -396,7 +398,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@MarkUpAmt", lineItem.TotalMarkupAmount);
                     dbCommand.CreateAndAddParameter("@MarkUpPer", lineItem.MarkupPercentage);
                     dbCommand.CreateAndAddParameter("@DlryDt", lineItem.DeliveryDate);
-
+                    //technician,time,car per,principal per
+                    
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
@@ -928,6 +931,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.Quantity1 = reader.GetColumn<decimal>("Qty1");
                         //transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
 
+                        //service advisor??
+
                     }
 
 
@@ -1034,6 +1039,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         lineItem.LineNumber = reader.GetColumn<int>("LiNo");
                         lineItem.IsPersisted = true;
                         lineItem.IsDirty = false;
+                        //technician,time,car per,principal per
 
                         lineItems.Add(lineItem);
                     }

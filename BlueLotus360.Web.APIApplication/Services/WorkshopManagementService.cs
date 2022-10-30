@@ -4,6 +4,7 @@ using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.Order;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
@@ -476,6 +477,76 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             var response = _unitOfWork.WorkShopManagementRepository.RecentBookingDetails(request, company, user);
             return response.Value;
+        }
+
+        public BaseServerResponse<BLTransaction> SaveWorkOrderTransaction(BLTransaction transaction, Company company, User user, UIObject uIObject)
+        {
+            if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
+            {
+                var address = _unitOfWork.AccountRepository.GetAddressByAccount(company, user, transaction.Account.AccountKey);
+                if (address != null)
+                    transaction.Address = address.Value;
+            }
+
+            if (!transaction.IsPersisted)
+            {
+                _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
+
+            }
+            else 
+            {
+                _unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction);
+            }
+
+            if (transaction.SerialNumber != null && !string.IsNullOrWhiteSpace(transaction.SerialNumber.SerialNumber))
+            {
+                transaction.SerialNumber.TransactionKey = transaction.TransactionKey;
+                _unitOfWork.TransactionRepository.SaveOrUpdateTranHeaderSerialNumber(company, user, transaction.SerialNumber);
+            }
+
+            foreach (GenericTransactionLineItem line in transaction.InvoiceLineItems)
+            {
+                line.ElementKey = transaction.ElementKey;
+                line.TransactionKey = transaction.TransactionKey;
+                line.TransactionType = transaction.TransactionType;
+                line.Address = transaction.Address;
+                line.TransactionLocation = transaction.Location;
+                line.EffectiveDate = transaction.TransactionDate;
+                line.DeliveryDate = transaction.DeliveryDate;
+                if (!line.IsPersisted)
+                {
+                    _unitOfWork.TransactionRepository.SaveTransactionLineItem(company, user, line);
+                }
+                else if (line.IsPersisted && line.IsDirty)
+                {
+                    _unitOfWork.TransactionRepository.UpdateTransactionLineItem(company, user, line);
+                }
+
+                if (line.SerialNumbers.Count>0)
+                {
+                    foreach (ItemSerialNumber serialNumber in line.SerialNumbers)
+                    {
+                        serialNumber.ItemTransactionKey = line.ItemTransactionKey;
+                        serialNumber.ItemKey = line.TransactionItem.ItemKey;
+                        serialNumber.PersistingElementKey = transaction.ElementKey;
+                        _unitOfWork.TransactionRepository.SaveOrUpdateSerialNumber(company, user, serialNumber);
+                    }
+                }
+
+                
+
+            }
+            _unitOfWork.TransactionRepository.PostAfterTranSaveActions(company, user, transaction.TransactionKey, transaction.ElementKey);
+
+            return new BaseServerResponse<BLTransaction>();
+        }
+        public BaseServerResponse<BLTransaction> OpenWorkOrderTransaction(Company company, User user, TransactionOpenRequest request)
+        {
+            return _unitOfWork.TransactionRepository.GenericOpenTransaction(company, user, request);
+        }
+        public BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request)
+        {
+            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);
         }
     }
 }

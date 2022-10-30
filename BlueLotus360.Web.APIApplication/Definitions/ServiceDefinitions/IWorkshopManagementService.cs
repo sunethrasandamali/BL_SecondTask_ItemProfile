@@ -3,6 +3,7 @@ using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.BookingModule;
 using BlueLotus360.Core.Domain.Entity.MastrerData;
 using BlueLotus360.Core.Domain.Entity.Order;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
 using System;
@@ -22,6 +23,8 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails);
         BaseServerResponse<WorkOrder> OpenWorkOrder(Company company, User user, OrderOpenRequest request);
         IList<BookingDetails> GetRecentBooking(Vehicle request, Company company, User user);
-
+        BaseServerResponse<BLTransaction> SaveWorkOrderTransaction(BLTransaction transaction, Company company, User user, UIObject uIObject);
+        BaseServerResponse<BLTransaction> OpenWorkOrderTransaction(Company company, User user, TransactionOpenRequest request);
+        BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request);
     }
 }

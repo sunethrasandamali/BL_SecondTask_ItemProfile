@@ -13,9 +13,9 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public bool IsRecordLocked { get; set; }
         public bool IsPersisted { get; set; }
         public bool IsDirty { get; set; }
-        public DateTime CreatedDate { get ; set; }
-        public DateTime UpdatedDate { get ; set; }
-        public DateTime EffectiveDate { get; set; }
+        public DateTime CreatedDate { get ; set; }= DateTime.Now;
+        public DateTime UpdatedDate { get ; set; }=DateTime.Now;
+        public DateTime EffectiveDate { get; set; } = DateTime.Now;
         public IDictionary<string, object> AddtionalData { get; set; }
         public bool IsDefault { get; set; }
 

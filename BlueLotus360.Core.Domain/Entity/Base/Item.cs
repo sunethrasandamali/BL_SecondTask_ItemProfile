@@ -29,7 +29,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public bool IsParentItem { get; set; }
 
-        public string ComboTitle
+        public string? ComboTitle
         {
             get
             {
@@ -47,7 +47,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
 
         public CodeBaseResponse ItemType { get; set; }= new CodeBaseResponse();
 
-        public string Base64ImageDocument { get; set; } = "data:image/jpeg;base64,/9j/4QUmRXhpZgAASUkqAAgAAAAOAAABAwABAAAAZAIAAAEBAwABAAAAZAIAAAIBAwADAAAAtgAAAAYBAwABAAAAAgAAAA4BAgBpAA" +
+        public string? Base64ImageDocument { get; set; } = "data:image/jpeg;base64,/9j/4QUmRXhpZgAASUkqAAgAAAAOAAABAwABAAAAZAIAAAEBAwABAAAAZAIAAAIBAwADAAAAtgAAAAYBAwABAAAAAgAAAA4BAgBpAA" +
          "AAvAAAABIBAwABAAAAAQAAABUBAwABAAAAAwAAABoBBQABAAAAJQEAABsBBQABAAAALQEAACgBAwABAAAAAgAAADEBAgAiAAAANQEAADIBAgAUAAAAVwEAADsBAgAJAAAAawEAAGmHBAABAAAAdAEAAKwBAAAIAAgACABObyBpbWFnZSBhdmF" +
          "pbGFibGUgc2lnbi4gSW50ZXJuZXQgd2ViIGljb24gdG8gaW5kaWNhdGUgdGhlIGFic2VuY2Ugb2YgaW1hZ2UgdW50aWwgaXQgd2lsbCBiZSBkb3dubG9hZGVkLgDAxi0AECcAAMDGLQAQJwAAQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3" +
          "MpADIwMjI6MDQ6MTggMTM6MDc6MjcAUGUzY2hlY2sABAAAkAcABAAAADAyMjEBoAMAAQAAAP//AAACoAQAAQAAAGQAAAADoAQAAQAAAGQAAAAAAAAAAAAGAAMBAwABAAAABgAAABoBBQABAAAA+gEAABsBBQABAAAAAgIAACgBAwABAAAAAgAAAAECBAABA" +
