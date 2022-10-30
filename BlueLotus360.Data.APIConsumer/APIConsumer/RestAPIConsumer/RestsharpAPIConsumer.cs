@@ -18,6 +18,7 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
         private static RestsharpAPIConsumer _consumer;
         private IAuthenticationConsumer authenticationConsumer;
         private IObjectAPIConsumer objectConsumer;
+        private ICodeBaseConsumer codeBaseConsumer;
         #endregion
         private RestsharpAPIConsumer()
         {
@@ -65,6 +66,19 @@ namespace BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer
                 return objectConsumer;
             }
         }
+
+        public ICodeBaseConsumer CodeBaseConsumer
+        {
+            get
+            {
+                if (codeBaseConsumer == null)
+                {
+                    codeBaseConsumer = new CodeBaseConsumer(_restClient);
+                }
+                return codeBaseConsumer;
+            }
+        }
+
 
 
         public static void Initilize(APISettings settins)
