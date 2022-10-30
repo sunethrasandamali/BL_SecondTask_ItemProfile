@@ -42,7 +42,7 @@
 
 
 
-    <ShellContent Title="Home" ContentTemplate="{DataTemplate pages:MainPage}"
+    <ShellContent Title="Home" x:Name="_home_page_" ContentTemplate="{DataTemplate pages:MainPage}"
                   
                   >
         <ShellContent.Icon>
