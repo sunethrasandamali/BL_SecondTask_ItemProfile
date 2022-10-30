@@ -272,8 +272,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                     while (dataReader.Read())
                     {
                         CodeBase codeBase = new CodeBase(dataReader.GetColumn<int>("CdKy"));
-                        codeBase.Code = dataReader.GetColumn<string>("CdNmOnly");
-                        codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
+                        codeBase.Code = dataReader.GetColumn<string>("Code");
+                        codeBase.CodeName = dataReader.GetColumn<string>("CdNm");
                         codeBase.CodeExtraCharacter1 = dataReader.GetColumn<string>("CdExtChr1");
                         codeBase.CodeExtraCharacter2 = dataReader.GetColumn<string>("CdExtChr2");
                         codeBase.CodeInt1 = dataReader.GetColumn<int>("CdInt1");

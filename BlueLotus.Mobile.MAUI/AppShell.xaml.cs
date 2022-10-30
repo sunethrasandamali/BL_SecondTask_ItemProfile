@@ -75,6 +75,8 @@ public partial class AppShell : Shell
             }
         }
 
+        _home_page_.IsVisible = false;
+
 
 
     }
