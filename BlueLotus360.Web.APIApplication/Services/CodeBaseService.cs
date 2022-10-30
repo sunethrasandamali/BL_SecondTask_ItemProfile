@@ -32,6 +32,10 @@ namespace BlueLotus360.Web.APIApplication.Services
 
         }
 
+        public BaseServerResponse<CodeBaseResponse> GetControlConditionCode(Company company, User user, int ObjKy, string TableName)
+        {
+            return _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, ObjKy, TableName);
+        }
         public BaseServerResponse<IList<CodeBaseResponse>> ReadCodes(Company company, User user, ComboRequestDTO requestDTO)
         {
             return _unitOfWork.CodeBaseRepository.GetCodeBaseByObject(company, user, requestDTO);

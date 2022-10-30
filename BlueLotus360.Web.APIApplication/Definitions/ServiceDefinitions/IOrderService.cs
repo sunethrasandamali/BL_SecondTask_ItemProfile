@@ -22,6 +22,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<GetFromQuotResults>> RetrieveQuotation(GetFromQuoatationDTO request, Company company, User user, CodeBaseResponse ordTyp, CodeBaseResponse preOrdTyp);
 
         BaseServerResponse<GenericOrder> OpenQuotation(Company company, User user, OrderOpenRequest request, CodeBaseResponse ordTyp);
-        BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateOrder(Company company, User user, WorkOrderAmountByAccount genericOrder);
+        
     }
 }

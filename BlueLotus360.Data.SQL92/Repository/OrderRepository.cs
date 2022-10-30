@@ -859,6 +859,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.TransactionRate = reader.GetColumn<decimal>("TrnRate");
                         oorderV3.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         oorderV3.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
+                        oorderV3.TransactionUnitKey = reader.GetColumn<int>("TrnUnitKy");
                         oorderV3.OrderItemName = reader.GetColumn<string>("ItmNm");
                         oorderV3.ItemKey = reader.GetColumn<int>("ItmKy");
                         oorderV3.IsTransfer = reader.GetColumn<int>("isTransfer");
@@ -1269,7 +1270,7 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
-        public BaseServerResponse<WorkOrderAmountByAccount> InsertUpdateGenericOrder(Company company, User user, WorkOrderAmountByAccount orderItem)
+        public BaseServerResponse<WorkOrderAmountByAccount> OrderDetailAccountInsertUpdate(Company company, User user, WorkOrderAmountByAccount accDet)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
@@ -1284,15 +1285,15 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
-                    dbCommand.CreateAndAddParameter("@ObjKy", response.Value.ObjectKey);
-                    dbCommand.CreateAndAddParameter("@OrdDetAccKy", response.Value.CarMartAccount.AccountKey);
-                    dbCommand.CreateAndAddParameter("@OrdDetKy", response.Value.FromOrderDetailKey);
-                    dbCommand.CreateAndAddParameter("@ControlConKy", response.Value.ControlConKey);
-                    dbCommand.CreateAndAddParameter("@AccKy", BaseComboResponse.GetKeyValue(response.Value.CarMartAccount));
-                    dbCommand.CreateAndAddParameter("@AdrKy", response.Value.CarMartAddress.AddressKey);
-                    dbCommand.CreateAndAddParameter("@LiNo", response.Value.LineNumber);
-                    dbCommand.CreateAndAddParameter("@Val", response.Value.Value);
-                    dbCommand.CreateAndAddParameter("@Amt", response.Value.Percentage);
+                    dbCommand.CreateAndAddParameter("@ObjKy", accDet.ObjectKey);
+                    dbCommand.CreateAndAddParameter("@OrdDetAccKy", BaseComboResponse.GetKeyValue(accDet.Account));
+                    dbCommand.CreateAndAddParameter("@OrdDetKy", accDet.FromOrderDetailKey);
+                    dbCommand.CreateAndAddParameter("@ControlConKy", accDet.ControlConKey);
+                    dbCommand.CreateAndAddParameter("@AccKy", BaseComboResponse.GetKeyValue(accDet.Account));
+                    dbCommand.CreateAndAddParameter("@AdrKy", BaseComboResponse.GetKeyValue(accDet.Address));
+                    dbCommand.CreateAndAddParameter("@LiNo", accDet.LineNumber);
+                    dbCommand.CreateAndAddParameter("@Val", accDet.Value);
+                    dbCommand.CreateAndAddParameter("@Amt", accDet.Amount);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -1304,6 +1305,72 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
 
                     response.ExecutionEnded = DateTime.UtcNow;
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<IList<WorkOrderAmountByAccount>> OrderDetailAccountSelect(Company company, User user, WorkOrderAmountByAccount accDet)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "OrdDetAcc_SelectWeb";
+                BaseServerResponse<IList<WorkOrderAmountByAccount>> response = new BaseServerResponse<IList<WorkOrderAmountByAccount>>();
+                IList<WorkOrderAmountByAccount> list = new List<WorkOrderAmountByAccount>();  
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", accDet.ObjectKey);
+                    dbCommand.CreateAndAddParameter("@OrdDetKy", accDet.FromOrderDetailKey);
+                    dbCommand.CreateAndAddParameter("@ControlConKy", accDet.ControlConKey);
+                    
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        WorkOrderAmountByAccount obj = new WorkOrderAmountByAccount();
+                        obj.FromOrderDetailKey= reader.GetColumn<int>("OrdDetKy");
+                        obj.ControlConKey= reader.GetColumn<int>("ControlConKy");
+                        obj.Account = new AccountResponse() { AccountKey = reader.GetColumn<int>("OrdDetAccKy") };
+                        obj.Address = new AddressResponse() { AddressKey= reader.GetColumn<int>("AdrKy") };
+                        obj.Value = reader.GetColumn<decimal>("Value");
+                        obj.Amount = reader.GetColumn<decimal>("Amt");
+
+                        list.Add(obj);
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = list;
                 }
                 catch (Exception exp)
                 {

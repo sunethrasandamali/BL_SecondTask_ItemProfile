@@ -35,6 +35,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public CodeBaseResponse OrderCategory1 { get; set; }
         public CodeBaseResponse OrderCategory2 { get; set; }
         public CodeBaseResponse OrderStatus { get; set; }
+        public CodeBaseResponse OrderControlCondition { get; set; }
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
         public GenericOrder()
@@ -55,6 +56,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderCategory2=new CodeBaseResponse();
             OrderProject=new ProjectResponse();
             OrderStatus = new CodeBaseResponse();
+            OrderControlCondition=new CodeBaseResponse();
         }
 
     }
@@ -90,9 +92,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal ItemTaxType2Per { get; set; }
         public decimal ItemTaxType3Per { get; set; }
         public decimal ItemTaxType4Per { get; set; }
-        public decimal ItemTaxType5Per { get; set; }
-
-        //       
+        public decimal ItemTaxType5Per { get; set; }     
         public int IsApproved { get; set; }
         public int IsActive { get; set; }
         public CodeBaseResponse BussinessUnit { get; set; } = new CodeBaseResponse();
@@ -101,21 +101,28 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal VAT { get; set; } = 0;
         public decimal SVAT { get; set; } = 0;
         public decimal AvlStk { get; set; } = 0;
-        public string Description { get; set; } = "";
+        public string? Description { get; set; } = "";
         public string Remark { get; set; } = "";
-
-        //
-        public int IsSelected { get; set; }
         public decimal Time { get; set; }
-        public int IsMaterialItem { get; set; }
-        public int IsServiceItem { get; set; }
-        public decimal SubTotal { get; set; }
+        public AccountResponse BaringPrinciple { get; set; }
+        public decimal PrinciplePrecentage { get; set; }
+        public decimal PrincipleAmount { get; set; }
+        public AccountResponse BaringCompany { get; set; }
+        public decimal CompanyPrecentage { get; set; }
+        public decimal CompanyAmount { get; set; }
+        public decimal CustomerAmount { get; set; }
+        public AccountResponse Supplier { get; set; }//where to map
+        public AddressResponse Address2 { get; set; }//technician ,where to map
 
         public GenericOrderItem()
         {
             OrderLineLocation = new CodeBaseResponse();
             TransactionItem = new ItemResponse();
             OrderType = new CodeBaseResponse();
+            BaringPrinciple = new AccountResponse();
+            BaringCompany = new AccountResponse();
+            Supplier=new AccountResponse();
+            Address2=new AddressResponse();
         }
 
     }
@@ -477,4 +484,6 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal DiscountAmount { get; set; } = 0;
         public CodeBaseResponse PaymentTerm { get; set; } = new CodeBaseResponse();
     }
+
+
 }

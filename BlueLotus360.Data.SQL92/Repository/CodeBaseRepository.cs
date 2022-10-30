@@ -172,14 +172,15 @@ namespace BlueLotus360.Data.SQL92.Repository
 
         }
 
-        public int GetControlConditionCode(Company company, User user, int ObjectKey, string TableName)
+        public BaseServerResponse<CodeBaseResponse> GetControlConditionCode(Company company, User user, int ObjectKey=1, string TableName= "")
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
                 IDataReader reader = null;
                 string SPName = "ControlCon_SelectWeb";
-                int response = 0;
-
+                BaseServerResponse<CodeBaseResponse> response = new BaseServerResponse<CodeBaseResponse>();
+                
+                
                 try 
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
@@ -187,21 +188,34 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
-                    dbCommand.CreateAndAddParameter("@ObjKy", ObjectKey = 1);
-                    dbCommand.CreateAndAddParameter("@TblNm", TableName = string.Empty);
+                    dbCommand.CreateAndAddParameter("@ObjKy", ObjectKey);
+                    dbCommand.CreateAndAddParameter("@TblNm", TableName);
 
+                    response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
-
+                    CodeBaseResponse codeBase = new CodeBaseResponse();
                     while (reader.Read())
                     {
-
+                        
+                        codeBase.CodeKey = reader.GetColumn<int>("ControlConKy");
+                        codeBase.Code = reader.GetColumn<string>("ConCd");
+                        codeBase.CodeName = reader.GetColumn<string>("ControlConNm");
+                        codeBase.OurCode = reader.GetColumn<string>("OurCd");
                     }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = codeBase;
 
                 }
                 catch (Exception exp)
                 {
-                    throw exp;
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc  {SPName}"
+                    });
+                    response.ExecutionException = exp;
                 }
 
                 finally
