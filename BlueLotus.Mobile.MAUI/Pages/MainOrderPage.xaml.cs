@@ -7,6 +7,7 @@ using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Object;
+using Microsoft.Maui.Controls;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
@@ -19,6 +20,7 @@ public partial class MainOrderPage : ContentPage
     private BLUIElement _categoryPage;
     private BLUIElement _orderPage;
     private BLUIElement _customerPage;
+    private CategoryViewModel SelectedCategory;
         
 
     public MainOrderPage()
@@ -26,6 +28,7 @@ public partial class MainOrderPage : ContentPage
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
         _codeBaseService = MauiProgram.Services.GetService<ICodeBaseService>();
         __bindContext = new();
+      
         InitializeComponent();
 	}
     private async Task ReadCategories()
@@ -37,20 +40,35 @@ public partial class MainOrderPage : ContentPage
             var items = await _codeBaseService.ReadProductCategories(dto);
             if (items.Value != null)
             {
-                foreach(var item in items.Value)
+                var width= 400;
+                __categoryPage.Clear();
+                foreach (var item in items.Value)
                 {
                     CategoryViewModel model = new CategoryViewModel();
                     model.CodeKey = item.CodeKey;
                     model.CategoryName = item.CodeName;
                     model.ImagePathName = string.IsNullOrWhiteSpace(item.CodeExtraCharacter1) ? "no_image.png": item.CodeExtraCharacter1;
+                    var catm = new CategoryView(model);
+                    catm.WidthRequest = width*0.97;
+                    catm.CategoryClickEvent += Catm_CategoryClickEvent;
                     __categoryPage.Add(
-                        new CategoryView(model)
+                      catm
                         ) ;
                 }
             }
         }
     }
 
+    private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
+    {
+        SelectedCategory = e.Category;
+        SelectedCategoryName.Text = "Products Under Category - "+ SelectedCategory.CategoryName +".";
+       __categoryPage.RotateXTo(30);
+        await __categoryPage.FadeTo(0);
+        
+        __productPage.IsVisible = true;
+        __categoryPage.IsVisible = false;
+    }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
@@ -76,6 +94,16 @@ public partial class MainOrderPage : ContentPage
     }
 
 
- 
+    protected async void OnBackButtonClicked(object sender,EventArgs args)
+    {
+        SelectedCategory =null;
+        __productPage.IsVisible = false;
+        __categoryPage.IsVisible = true;
+         __categoryPage.FadeTo(1);
+        await __categoryPage.RotateXTo(0);
+    
+    }
+
+
 
 }

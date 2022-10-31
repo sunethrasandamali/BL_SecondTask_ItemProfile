@@ -64,7 +64,19 @@
 	  <None Remove="Resources\Images\earth2.jpg" />
 	  <None Remove="Resources\Images\logo_bl360.png" />
 	  <None Remove="Resources\Images\products\no_image.png" />
+	  <None Remove="Resources\Images\products\shoes\jeans.jpg" />
+	  <None Remove="Resources\Images\products\shoes\shirts.jpg" />
 	  <None Remove="Resources\Images\products\shoes\shoe1.jpg" />
+	  <None Remove="Resources\Images\products\shoes\tshirts.jpg" />
+	  <None Remove="Resources\Images\products\shoes\watches.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\products\shoes\shirts.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\products\shoes\jeans.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -73,6 +85,8 @@
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\products\shoes\shoe1.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\tshirts.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\watches.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>

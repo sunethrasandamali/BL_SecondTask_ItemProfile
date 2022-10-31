@@ -4,17 +4,19 @@
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.CategoryView" 
              WidthRequest="245" HeightRequest="330"
              xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
-             x:DataType="viewmodel:CategoryViewModel"
+            
              >
 
-    <VerticalStackLayout   WidthRequest="243" HeightRequest="330" VerticalOptions="Start">
+    <VerticalStackLayout   VerticalOptions="Start">
 
-        <Frame CornerRadius="5" BorderColor="#EAEAEA" WidthRequest="243" Margin="5" Padding="5">
-            <Grid HeightRequest="318" RowDefinitions="278,40"  >
+        <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
+            <Grid  RowDefinitions="278,40"  >
                 <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
-                    <ImageButton Source="{Binding ImagePathName}" WidthRequest="280"  Clicked="ImageButton_Clicked" />
+                    <ImageButton Source="{Binding ImagePathName}"  
+                                 HeightRequest="380"
+                                 Clicked="ImageButton_Clicked" />
                 </Grid>
-                <Grid Grid.Row="1" >
+                <Grid Grid.Row="1"  >
                     <Label  Text="{Binding CategoryName}" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
                 </Grid>
             </Grid>
