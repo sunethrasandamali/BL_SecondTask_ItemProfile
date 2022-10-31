@@ -20,42 +20,10 @@
 
             <Grid>
                 <ScrollView>
-                    <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" >
+                    <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" x:Name="__categoryPage" IsVisible="true" >
 
-
-                        <productCotrols:ProductView  />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
+                       
+                         
                     </FlexLayout>
                 </ScrollView>
             </Grid>

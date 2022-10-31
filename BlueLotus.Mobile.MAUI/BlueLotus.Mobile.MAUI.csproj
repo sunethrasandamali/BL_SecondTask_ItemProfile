@@ -63,7 +63,12 @@
 	  <None Remove="Resources\Images\earth.jpg" />
 	  <None Remove="Resources\Images\earth2.jpg" />
 	  <None Remove="Resources\Images\logo_bl360.png" />
+	  <None Remove="Resources\Images\products\no_image.png" />
 	  <None Remove="Resources\Images\products\shoes\shoe1.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\products\no_image.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -97,6 +102,9 @@
 	  <MauiXaml Update="BLControls\ListView\AddressListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="BLControls\Product\CategoryView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="BLControls\Product\ProductView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -119,7 +127,12 @@
 
 	<ItemGroup>
 	  <Folder Include="BLControls\Picker\" />
-	  <Folder Include="ViewModels\Category\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="BLControls\Product\CategoryView.xaml.cs">
+	    <DependentUpon>CategoryView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

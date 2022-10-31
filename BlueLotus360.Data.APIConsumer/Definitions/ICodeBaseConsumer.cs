@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Entity.Base;
+﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Extended;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Core.Domain.Responses;
@@ -12,7 +13,7 @@ namespace BlueLotus360.Data.APIConsumer.Definitions
 {
     public interface ICodeBaseConsumer
     {
-        Task<BaseServerResponse<IList<CodeBase>>> ReadCategories(BaseComboResponse request);
+        Task<BaseServerResponse<IList<CodeBase>>> ReadCategories(ComboRequestDTO request);
 
     }
 }

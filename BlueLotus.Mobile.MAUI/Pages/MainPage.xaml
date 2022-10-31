@@ -10,61 +10,7 @@
 
    
 
-        <Grid ColumnDefinitions="*,*,*" RowDefinitions="50,*"  >
-            <Button ClassId="IsPr" Text="Products" Style="{StaticResource TabButton}" Grid.Column="0"/>
-            <Button Text="Customers" Style="{StaticResource TabButton}" Grid.Column="1"/>
-            <Button Text="Orders" Style="{StaticResource TabButton}" Grid.Column="2"/>
-          
-                <Grid Background="Yellow" Grid.Row="1" Grid.ColumnSpan="3"   >
-
-
-
-                <Grid>
-                    <ScrollView>
-                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" >
-
-                            
-                        <productCotrols:ProductView  />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                        <productCotrols:ProductView />
-                    </FlexLayout>
-                    </ScrollView>
-                </Grid>
-
-
-            </Grid>
-         
-        </Grid>
+       
         
        
 
