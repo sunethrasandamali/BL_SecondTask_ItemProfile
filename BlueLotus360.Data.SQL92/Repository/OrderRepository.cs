@@ -860,6 +860,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         oorderV3.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
                         oorderV3.TransactionUnitKey = reader.GetColumn<int>("TrnUnitKy");
+                        oorderV3.TransactionUnitName = reader.GetColumn<string>("Unit");
                         oorderV3.OrderItemName = reader.GetColumn<string>("ItmNm");
                         oorderV3.ItemKey = reader.GetColumn<int>("ItmKy");
                         oorderV3.IsTransfer = reader.GetColumn<int>("isTransfer");

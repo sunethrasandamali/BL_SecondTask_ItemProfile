@@ -436,6 +436,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.FromOrderDetailKey = item.FromOrderDetailKey;
                     lineItem.Remark = item.Remarks;
                     lineItem.Description = item.Description;
+                    lineItem.TransactionUnit = new UnitResponse() { UnitKey=item.UnitKey,UnitName=item.TransactionUnitName};
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;

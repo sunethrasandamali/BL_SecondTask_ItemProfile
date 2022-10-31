@@ -72,6 +72,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public int IsTransferConfirmed { get; set; }
         public decimal TransactionQuantity { get; set; }
         public decimal TransferQuantity { get; set; }
+        public UnitResponse TransactionUnit { get; set; }
         public decimal DiscountPercentage { get; set; }
         public decimal DiscountAmount { get; set; }
         public ItemResponse TransactionItem { get; set; }
@@ -328,6 +329,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal TransactionQuantity { get; set; }
         public decimal TransactionRate { get; set; }
         public int TransactionUnitKey { get; set; } = 1;
+        public string TransactionUnitName { get; set; } = "";
         public string Uuid { get; set; }
 
         public int OrderLineItemKey { get; set; } = 1;
