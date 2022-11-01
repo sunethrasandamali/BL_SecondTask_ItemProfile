@@ -170,5 +170,33 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(codes);
         }
 
+        [HttpPost("GetOrdersFromOrderPlatforms")]
+        public IActionResult GetOrdersFromOrderPlatforms(PartnerOrder request)
+        {
+            var company = Request.GetAssignedCompany();
+            var user = Request.GetAuthenticatedUser();
+            PartnerOrder codes = _orderService.GetOrdersFromOrderPlatforms(company,user, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetOrderStatusByPartnerStatus")]
+        public IActionResult GetOrderStatusByPartnerStatus(CodeBaseResponse request)
+        {
+            var company = Request.GetAssignedCompany();
+            CodeBaseResponse codes = _orderService.GetOrderStatusByPartnerStatus(company,request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetItemsByItemCode")]
+        public IActionResult GetItemsByItemCode(Item request)
+        {
+            var company = Request.GetAssignedCompany();
+            Item codes = _orderService.GetItemsByItemCode(company, request).Value;
+
+            return Ok(codes);
+        }
+
     }
 }

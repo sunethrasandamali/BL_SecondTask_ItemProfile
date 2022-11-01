@@ -478,6 +478,24 @@ namespace BlueLotus360.Web.APIApplication.Services
             return _unitOfWork.OrderRepository.GetLastOrderSyncTime(company, request);
         }
 
+        public BaseServerResponse<PartnerOrder> GetOrdersFromOrderPlatforms(Company company, User user, PartnerOrder request)
+        {
+            return _unitOfWork.OrderRepository.GetOrdersFromOrderPlatforms(company,user, request);
+        }
+
+        public BaseServerResponse<CodeBaseResponse> GetOrderStatusByPartnerStatus(Company company, CodeBaseResponse codeBase)
+        {
+            return _unitOfWork.OrderRepository.GetOrderStatusByPartnerStatus(company, codeBase);
+        }
+
+        public BaseServerResponse<Item> GetItemsByItemCode(Company company, Item item)
+        {
+            return _unitOfWork.OrderRepository.GetItemsByItemCode(company, item);
+        }
+
+        
+
+
 
     }
 }

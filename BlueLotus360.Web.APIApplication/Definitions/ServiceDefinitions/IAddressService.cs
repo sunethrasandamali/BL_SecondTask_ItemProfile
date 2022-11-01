@@ -15,5 +15,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<AddressResponse>>  GetComboAddresses(Company company, User user, ComboRequestDTO dto);
         BaseServerResponse<AddressMaster> CreateCustomer(Company company, User user, AddressMaster address);
         BaseServerResponse<AddressMaster> CustomerValidation(Company company, User user, AddressMaster address);
+        BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster);
+        BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster);
     }
 }

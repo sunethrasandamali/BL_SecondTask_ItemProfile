@@ -82,7 +82,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     public class Item : ItemSimple
     {
 
-
+        public int LiNo { get; set; }
 
         public CodeBaseResponse ItemType { get; set; } // Added
         public string EAN { get; set; }  // Added

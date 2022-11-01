@@ -15,6 +15,7 @@ namespace BlueLotus360.Core.Domain.Entity
             AuthorizedCompany = new Company();
             Location = new CodeBaseResponse();
             OrderStatus = new CodeBaseResponse();
+            Platforms = new Account();
             Customer = new Person();
             CreatedBy = new User();
             UpdatedBy = new User();
@@ -23,6 +24,7 @@ namespace BlueLotus360.Core.Domain.Entity
         private decimal _quantity;
         private decimal _amount;
 
+        public Account Platforms { get; set; }
         public CodeBaseResponse OrderStatus { get; set; }
         public int OrderLastSyncMinutes { get; set; }
         public Pagination pagination { get; set; }

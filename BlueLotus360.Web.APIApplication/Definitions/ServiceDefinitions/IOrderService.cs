@@ -30,6 +30,9 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<CodeBaseResponse>> GetOrderStatus(Company company);
         BaseServerResponse<APIInformation> GetAPIEndPoints(Company company, APIRequestParameters request);
         BaseServerResponse<PartnerOrder> GetLastOrderSyncTime(Company company, APIRequestParameters request);
+        BaseServerResponse<PartnerOrder> GetOrdersFromOrderPlatforms(Company company, User user, PartnerOrder request);
+        BaseServerResponse<CodeBaseResponse> GetOrderStatusByPartnerStatus(Company company, CodeBaseResponse codeBase);
+        BaseServerResponse<Item> GetItemsByItemCode(Company company, Item item);
 
     }
 }

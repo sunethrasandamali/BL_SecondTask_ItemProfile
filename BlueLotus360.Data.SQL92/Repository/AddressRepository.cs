@@ -211,5 +211,125 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
+        public BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company,AddressMaster addressMaster)
+        {
+            AddressMaster adrr = new AddressMaster();
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "GetEmpKy";
+                BaseServerResponse<AddressMaster> response = new BaseServerResponse<AddressMaster>();
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@EmpKy", addressMaster.AddressId);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        adrr.AddressKey = reader.GetColumn<int>("EmpKy");
+                        adrr.AddressId = reader.GetColumn<string>("AdrID");
+                        adrr.AddressName = reader.GetColumn<string>("AdrNm");
+                        adrr.Address = reader.GetColumn<string>("Address");
+                        adrr.Mobile = reader.GetColumn<string>("Telephone");
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster)
+        {
+            AddressMaster adrr = new AddressMaster();
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "AdrMas_InsertWeb";
+                BaseServerResponse<AddressMaster> response = new BaseServerResponse<AddressMaster>();
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@AdrID", addressMaster.AddressId);
+                    dbCommand.CreateAndAddParameter("@AdrNm", addressMaster.AddressName);
+                    dbCommand.CreateAndAddParameter("@isAct", addressMaster.IsActive);
+                    dbCommand.CreateAndAddParameter("@isApr", 1);
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@DefAdrTypKy", addressMaster.AddressType.CodeKey);
+                    dbCommand.CreateAndAddParameter("@Address", addressMaster.Address);
+                    dbCommand.CreateAndAddParameter("@Telephone", addressMaster.Mobile);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        adrr.AddressKey = reader.GetColumn<int>("AdrKy");
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
     }
 }
