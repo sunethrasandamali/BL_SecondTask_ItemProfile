@@ -41,11 +41,11 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public CodeBaseResponse Location { get; set; } = new CodeBaseResponse();
         public string Description { get; set; } = "";
         public string Remarks { get; set; } = "";
-        public ItemSimple CustomItem { get; set; } = new ItemSimple();
+        public ItemResponse CustomItem { get; set; } = new ItemResponse();
         public CodeBaseResponse Shift { get; set; } = new CodeBaseResponse();
         public decimal CommisionPercentage { get; set; }
 
-        public int IsQuantityPosted { get; set; }
+        public int IsQuantityPosted { get; set; }   
         public int IsValuePosted { get; set; }
         public int IsItemTrnValue { get; set; }
         public decimal Amount1 { get; set; }
