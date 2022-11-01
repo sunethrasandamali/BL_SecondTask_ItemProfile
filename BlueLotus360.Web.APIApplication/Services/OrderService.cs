@@ -1,5 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity.API;
+using BlueLotus360.Core.Domain.Entity;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
@@ -446,7 +448,36 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             return quote;
         }
+        public int PartnerOrders_Count(Company company, RequestParameters partnerOrder)
+        {
+            return _unitOfWork.OrderRepository.PartnerOrders_Count(company, partnerOrder);
+        }
 
-       
+        public BaseServerResponse<IList<PartnerOrder>> GetAllPartnerOrder(Company company, User user, RequestParameters order)
+        {
+            return _unitOfWork.OrderRepository.GetAllPartnerOrder(company, user, order);
+        }
+
+        public BaseServerResponse<APIInformation> GetAPIDetails(Company company, User user, APIRequestParameters request)
+        {
+            return _unitOfWork.OrderRepository.GetAPIDetails(company, user, request);
+        }
+
+        public BaseServerResponse<IList<CodeBaseResponse>> GetOrderStatus(Company company)
+        {
+            return _unitOfWork.OrderRepository.GetOrderStatus(company);
+        }
+
+        public BaseServerResponse<APIInformation> GetAPIEndPoints(Company company, APIRequestParameters request)
+        {
+            return _unitOfWork.OrderRepository.GetAPIEndPoints(company, request);
+        }
+
+        public BaseServerResponse<PartnerOrder> GetLastOrderSyncTime(Company company, APIRequestParameters request)
+        {
+            return _unitOfWork.OrderRepository.GetLastOrderSyncTime(company, request);
+        }
+
+
     }
 }

@@ -1,8 +1,13 @@
+using BlueLotus.Mobile.MAUI.BLControls.Product;
 using BlueLotus.Mobile.MAUI.Pages.BasePage;
 using BlueLotus.Mobile.MAUI.UIBuilder;
 using BlueLotus.Mobile.MAUI.ViewModels;
+using BlueLotus.Mobile.MAUI.ViewModels.Category;
 using BlueLotus.UI.Application.Services.Defintions;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Object;
+using Microsoft.Maui.Controls;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
@@ -10,14 +15,60 @@ public partial class MainOrderPage : ContentPage
 {
     protected BaseViewModel __bindContext;
     protected readonly IAppObjectService _objectAppService;
+    protected readonly ICodeBaseService _codeBaseService;
+
+    private BLUIElement _categoryPage;
+    private BLUIElement _orderPage;
+    private BLUIElement _customerPage;
+    private CategoryViewModel SelectedCategory;
+        
 
     public MainOrderPage()
     {
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
-
+        _codeBaseService = MauiProgram.Services.GetService<ICodeBaseService>();
         __bindContext = new();
+      
         InitializeComponent();
 	}
+    private async Task ReadCategories()
+    {
+        if (_categoryPage != null)
+        {
+            ComboRequestDTO dto = new ComboRequestDTO();
+            dto.RequestingElementKey = (int)_categoryPage.ElementKey;
+            var items = await _codeBaseService.ReadProductCategories(dto);
+            if (items.Value != null)
+            {
+                var width= 400;
+                __categoryPage.Clear();
+                foreach (var item in items.Value)
+                {
+                    CategoryViewModel model = new CategoryViewModel();
+                    model.CodeKey = item.CodeKey;
+                    model.CategoryName = item.CodeName;
+                    model.ImagePathName = string.IsNullOrWhiteSpace(item.CodeExtraCharacter1) ? "no_image.png": item.CodeExtraCharacter1;
+                    var catm = new CategoryView(model);
+                    catm.WidthRequest = width*0.97;
+                    catm.CategoryClickEvent += Catm_CategoryClickEvent;
+                    __categoryPage.Add(
+                      catm
+                        ) ;
+                }
+            }
+        }
+    }
+
+    private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
+    {
+        SelectedCategory = e.Category;
+        SelectedCategoryName.Text = "Products Under Category - "+ SelectedCategory.CategoryName +".";
+       __categoryPage.RotateXTo(30);
+        await __categoryPage.FadeTo(0);
+        
+        __productPage.IsVisible = true;
+        __categoryPage.IsVisible = false;
+    }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
@@ -28,11 +79,31 @@ public partial class MainOrderPage : ContentPage
             Title = menu.MenuCaption;
             BindingContext = null;
             var elem = await _objectAppService.FetchObjects(menu);
-          
+            foreach(var obj in elem.Value.Children)
+            {
+                if (obj.ElementName.Equals("__ProductsPage__"))
+                {
+                    _categoryPage = obj;
+                }
+            }
             BindingContext = __bindContext;
         }
-
         base.OnNavigatedTo(args);
+
+        await ReadCategories();
     }
+
+
+    protected async void OnBackButtonClicked(object sender,EventArgs args)
+    {
+        SelectedCategory =null;
+        __productPage.IsVisible = false;
+        __categoryPage.IsVisible = true;
+         __categoryPage.FadeTo(1);
+        await __categoryPage.RotateXTo(0);
+    
+    }
+
+
 
 }

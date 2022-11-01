@@ -26,5 +26,26 @@ namespace BlueLotus360.Core.Domain.Entity.API
         public string? BaseURL { get; set; }
         public bool IsNonAutoMapped { get; set; }
         public string? AuthenticationType  { get; set; }
+        public string? IntegrationId { get; set; }
+
+        public string? SecretInstanceKey { get; set; }
+        public int MappedLocationKey { get; set; } = 1;
+        public string? MappedLocationName { get; set; }
+        public long PartnerOrderTypeKey { get; set; }
+        public string? PartnerOrderTypeCode { get; set; }
+        public string? PartnerOrderTypeName { get; set; }
+        public bool IsAllowedLocalOnly { get; set; }
+        public bool IsRestrictedToIP { get; set; }
+        public string? AlertnateBaseURL { get; set; }
+        public string? EndPointURL { get; set; }
+    }
+
+    public class APIRequestParameters
+    {
+        public string? EndPointName { get; set; }
+        public int APIIntegrationKey { get; set; }
+        public string? APIIntegrationName { get; set; }
+        public int LocationKey { get; set; }
+        public string? APIName { get; set; }
     }
 }

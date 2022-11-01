@@ -1,5 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.Repository;
 using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity.API;
+using BlueLotus360.Core.Domain.Entity;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
@@ -860,6 +862,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         oorderV3.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
                         oorderV3.TransactionUnitKey = reader.GetColumn<int>("TrnUnitKy");
+                        oorderV3.TransactionUnitName = reader.GetColumn<string>("Unit");
                         oorderV3.OrderItemName = reader.GetColumn<string>("ItmNm");
                         oorderV3.ItemKey = reader.GetColumn<int>("ItmKy");
                         oorderV3.IsTransfer = reader.GetColumn<int>("isTransfer");
@@ -1392,6 +1395,467 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     dbCommand.Dispose();
                     dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public int PartnerOrders_Count(Company company, RequestParameters partnerOrder)
+        {
+            int Count = 0;
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "PartnerOrders_Count";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("LocKy", partnerOrder.LocationKey);
+                    dbCommand.CreateAndAddParameter("PrtnrStsKy", partnerOrder.StatusKey);
+                    dbCommand.CreateAndAddParameter("FrmDt", partnerOrder.FromDate);
+                    dbCommand.CreateAndAddParameter("ToDt", partnerOrder.ToDate);
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Count = reader.GetColumn<int>("Count");
+                    }
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return Count;
+            }
+        }
+
+
+        public BaseServerResponse<IList<PartnerOrder>> GetAllPartnerOrder(Company company, User user, RequestParameters order)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                IList<PartnerOrder> orders = new List<PartnerOrder>();
+                BaseServerResponse<IList<PartnerOrder>> response = new BaseServerResponse<IList<PartnerOrder>>();
+                string SPName = "GetAllPartnerOrders";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("LocKy", order.LocationKey);
+                    dbCommand.CreateAndAddParameter("StatusKey", order.StatusKey);
+                    dbCommand.CreateAndAddParameter("OrderDt", order.FromDate);
+                    dbCommand.CreateAndAddParameter("ToDt", order.ToDate);
+                    dbCommand.CreateAndAddParameter("Page", order.pagination.Page);
+                    dbCommand.CreateAndAddParameter("PageSize", order.pagination.PageSize);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        PartnerOrder setPartnerOrder = new PartnerOrder();
+                        setPartnerOrder.PartnerOrderId = reader.GetColumn<long>("OrdKy");
+                        setPartnerOrder.OrderId = reader.GetColumn<string>("OrderId");
+                        setPartnerOrder.AuthorizedCompany.CompanyKey = reader.GetColumn<int>("CKy");
+                        setPartnerOrder.Location.CodeKey = reader.GetColumn<int>("LocKy");
+                        setPartnerOrder.OrderReference = reader.GetColumn<string>("OrderRef");
+                        setPartnerOrder.Customer.AdrKy = reader.GetColumn<int>("AdrKy");
+                        //setPartnerOrder.PaymentKey = reader.GetColumn<int>("PaymentKy");
+                        //setPartnerOrder.PaymentType = reader.GetColumn<string>("PaymentName");
+                        setPartnerOrder.OrderStatus.CodeKey = reader.GetColumn<int>("NxtStsKy");
+                        setPartnerOrder.OrderStatus.CodeName = reader.GetColumn<string>("NxtStsNm");
+                        setPartnerOrder.Quantity = reader.GetColumn<decimal>("Qty");
+                        setPartnerOrder.Amount = reader.GetColumn<decimal>("TrnAmt");
+                        setPartnerOrder.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        setPartnerOrder.OrderDate = reader.GetColumn<DateTime>("OrderDt");
+                        //setPartnerOrder.PickupTime = reader.GetColumn<DateTime>("PickUpTm");
+                        setPartnerOrder.OrderNote = reader.GetColumn<string>("YurRef");
+                        //setPartnerOrder.DeliveryNote = reader.GetColumn<string>("DlvNote");
+                        //setPartnerOrder.DeliveryBrand = reader.GetColumn<string>("DlvBrand");
+                        //setPartnerOrder.WorkStationKey = reader.GetColumn<long>("WrkStnKy");
+                        setPartnerOrder.Customer.Address = reader.GetColumn<string>("Address");
+
+                        orders.Add(setPartnerOrder);
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = orders;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<APIInformation> GetAPIDetails(Company company, User user, APIRequestParameters request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                APIInformation information = new APIInformation();
+                BaseServerResponse<APIInformation> response = new BaseServerResponse<APIInformation>();
+                string SPName = "OrderPlatformAPI_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("ApiIntNm", request.APIIntegrationName);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        information.APIIntegrationKey = reader.GetColumn<int>("ApiIntgrKy");
+                        information.IntegrationId = reader.GetColumn<string>("APPID");
+                        information.Description = reader.GetColumn<string>("Des");
+                        information.IsActive = reader.GetColumn<int>("IsAct");
+                        information.SecretInstanceKey = reader.GetColumn<string>("SECRETKEY");
+                        information.MappedUserKey = reader.GetColumn<int>("MappedUsrKy");
+                        information.MappedCompanyKey = reader.GetColumn<int>("MappedCky");
+                        information.MappedLocationKey = reader.GetColumn<int>("MappedLocation");
+                        information.MappedLocationName = reader.GetColumn<string>("LocationNm");
+                        information.IsAllowedLocalOnly = reader.GetColumn<bool>("isLocalOnly");
+                        information.RestrictToIP = reader.GetColumn<string>("RestricrtToIP");
+                        information.IsRestrictedToIP = reader.GetColumn<bool>("ISIPFilterd");
+                        information.ValidateTokenOnly = reader.GetColumn<bool>("ValTokenOnly");
+                        information.Scheme = reader.GetColumn<string>("Scheme");
+                        information.BaseURL = reader.GetColumn<string>("BaseURL");
+                        information.AlertnateBaseURL = reader.GetColumn<string>("AltntBaseURL");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = information;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<IList<CodeBaseResponse>> GetOrderStatus(Company company)
+        {
+            IList<CodeBaseResponse> codeBases = new List<CodeBaseResponse>();
+            BaseServerResponse<IList<CodeBaseResponse>> response = new BaseServerResponse<IList<CodeBaseResponse>>();
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "GetOrderHubStatus";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        CodeBaseResponse codeBase = new CodeBaseResponse(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.Code = dataReader.GetColumn<string>("Code");
+                        codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
+                        codeBase.OurCode = dataReader.GetColumn<string>("OurCd");
+
+
+                        codeBases.Add(codeBase);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = codeBases;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
+                }
+                return response;
+            }
+
+        }
+
+        public BaseServerResponse<APIInformation> GetAPIEndPoints(Company company, APIRequestParameters request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                APIInformation information = new APIInformation();
+                BaseServerResponse<APIInformation> response = new BaseServerResponse<APIInformation>();
+                string SPName = "GetOrderHubAPIEndPoint_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("ApiInfKy", request.APIIntegrationKey);
+                    dbCommand.CreateAndAddParameter("EndPointNm", request.EndPointName);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        information.APIIntegrationKey = reader.GetColumn<int>("ApiIntgrKy");
+                        information.EndPointURL = reader.GetColumn<string>("EndPointUrl");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = information;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<PartnerOrder> GetLastOrderSyncTime(Company company, APIRequestParameters request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                PartnerOrder information = new PartnerOrder();
+                BaseServerResponse<PartnerOrder> response = new BaseServerResponse<PartnerOrder>();
+                string SPName = "LastOrderSync_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("OurCd", request.APIName);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        information.OrderLastSyncMinutes = reader.GetColumn<int>("LastSyncTime");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = information;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
                 }
 
                 return response;
