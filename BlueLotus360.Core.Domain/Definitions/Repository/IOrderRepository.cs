@@ -1,4 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity.API;
+using BlueLotus360.Core.Domain.Entity;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
@@ -28,5 +30,11 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<IList<QuotationDetails>> GenericOpenQuotation(OrderOpenRequest request, Company company, User user);
         BaseServerResponse<WorkOrderAmountByAccount> OrderDetailAccountInsertUpdate(Company company, User user, WorkOrderAmountByAccount accDet);
         BaseServerResponse<IList<WorkOrderAmountByAccount>> OrderDetailAccountSelect(Company company, User user, WorkOrderAmountByAccount accDet);
+        int PartnerOrders_Count(Company company, RequestParameters partnerOrder);
+        BaseServerResponse<IList<PartnerOrder>> GetAllPartnerOrder(Company company, User user, RequestParameters order);
+        BaseServerResponse<APIInformation> GetAPIDetails(Company company, User user, APIRequestParameters request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetOrderStatus(Company company);
+        BaseServerResponse<APIInformation> GetAPIEndPoints(Company company, APIRequestParameters request);
+        BaseServerResponse<PartnerOrder> GetLastOrderSyncTime(Company company, APIRequestParameters request);
     }
 }
