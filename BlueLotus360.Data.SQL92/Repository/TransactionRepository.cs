@@ -904,7 +904,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         transaction.IsRecurrence = reader.GetColumn<int>("IsRecur");
                         transaction.Location = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
-                        transaction.CustomItem = new ItemSimple(1);
+                        transaction.CustomItem = new ItemResponse();
                         transaction.Shift = new CodeBaseResponse(reader.GetColumn<long>("ShiftKy"));
                         transaction.CommisionPercentage = reader.GetColumn<decimal>("ComisPer");
                         transaction.IsQuantityPosted = reader.GetColumn<int>("IsQtyPstd");
