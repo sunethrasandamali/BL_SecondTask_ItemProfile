@@ -17,6 +17,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public CodeBaseResponse ItemCategory2;
 
         public CodeBaseResponse ItemType { get; set; }
+        public int LineNumber { get; set; }
         public ItemResponse()
         {
             ItemCategory1=new CodeBaseResponse();

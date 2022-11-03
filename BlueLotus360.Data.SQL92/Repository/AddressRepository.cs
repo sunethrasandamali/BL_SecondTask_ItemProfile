@@ -226,7 +226,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CommandText = SPName;
 
                     dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
-                    dbCommand.CreateAndAddParameter("@EmpKy", addressMaster.AddressId);
+                    dbCommand.CreateAndAddParameter("@EmpNo", addressMaster.AddressId);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -242,7 +242,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
 
                     response.ExecutionEnded = DateTime.UtcNow;
-
+                    response.Value = adrr;
                 }
                 catch (Exception exp)
                 {
@@ -303,7 +303,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
 
                     response.ExecutionEnded = DateTime.UtcNow;
-
+                    response.Value = adrr;
                 }
                 catch (Exception exp)
                 {

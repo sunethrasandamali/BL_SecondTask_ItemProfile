@@ -488,9 +488,14 @@ namespace BlueLotus360.Web.APIApplication.Services
             return _unitOfWork.OrderRepository.GetOrderStatusByPartnerStatus(company, codeBase);
         }
 
-        public BaseServerResponse<Item> GetItemsByItemCode(Company company, Item item)
+        public BaseServerResponse<ItemResponse> GetItemsByItemCode(Company company, ItemResponse item)
         {
             return _unitOfWork.OrderRepository.GetItemsByItemCode(company, item);
+        }
+
+        public BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderKy(Company company, RequestParameters order)
+        {
+            return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderKy(company, order);
         }
 
         
