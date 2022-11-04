@@ -83,6 +83,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdCat2", orderHeader.OrderCategory2Key);
                     dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading",orderHeader.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -434,6 +435,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("BuKy", BaseComboResponse.GetKeyValue(orderV3.BussinessUnit));
                     dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -724,6 +726,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1= this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading= reader.GetColumn<decimal>("MeterReading");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1223,6 +1226,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading = reader.GetColumn<decimal>("MeterReading");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;

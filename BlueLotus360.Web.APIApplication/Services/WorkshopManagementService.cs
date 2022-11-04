@@ -71,7 +71,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
             OH.OrderStatusKey = (int)orderDetails.OrderStatus.CodeKey;
-
+            OH.MeterReading = orderDetails.MeterReading;
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
                 OH.AccountKey = orderDetails.OrderAccount.AccountKey;
@@ -215,6 +215,8 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
             OH.OrderStatus = orderDetails.OrderStatus;
+            OH.MeterReading = orderDetails.MeterReading;
+
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
                 OH.AccountKey = orderDetails.OrderAccount.AccountKey;
@@ -397,6 +399,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.OrderCategory2 = responses.OrderCategory2;
             order.OrderProject=new ProjectResponse() { ProjectKey=responses.ProjectKey};
             order.OrderStatus = responses.OrderStatus;
+            order.MeterReading=responses.MeterReading;
 
             foreach (OrderLineCreateDTO item in itemList)
             {
