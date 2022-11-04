@@ -31,6 +31,8 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public CodeBaseResponse AddressPrefix { get; set; } = new CodeBaseResponse();
         public decimal VAT { get; set; }
         public decimal SVAT { get; set; }
+        public string? Mobile { get; set; }
+        public CodeBaseResponse AddressType { get; set; } = new CodeBaseResponse();
 
         //Vehicle Details
         public DateTime RegistrationDate { get; set; } = new DateTime();
@@ -45,6 +47,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public CodeBaseResponse MaintainPackage { get; set; } = new CodeBaseResponse();
         public string? Message { get; set; }
         public bool HasError { get; set; }
+      
     }
 
     public class AddAdvAnl

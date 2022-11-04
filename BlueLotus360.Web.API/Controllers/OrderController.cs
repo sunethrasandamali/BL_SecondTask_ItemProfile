@@ -1,4 +1,7 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity;
+using BlueLotus360.Core.Domain.Entity.API;
+using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
@@ -109,7 +112,100 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(ord);
         }
 
-        
+        [HttpPost("GetPartnerCountByStatus")]
+        public IActionResult GetPartnerCountByStatus(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+
+            int OrderCount = _orderService.PartnerOrders_Count(company, request);
+
+            return Ok(OrderCount);
+        }
+
+        [HttpPost("GetAllPartnerOrders")]
+        public IActionResult GetAllPartnerOrders(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            var user = Request.GetAuthenticatedUser();
+            IList<PartnerOrder> Orders = _orderService.GetAllPartnerOrder(company, user, request).Value;
+
+            return Ok(Orders);
+        }
+
+        [HttpPost("GetAPIDetails")]
+        public IActionResult GetAPIDetails(APIRequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            var user = Request.GetAuthenticatedUser();
+            APIInformation APIInfo = _orderService.GetAPIDetails(company, user, request).Value;
+
+            return Ok(APIInfo);
+        }
+
+        [HttpPost("GetOrderStatus")]
+        public IActionResult GetOrderStatus()
+        {
+            var company = Request.GetAssignedCompany();
+            var user = Request.GetAuthenticatedUser();
+            IList<CodeBaseResponse> codes = _orderService.GetOrderStatus(company).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetOrderEndPoints")]
+        public IActionResult GetOrderEndPoints(APIRequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            APIInformation codes = _orderService.GetAPIEndPoints(company, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetLastOrderSyncTime")]
+        public IActionResult GetLastOrderSyncTime(APIRequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            PartnerOrder codes = _orderService.GetLastOrderSyncTime(company, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetOrdersFromOrderPlatforms")]
+        public IActionResult GetOrdersFromOrderPlatforms(PartnerOrder request)
+        {
+            var company = Request.GetAssignedCompany();
+            var user = Request.GetAuthenticatedUser();
+            PartnerOrder codes = _orderService.GetOrdersFromOrderPlatforms(company,user, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetOrderStatusByPartnerStatus")]
+        public IActionResult GetOrderStatusByPartnerStatus(CodeBaseResponse request)
+        {
+            var company = Request.GetAssignedCompany();
+            CodeBaseResponse codes = _orderService.GetOrderStatusByPartnerStatus(company,request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetItemsByItemCode")]
+        public IActionResult GetItemsByItemCode(ItemResponse request)
+        {
+            var company = Request.GetAssignedCompany();
+            ItemResponse codes = _orderService.GetItemsByItemCode(company, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetPartnerOrdersByOrderKy")] 
+        public IActionResult GetPartnerOrdersByOrderKy(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            PartnerOrder codes = _orderService.GetPartnerOrdersByOrderKy(company, request).Value;
+
+            return Ok(codes);
+        }
 
     }
 }

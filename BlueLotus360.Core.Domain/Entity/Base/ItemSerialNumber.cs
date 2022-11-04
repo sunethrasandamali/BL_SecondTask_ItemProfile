@@ -24,6 +24,6 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string? BatchNumber { get; set; }
         public long PersistingElementKey { get; set; } = 1;
         public long ElementKey { get; set; } = 1;
-        
+
     }
 }

@@ -15,5 +15,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<IList<AddressResponse>> GetAddresses(Company company, User user, ComboRequestDTO dto);
         BaseServerResponse<AddressMaster> CustomerRegistration(Company company, User user, AddressMaster addressMaster);
         BaseServerResponse<AddressMaster> CustomerRegistrationValidation(Company company, User user, AddressMaster addressMaster);
+        BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster);
+        BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster);
     }
 }

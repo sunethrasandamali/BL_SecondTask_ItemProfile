@@ -17,12 +17,13 @@ namespace BlueLotus360.Web.API.Controllers
     {
         ILogger<AddressController> _logger;
         IAddressService _addressService;
-
+        ICodeBaseService _codeBaseService;
         public AddressController(ILogger<AddressController> logger,
-                                IAddressService addressService)
+                                IAddressService addressService, ICodeBaseService codeBaseService)
         {
             _logger = logger;
             _addressService = addressService;
+            _codeBaseService = codeBaseService;
         }
 
         [HttpPost("readAddress")]
@@ -56,6 +57,31 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
 
             var result = _addressService.CustomerValidation(company, user, address);
+            AddressMaster addressMaster = result.Value;
+
+            return Ok(addressMaster);
+        }
+
+        [HttpPost("CheckAdvanceAnalysisAvailability")]
+        public IActionResult CheckAdvanceAnalysisAvailability(AddressMaster address)
+        {
+            var company = Request.GetAssignedCompany();
+
+            var result = _addressService.CheckAdvanceAnalysisAvailability(company,address);
+            AddressMaster addressMaster = result.Value;
+
+            return Ok(addressMaster);
+        }
+
+        [HttpPost("CreateAdvanceAnalysis")]
+        public IActionResult CreateAdvanceAnalysis(AddressMaster address)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var AddressType= _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "CUS", "AdrTyp");
+            address.AddressType = AddressType.Value;
+            address.IsActive = 1;
+            var result = _addressService.CreateAdvanceAnalysis(company, address);
             AddressMaster addressMaster = result.Value;
 
             return Ok(addressMaster);

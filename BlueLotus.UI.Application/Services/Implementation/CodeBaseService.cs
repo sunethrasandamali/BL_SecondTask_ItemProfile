@@ -19,7 +19,7 @@ namespace BlueLotus.UI.Application.Services.Implementation
 
         public Task<BaseServerResponse<IList<CodeBase>>> ReadProductCategories(ComboRequestDTO requestDTO)
         {
-            throw new NotImplementedException();
+            return _restAPIConsumer.CodeBaseConsumer.ReadCategories(requestDTO);
         }
     }
 }

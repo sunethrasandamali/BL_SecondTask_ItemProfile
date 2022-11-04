@@ -46,7 +46,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long Skey { get; set; } = 1;
         public decimal QuantityPercentage { get; set; }
         public decimal HeaderDiscountAmount { get; set; }
-        public Project Project2 { get; set; } = new Project();
+        public ProjectResponse Project2 { get; set; } = new ProjectResponse();
         public decimal Quantity2 { get; set; }
         public decimal TaskQuantity { get; set; }
         public UnitSimple? TaskUnit { get; set; }
@@ -82,7 +82,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public AddressResponse ReservationAddress { get; set; } = new AddressResponse();
         public long ItemBudgetKey { get; } = 1;
         public bool IsQuantiy { get; set; } = false;
-
+        public decimal BalanceQuantity { get; set; }
 
         public decimal Amount1 { get; set; }
         public decimal Amount2 { get; set; }
@@ -106,9 +106,6 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal LineAmount { get; set; }
         public  ItemResponse ProcessItem { get; set; } = new ItemResponse();
 
-        public decimal BalanceQuantity { get; set; }
-
-
         public CodeBaseResponse ItemCategory1 { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse ItemCategory2 { get; set; } = new CodeBaseResponse();
 
@@ -124,6 +121,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal CompanyPrecentage { get; set; }
         public decimal CompanyAmount { get; set; }
         public decimal CustomerAmount { get; set; }
+        public int IsSelected { get; set; }
         public decimal Time { get; set; }
         public int IsMaterialItem { get; set; }
         public int IsServiceItem { get; set; }

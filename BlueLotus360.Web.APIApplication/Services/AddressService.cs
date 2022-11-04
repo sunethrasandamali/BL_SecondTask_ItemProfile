@@ -34,5 +34,17 @@ namespace BlueLotus360.Web.APIApplication.Services
         { 
             return _unitOfWork.AddressRepository.CustomerRegistrationValidation(company, user, address);
         }
+
+        public BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster)
+        {
+            return _unitOfWork.AddressRepository.CheckAdvanceAnalysisAvailability(company, addressMaster);
+        }
+        public BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster)
+        {
+            return _unitOfWork.AddressRepository.CreateAdvanceAnalysis(company, addressMaster);
+        }
+        
+
+
     }
 }
