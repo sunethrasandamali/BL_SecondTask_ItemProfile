@@ -12,31 +12,30 @@ namespace BlueLotus360.Core.Domain.Entity
         public PartnerOrder()
         {
             OrderItemDetails = new List<PartnerOrderDetails>();
-            AuthorizedCompany = new Company();
-            Location = new CodeBaseResponse();
+            // AuthorizedCompany = new Company();
             OrderStatus = new CodeBaseResponse();
-            Platforms = new Account();
+            Location = new CodeBaseResponse();
+            Platforms = new AccountResponse();
             Customer = new Person();
-            CreatedBy = new User();
-            UpdatedBy = new User();
+            // CreatedBy = new User();
+            // UpdatedBy = new User();
+            pagination = new Pagination();
         }
-
+        public AccountResponse Platforms { get; set; }
         private decimal _quantity;
         private decimal _amount;
-
-        public Account Platforms { get; set; }
-        public CodeBaseResponse OrderStatus { get; set; }
-        public int OrderLastSyncMinutes { get; set; }
         public Pagination pagination { get; set; }
-        public User CreatedBy { get; set; }
-        public User UpdatedBy { get; set; }
-        public Company AuthorizedCompany { get; set; }
+        // public User CreatedBy { get; set; }
+        // public User UpdatedBy { get; set; }
+        public CodeBaseResponse OrderStatus { get; set; }
+        // public Company AuthorizedCompany { get; set; }
         public CodeBaseResponse Location { get; set; }
-        public long PartnerOrderId { get; set; } //auto-genarated
-        public string OrderId { get; set; } // partner order id
-        public string OrderReference { get; set; } //partner display id
+        public int OrderLastSyncMinutes { get; set; }
+        public long PartnerOrderId { get; set; } = 1; //auto-genarated
+        public string OrderId { get; set; } = "";// partner order id
+        public string OrderReference { get; set; } = "";//partner display id
         public int PaymentKey { get; set; } //uber wallet
-        //public string PaymentName { get; set; } //uber wallet
+        //public string PaymentName { get; set; }= ""; //uber wallet
         public long DeliveryBrandId { get; set; } = 1;//  Delivery brand
         public string DeliveryAccessCode { get; set; } = "";
         //Total Quantity
@@ -77,10 +76,8 @@ namespace BlueLotus360.Core.Domain.Entity
                     {
                         foreach (PartnerOrderDetails partnerOrderItem in OrderItemDetails)
                         {
-                            if (!partnerOrderItem.IsComposite && !partnerOrderItem.IsModifier && partnerOrderItem.Remarks == "SaleItem")
-                            {
                                 totalAmount += partnerOrderItem.BaseTotalPrice;
-                            }
+                            
                         }
                     }
 
@@ -97,17 +94,17 @@ namespace BlueLotus360.Core.Domain.Entity
         }
         public decimal DiscountAmount { get; set; } //Total dis Amount
         //uber created date
-        public DateTime OrderDate { get; set; }
+        public string OrderDate { get; set; } = "";
         public DateTime PickupTime { get; set; }
-        public string OrderNote { get; set; } //Order Comment
-        public string DeliveryNote { get; set; } //Delivery Comment
-        public string DeliveryBrand { get; set; }
+        public string OrderNote { get; set; } = ""; //Order Comment
+        public string DeliveryNote { get; set; } = ""; //Delivery Comment
+        public string DeliveryBrand { get; set; } = "";
         public long WorkStationKey { get; set; }
 
         //public string OrderType { get; set; }
         //public string OrderStatus { get; set; }
-        public string PaymentType { get; set; }
-        public string PaymentCode { get; set; }
+        public string PaymentType { get; set; } = "";
+        public string PaymentCode { get; set; } = "";
         // public decimal Discount { get; set; }
         public decimal TaxAmount { get; set; }
         public decimal ChargesAmount { get; set; }
@@ -129,75 +126,42 @@ namespace BlueLotus360.Core.Domain.Entity
 
         public PartnerOrderDetails()
         {
-            OrderItem = new Item();
+            OrderItem = new ItemResponse();
         }
 
         public long PartnerOrderDetailsId { get; set; } //auto
         public long ParnterOrderId { get; set; } = 1; //from header, auto system insert
-       
-        public Item OrderItem { get; set; }
+
+        public ItemResponse OrderItem { get; set; }
         public decimal ItemQuantity { get; set; }
         public decimal TransactionPrice { get; set; }
         public decimal BaseTotalPrice { get; set; }
         public decimal ItemDiscount { get; set; }
-        public string SpecialInstructions { get; set; } //item comment
+        public string SpecialInstructions { get; set; } = ""; //item comment
         public bool IsComposite { get; set; }
         public bool IsModifier { get; set; }
         public long ItemOfferKey { get; set; } //if offers have pass this key
         public int AvailableStockCount { get; set; } = 0;
-        public string PartnerOrderItemInstanceId { get; set; }  //Unique identifying string for the shopping cart item, provided by DeliveryPartners (Uber)
+        public string PartnerOrderItemInstanceId { get; set; } = "";  //Unique identifying string for the shopping cart item, provided by DeliveryPartners (Uber)
         public string Remarks { get; set; } = "";
-        private bool isPayment;
-
-        public bool IsPayment
-        {
-            get
-            {
-                bool IsPayment = false;
-                if (Remarks != "SaleItem")
-                {
-                    IsPayment = true;
-                }
-
-                isPayment = IsPayment;
-
-                return isPayment;
-            }
-
-            set
-            {
-                isPayment = value;
-            }
-        }
 
 
     }
 
-    public class PatchCartPartnerOrderItem
-    {
-        public string PartnerOrderItemInstanceId { get; set; }  //Unique identifying string for the shopping cart item, provided by DeliveryPartners (Uber) 
-        public string ItemCode { get; set; }
-        public string FullfillmentAction { get; set; }
-        public string FullfillmentIssue { get; set; }
-        public int AvailableItemCount { get; set; }
-        public string SubstituteItemId { get; set; }
-        public int SubstituteItemQuantity { get; set; }
-        public string OrderTypeCode { get; set; }
-    }
 
     public class Person
     {
-        private string name;
+        private string name = "";
         private int key;
-        private string address;
-        private string city;
-        private string postalCode;
+        private string address = "";
+        private string city = "";
+        private string postalCode = "";
         private int isAct;
-        private string phone;
-        private string loyaltyCardNo;
-        private string email;
-        private string doorNo;
-        private string adrId;
+        private string phone = "";
+        private string loyaltyCardNo = "";
+        private string email = "";
+        private string doorNo = "";
+        private string adrId = "";
         private int adrKy = 1;
 
         public string Name { get => name; set => name = value; }
@@ -216,23 +180,22 @@ namespace BlueLotus360.Core.Domain.Entity
 
     public class Pagination
     {
-        public int Page { get; set; }
+        public int Page { get; set; } = 1;
         public int PageSize { get; set; } = 15;
     }
 
     public class RequestParameters
     {
-
         public RequestParameters()
         {
             pagination = new Pagination();
         }
-        public string FromDate { get; set; }
-        public string ToDate { get; set; }
+        public string FromDate { get; set; } = "";
+        public string ToDate { get; set; } = "";
         public int LocationKey { get; set; }
         public int StatusKey { get; set; }
+        public int OrderKey { get; set; }
 
         public Pagination pagination { get; set; }
-
     }
 }

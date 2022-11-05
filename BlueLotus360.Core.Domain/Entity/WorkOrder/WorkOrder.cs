@@ -71,6 +71,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
     public class Vehicle
     {
         public long ObjectKey { get; set; }
+        public DateTime VehicleRegisterDate { get; set; }
         public ItemResponse VehicleRegistration { get; set; }
         public AddressResponse VehicleAddress { get; set; }
         public AddressMaster RegisteredCustomer { get; set; }

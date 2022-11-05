@@ -38,6 +38,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public CodeBaseResponse OrderControlCondition { get; set; }
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
+        public decimal MeterReading { get; set; }
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -204,7 +205,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string PrefixedOrderNumber { get; set; } = "";
 
         public CodeBaseResponse OrderType { get; set; } = new CodeBaseResponse();
-
+        public decimal MeterReading { get; set; }
         
     }
 

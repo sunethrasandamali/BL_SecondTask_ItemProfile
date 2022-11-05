@@ -109,6 +109,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                             {
                                 ItemKey = sqlDataReader.GetColumn<int>("ItmKy"),
                                 ItemName = sqlDataReader.GetColumn<string>("ItmCdNm"),
+                                //ItemCode = sqlDataReader.GetColumn<string>("ItmCd"),
+                                //ItemNameOnly = sqlDataReader.GetColumn<string>("ItmNm"),
                                 FilterKey = sqlDataReader.GetColumn<int>("ColorKy"),
                                 IsDefault = sqlDataReader.GetColumn<int>("ItmKy") == sqlDataReader.GetColumn<int>("DefaultKey")
                             };

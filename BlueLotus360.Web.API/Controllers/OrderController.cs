@@ -190,10 +190,19 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
         [HttpPost("GetItemsByItemCode")]
-        public IActionResult GetItemsByItemCode(Item request)
+        public IActionResult GetItemsByItemCode(ItemResponse request)
         {
             var company = Request.GetAssignedCompany();
-            Item codes = _orderService.GetItemsByItemCode(company, request).Value;
+            ItemResponse codes = _orderService.GetItemsByItemCode(company, request).Value;
+
+            return Ok(codes);
+        }
+
+        [HttpPost("GetPartnerOrdersByOrderKy")] 
+        public IActionResult GetPartnerOrdersByOrderKy(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            PartnerOrder codes = _orderService.GetPartnerOrdersByOrderKy(company, request).Value;
 
             return Ok(codes);
         }

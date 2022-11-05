@@ -85,6 +85,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdCat2", orderHeader.OrderCategory2Key);
                     dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading",orderHeader.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -436,6 +437,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("BuKy", BaseComboResponse.GetKeyValue(orderV3.BussinessUnit));
                     dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -726,6 +728,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1= this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading= reader.GetColumn<decimal>("MeterReading");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1225,6 +1228,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading = reader.GetColumn<decimal>("MeterReading");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1492,7 +1496,6 @@ namespace BlueLotus360.Data.SQL92.Repository
                         PartnerOrder setPartnerOrder = new PartnerOrder();
                         setPartnerOrder.PartnerOrderId = reader.GetColumn<long>("OrdKy");
                         setPartnerOrder.OrderId = reader.GetColumn<string>("OrderId");
-                        setPartnerOrder.AuthorizedCompany.CompanyKey = reader.GetColumn<int>("CKy");
                         setPartnerOrder.Location.CodeKey = reader.GetColumn<int>("LocKy");
                         setPartnerOrder.OrderReference = reader.GetColumn<string>("OrderRef");
                         setPartnerOrder.Customer.AdrKy = reader.GetColumn<int>("AdrKy");
@@ -1503,13 +1506,14 @@ namespace BlueLotus360.Data.SQL92.Repository
                         setPartnerOrder.Quantity = reader.GetColumn<decimal>("Qty");
                         setPartnerOrder.Amount = reader.GetColumn<decimal>("TrnAmt");
                         setPartnerOrder.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
-                        setPartnerOrder.OrderDate = reader.GetColumn<DateTime>("OrderDt");
+                        setPartnerOrder.OrderDate =reader.GetColumn<DateTime>("OrderDt").ToString("dd/MMM/yyyy hh:mm:ss tt");
                         //setPartnerOrder.PickupTime = reader.GetColumn<DateTime>("PickUpTm");
                         setPartnerOrder.OrderNote = reader.GetColumn<string>("YurRef");
                         //setPartnerOrder.DeliveryNote = reader.GetColumn<string>("DlvNote");
                         //setPartnerOrder.DeliveryBrand = reader.GetColumn<string>("DlvBrand");
                         //setPartnerOrder.WorkStationKey = reader.GetColumn<long>("WrkStnKy");
                         setPartnerOrder.Customer.Address = reader.GetColumn<string>("Address");
+                        setPartnerOrder.Platforms.AccountName = reader.GetColumn<string>("AccNm");
 
                         orders.Add(setPartnerOrder);
                     }
@@ -1867,7 +1871,7 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             string[] fieldList = { "OrderDetId","OrderId","LiNo","ItmKy","UnitKy","Qty","TrnPri",
                                     "DisAmt","isApr","isAct","Comment",
-                                     "UpdtUsrKy","Remarks",
+                                     "Remarks",
 
             };
 
@@ -1880,9 +1884,9 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 dataRow["OrderDetId"] = 1;
                 dataRow["OrderId"] = 1;
-                dataRow["LiNo"] = lineItem.OrderItem.LiNo;
+                dataRow["LiNo"] = lineItem.OrderItem.LineNumber;
                 dataRow["ItmKy"] = lineItem.OrderItem.ItemKey;
-                dataRow["UnitKy"] = lineItem.OrderItem.ItemUnit.UnitKey;
+                dataRow["UnitKy"] = 1;
                 dataRow["Qty"] = lineItem.ItemQuantity;
                 dataRow["TrnPri"] = lineItem.TransactionPrice;
                 dataRow["DisAmt"] = lineItem.ItemDiscount;
@@ -1925,7 +1929,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdNo", request.OrderId);
                     dbCommand.CreateAndAddParameter("OrdRef", request.OrderReference);
                     dbCommand.CreateAndAddParameter("OrdStsKy", request.OrderStatus.CodeKey);
-                    dbCommand.CreateAndAddParameter("OrdDt", request.OrderDate);
+                    dbCommand.CreateAndAddParameter("OrdDt", Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt"));
                     dbCommand.CreateAndAddParameter("OrderNote", request.OrderNote);
 
                     response.ExecutionStarted = DateTime.UtcNow;
@@ -2015,7 +2019,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     }
 
                     response.ExecutionStarted = DateTime.UtcNow;
-                    response.Value = codeBase;
+                    response.Value = code;
 
                 }
                 catch (Exception exp)
@@ -2054,10 +2058,10 @@ namespace BlueLotus360.Data.SQL92.Repository
 
         }
 
-        public BaseServerResponse<Item> GetItemsByItemCode(Company company, Item item)
+        public BaseServerResponse<ItemResponse> GetItemsByItemCode(Company company, ItemResponse item)
         {
-            Item code = new Item();
-            BaseServerResponse<Item> response = new BaseServerResponse<Item>();
+            ItemResponse code = new ItemResponse();
+            BaseServerResponse<ItemResponse> response = new BaseServerResponse<ItemResponse>();
 
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
@@ -2124,6 +2128,105 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
 
+        }
+
+        public BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderKy(Company company, RequestParameters order)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                PartnerOrder setPartnerOrder = new PartnerOrder();
+                BaseServerResponse<PartnerOrder> response = new BaseServerResponse<PartnerOrder>();
+                string SPName = "GetPartnerOrdersByOrderKy";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("OrdKy", order.OrderKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        setPartnerOrder.PartnerOrderId = reader.GetColumn<long>("OrdKy");
+                        setPartnerOrder.OrderId = reader.GetColumn<string>("OrderId");
+                        setPartnerOrder.Location.CodeKey = reader.GetColumn<int>("LocKy");
+                        setPartnerOrder.OrderReference = reader.GetColumn<string>("OrderRef");
+                        setPartnerOrder.Customer.AdrKy = reader.GetColumn<int>("AdrKy");
+                        setPartnerOrder.PaymentKey = reader.GetColumn<int>("PaymentKy");
+                        setPartnerOrder.PaymentType = reader.GetColumn<string>("PaymentNm");
+                        setPartnerOrder.OrderStatus.CodeKey = reader.GetColumn<int>("CdKy");
+                        setPartnerOrder.OrderStatus.CodeName = reader.GetColumn<string>("CdNm");
+                        PartnerOrderDetails itemDetails = new PartnerOrderDetails();
+                        itemDetails.ItemQuantity = reader.GetColumn<decimal>("TrnQty");
+                        itemDetails.TransactionPrice = reader.GetColumn<decimal>("TrnRate");
+                        itemDetails.ItemDiscount = reader.GetColumn<decimal>("TrnDisAmt");
+                        itemDetails.SpecialInstructions = reader.GetColumn<string>("Rem");
+                        itemDetails.OrderItem.ItemCode = reader.GetColumn<string>("ItmCd");
+                        itemDetails.OrderItem.ItemName = reader.GetColumn<string>("ItnNm");
+                        itemDetails.OrderItem.ItemKey = reader.GetColumn<int>("ItmKy");
+                        setPartnerOrder.OrderItemDetails.Add(itemDetails);
+                        setPartnerOrder.Amount = reader.GetColumn<decimal>("TrnAmt");
+                        setPartnerOrder.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        setPartnerOrder.OrderDate = reader.GetColumn<DateTime>("OrderDt").ToString("dd/MMM/yyyy hh:mm:ss tt");
+                        //setPartnerOrder.PickupTime = reader.GetColumn<DateTime>("PickUpTm");
+                        setPartnerOrder.OrderNote = reader.GetColumn<string>("YurRef");
+                        //setPartnerOrder.DeliveryNote = reader.GetColumn<string>("DlvNote");
+                        //setPartnerOrder.DeliveryBrand = reader.GetColumn<string>("DlvBrand");
+                        //setPartnerOrder.WorkStationKey = reader.GetColumn<long>("WrkStnKy");
+                        setPartnerOrder.Customer.Name = reader.GetColumn<string>("AdrNm");
+                        setPartnerOrder.Customer.Address = reader.GetColumn<string>("Address");
+                        setPartnerOrder.Customer.Phone = reader.GetColumn<string>("Telephone");
+                        setPartnerOrder.Platforms.AccountName = reader.GetColumn<string>("AccNm");
+
+                       
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = setPartnerOrder;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
         }
     }
 }

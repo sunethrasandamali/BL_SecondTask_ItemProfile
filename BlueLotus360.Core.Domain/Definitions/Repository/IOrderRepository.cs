@@ -38,6 +38,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<PartnerOrder> GetLastOrderSyncTime(Company company, APIRequestParameters request);
         BaseServerResponse<PartnerOrder> GetOrdersFromOrderPlatforms(Company company, User user, PartnerOrder request);
         BaseServerResponse<CodeBaseResponse> GetOrderStatusByPartnerStatus(Company company, CodeBaseResponse codeBase);
-        BaseServerResponse<Item> GetItemsByItemCode(Company company, Item item);
+        BaseServerResponse<ItemResponse> GetItemsByItemCode(Company company, ItemResponse item);
+        BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderKy(Company company,RequestParameters order);
     }
 }
