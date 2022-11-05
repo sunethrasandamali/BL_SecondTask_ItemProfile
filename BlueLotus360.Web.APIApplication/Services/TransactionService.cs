@@ -25,6 +25,8 @@ namespace BlueLotus360.Web.APIApplication.Services
             transaction.TransactionType = new CodeBaseResponse();
             transaction.TransactionType.CodeKey = trnTyp.CodeKey;
 
+            BaseServerResponse <BLTransaction> response = new BaseServerResponse<BLTransaction>();
+
             if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
             {
                 var address = _unitOfWork.AccountRepository.GetAddressByAccount(company, user, transaction.Account.AccountKey);
@@ -33,7 +35,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
             if (!transaction.IsPersisted)
             {
-                _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
+                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
 
             }
             else if (transaction.IsPersisted)
@@ -77,7 +79,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
             _unitOfWork.TransactionRepository.PostAfterTranSaveActions(company, user, transaction.TransactionKey, transaction.ElementKey);
 
-            return new BaseServerResponse<BLTransaction>();
+            return response;
         }
 
         public BaseServerResponse<IList<GenericTransactionFindResponse>> FindTransaction(Company company, User user, TransactionFindRequest request)
