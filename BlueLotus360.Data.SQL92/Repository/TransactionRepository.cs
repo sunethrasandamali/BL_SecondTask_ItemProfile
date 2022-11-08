@@ -23,12 +23,13 @@ namespace BlueLotus360.Data.SQL92.Repository
                 
         }
 
-        public void SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction)
+        public BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
                 IDataReader reader = null;
                 string SPName = "TrnHdr_InsertWeb";
+                BaseServerResponse<BLTransaction> response = new BaseServerResponse<BLTransaction>();
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
@@ -84,7 +85,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         CreateAndAddParameter(dbCommand, "@DlryDt", transaction.Value.DeliveryDate);
                         //service advisor where to map
                     }
-                    
+
 
                     transaction.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -129,7 +130,7 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 }
 
-
+                return transaction;
             }
         }
 
