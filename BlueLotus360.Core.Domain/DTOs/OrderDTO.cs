@@ -14,7 +14,8 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string OrderNumber { get; set; } = "";
         public string OrderDocumentNumber { get; set; } = "";
         public DateTime OrderDate { get; set; }
-        public DateTime OrderFinishDate { get; set; } 
+        public DateTime OrderFinishDate { get; set; }
+        public DateTime DeliveryDate { get; set; }
         public CodeBaseResponse OrderLocation { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse OrderPaymentTerm { get; set; } = new CodeBaseResponse();
         public AddressResponse OrderCustomer { get; set; } = new AddressResponse();
@@ -106,6 +107,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string? Description { get; set; } = "";
         public string Remark { get; set; } = "";
         public decimal Time { get; set; }
+        public int OrderDetailsAccountKey { get; set; }
         public AccountResponse BaringPrinciple { get; set; }
         public decimal PrinciplePrecentage { get; set; }
         public decimal PrincipleAmount { get; set; }
@@ -115,7 +117,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal CustomerAmount { get; set; }
         public AccountResponse Supplier { get; set; }//where to map
         public AddressResponse Address2 { get; set; }//technician ,where to map
-
+        
         public GenericOrderItem()
         {
             OrderLineLocation = new CodeBaseResponse();
