@@ -38,7 +38,7 @@ public partial class AppShell : Shell
     public async void SideMenu()
     {
         BaseServerResponse<UIMenu> men = await _appObjectService.FetchSideMenu();
-
+        UIMenu DefaultMenu = null;
         var mobmenu = men.Value.SubMenus.Where(x => x.MenuName.Equals("__MB_MENU_ENTRY__")).FirstOrDefault();
         if (mobmenu != null)
         {
@@ -50,12 +50,17 @@ public partial class AppShell : Shell
                 {
                    int.TryParse(menu.MenuIcon, System.Globalization.NumberStyles.AllowHexSpecifier,
     System.Globalization.CultureInfo.InvariantCulture, out outV);
+                    if (menu.MenuName.Equals("MainOrderPage"))
+                    {
+                        DefaultMenu = menu;
+                    }
                     var unicodeValue = (char)outV;
                     Items.Add((new ShellContent()
                     {
                         Title = menu.MenuCaption,
                         ContentTemplate = new DataTemplate(pageType),
                         BindingContext = menu,
+                        
                         Icon= new FontImageSource()
                         {
                             FontFamily = "FontAwesome",
@@ -74,6 +79,13 @@ public partial class AppShell : Shell
 
             }
         }
+        if (DefaultMenu != null)
+        {
+           IDictionary<string, object> dict = new Dictionary<string, object>();
+            dict.Add("Menu", DefaultMenu);
+          //  await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+        }
+       
   
         
 
@@ -85,6 +97,9 @@ public partial class AppShell : Shell
     {
         string @namespace = "BlueLotus.Mobile.MAUI.Pages";
         var myClassType = Type.GetType(String.Format("{0}.{1}", @namespace, pageName));
+        if (myClassType != null) {
+            Routing.RegisterRoute(pageName, myClassType);
+        }
         return myClassType;
     }
 

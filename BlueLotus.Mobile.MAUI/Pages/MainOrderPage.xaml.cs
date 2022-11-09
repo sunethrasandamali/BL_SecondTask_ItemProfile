@@ -3,6 +3,7 @@ using BlueLotus.Mobile.MAUI.Pages.BasePage;
 using BlueLotus.Mobile.MAUI.UIBuilder;
 using BlueLotus.Mobile.MAUI.ViewModels;
 using BlueLotus.Mobile.MAUI.ViewModels.Category;
+using BlueLotus.Mobile.MAUI.ViewModels.HomePage;
 using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
@@ -11,6 +12,7 @@ using Microsoft.Maui.Controls;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
 
+[QueryProperty("Menu", "Menu")]
 public partial class MainOrderPage : ContentPage
 {
     protected BaseViewModel __bindContext;
@@ -21,16 +23,16 @@ public partial class MainOrderPage : ContentPage
     private BLUIElement _orderPage;
     private BLUIElement _customerPage;
     private CategoryViewModel SelectedCategory;
-        
+    public UIMenu Menu { get; set; }
 
     public MainOrderPage()
     {
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
         _codeBaseService = MauiProgram.Services.GetService<ICodeBaseService>();
         __bindContext = new();
-      
+
         InitializeComponent();
-	}
+    }
     private async Task ReadCategories()
     {
         if (_categoryPage != null)
@@ -40,20 +42,20 @@ public partial class MainOrderPage : ContentPage
             var items = await _codeBaseService.ReadProductCategories(dto);
             if (items.Value != null)
             {
-                var width= 400;
+                var width = 400;
                 __categoryPage.Clear();
                 foreach (var item in items.Value)
                 {
                     CategoryViewModel model = new CategoryViewModel();
                     model.CodeKey = item.CodeKey;
                     model.CategoryName = item.CodeName;
-                    model.ImagePathName = string.IsNullOrWhiteSpace(item.CodeExtraCharacter1) ? "no_image.png": item.CodeExtraCharacter1;
+                    model.ImagePathName = string.IsNullOrWhiteSpace(item.CodeExtraCharacter1) ? "no_image.png" : item.CodeExtraCharacter1;
                     var catm = new CategoryView(model);
-                    catm.WidthRequest = width*0.97;
+                    catm.WidthRequest = width * 0.97;
                     catm.CategoryClickEvent += Catm_CategoryClickEvent;
                     __categoryPage.Add(
                       catm
-                        ) ;
+                        );
                 }
             }
         }
@@ -62,46 +64,65 @@ public partial class MainOrderPage : ContentPage
     private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         SelectedCategory = e.Category;
-        SelectedCategoryName.Text = "Products Under Category - "+ SelectedCategory.CategoryName +".";
-       __categoryPage.RotateXTo(30);
+        SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
+        __categoryPage.RotateXTo(30);
         await __categoryPage.FadeTo(0);
-        
+
         __productPage.IsVisible = true;
         __categoryPage.IsVisible = false;
     }
 
+    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
+    {
+       
+        base.OnNavigatingFrom(args);
+    }
+
+
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        if (BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
-        {
-            UIMenu menu = (UIMenu)BindingContext;
+      
 
-            Title = menu.MenuCaption;
+        if (Menu==null &&  BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
+        {
+            Menu = (UIMenu)BindingContext;
             BindingContext = null;
-            var elem = await _objectAppService.FetchObjects(menu);
-            foreach(var obj in elem.Value.Children)
+            BindingContext = __bindContext;
+        }
+        
+       
+        if (Menu != null)
+        {
+            var shellModel = MauiProgram.Services.GetService<AppShellModel>();
+            if (shellModel != null)
+            {
+                shellModel.ShellTitle = Menu.MenuCaption;
+            }
+
+            var elem = await _objectAppService.FetchObjects(Menu);
+            foreach (var obj in elem.Value.Children)
             {
                 if (obj.ElementName.Equals("__ProductsPage__"))
                 {
                     _categoryPage = obj;
                 }
             }
-            BindingContext = __bindContext;
         }
+
         base.OnNavigatedTo(args);
 
         await ReadCategories();
     }
 
 
-    protected async void OnBackButtonClicked(object sender,EventArgs args)
+    protected async void OnBackButtonClicked(object sender, EventArgs args)
     {
-        SelectedCategory =null;
+        SelectedCategory = null;
         __productPage.IsVisible = false;
         __categoryPage.IsVisible = true;
-         __categoryPage.FadeTo(1);
+        __categoryPage.FadeTo(1);
         await __categoryPage.RotateXTo(0);
-    
+
     }
 
 
