@@ -18,4 +18,8 @@
     <ProjectReference Include="..\BlueLotus360.Web.APIApplication\BlueLotus360.Web.APIApplication.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TelerikReports\" />
+  </ItemGroup>
+
 </Project>

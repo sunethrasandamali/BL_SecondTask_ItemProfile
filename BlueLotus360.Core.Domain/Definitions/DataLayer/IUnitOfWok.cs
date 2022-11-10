@@ -26,5 +26,6 @@ namespace BlueLotus360.Core.Domain.Definitions.DataLayer
         IWorkShopManagementRepository WorkShopManagementRepository { get; }
         IDocumentRepository DocumentRepository { get; }
         IProjectRepository ProjectRepository { get; }
+        IBookingModuleRepository BookingModuleRepository { get; }
     }
 }
