@@ -30,6 +30,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 string SPName = "CARVehDetails_FindWeb";
                 try
                 {
+
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);

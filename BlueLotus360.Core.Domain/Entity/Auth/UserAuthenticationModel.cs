@@ -26,4 +26,18 @@ namespace BlueLotus360.Core.Domain.Entity.Auth
 
 
     }
+
+    public class CompletedUserAuth
+    {
+        public User AuthenticatedUser { get; set; }
+        public Company AuthenticatedCompany { get; set; }
+
+        public CompletedUserAuth()
+        {
+            this.AuthenticatedCompany = new Company();
+            this.AuthenticatedCompany.CompanyKey = 1;
+            this.AuthenticatedUser = new User();
+            this.AuthenticatedUser.UserKey = 1;
+        }
+    }
 }
