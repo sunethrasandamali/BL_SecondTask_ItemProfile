@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.ResponseDTO;
+using BlueLotus360.Core.Domain.Entity.Auth;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Models;
 using BlueLotus360.Web.API.Authentication;
@@ -67,7 +68,13 @@ namespace BlueLotus360.Web.API.Controllers
                 User = Request.GetAuthenticatedUser(),
                 Company = Request.GetAssignedCompany()
             };
-            return Ok(company);
+
+            CompletedUserAuth auth = new CompletedUserAuth()
+            {
+                AuthenticatedCompany= company.Company,
+                AuthenticatedUser = company.User,
+            };
+            return Ok(auth);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
     public class Company:BaseEntity
     {
         public int CompanyKey { get; set; } = 1;
-        public string CompanyName { get; set; }
-        public string CompanyCode { get; set; }
+        public string? CompanyName { get; set; }
+        public string? CompanyCode { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
         public decimal MeterReading { get; set; }
+        public User EnteredUser { get; set; }
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -59,6 +60,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderProject=new ProjectResponse();
             OrderStatus = new CodeBaseResponse();
             OrderControlCondition=new CodeBaseResponse();
+            EnteredUser = new User();
         }
 
     }
