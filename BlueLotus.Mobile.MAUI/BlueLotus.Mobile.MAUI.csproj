@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-maccatalyst;net7.0-ios</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net7.0-maccatalyst;net7.0-ios14.4;net7.0-android33.0</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -64,6 +64,7 @@
 	  <None Remove="Resources\Images\earth2.jpg" />
 	  <None Remove="Resources\Images\logo_bl360.png" />
 	  <None Remove="Resources\Images\products\no_image.png" />
+	  <None Remove="Resources\Images\products\shoes\calypso.jpg" />
 	  <None Remove="Resources\Images\products\shoes\jeans.jpg" />
 	  <None Remove="Resources\Images\products\shoes\shirts.jpg" />
 	  <None Remove="Resources\Images\products\shoes\shoe1.jpg" />
@@ -72,6 +73,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\products\shoes\calypso.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiImage>
 	  <MauiImage Include="Resources\Images\products\shoes\shirts.jpg" />
 	</ItemGroup>
 
@@ -132,6 +136,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MainTabbedPaged.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\PopUps\AddressSelectPopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\BlackTheme.xaml">

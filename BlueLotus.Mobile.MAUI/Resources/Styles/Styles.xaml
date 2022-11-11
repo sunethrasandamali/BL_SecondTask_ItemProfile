@@ -122,7 +122,7 @@
                     <VisualState x:Name="Disabled">
                         <VisualState.Setters>
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}" />
-                            <Setter Property="Margin" Value="5" />
+                            <Setter Property="Margin" Value="0" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
@@ -133,11 +133,11 @@
     <Style TargetType="Frame">
 
         <Setter Property="HasShadow" Value="False" />
-        <Setter Property="Padding" Value="20 ,5" />
-        <Setter Property="Margin" Value="0,15,0,15" />
+        <Setter Property="Padding" Value="10 ,5" />
+        <Setter Property="Margin" Value="0,0,0,0" />
 
 
-        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray200}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}" />
         <Setter Property="CornerRadius" Value="{StaticResource ControlRadius}" />
     </Style>
@@ -169,6 +169,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="10,5,0,0" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

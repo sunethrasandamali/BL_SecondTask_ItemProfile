@@ -32,9 +32,9 @@
 
 
                         </FlexLayout>
-                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" Background="{StaticResource Alternate}" x:Name="__productPage" IsVisible="false" >
-                            <Grid RowDefinitions="70,*">
-                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Column="0">
+                        <Grid Background="{StaticResource Alternate}" x:Name="__productPage" IsVisible="false" >
+                            <Grid RowDefinitions="70,*" Margin="0" >
+                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Column="0" >
                                     <Label Text="__UNMAPPED__" x:Name="SelectedCategoryName" VerticalOptions="Center"
                                            FontAttributes="Bold" FontSize="18"
                                            Margin="10"
@@ -52,7 +52,7 @@
                             </Grid>
 
 
-                        </FlexLayout>
+                        </Grid>
                     </Grid>
 
                 </ScrollView>
@@ -60,6 +60,7 @@
                     <Grid x:Name="_selectCustomer">
                         <Button ClassId="IsPr" Text="Select Customer" Style="{StaticResource TabButton}" BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
+                                Clicked="OnCustomerSelectClick"
                                 />
 
                     </Grid>

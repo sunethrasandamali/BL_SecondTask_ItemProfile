@@ -1,5 +1,6 @@
 using BlueLotus.Mobile.MAUI.BLControls.Product;
 using BlueLotus.Mobile.MAUI.Pages.BasePage;
+using BlueLotus.Mobile.MAUI.Pages.PopUps;
 using BlueLotus.Mobile.MAUI.UIBuilder;
 using BlueLotus.Mobile.MAUI.ViewModels;
 using BlueLotus.Mobile.MAUI.ViewModels.Category;
@@ -8,6 +9,7 @@ using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Object;
+using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 
 namespace BlueLotus.Mobile.MAUI.Pages;
@@ -64,7 +66,7 @@ public partial class MainOrderPage : ContentPage
     private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         SelectedCategory = e.Category;
-        SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
+        //SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
         __categoryPage.RotateXTo(30);
         await __categoryPage.FadeTo(0);
 
@@ -125,6 +127,12 @@ public partial class MainOrderPage : ContentPage
 
     }
 
+    protected async void OnCustomerSelectClick(object sender, EventArgs args)
+    {
+      AddressSelectPopUp pop = new AddressSelectPopUp();
+        this.ShowPopup(pop);
+
+    }
 
 
 }
