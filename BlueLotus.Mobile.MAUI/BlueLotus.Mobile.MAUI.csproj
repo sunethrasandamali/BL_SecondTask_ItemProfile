@@ -64,18 +64,27 @@
 	  <None Remove="Resources\Images\earth2.jpg" />
 	  <None Remove="Resources\Images\logo_bl360.png" />
 	  <None Remove="Resources\Images\products\no_image.png" />
+	  <None Remove="Resources\Images\products\shoes\AriZona.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypso.jpg" />
+	  <None Remove="Resources\Images\products\shoes\gallacto.jpg" />
 	  <None Remove="Resources\Images\products\shoes\jeans.jpg" />
+	  <None Remove="Resources\Images\products\shoes\lorenz.jpg" />
+	  <None Remove="Resources\Images\products\shoes\maretti.jpg" />
 	  <None Remove="Resources\Images\products\shoes\shirts.jpg" />
 	  <None Remove="Resources\Images\products\shoes\shoe1.jpg" />
 	  <None Remove="Resources\Images\products\shoes\tshirts.jpg" />
+	  <None Remove="Resources\Images\products\shoes\ufc.jpg" />
 	  <None Remove="Resources\Images\products\shoes\watches.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\products\shoes\arizona.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\calypso.jpg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiImage>
+	  <MauiImage Include="Resources\Images\products\shoes\gallacto.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\lorenz.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\maretti.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\shirts.jpg" />
 	</ItemGroup>
 
@@ -90,6 +99,7 @@
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\products\shoes\shoe1.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\tshirts.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\ufc.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\watches.jpg" />
 	</ItemGroup>
 

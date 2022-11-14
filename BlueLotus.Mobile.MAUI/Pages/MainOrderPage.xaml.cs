@@ -66,7 +66,7 @@ public partial class MainOrderPage : ContentPage
     private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         SelectedCategory = e.Category;
-        //SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
+       SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
         __categoryPage.RotateXTo(30);
         await __categoryPage.FadeTo(0);
 
@@ -78,6 +78,11 @@ public partial class MainOrderPage : ContentPage
     {
        
         base.OnNavigatingFrom(args);
+    }
+
+    private async Task LoadProducts()
+    {
+        await Task.CompletedTask;
     }
 
 
