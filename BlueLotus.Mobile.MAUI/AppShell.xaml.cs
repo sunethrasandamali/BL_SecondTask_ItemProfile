@@ -83,7 +83,7 @@ public partial class AppShell : Shell
         {
            IDictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("Menu", DefaultMenu);
-          //  await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+            await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
         }
        
   

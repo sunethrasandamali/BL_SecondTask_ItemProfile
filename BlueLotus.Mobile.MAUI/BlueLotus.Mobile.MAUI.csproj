@@ -101,8 +101,8 @@
 
 	<ItemGroup>
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
-	  <PackageReference Include="FluentValidation" Version="11.2.2" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+	  <PackageReference Include="FluentValidation" Version="11.3.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
 	  <PackageReference Include="Ninject" Version="3.3.6" />
 	  <PackageReference Include="System.ObjectModel" Version="4.3.0" />
 	</ItemGroup>
