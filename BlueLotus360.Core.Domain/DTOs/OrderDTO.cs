@@ -118,7 +118,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal CompanyAmount { get; set; }
         public decimal CustomerAmount { get; set; }
         public AccountResponse Supplier { get; set; }//where to map
-        public AddressResponse Address2 { get; set; }//technician ,where to map
+        public AddressResponse ResourceAddress { get; set; } //technician ,where to map
         
         public GenericOrderItem()
         {
@@ -128,7 +128,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             BaringPrinciple = new AccountResponse();
             BaringCompany = new AccountResponse();
             Supplier=new AccountResponse();
-            Address2=new AddressResponse();
+            ResourceAddress = new AddressResponse();
         }
 
     }

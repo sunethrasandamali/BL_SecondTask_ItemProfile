@@ -70,7 +70,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         vehicle.SubCategory.CodeName = reader.GetColumn<string>("SubCategory");
                         vehicle.Fuel= reader.GetColumn<string>("FuelTyp");
                         vehicle.PreviousMilage= reader.GetColumn<decimal>("Milage");
-                        vehicle.VehicleRegisterDate=DateTime.Now;
+                        vehicle.VehicleRegisterDate = reader.GetColumn<DateTime>("RegDt");
 
                         list.Add(vehicle);
                     }
