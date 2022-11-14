@@ -8,11 +8,27 @@
              xmlns:productCotrols="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
              >
 
-   
 
-       
-        
-       
+
+
+    <Grid RowDefinitions="70,50,*" MinimumWidthRequest="800">
+        <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70">
+            <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" />
+            <Button Style="{StaticResource TabButton}" Text="X" Grid.Column="1"  Clicked="OnNoButtonClicked"  />
+        </Grid>
+        <Grid Grid.Row="1" >
+            <Entry />
+        </Grid>
+        <Grid Grid.Row="2">
+            <ScrollView>
+                <CollectionView>
+
+                </CollectionView>
+            </ScrollView>
+        </Grid>
+    </Grid>
+
+
 
 
 

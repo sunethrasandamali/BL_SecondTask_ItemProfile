@@ -30,6 +30,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 string SPName = "CARVehDetails_FindWeb";
                 try
                 {
+
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
@@ -69,6 +70,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         vehicle.SubCategory.CodeName = reader.GetColumn<string>("SubCategory");
                         vehicle.Fuel= reader.GetColumn<string>("FuelTyp");
                         vehicle.PreviousMilage= reader.GetColumn<decimal>("Milage");
+                        vehicle.VehicleRegisterDate=DateTime.Now;
 
                         list.Add(vehicle);
                     }
@@ -151,7 +153,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.OrderType = new CodeBaseResponse();
                         order.OrderType.CodeName = reader.GetColumn<string>("Type");
                         order.OrderFinishDate = reader.GetColumn<DateTime>("FinDt");
-                        order.OrderDate = reader.GetColumn<DateTime>("PrjDt");
+                        order.OrderDate = reader.GetColumn<DateTime>("PrjStDt");
                         order.OrderStatus = new CodeBaseResponse(); 
                         order.OrderStatus.CodeName = reader.GetColumn<string>("Status");
 
@@ -312,12 +314,12 @@ namespace BlueLotus360.Data.SQL92.Repository
                     while (reader.Read())
                     {
                         BookingDetails book = new BookingDetails();
-                        book.PrcsDetKy= reader.GetColumn<int>("PrcsDetKy");
-                        book.PrjKy = reader.GetColumn<int>("PrjKy");
+                        book.ProcessDetailsKey= reader.GetColumn<int>("PrcsDetKy");
+                        book.ProjectKey = reader.GetColumn<int>("PrjKy");
                         book.TaskID = reader.GetColumn<int>("TaskID");
-                        book.TaskNm = reader.GetColumn<string>("TaskSNm");
-                        book.FrmDt = reader.GetColumn<DateTime>("FrmDt");
-                        book.ToDt = reader.GetColumn<DateTime>("ToDt");
+                        book.TaskName = reader.GetColumn<string>("TaskSNm");
+                        book.FromDate = reader.GetColumn<DateTime>("FrmDt");
+                        book.ToDate = reader.GetColumn<DateTime>("ToDt");
                         list.Add(book);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;

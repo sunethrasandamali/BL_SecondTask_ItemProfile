@@ -22,7 +22,11 @@ namespace BlueLotus.UI.Application.Context
         public BLUIAppContext()
         {
             InstanceID = Guid.NewGuid().ToString();
+            APpItems = new List<ItemExtended>();
+            
         }
+
+        private IList<ItemExtended> APpItems { get; set; } 
 
     }
 }

@@ -85,6 +85,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdCat2", orderHeader.OrderCategory2Key);
                     dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading",orderHeader.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -436,6 +437,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("BuKy", BaseComboResponse.GetKeyValue(orderV3.BussinessUnit));
                     dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
+                    dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -726,6 +728,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1= this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading= reader.GetColumn<decimal>("MeterReading");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1225,6 +1228,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.OrderCategory1 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat1Ky"));
                         oorderV3.OrderCategory2 = this.GetCdMasByCdKy(reader.GetColumn<int>("OrdCat2Ky"));
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
+                        oorderV3.MeterReading = reader.GetColumn<decimal>("MeterReading");
+                        oorderV3.DeliveryDate= reader.GetColumn<DateTime>("DlryDt");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1289,7 +1294,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("@ObjKy", accDet.ObjectKey);
-                    dbCommand.CreateAndAddParameter("@OrdDetAccKy", BaseComboResponse.GetKeyValue(accDet.Account));
+                    dbCommand.CreateAndAddParameter("@OrdDetAccKy", accDet.OrderDetailsAccountKey);
                     dbCommand.CreateAndAddParameter("@OrdDetKy", accDet.FromOrderDetailKey);
                     dbCommand.CreateAndAddParameter("@ControlConKy", accDet.ControlConKey);
                     dbCommand.CreateAndAddParameter("@AccKy", BaseComboResponse.GetKeyValue(accDet.Account));
@@ -1364,11 +1369,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                         WorkOrderAmountByAccount obj = new WorkOrderAmountByAccount();
                         obj.FromOrderDetailKey= reader.GetColumn<int>("OrdDetKy");
                         obj.ControlConKey= reader.GetColumn<int>("ControlConKy");
-                        obj.Account = new AccountResponse() { AccountKey = reader.GetColumn<int>("OrdDetAccKy") };
+                        obj.OrderDetailsAccountKey = reader.GetColumn<int>("OrdDetAccKy") ;
                         obj.Address = new AddressResponse() { AddressKey= reader.GetColumn<int>("AdrKy") };
                         obj.Value = reader.GetColumn<decimal>("Value");
                         obj.Amount = reader.GetColumn<decimal>("Amt");
-
+                        obj.Account = new AccountResponse() { AccountKey= reader.GetColumn<int>("AccKy") };
                         list.Add(obj);
                     }
 

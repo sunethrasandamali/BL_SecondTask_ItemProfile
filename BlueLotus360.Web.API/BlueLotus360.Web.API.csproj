@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -16,6 +16,10 @@
     <ProjectReference Include="..\BlueLotus360.Core.Domain\BlueLotus360.Core.Domain.csproj" />
     <ProjectReference Include="..\BlueLotus360.Data.SQL92\BlueLotus360.Data.SQL92.csproj" />
     <ProjectReference Include="..\BlueLotus360.Web.APIApplication\BlueLotus360.Web.APIApplication.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TelerikReports\" />
   </ItemGroup>
 
 </Project>

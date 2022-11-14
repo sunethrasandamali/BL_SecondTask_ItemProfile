@@ -11,7 +11,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
     public interface ITransactionRepository
     {
-        void SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction);
+        BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction);
         void UpdateGenericTransaction(Company company, User user, BLTransaction transaction);
         void SaveOrUpdateTranHeaderSerialNumber(Company company, User user, ItemSerialNumber serialNumber);
         void SaveTransactionLineItem(Company company, User user, GenericTransactionLineItem lineItem);

@@ -11,6 +11,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
 {
     public class WorkOrderAmountByAccount 
     {
+        public int OrderDetailsAccountKey { get; set; }
         public int LineNumber { get; set; }
         public int FromOrderDetailKey { get; set; }
         public long ObjectKey { get; set; }
@@ -71,6 +72,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
     public class Vehicle
     {
         public long ObjectKey { get; set; }
+        public DateTime VehicleRegisterDate { get; set; }
         public ItemResponse VehicleRegistration { get; set; }
         public AddressResponse VehicleAddress { get; set; }
         public AddressMaster RegisteredCustomer { get; set; }

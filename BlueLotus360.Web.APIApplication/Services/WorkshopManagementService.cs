@@ -71,6 +71,8 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
             OH.OrderStatusKey = (int)orderDetails.OrderStatus.CodeKey;
+            OH.MeterReading = orderDetails.MeterReading;
+            OH.DeliveryDate = orderDetails.DeliveryDate;
 
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
@@ -215,6 +217,8 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
             OH.Code1Key = orderDetails.Cd1Ky;
             OH.OrderStatus = orderDetails.OrderStatus;
+            OH.MeterReading = orderDetails.MeterReading;
+            OH.DeliveryDate = orderDetails.DeliveryDate;
             if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
             {
                 OH.AccountKey = orderDetails.OrderAccount.AccountKey;
@@ -325,7 +329,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                 {
                     WorkOrderAmountByAccount company_accdet = new WorkOrderAmountByAccount()
                     {
-                        FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                        FromOrderDetailKey = lineItem.OrderLineItemKey,
                         ObjectKey = lineItem.ObjectKey,
                         Account = item.BaringCompany,
                         Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
@@ -341,7 +345,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                 {
                     WorkOrderAmountByAccount principle_accdet = new WorkOrderAmountByAccount()
                     {
-                        FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                        FromOrderDetailKey = lineItem.OrderLineItemKey,
                         ObjectKey = lineItem.ObjectKey,
                         Account = item.BaringPrinciple,
                         Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
@@ -397,6 +401,8 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.OrderCategory2 = responses.OrderCategory2;
             order.OrderProject=new ProjectResponse() { ProjectKey=responses.ProjectKey};
             order.OrderStatus = responses.OrderStatus;
+            order.MeterReading=responses.MeterReading;
+            order.DeliveryDate=responses.DeliveryDate;  
 
             foreach (OrderLineCreateDTO item in itemList)
             {
@@ -454,6 +460,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
                     if (det_list.Count>0)
                     {
+                        lineItem.OrderDetailsAccountKey = det_list[0].OrderDetailsAccountKey;
                         lineItem.BaringCompany = new AccountResponse() { AccountKey = det_list[0].Account.AccountKey };
                         lineItem.CompanyPrecentage = det_list[0].Value;
                         lineItem.CompanyAmount = det_list[0].Amount;

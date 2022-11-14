@@ -8,9 +8,20 @@
     xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.HomePage"
      xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:DataType="viewmodel:AppShellModel"
-
+   
+   
+     
     Shell.FlyoutBehavior="Flyout" x:Name="shellPage">
-
+    <Shell.TitleView>
+        <Grid BackgroundColor="{StaticResource Primary}">
+            <Label HorizontalTextAlignment="Center" 
+                   Text="{Binding ShellTitle}" 
+                   VerticalOptions="Center" 
+                   TextColor="{StaticResource White}"
+                   FontSize="18"
+                   ></Label>
+        </Grid>
+    </Shell.TitleView>
     <Shell.FlyoutHeader>
         <Grid>
             <VerticalStackLayout>
@@ -29,8 +40,8 @@
                             <Label Text="{Binding ShellUser}" FontAttributes="Bold"  Margin="0,0,0,0" />
                             <Label Text="{Binding ShellCompany}" Margin="0,0,0,0" />
                         </VerticalStackLayout>
-                        
-                       
+
+
                     </HorizontalStackLayout>
 
 
@@ -56,8 +67,9 @@
                 >
             </FontImageSource>
         </ShellContent.Icon>
+       
     </ShellContent>
+ 
 
-   
 
 </Shell>

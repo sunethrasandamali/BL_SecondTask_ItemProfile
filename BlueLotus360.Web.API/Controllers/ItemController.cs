@@ -68,5 +68,13 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(serialNumbers);
         }
 
+        [HttpPost("readProducts")]
+        public IActionResult ReadProducts(ComboRequestDTO comboRequest)
+        {
+            return Ok();
+        }
+
+
+
     }
 }

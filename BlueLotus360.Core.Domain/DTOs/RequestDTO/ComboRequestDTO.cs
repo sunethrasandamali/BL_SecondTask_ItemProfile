@@ -22,5 +22,8 @@ namespace BlueLotus360.Core.Domain.DTOs.RequestDTO
 
         public string SearchQuery { get; set; } = "";
 
+        public long Code1Key { get; set; } = 1;
+        public long Code2Key { get; set; } = 1;
+
     }
 }

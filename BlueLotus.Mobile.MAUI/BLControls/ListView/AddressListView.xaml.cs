@@ -18,14 +18,7 @@ public partial class AddressListView : ContentView
         debounceInterval = new TimeSpan(0, 0, 0, 2, 750);
         PreviousChange = DateTime.Now;
 
-        for(int i = 0; i < 10; i++)
-        {
-            model.Add(new AddressResponse()
-            {
-                AddressName= Guid.NewGuid().ToString(),
-              
-            });;
-        }
+     
     
         BindingContext = model;
         InitializeComponent();
