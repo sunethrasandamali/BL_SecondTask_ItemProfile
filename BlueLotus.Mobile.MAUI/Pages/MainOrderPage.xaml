@@ -50,6 +50,18 @@
                                     </Frame>
                                 </Grid>
                             </Grid>
+                            <Grid Grid.Column="1">
+                                <FlexLayout Wrap="Wrap" Direction="Row" 
+                                    JustifyContent="Center" 
+                                    Background="{StaticResource Alternate}" 
+                                     x:Name="__productListView"  IsVisible="true"
+                                  RotationX="0"
+                                    >
+
+
+
+                                </FlexLayout>
+                            </Grid>
 
 
                         </Grid>

@@ -2,21 +2,29 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.ProductView" 
-             WidthRequest="245" HeightRequest="330">
+             WidthRequest="245" HeightRequest="330"
+              xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+             >
 
     <VerticalStackLayout   WidthRequest="243" HeightRequest="330" VerticalOptions="Start">
 
-        <Frame CornerRadius="5" BorderColor="#EAEAEA" WidthRequest="243" Margin="5" Padding="5">
-            <Grid HeightRequest="318" RowDefinitions="278,40"  >
-                <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
-                    <ImageButton Source="shoe1.jpg" WidthRequest="280"  Clicked="ImageButton_Clicked" />
+        <VerticalStackLayout   VerticalOptions="Start">
+
+            <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
+                <Grid  RowDefinitions="278,40"  >
+                    <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
+                        <ImageButton Source="{Binding ImagePathName}"  
+                                 HeightRequest="380"
+                                 Clicked="ImageButton_Clicked" />
+                    </Grid>
+                    <Grid Grid.Row="1"  >
+                        <Label  Text="{Binding ProductName}" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                    </Grid>
                 </Grid>
-                <Grid Grid.Row="1" >
-                    <Label  Text="Shoes" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
-                </Grid>
-            </Grid>
-        </Frame>
-        
+            </Frame>
+
+
+        </VerticalStackLayout>
 
     </VerticalStackLayout>
 </ContentView>
