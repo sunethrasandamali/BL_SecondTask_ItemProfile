@@ -40,5 +40,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<CodeBaseResponse> GetOrderStatusByPartnerStatus(Company company, CodeBaseResponse codeBase);
         BaseServerResponse<ItemResponse> GetItemsByItemCode(Company company, ItemResponse item);
         BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderKy(Company company,RequestParameters order);
+        bool InsertLastOrderSync(RequestParameters request, Company company);
     }
 }
