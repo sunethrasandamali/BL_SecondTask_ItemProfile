@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity;
 using BlueLotus360.Core.Domain.Entity.API;
 using BlueLotus360.Core.Domain.Entity.Base;
@@ -143,7 +144,7 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
         [HttpPost("GetOrderStatus")]
-        public IActionResult GetOrderStatus()
+        public IActionResult GetOrderStatus(ComboRequestDTO comboRequest)
         {
             var company = Request.GetAssignedCompany();
             var user = Request.GetAuthenticatedUser();
@@ -205,6 +206,15 @@ namespace BlueLotus360.Web.API.Controllers
             PartnerOrder codes = _orderService.GetPartnerOrdersByOrderKy(company, request).Value;
 
             return Ok(codes);
+        }
+
+        [HttpPost("InsertLastOrderSync")]
+        public IActionResult InsertLastOrderSync(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            bool success = _orderService.InsertLastOrderSync(request,company);
+
+            return Ok(success);
         }
 
     }

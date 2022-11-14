@@ -2161,11 +2161,12 @@ namespace BlueLotus360.Data.SQL92.Repository
                         setPartnerOrder.OrderStatus.CodeName = reader.GetColumn<string>("CdNm");
                         PartnerOrderDetails itemDetails = new PartnerOrderDetails();
                         itemDetails.ItemQuantity = reader.GetColumn<decimal>("TrnQty");
-                        itemDetails.TransactionPrice = reader.GetColumn<decimal>("TrnRate");
+                        itemDetails.TransactionPrice = reader.GetColumn<decimal>("TrnRate") ;
+                        itemDetails.BaseTotalPrice = reader.GetColumn<decimal>("Total");
                         itemDetails.ItemDiscount = reader.GetColumn<decimal>("TrnDisAmt");
                         itemDetails.SpecialInstructions = reader.GetColumn<string>("Rem");
                         itemDetails.OrderItem.ItemCode = reader.GetColumn<string>("ItmCd");
-                        itemDetails.OrderItem.ItemName = reader.GetColumn<string>("ItnNm");
+                        itemDetails.OrderItem.ItemName = reader.GetColumn<string>("ItmNm");
                         itemDetails.OrderItem.ItemKey = reader.GetColumn<int>("ItmKy");
                         setPartnerOrder.OrderItemDetails.Add(itemDetails);
                         setPartnerOrder.Amount = reader.GetColumn<decimal>("TrnAmt");
@@ -2227,6 +2228,48 @@ namespace BlueLotus360.Data.SQL92.Repository
                 }
 
                 return response;
+            }
+        }
+
+        public bool InsertLastOrderSync(RequestParameters request, Company company)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                
+                string SPName = "OrderSyncLog_InsertWeb";
+               
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("OurCd", request.PlatformName);
+                    
+                    dbCommand.Connection.Open();
+                    dbCommand.ExecuteNonQuery();
+                    return true;
+
+
+                }
+                catch (Exception exp)
+                {
+                    return false;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                   
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+
             }
         }
     }

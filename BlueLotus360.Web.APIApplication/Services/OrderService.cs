@@ -498,6 +498,11 @@ namespace BlueLotus360.Web.APIApplication.Services
             return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderKy(company, order);
         }
 
+        public bool InsertLastOrderSync(RequestParameters request, Company company)
+        {
+            return _unitOfWork.OrderRepository.InsertLastOrderSync(request,company);
+        }
+
         
 
 
