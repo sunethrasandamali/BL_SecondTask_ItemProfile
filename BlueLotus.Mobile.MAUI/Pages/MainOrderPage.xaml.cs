@@ -5,6 +5,7 @@ using BlueLotus.Mobile.MAUI.UIBuilder;
 using BlueLotus.Mobile.MAUI.ViewModels;
 using BlueLotus.Mobile.MAUI.ViewModels.Category;
 using BlueLotus.Mobile.MAUI.ViewModels.HomePage;
+using BlueLotus.UI.Application.Context;
 using BlueLotus.UI.Application.Services.Defintions;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
@@ -66,33 +67,42 @@ public partial class MainOrderPage : ContentPage
     private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         SelectedCategory = e.Category;
-        //SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
+        SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
         __categoryPage.RotateXTo(30);
         await __categoryPage.FadeTo(0);
-
         __productPage.IsVisible = true;
         __categoryPage.IsVisible = false;
+        await LoadProducts();
     }
 
     protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
     {
-       
+
         base.OnNavigatingFrom(args);
+    }
+
+    private async Task LoadProducts()
+    {
+        var appContext = MauiProgram.Services.GetService<BLUIAppContext>();
+        var listProducts = appContext.FilterItemByCat(SelectedCategory.CodeKey);
+        SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ({listProducts.Count})";
+
+        await Task.CompletedTask;
     }
 
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-      
 
-        if (Menu==null &&  BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
+
+        if (Menu == null && BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
         {
             Menu = (UIMenu)BindingContext;
             BindingContext = null;
             BindingContext = __bindContext;
         }
-        
-       
+
+
         if (Menu != null)
         {
             var shellModel = MauiProgram.Services.GetService<AppShellModel>();
@@ -129,7 +139,7 @@ public partial class MainOrderPage : ContentPage
 
     protected async void OnCustomerSelectClick(object sender, EventArgs args)
     {
-      AddressSelectPopUp pop = new AddressSelectPopUp();
+        AddressSelectPopUp pop = new AddressSelectPopUp();
         this.ShowPopup(pop);
 
     }

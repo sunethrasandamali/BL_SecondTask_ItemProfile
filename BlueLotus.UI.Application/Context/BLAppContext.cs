@@ -22,11 +22,34 @@ namespace BlueLotus.UI.Application.Context
         public BLUIAppContext()
         {
             InstanceID = Guid.NewGuid().ToString();
-            APpItems = new List<ItemExtended>();
+            SampleItems = new List<ItemExtended>();
+            InsertSampleDate();
             
         }
 
-        private IList<ItemExtended> APpItems { get; set; } 
+        private IList<ItemExtended> SampleItems { get; set; } 
+
+
+
+        private void InsertSampleDate()
+        {
+            SampleItems.Add(new ItemExtended() { 
+             ItemCode= "CAL-OC-BL-LEM",
+             ItemName= "Calypso Ocean Blue Lemonade",
+             SalesPrice=2.79M,
+             ItemKey= 1440645,
+             ItemCategory7=new CodeBaseResponse(457385),
+             Base64ImageDocument= "calypsooblemonade.jpg"
+
+            });;
+        }
+
+
+
+        public IList<ItemExtended> FilterItemByCat(long Cat7Ky)
+        {
+            return SampleItems.Where(x=>x.ItemCategory7.CodeKey==Cat7Ky).ToList();
+        }
 
     }
 }
