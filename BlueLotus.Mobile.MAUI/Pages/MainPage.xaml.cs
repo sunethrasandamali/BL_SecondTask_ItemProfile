@@ -15,8 +15,11 @@ public partial class MainPage : ContentPage
 		if (shellModel != null)
 		{
 			shellModel.ShellTitle = "Home";
+			BindingContext = shellModel;
 		}
-        
+       
+
+
 
 
         InitializeComponent();

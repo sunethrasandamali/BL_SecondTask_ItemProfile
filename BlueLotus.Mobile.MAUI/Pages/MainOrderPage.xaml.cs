@@ -96,11 +96,19 @@ public partial class MainOrderPage : ContentPage
             model.ItemKey = item.ItemKey;
             model.ImagePathName = item.Base64ImageDocument;
             ProductView view = new ProductView(model);
+            view.ProductClickEvent += View_ProductClickEvent;
             __productListView.Add(view);
         }
         await Task.CompletedTask;
     }
 
+    private async void View_ProductClickEvent(object sender, Events.ProductClickEventArgs e)
+    {
+        ProductViewModel m = e.Product;
+        IDictionary<string, object> dict = new Dictionary<string, object>();
+         dict.Add("SelectedProduct", m);
+         await Shell.Current.GoToAsync(nameof(SingleProductPage), dict);
+    }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
