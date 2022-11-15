@@ -42,8 +42,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         CreateAndAddParameter(dbCommand, "TrnTypKy", transaction.Value.TransactionType.CodeKey);
                         CreateAndAddParameter(dbCommand, "TrnCrnKy", transaction.Value.TransactionCurrency == null ? 1 : transaction.Value.TransactionCurrency.CodeKey);
                         CreateAndAddParameter(dbCommand, "TrnExRate", transaction.Value.TransactionExchangeRate);
-                        CreateAndAddParameter(dbCommand, "DocNo", transaction.Value.DocumentNumber);
-                        CreateAndAddParameter(dbCommand, "YurRef", transaction.Value.YourReference);
+                        CreateAndAddParameter(dbCommand, "DocNo", transaction.Value.DocumentNumber??"");
+                        CreateAndAddParameter(dbCommand, "YurRef", transaction.Value.YourReference??"");
                         CreateAndAddParameter(dbCommand, "YurRefDt", transaction.Value.YourReferenceDate);
                         CreateAndAddParameter(dbCommand, "isRecur", transaction.Value.IsRecurrence);
                         CreateAndAddParameter(dbCommand, "UsrKy", user.UserKey);
@@ -933,6 +933,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         //transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
 
                         //service advisor??
+                        //sales
+                        //
 
                     }
 
