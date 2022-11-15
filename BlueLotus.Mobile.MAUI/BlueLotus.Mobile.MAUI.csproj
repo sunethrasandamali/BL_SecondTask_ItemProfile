@@ -66,6 +66,8 @@
 	  <None Remove="Resources\Images\products\no_image.png" />
 	  <None Remove="Resources\Images\products\shoes\AriZona.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypso.jpg" />
+	  <None Remove="Resources\Images\products\shoes\calypsooblemonade.jpg" />
+	  <None Remove="Resources\Images\products\shoes\calypsopplemonade.jpg" />
 	  <None Remove="Resources\Images\products\shoes\gallacto.jpg" />
 	  <None Remove="Resources\Images\products\shoes\jeans.jpg" />
 	  <None Remove="Resources\Images\products\shoes\lorenz.jpg" />
@@ -82,6 +84,8 @@
 	  <MauiImage Include="Resources\Images\products\shoes\calypso.jpg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiImage>
+	  <MauiImage Include="Resources\Images\products\shoes\calypsooblemonade.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\calypsopplemonade.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\gallacto.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\lorenz.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\maretti.jpg" />

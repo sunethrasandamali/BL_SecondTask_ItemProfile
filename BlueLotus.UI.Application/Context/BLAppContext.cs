@@ -23,8 +23,7 @@ namespace BlueLotus.UI.Application.Context
         {
             InstanceID = Guid.NewGuid().ToString();
             SampleItems = new List<ItemExtended>();
-            InsertSampleDate();
-            
+            InsertSampleDate();            
         }
 
         private IList<ItemExtended> SampleItems { get; set; } 
@@ -33,15 +32,27 @@ namespace BlueLotus.UI.Application.Context
 
         private void InsertSampleDate()
         {
-            SampleItems.Add(new ItemExtended() { 
-             ItemCode= "CAL-OC-BL-LEM",
-             ItemName= "Calypso Ocean Blue Lemonade",
-             SalesPrice=2.79M,
-             ItemKey= 1440645,
-             ItemCategory7=new CodeBaseResponse(457385),
-             Base64ImageDocument= "calypsooblemonade.jpg"
+            SampleItems.Add(new ItemExtended()
+            {
+                ItemCode = "CAL-OC-BL-LEM",
+                ItemName = "Calypso Ocean Blue Lemonade",
+                SalesPrice = 2.79M,
+                ItemKey = 1440645,
+                ItemCategory7 = new CodeBaseResponse(457385),
+                Base64ImageDocument = "calypsooblemonade.jpg"
 
-            });;
+            });
+
+            SampleItems.Add(new ItemExtended()
+            {
+                ItemCode = "CAL-OC-PP-LEM",
+                ItemName = "Calypso Paradise Punch  Lemonade",
+                SalesPrice = 2.79M,
+                ItemKey = 1440781,
+                ItemCategory7 = new CodeBaseResponse(457385),
+                Base64ImageDocument = "calypsopplemonade.jpg"
+
+            }); 
         }
 
 
@@ -51,5 +62,12 @@ namespace BlueLotus.UI.Application.Context
             return SampleItems.Where(x=>x.ItemCategory7.CodeKey==Cat7Ky).ToList();
         }
 
+    }
+
+
+
+    public class BLAppOrder
+    {
+        public bool IsCustomerSelected { get; set; }
     }
 }

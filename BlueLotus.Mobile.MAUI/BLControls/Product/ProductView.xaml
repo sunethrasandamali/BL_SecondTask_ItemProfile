@@ -2,11 +2,11 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.ProductView" 
-             WidthRequest="245" HeightRequest="330"
+             WidthRequest="360" 
               xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
              >
 
-    <VerticalStackLayout   WidthRequest="243" HeightRequest="330" VerticalOptions="Start">
+    <VerticalStackLayout   WidthRequest="360"  VerticalOptions="Start">
 
         <VerticalStackLayout   VerticalOptions="Start">
 
@@ -14,11 +14,27 @@
                 <Grid  RowDefinitions="278,40"  >
                     <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
                         <ImageButton Source="{Binding ImagePathName}"  
-                                 HeightRequest="380"
+                                 HeightRequest="340"
                                  Clicked="ImageButton_Clicked" />
                     </Grid>
-                    <Grid Grid.Row="1"  >
-                        <Label  Text="{Binding ProductName}" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                    <Grid Grid.Row="1" ColumnDefinitions="*,80" Padding="5" >
+                        <Label  Text="{Binding ProductName}"
+                                FontSize="15" 
+                                HorizontalTextAlignment="Start" 
+                                FontAttributes="Bold" 
+                                VerticalOptions="Center"
+                                >
+                            
+                        </Label>
+                        <Label  Text="{Binding  SalesPrice,StringFormat='£ {0:N2}'}"
+                                Grid.Column="1"
+                                FontSize="15" 
+                                HorizontalTextAlignment="End" 
+                                FontAttributes="Bold" 
+                                VerticalOptions="Center"
+                                >
+
+                        </Label>
                     </Grid>
                 </Grid>
             </Frame>

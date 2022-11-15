@@ -21,6 +21,7 @@ public partial class MainOrderPage : ContentPage
     protected BaseViewModel __bindContext;
     protected readonly IAppObjectService _objectAppService;
     protected readonly ICodeBaseService _codeBaseService;
+    protected readonly MainOrderModel _mainOrderModel;
 
     private BLUIElement _categoryPage;
     private BLUIElement _orderPage;
@@ -32,7 +33,8 @@ public partial class MainOrderPage : ContentPage
     {
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
         _codeBaseService = MauiProgram.Services.GetService<ICodeBaseService>();
-        __bindContext = new();
+        _mainOrderModel = MauiProgram.Services.GetService<MainOrderModel>(); ;
+        this.BindingContext = _mainOrderModel;
 
         InitializeComponent();
     }
@@ -68,8 +70,7 @@ public partial class MainOrderPage : ContentPage
     {
         SelectedCategory = e.Category;
         SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
-        __categoryPage.RotateXTo(30);
-        await __categoryPage.FadeTo(0);
+  
         __productPage.IsVisible = true;
         __categoryPage.IsVisible = false;
         await LoadProducts();
@@ -86,7 +87,17 @@ public partial class MainOrderPage : ContentPage
         var appContext = MauiProgram.Services.GetService<BLUIAppContext>();
         var listProducts = appContext.FilterItemByCat(SelectedCategory.CodeKey);
         SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ({listProducts.Count})";
-
+        __productListView.Clear();
+        foreach (var item in listProducts)
+        {
+            ProductViewModel model = new ProductViewModel();
+            model.ProductName = item.ItemName;
+            model.SalesPrice = item.SalesPrice;
+            model.ItemKey = item.ItemKey;
+            model.ImagePathName = item.Base64ImageDocument;
+            ProductView view = new ProductView(model);
+            __productListView.Add(view);
+        }
         await Task.CompletedTask;
     }
 
@@ -139,6 +150,8 @@ public partial class MainOrderPage : ContentPage
 
     protected async void OnCustomerSelectClick(object sender, EventArgs args)
     {
+
+
         AddressSelectPopUp pop = new AddressSelectPopUp();
         this.ShowPopup(pop);
 

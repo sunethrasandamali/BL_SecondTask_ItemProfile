@@ -34,7 +34,7 @@
                         </FlexLayout>
                         <Grid Background="{StaticResource Alternate}" x:Name="__productPage" IsVisible="false" >
                             <Grid RowDefinitions="70,*" Margin="0" >
-                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Column="0" >
+                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Row="0" >
                                     <Label Text="__UNMAPPED__" x:Name="SelectedCategoryName" VerticalOptions="Center"
                                            FontAttributes="Bold" FontSize="18"
                                            Margin="10"
@@ -49,19 +49,21 @@
                                         <Entry ></Entry>
                                     </Frame>
                                 </Grid>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <FlexLayout Wrap="Wrap" Direction="Row" 
+                                <Grid Grid.Row="1">
+                                    <FlexLayout Wrap="Wrap" Direction="Row" 
                                     JustifyContent="Center" 
                                     Background="{StaticResource Alternate}" 
-                                     x:Name="__productListView"  IsVisible="true"
-                                  RotationX="0"
+                                    x:Name="__productListView"  
+                                    IsVisible="true"
+                                     RotationX="0"
                                     >
 
 
 
-                                </FlexLayout>
+                                    </FlexLayout>
+                                </Grid>
                             </Grid>
+                        
 
 
                         </Grid>
@@ -69,7 +71,7 @@
 
                 </ScrollView>
                 <Grid Grid.Row="1" Background="{StaticResource Alternate}" >
-                    <Grid x:Name="_selectCustomer">
+                    <Grid x:Name="_selectCustomer" IsVisible="{Binding IsCustomerSelected, Converter={StaticResource InvertedBoolConverter}}">
                         <Button ClassId="IsPr" Text="Select Customer" Style="{StaticResource TabButton}" BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 Clicked="OnCustomerSelectClick"
