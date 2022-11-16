@@ -47,7 +47,7 @@ public partial class MainOrderPage : ContentPage
             var items = await _codeBaseService.ReadProductCategories(dto);
             if (items.Value != null)
             {
-                var width = 400;
+                var width = 200;
                 __categoryPage.Clear();
                 foreach (var item in items.Value)
                 {
@@ -57,6 +57,7 @@ public partial class MainOrderPage : ContentPage
                     model.ImagePathName = string.IsNullOrWhiteSpace(item.CodeExtraCharacter1) ? "no_image.png" : item.CodeExtraCharacter1;
                     var catm = new CategoryView(model);
                     catm.WidthRequest = width * 0.97;
+                    catm.HeightRequest = 150;
                     catm.CategoryClickEvent += Catm_CategoryClickEvent;
                     __categoryPage.Add(
                       catm
@@ -95,6 +96,9 @@ public partial class MainOrderPage : ContentPage
             model.SalesPrice = item.SalesPrice;
             model.ItemKey = item.ItemKey;
             model.ImagePathName = item.Base64ImageDocument;
+            model.Category = SelectedCategory;
+            model.Description=item.Description;
+
             ProductView view = new ProductView(model);
             view.ProductClickEvent += View_ProductClickEvent;
             __productListView.Add(view);
