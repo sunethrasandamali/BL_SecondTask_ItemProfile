@@ -1092,5 +1092,139 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+
+        public BaseServerResponse<BLTransaction> GenericOpenTransactionV2(Company company, User user, TransactionOpenRequest trnRequest)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                BaseServerResponse<BLTransaction> response = new BaseServerResponse<BLTransaction>();
+                BLTransaction transaction = new BLTransaction();
+                string SPName = "TrnHdrV2_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@TrnKy", trnRequest.TransactionKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        transaction.TransactionKey = reader.GetColumn<long>("TrnKy");
+                        transaction.TransactionType = new CodeBaseResponse(reader.GetColumn<long>("TrnTypKy"));
+                        transaction.TransactionNumber = reader.GetColumn<string>("PrefixTrnNo");
+                        transaction.DocumentNumber = reader.GetColumn<string>("DocNo");
+                        transaction.YourReference = reader.GetColumn<string>("YurRef");
+                        transaction.YourReferenceDate = reader.GetColumn<DateTime>("YurRefDt");
+                        transaction.TransactionDate = reader.GetColumn<DateTime>("TrnDt");
+                        transaction.Description = reader.GetColumn<string>("Des");
+                        transaction.Remarks = reader.GetColumn<string>("Rem");
+                        transaction.TransactionCurrency = new CodeBaseResponse(reader.GetColumn<long>("TrnCrnKy"));
+                        transaction.PaymentTerm = new CodeBaseResponse(reader.GetColumn<long>("PmtTrmKy"));
+                        transaction.TransactionExchangeRate = reader.GetColumn<decimal>("TrnExRate");
+                        transaction.IsActive = reader.GetColumn<int>("IsAct");
+                        transaction.IsApproved = reader.GetColumn<int>("IsApr");
+                        transaction.IsPrinted = reader.GetColumn<int>("IsPrinted");
+                        transaction.Account = new AccountResponse();
+                        transaction.Account.AccountName = reader.GetColumn<string>("CusAcc");
+                        transaction.Account.AccountKey = reader.GetColumn<long>("AccKy");
+                        transaction.AccountObjectKey = reader.GetColumn<long>("AccObjKy");
+                        transaction.ContraAccount = new AccountResponse();
+                        transaction.ContraAccount.AccountName = reader.GetColumn<string>("Cu");
+                        transaction.ContraAccount.AccountKey = reader.GetColumn<long>("ContraAccKy");
+                        transaction.ContraAccountObjectKey = reader.GetColumn<long>("ContraAccObjKy");
+                        transaction.IsLocked = reader.GetColumn<int>("IsLocked");
+                        transaction.AccessLevel = new CodeBaseResponse(reader.GetColumn<long>("AcsLvlKy"));
+                        transaction.ConfidentialLevel = new CodeBaseResponse(reader.GetColumn<long>("ConFinLvlKy"));
+                        transaction.Rep = new AddressResponse(reader.GetColumn<long>("RepAdrKy"));
+                        transaction.Address = new AddressResponse(reader.GetColumn<long>("AdrKy"));
+                        transaction.Amount = reader.GetColumn<decimal>("Amt");
+                        transaction.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        transaction.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+                        transaction.IsRecurrence = reader.GetColumn<int>("IsRecur");
+                        transaction.Location = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
+                        transaction.CustomItem = new ItemResponse();
+                        transaction.Shift = new CodeBaseResponse(reader.GetColumn<long>("ShiftKy"));
+                        transaction.CommisionPercentage = reader.GetColumn<decimal>("ComisPer");
+                        transaction.IsQuantityPosted = reader.GetColumn<int>("IsQtyPstd");
+                        transaction.IsValuePosted = reader.GetColumn<int>("isValPstd");
+                        transaction.Amount1 = reader.GetColumn<decimal>("Amt1");
+                        transaction.Amount2 = reader.GetColumn<int>("Amt2");
+                        transaction.Amount3 = reader.GetColumn<decimal>("Amt3");
+                        transaction.Amount4 = reader.GetColumn<int>("Amt4");
+                        transaction.Amount5 = reader.GetColumn<decimal>("Amt5");
+                        transaction.Amount6 = reader.GetColumn<int>("Amt6");
+                        transaction.Code1 = new CodeBaseResponse(reader.GetColumn<long>("CdKy1"));
+                        transaction.Code2 = new CodeBaseResponse(reader.GetColumn<long>("CdKy2"));
+                        transaction.OrderDetailKey = reader.GetColumn<long>("OrdDetKy");
+                        transaction.IsMultiCredit = reader.GetColumn<int>("isMultiCr");
+                        transaction.Address1 = new AddressResponse(reader.GetColumn<long>("AdrKy1"));
+                        transaction.Address2 = new AddressResponse(reader.GetColumn<long>("AdrKy2"));
+                        transaction.IsHold = reader.GetColumn<bool>("IsHold");
+                        transaction.HeaderDiscountAmount = reader.GetColumn<decimal>("HdrDisAmt");
+                        transaction.IsDirty = false;
+                        transaction.IsPersisted = true;
+                        transaction.MarkupPercentage = reader.GetColumn<decimal>("MarkUpPer");
+                        transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
+                        transaction.IsVarcar1On = !string.IsNullOrWhiteSpace(reader.GetColumn<string>("VarChar1")) && reader.GetColumn<string>("VarChar1").Equals("1");
+                        transaction.Quantity1 = reader.GetColumn<decimal>("Qty1");
+                        //transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
+
+                        //service advisor??
+                        //sales
+                        //
+
+                    }
+
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = transaction;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                        reader.Dispose();
+
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+
+
+
+            }
+        }
     }
 }

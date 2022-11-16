@@ -43,8 +43,12 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.AddressRepository.CreateAdvanceAnalysis(company, addressMaster);
         }
-        
 
+        public AddressResponse GetAddressDetailsByUserKy(Company company, User user)
+        {
+            var response = _unitOfWork.AddressRepository.GetAddressByUserKey(company, user);
+            return response.Value;
+        }
 
     }
 }

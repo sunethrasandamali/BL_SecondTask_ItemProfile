@@ -281,7 +281,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 IDataReader sqlDataReader = null;
                 BaseServerResponse<IList<UIObject>> response = new BaseServerResponse<IList<UIObject>>();
                 IList<UIObject> uIObjects = new List<UIObject>();
-                string SPName = "AllObjPrpObjMas_SelectPOS";
+                string SPName = "AllObjPrpObjMas_SelectPOS20221110_1";
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
@@ -401,7 +401,7 @@ namespace BlueLotus360.Data.SQL92.Repository
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
                 SqlDataReader sqlDataReader = null;
-                string SPName = "AllObjPrpObjMas_SelectPOS";
+                string SPName = "AllObjPrpObjMas_SelectPOS";/* "AllObjPrpObjMas_SelectPOS20221110_1"; */
                 try
                 {
                     BLUIElement element = new BLUIElement();

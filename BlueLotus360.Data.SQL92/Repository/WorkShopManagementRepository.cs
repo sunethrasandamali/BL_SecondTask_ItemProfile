@@ -156,7 +156,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.OrderDate = reader.GetColumn<DateTime>("PrjStDt");
                         order.OrderStatus = new CodeBaseResponse(); 
                         order.OrderStatus.CodeName = reader.GetColumn<string>("Status");
-
+                        order.TrnKy= reader.GetColumn<int>("InvoiceTrnKy");
                         list.Add(order);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
@@ -343,6 +343,76 @@ namespace BlueLotus360.Data.SQL92.Repository
                         Message = $"Error While Executing Proc {SPName}"
                     });
                     response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    if (reader != null)
+                    {
+                        reader.Dispose();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
+
+        public UserRequestValidation WorkOrderValidation(WorkOrder dto, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                UserRequestValidation response = new UserRequestValidation();
+                string SPName = "CARWorkshop_ValidateWeb";
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", dto.FormObjectKey);
+                    dbCommand.CreateAndAddParameter("MeterReading", dto.MeterReading);
+                    dbCommand.CreateAndAddParameter("OrdKy", dto.OrderKey==1?null : dto.OrderKey);
+                    dbCommand.CreateAndAddParameter("VehAdrKy",BaseComboResponse.GetKeyValue(dto.SelectedVehicle.VehicleRegistration));
+
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        response.IsError= reader.GetColumn<bool>("isError");
+                        response.Message = reader.GetColumn<string>("Message");
+
+                    }
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
                 }
 
                 finally

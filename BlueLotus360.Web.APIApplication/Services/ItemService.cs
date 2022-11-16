@@ -2,6 +2,7 @@
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Extension;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using System;
@@ -43,6 +44,12 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             BaseServerResponse<IList<ItemSerialNumber>> serialNumbers = _unitOfWork.ItemRepository.GetItemsSerialNoForTransaction(company, user, comboRequest);
             return serialNumbers.Value;
+        }
+
+        public StockAsAtResponse GetAvailableStock(Company company, User user, StockAsAtRequest request)
+        {
+            var stock=_unitOfWork.ItemRepository.GetAvailableStock(company, user, request);
+            return stock.Value;
         }
     }
 }

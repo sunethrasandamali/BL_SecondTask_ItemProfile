@@ -86,5 +86,16 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(addressMaster);
         }
+
+        [HttpGet("GetAddressByUsrKy")]
+        public IActionResult GetAdrressByUsrKy()
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            AddressResponse addressMaster = _addressService.GetAddressDetailsByUserKy(company, user);
+
+            return Ok(addressMaster);
+        }
     }
 }

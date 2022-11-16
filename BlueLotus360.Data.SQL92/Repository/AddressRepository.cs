@@ -331,5 +331,62 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
+        public BaseServerResponse<AddressResponse> GetAddressByUserKey(Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "GetEmployeeByUsrKy";
+                BaseServerResponse<AddressResponse> response = new BaseServerResponse<AddressResponse>();
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    AddressResponse address = new AddressResponse();
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        address = new AddressResponse()
+                        {
+                            AddressKey = reader.GetColumn<int>("AdrKy"),
+                            AddressName = reader.GetColumn<string>("AdrNm"),
+                        };                      
+
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = address;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+            }
+        }
+
     }
 }
