@@ -12,7 +12,7 @@
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">#000</Color>
     <Color x:Key="Gray50">#FEFEFE</Color>
-
+    <Color x:Key="Gray70">#EFEFEF</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray150">#D8D8D8</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>

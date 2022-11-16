@@ -3,10 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.Pages.SingleProductPage"
              Title="SingleProductPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+        <Grid ColumnDefinitions="1*,2*" >
+           <Grid Background="{StaticResource White}" Grid.Column="0" >
+            <ScrollView>
+                <VerticalStackLayout x:Name="_relatedProducts" Padding="10">
+
+                </VerticalStackLayout>
+            </ScrollView>
+            </Grid>
+        <Grid Background="{StaticResource Gray70}" Grid.Column="1" Padding="10">
+            <ScrollView>
+                <VerticalStackLayout>
+                    <Image WidthRequest="400" Source="{Binding ImagePathName}"></Image>
+
+                    <Frame HeightRequest="100" CornerRadius="5" Margin="10" Padding="5">
+                        <Grid ColumnDefinitions="*,80" RowDefinitions="*,*" Padding="0,0,10,5" >
+                            <Label Text="{Binding ProductName}" Grid.ColumnSpan="1"  FontAttributes="Bold"  />
+                            <Label  Text="{Binding  SalesPrice,StringFormat='£ {0:N2}'}"
+                                Grid.Column="1"
+                                FontSize="15" 
+                                HorizontalTextAlignment="End" 
+                                FontAttributes="Bold" 
+                                VerticalOptions="Center"></Label>
+                            <Label Text="{Binding Description}" Grid.Row="1" FontSize="12" Grid.ColumnSpan="2" />
+                        </Grid>
+
+                    </Frame>
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+    </Grid>
+   
 </ContentPage>

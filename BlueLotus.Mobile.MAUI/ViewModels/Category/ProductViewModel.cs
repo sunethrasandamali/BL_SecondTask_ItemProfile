@@ -21,6 +21,9 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private decimal salesPrice;
 
+        [ObservableProperty]
+        private string description;
+
         public CategoryViewModel Category { get; set; }
     }
 }
