@@ -4,6 +4,7 @@
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.ProductView" 
              WidthRequest="360" 
               xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+             xmlns:blc="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
              >
 
     <VerticalStackLayout   WidthRequest="360"  VerticalOptions="Start">
@@ -11,7 +12,7 @@
         <VerticalStackLayout   VerticalOptions="Start">
 
             <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
-                <Grid  RowDefinitions="278,40"  >
+                <Grid  RowDefinitions="278,60,50"  >
                     <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
                         <ImageButton Source="{Binding ImagePathName}"  
                                  HeightRequest="340"
@@ -35,6 +36,9 @@
                                 >
 
                         </Label>
+                    </Grid>
+                    <Grid Grid.Row="2">
+                        <blc:ProductAddRemove/>
                     </Grid>
                 </Grid>
             </Frame>

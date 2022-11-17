@@ -15,6 +15,11 @@ namespace BlueLotus.Mobile.MAUI.ViewModels
         [ObservableProperty]
         private bool isCustomerSelected;
 
+        public BaseViewModel()
+        {
+            int c = 0;
+        }
+
 
 
     }
