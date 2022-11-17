@@ -16,6 +16,7 @@
     <ProjectReference Include="..\BlueLotus360.Core.Domain\BlueLotus360.Core.Domain.csproj" />
     <ProjectReference Include="..\BlueLotus360.Data.SQL92\BlueLotus360.Data.SQL92.csproj" />
     <ProjectReference Include="..\BlueLotus360.Web.APIApplication\BlueLotus360.Web.APIApplication.csproj" />
+    <ProjectReference Include="..\Libs\Libs.csproj" />
   </ItemGroup>
 
   <ItemGroup>
