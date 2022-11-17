@@ -17,5 +17,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         ItemRateResponse GetItemRate(RateRetrivalModel rateRetrivalModel, Company company, User user);
         StockAsAtResponse GetStockAsAtByLocation(Company company, User user, StockAsAtRequest request);
         BaseServerResponse<IList<ItemSerialNumber>> GetItemsSerialNoForTransaction(Company company, User user, ComboRequestDTO dTO);
+        BaseServerResponse<StockAsAtResponse> GetAvailableStock(Company company, User user, StockAsAtRequest request);
     }
 }

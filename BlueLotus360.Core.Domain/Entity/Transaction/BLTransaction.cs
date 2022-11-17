@@ -210,6 +210,9 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long LocationKey { get; set; }
         public long ElementKey { get; set; } = 1;
         public long ProjectKey { get; set; } = 1;
-
+        public int TrnTypKy { get; set; } = 1;
+        public int IsuPrjKy { get; set; } = 1;
+        public int IsuLocKy { get; set; } = 1;
+        public int TrnUnitKy { get; set; } = 1;
     }
 }

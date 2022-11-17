@@ -40,7 +40,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
         public decimal MeterReading { get; set; }
-        public User EnteredUser { get; set; }
+        public AddressResponse EnteredUser { get; set; }
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -60,7 +60,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderProject=new ProjectResponse();
             OrderStatus = new CodeBaseResponse();
             OrderControlCondition=new CodeBaseResponse();
-            EnteredUser = new User();
+            EnteredUser = new AddressResponse();
         }
 
     }
@@ -108,7 +108,6 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal AvlStk { get; set; } = 0;
         public string? Description { get; set; } = "";
         public string Remark { get; set; } = "";
-        public decimal Time { get; set; }
         public int OrderDetailsAccountKey { get; set; }
         public AccountResponse BaringPrinciple { get; set; }
         public decimal PrinciplePrecentage { get; set; }
@@ -117,6 +116,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal CompanyPrecentage { get; set; }
         public decimal CompanyAmount { get; set; }
         public decimal CustomerAmount { get; set; }
+        public decimal Time { get; set; }
         public AccountResponse Supplier { get; set; }//where to map
         public AddressResponse ResourceAddress { get; set; } //technician ,where to map
         
@@ -329,6 +329,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public string Remarks { get; set; }
         public DateTime RequiredDate { get; set; }
         public int ReserveAddressKey { get; set; } = 1;
+        public string ReserveAddressID { get; set; } ="";
         public decimal TransactionDiscountAmount { get; set; }
         public decimal TransactionPrice { get; set; }
         public decimal TransactionQuantity { get; set; }
