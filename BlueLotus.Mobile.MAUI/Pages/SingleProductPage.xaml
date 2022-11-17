@@ -17,8 +17,8 @@
                 <VerticalStackLayout>
                     <Image WidthRequest="400" Source="{Binding ImagePathName}"></Image>
 
-                    <Frame HeightRequest="100" CornerRadius="5" Margin="10" Padding="5">
-                        <Grid ColumnDefinitions="*,80" RowDefinitions="*,*" Padding="0,0,10,5" >
+                   
+                        <Grid ColumnDefinitions="*,120" RowDefinitions="*,*" Padding="0,0,10,5" >
                             <Label Text="{Binding ProductName}" Grid.ColumnSpan="1"  FontAttributes="Bold"  />
                             <Label  Text="{Binding  SalesPrice,StringFormat='£ {0:N2}'}"
                                 Grid.Column="1"
@@ -29,7 +29,7 @@
                             <Label Text="{Binding Description}" Grid.Row="1" FontSize="12" Grid.ColumnSpan="2" />
                         </Grid>
 
-                    </Frame>
+                    
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

@@ -34,7 +34,7 @@ public partial class MainOrderPage : ContentPage
         _objectAppService = MauiProgram.Services.GetService<IAppObjectService>();
         _codeBaseService = MauiProgram.Services.GetService<ICodeBaseService>();
         _mainOrderModel = MauiProgram.Services.GetService<MainOrderModel>(); ;
-        this.BindingContext = _mainOrderModel;
+        __bindContext = _mainOrderModel;
 
         InitializeComponent();
     }
@@ -69,49 +69,43 @@ public partial class MainOrderPage : ContentPage
 
     private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
-        SelectedCategory = e.Category;
-        SelectedCategoryName.Text = "Products Under Category - " + SelectedCategory.CategoryName + ".";
-  
-        __productPage.IsVisible = true;
-        __categoryPage.IsVisible = false;
-        await LoadProducts();
+        IDictionary<string, object> dict = new Dictionary<string, object>();
+        dict.Add("SelectedCategory", e.Category);
+        await Shell.Current.GoToAsync(nameof(ProductListPage), false,dict);
+
     }
 
-    protected override void OnNavigatingFrom(NavigatingFromEventArgs args)
-    {
 
-        base.OnNavigatingFrom(args);
-    }
 
-    private async Task LoadProducts()
-    {
-        var appContext = MauiProgram.Services.GetService<BLUIAppContext>();
-        var listProducts = appContext.FilterItemByCat(SelectedCategory.CodeKey);
-        SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ({listProducts.Count})";
-        __productListView.Clear();
-        foreach (var item in listProducts)
-        {
-            ProductViewModel model = new ProductViewModel();
-            model.ProductName = item.ItemName;
-            model.SalesPrice = item.SalesPrice;
-            model.ItemKey = item.ItemKey;
-            model.ImagePathName = item.Base64ImageDocument;
-            model.Category = SelectedCategory;
-            model.Description=item.Description;
+    //private async Task LoadProducts()
+    //{
+    //    var appContext = MauiProgram.Services.GetService<BLUIAppContext>();
+    //    var listProducts = appContext.FilterItemByCat(SelectedCategory.CodeKey);
+    //    SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ({listProducts.Count})";
+    //    __productListView.Clear();
+    //    foreach (var item in listProducts)
+    //    {
+    //        ProductViewModel model = new ProductViewModel();
+    //        model.ProductName = item.ItemName;
+    //        model.SalesPrice = item.SalesPrice;
+    //        model.ItemKey = item.ItemKey;
+    //        model.ImagePathName = item.Base64ImageDocument;
+    //        model.Category = SelectedCategory;
+    //        model.Description = item.Description;
 
-            ProductView view = new ProductView(model);
-            view.ProductClickEvent += View_ProductClickEvent;
-            __productListView.Add(view);
-        }
-        await Task.CompletedTask;
-    }
+    //        ProductView view = new ProductView(model);
+    //        view.ProductClickEvent += View_ProductClickEvent;
+    //        __productListView.Add(view);
+    //    }
+    //    await Task.CompletedTask;
+    //}
 
     private async void View_ProductClickEvent(object sender, Events.ProductClickEventArgs e)
     {
         ProductViewModel m = e.Product;
         IDictionary<string, object> dict = new Dictionary<string, object>();
-         dict.Add("SelectedProduct", m);
-         await Shell.Current.GoToAsync(nameof(SingleProductPage), dict);
+        dict.Add("SelectedProduct", m);
+        await Shell.Current.GoToAsync(nameof(SingleProductPage), dict);
     }
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
@@ -144,21 +138,13 @@ public partial class MainOrderPage : ContentPage
             }
         }
 
-        base.OnNavigatedTo(args);
 
+        base.OnNavigatedTo(args);
         await ReadCategories();
     }
 
 
-    protected async void OnBackButtonClicked(object sender, EventArgs args)
-    {
-        SelectedCategory = null;
-        __productPage.IsVisible = false;
-        __categoryPage.IsVisible = true;
-        __categoryPage.FadeTo(1);
-        await __categoryPage.RotateXTo(0);
-
-    }
+    
 
     protected async void OnCustomerSelectClick(object sender, EventArgs args)
     {

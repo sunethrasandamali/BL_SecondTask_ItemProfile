@@ -22,11 +22,12 @@
           WidthRequest="500"
           HorizontalOptions="Center" />
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
-                        <Frame>
-                            <Picker 
+                        <Frame >
+                            <Picker  HorizontalOptions="Center"
                                     ItemsSource="{Binding Companies}"
                                     ItemDisplayBinding="{Binding CompanyName}"
                                     SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                                WidthRequest="700"
                                 >
                                 
                             </Picker>

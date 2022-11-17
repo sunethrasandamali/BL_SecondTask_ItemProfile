@@ -32,41 +32,7 @@
 
 
                         </FlexLayout>
-                        <Grid Background="{StaticResource Alternate}" x:Name="__productPage" IsVisible="false" >
-                            <Grid RowDefinitions="70,*" Margin="0" >
-                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Row="0" >
-                                    <Label Text="__UNMAPPED__" x:Name="SelectedCategoryName" VerticalOptions="Center"
-                                           FontAttributes="Bold" FontSize="18"
-                                           Margin="10"
-                                           Grid.Column="1"
-                                          
-                                           ></Label>
-                                    <Button Text="&#xf053;"   FontSize="20" FontFamily="FontAwesome" 
-                                            Style="{StaticResource TabButton}"
-                                            Grid.Column="0" Clicked="OnBackButtonClicked" x:Name="__productBackButton"></Button>
-
-                                    <Frame Grid.Column="2" >
-                                        <Entry ></Entry>
-                                    </Frame>
-                                </Grid>
-                                <Grid Grid.Row="1">
-                                    <FlexLayout Wrap="Wrap" Direction="Row" 
-                                    JustifyContent="Center" 
-                                    Background="{StaticResource Alternate}" 
-                                    x:Name="__productListView"  
-                                    IsVisible="true"
-                                     RotationX="0"
-                                    >
-
-
-
-                                    </FlexLayout>
-                                </Grid>
-                            </Grid>
-                        
-
-
-                        </Grid>
+                   
                     </Grid>
 
                 </ScrollView>

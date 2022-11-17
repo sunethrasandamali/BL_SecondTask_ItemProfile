@@ -63,6 +63,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
             Routing.RegisterRoute(nameof(SingleProductPage), typeof(SingleProductPage));
+            Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
             return mauiAppBuilder;
         }
 

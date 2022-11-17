@@ -158,6 +158,9 @@
 	  <MauiXaml Update="Pages\PopUps\AddressSelectPopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProductListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\SingleProductPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -168,6 +171,7 @@
 
 	<ItemGroup>
 	  <Folder Include="BLControls\Picker\" />
+	  <Folder Include="Pages\NewFolder\" />
 	</ItemGroup>
 
 	<ItemGroup>
