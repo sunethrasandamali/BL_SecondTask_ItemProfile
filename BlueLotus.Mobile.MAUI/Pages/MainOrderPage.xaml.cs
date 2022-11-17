@@ -67,11 +67,11 @@ public partial class MainOrderPage : ContentPage
         }
     }
 
-    private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
+    private async void  Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         IDictionary<string, object> dict = new Dictionary<string, object>();
         dict.Add("SelectedCategory", e.Category);
-        await Shell.Current.GoToAsync(nameof(ProductListPage), false,dict);
+         Shell.Current.GoToAsync(nameof(ProductListPage), false,dict);
 
     }
 

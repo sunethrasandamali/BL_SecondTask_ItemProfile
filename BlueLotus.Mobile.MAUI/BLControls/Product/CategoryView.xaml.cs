@@ -11,12 +11,17 @@ public partial class CategoryView : ContentView
     public CategoryView(CategoryViewModel model)
 	{
 		_model = model;
-
+        model.CategoryClickEvent += Model_CategoryClickEvent; ;
         this.BindingContext = _model;
 		InitializeComponent();
 	}
 
-	private void ImageButton_Clicked(object sender, EventArgs e)
+    private async void Model_CategoryClickEvent(object sender, CategoryClickEventArgs e)
+    {
+		 Dispatcher.DispatchAsync(new Action(ImageButton_Clicked));
+    }
+
+    private async void ImageButton_Clicked()
 	{
 		if (CategoryClickEvent != null)
 		{

@@ -43,6 +43,8 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<AppShell>();
             mauiAppBuilder.Services.AddSingleton<LoginPage>();
             mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+           
+        
        
             return mauiAppBuilder;
         }

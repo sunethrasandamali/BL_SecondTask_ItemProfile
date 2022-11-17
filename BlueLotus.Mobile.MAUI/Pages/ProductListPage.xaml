@@ -27,7 +27,7 @@
                                      RotationX="0"
                                     >
 
-
+                    <ActivityIndicator IsRunning="true" />
 
                 </FlexLayout>
             </Grid>
