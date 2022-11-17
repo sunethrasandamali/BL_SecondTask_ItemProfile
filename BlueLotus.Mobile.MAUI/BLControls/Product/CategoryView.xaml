@@ -8,6 +8,7 @@
              >
 
     <VerticalStackLayout   VerticalOptions="Start">
+        
 
         <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
             <Grid  RowDefinitions="120,40"  >
