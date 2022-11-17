@@ -390,7 +390,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("ObjKy", dto.FormObjectKey);
                     dbCommand.CreateAndAddParameter("MeterReading", dto.MeterReading);
                     dbCommand.CreateAndAddParameter("OrdKy", dto.OrderKey==1?null : dto.OrderKey);
-                    dbCommand.CreateAndAddParameter("VehAdrKy",BaseComboResponse.GetKeyValue(dto.SelectedVehicle.VehicleRegistration));
+                    dbCommand.CreateAndAddParameter("VehAdrKy",BaseComboResponse.GetKeyValue(dto.SelectedVehicle.VehicleAddress));
 
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
