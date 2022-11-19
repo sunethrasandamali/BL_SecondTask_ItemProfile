@@ -90,7 +90,10 @@ public partial class AppShell : Shell
             await Task.Delay(300);
             _shellModel.LoadProgress = 0.9;
             await Task.Delay(100);
-            await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+              await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+            //MainOrderPage p = new MainOrderPage();
+            //p.Menu = DefaultMenu;
+            //Navigation.PushModalAsync(p);
         }
        
   

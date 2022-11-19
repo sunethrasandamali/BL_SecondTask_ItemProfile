@@ -5,10 +5,10 @@
 
     <Border StrokeThickness="1" Stroke="{StaticResource Gray70}" Padding="2">
         <Grid ColumnDefinitions="*,*,*">
-            <Button  Text="+" Grid.Column="0"  FontSize="15" Padding="0" FontAttributes="Bold"/>
+            <Button  Text="+" Grid.Column="0"   FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2"/>
 
-            <Label Text="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="16"/>
-            <Button Grid.Column="2" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold"/>
+            <Label Text="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="14"/>
+            <Button Grid.Column="2" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2"/>
         </Grid>
     </Border>
 </ContentView>

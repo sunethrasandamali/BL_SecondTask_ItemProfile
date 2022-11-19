@@ -12,6 +12,7 @@ using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using System;
@@ -39,10 +40,12 @@ namespace BlueLotus.Mobile.MAUI.Extensions
 
         public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<MainPage>();
-            mauiAppBuilder.Services.AddSingleton<AppShell>();
-            mauiAppBuilder.Services.AddSingleton<LoginPage>();
-            mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+            mauiAppBuilder.Services.AddScoped<MainPage>();
+            mauiAppBuilder.Services.AddScoped<AppShell>();
+            mauiAppBuilder.Services.AddScoped<LoginPage>();
+            mauiAppBuilder.Services.AddTransient<CompanySelectionPage>();
+           // mauiAppBuilder.Services.AddSingleton<ProductListPage>();
+            //mauiAppBuilder.Services.AddScoped<ProductListPage>();
            
         
        

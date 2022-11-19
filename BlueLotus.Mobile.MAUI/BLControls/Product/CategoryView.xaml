@@ -13,7 +13,7 @@
         <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
             <Grid  RowDefinitions="120,40"   >
                 <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
-                    <ImageButton  
+                    <ImageButton  Source="{Binding ImagePathName}"
                                  HeightRequest="170"
                                  Command="{Binding CatClickCommand}" />
                 </Grid>

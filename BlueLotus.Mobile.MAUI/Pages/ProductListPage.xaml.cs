@@ -26,9 +26,9 @@ public partial class ProductListPage : ContentPage
         if (SelectedCategory != null)
         {
             SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ";
-           // Action loadProdAction = new Action(LoadProducts);
-            //loadProdAction.Invoke();
-          //  this.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200),loadProdAction);
+            Action loadProdAction = new Action(LoadProducts);
+           // loadProdAction.Invoke();
+            this.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200), loadProdAction);
             #region MAUI_Unsupported
             //    loadProdAction.BeginInvoke(new AsyncCallback(result =>
             //    {

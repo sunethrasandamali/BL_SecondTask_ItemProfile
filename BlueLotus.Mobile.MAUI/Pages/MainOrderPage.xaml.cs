@@ -71,8 +71,8 @@ public partial class MainOrderPage : ContentPage
     {
         IDictionary<string, object> dict = new Dictionary<string, object>();
         dict.Add("SelectedCategory", e.Category);
-         Shell.Current.GoToAsync(nameof(ProductListPage), false,dict);
-
+        await  Shell.Current.GoToAsync(nameof(ProductListPage), true,dict);
+        
     }
 
 
