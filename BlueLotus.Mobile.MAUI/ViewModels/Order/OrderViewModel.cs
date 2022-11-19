@@ -1,4 +1,5 @@
-﻿using BlueLotus360.Core.Domain.Entity.Base;
+﻿using BlueLotus.Mobile.MAUI.ViewModels.Category;
+using BlueLotus360.Core.Domain.Entity.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -50,5 +51,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
 
         [ObservableProperty]
         private decimal discountPercentage;
+
+        [ObservableProperty]
+        private ProductViewModel transactionItem;
     }
 }
