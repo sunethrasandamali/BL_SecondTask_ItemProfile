@@ -25,6 +25,11 @@ namespace BlueLotus360.Web.APIApplication.Services
            return _unitOfWork.AddressRepository.GetAddresses(company, user, dto);
         }
 
+        public BaseServerResponse<IList<AddressResponse>> GetMAUIAddresses(Company company, User user, ComboRequestDTO dto)
+        {
+            return _unitOfWork.AddressRepository.GetMAUIAddresses(company, user, dto);
+        }
+
         public BaseServerResponse<AddressMaster> CreateCustomer(Company company, User user, AddressMaster address)
         {
             return _unitOfWork.AddressRepository.CustomerRegistration(company, user, address);

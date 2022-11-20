@@ -13,6 +13,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     public interface IAddressRepository
     {
         BaseServerResponse<IList<AddressResponse>> GetAddresses(Company company, User user, ComboRequestDTO dto);
+        BaseServerResponse<IList<AddressResponse>> GetMAUIAddresses(Company company, User user, ComboRequestDTO dto);
         BaseServerResponse<AddressMaster> CustomerRegistration(Company company, User user, AddressMaster addressMaster);
         BaseServerResponse<AddressMaster> CustomerRegistrationValidation(Company company, User user, AddressMaster addressMaster);
         BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster);
