@@ -26,6 +26,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private decimal totalQuantity;
 
+        [ObservableProperty]
+        private bool isCustomerSelected;
         public IList<AddressResponse> CustomerList { get; set; }
 
         public MainOrderModel()
@@ -107,6 +109,14 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
             {
               await  Shell.Current.GoToAsync(nameof(OrderSummaryPage));
             }
+        }
+
+
+        [RelayCommand]
+
+        public async void OnCustomerSelction()
+        {
+
         }
     }
 }

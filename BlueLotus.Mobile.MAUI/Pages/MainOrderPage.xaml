@@ -41,7 +41,7 @@
 
                 </ScrollView>
                 <Grid Grid.Row="1" Background="{StaticResource Alternate}" >
-                    <Grid x:Name="_selectCustomer" IsVisible="false">
+                    <Grid x:Name="_selectCustomer" IsVisible="{x:Binding IsCustomerSelected,Converter={StaticResource InvertedBoolConverter}}">
                         <Button ClassId="IsPr" Text="Select Customer" Style="{StaticResource TabButton}" BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 Clicked="OnCustomerSelectClick"

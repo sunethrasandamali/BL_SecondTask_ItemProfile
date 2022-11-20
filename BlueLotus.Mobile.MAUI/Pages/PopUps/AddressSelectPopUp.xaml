@@ -5,22 +5,32 @@
                xmlns:productCotrols="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
                xmlns:blUiControls="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.ListView"
                xmlns:model="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+               xmlns:resp="clr-namespace:BlueLotus360.Core.Domain.Entity.Base;assembly=BlueLotus360.Core.Domain"
                x:DataType="model:MainOrderModel"
                >
 
 
-    <Grid RowDefinitions="70,50,*" MinimumWidthRequest="800">
-        <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70">
-            <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" />
-            <Button Style="{StaticResource TabButton}" Text="X" Grid.Column="1"  Clicked="OnNoButtonClicked"  />
+    <Grid RowDefinitions="40,50,*" WidthRequest="1000">
+        <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70" >
+            <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" Margin="5" />
+            <Button  Style="{StaticResource TabButton}" Text="X" Grid.Column="1"  Clicked="OnNoButtonClicked"  />
         </Grid>
         <Grid Grid.Row="1" >
             <Entry />
         </Grid>
         <Grid Grid.Row="2">
             <ScrollView>
-                <CollectionView>
-
+                <CollectionView ItemsSource="{Binding CustomerList}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="resp:AddressResponse">
+                            <Grid Padding="5" ColumnDefinitions="60,*">
+                                <toolkit:AvatarView Text="{Binding AddressId}" 
+                                                    Background="{StaticResource Tertiary}" 
+                                                    TextColor="{StaticResource White}"></toolkit:AvatarView>
+                                <Label Text="{Binding AddressName}"  Grid.Column="1" VerticalOptions="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
         </Grid>

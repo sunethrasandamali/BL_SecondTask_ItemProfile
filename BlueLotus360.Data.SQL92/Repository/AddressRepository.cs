@@ -110,7 +110,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         AddressResponse address = new AddressResponse()
                         {
                             AddressKey = reader.GetColumn<int>("AdrKy"),
-                            AddressName = reader.GetColumn<string>("AdrIdNm"),
+                            AddressName = reader.GetColumn<string>("AdrNm"),
+                            AddressId = reader.GetColumn<string>("AdrId"),
                             IsDefault = reader.GetColumn<int>("AdrKy") == reader.GetColumn<int>("DefaultKey")
                         };
                         addresses.Add(address);

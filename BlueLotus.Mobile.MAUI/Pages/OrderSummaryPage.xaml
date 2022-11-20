@@ -5,18 +5,34 @@
              Title="Order Summary"
              xmlns:model="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
              x:DataType="model:MainOrderModel"
+             xmlns:resp="clr-namespace:BlueLotus360.Core.Domain.Entity.Base;assembly=BlueLotus360.Core.Domain"
+               xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              >
-    <Grid RowDefinitions="50,*" Padding="2">
-        <Grid Grid.Row="0" ColumnDefinitions="*,*,*" >
-            <HorizontalStackLayout  Padding="5" VerticalOptions="Center">
-                <Label Text="Customer: " Grid.Row="0"></Label>
-                <Label Text="Customer" Grid.Column="1"></Label>          
-                <Label Text="   Ref: " ></Label>
-                <Label Text="Customer" ></Label>
-            </HorizontalStackLayout>
+    <Grid RowDefinitions="50,*" >
+        <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70" >
+            <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" Margin="20,0,0,0" />
+            <Button  Style="{StaticResource TabButton}" Text="X" Grid.Column="1"    />
+        </Grid>
+        <Grid Grid.Row="1" >
+            <Entry />
         </Grid>
         <Grid Grid.Row="1">
+            <ScrollView>
+                <CollectionView ItemsSource="{Binding CustomerList}" SelectionChangedCommand="{Binding CustomerSelctionCommand}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="resp:AddressResponse">
+                            <Grid Padding="5" ColumnDefinitions="60,*" RowDefinitions="*,2">
+                                <toolkit:AvatarView Text="{Binding AddressId}" 
+                                                    Background="{StaticResource Tertiary}" 
+                                                    TextColor="{StaticResource White}"></toolkit:AvatarView>
+                                <Label Text="{Binding AddressName}"  Grid.Column="1" VerticalOptions="Center"/>
 
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
         </Grid>
     </Grid>
+
 </ContentPage>
