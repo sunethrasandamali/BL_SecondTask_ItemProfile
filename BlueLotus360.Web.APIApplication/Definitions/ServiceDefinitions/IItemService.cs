@@ -16,5 +16,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         ItemRateResponse GetItemRateEx(RateRetrivalModel rateRetrivalModel, Company company, User user,CodeBaseResponse type);
         StockAsAtResponse GetStockAsAtByLocation(Company company, User user, StockAsAtRequest request);
         IList<ItemSerialNumber> GetSerialNumbers(Company company, User user, ComboRequestDTO comboRequest);
+        StockAsAtResponse GetAvailableStock(Company company, User user, StockAsAtRequest request);
     }
 }

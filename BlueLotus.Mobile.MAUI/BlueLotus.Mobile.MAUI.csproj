@@ -66,6 +66,8 @@
 	  <None Remove="Resources\Images\products\no_image.png" />
 	  <None Remove="Resources\Images\products\shoes\AriZona.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypso.jpg" />
+	  <None Remove="Resources\Images\products\shoes\calypsooblemonade.jpg" />
+	  <None Remove="Resources\Images\products\shoes\calypsopplemonade.jpg" />
 	  <None Remove="Resources\Images\products\shoes\gallacto.jpg" />
 	  <None Remove="Resources\Images\products\shoes\jeans.jpg" />
 	  <None Remove="Resources\Images\products\shoes\lorenz.jpg" />
@@ -82,6 +84,8 @@
 	  <MauiImage Include="Resources\Images\products\shoes\calypso.jpg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiImage>
+	  <MauiImage Include="Resources\Images\products\shoes\calypsooblemonade.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\calypsopplemonade.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\gallacto.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\lorenz.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\maretti.jpg" />
@@ -133,6 +137,9 @@
 	  <MauiXaml Update="BLControls\Product\CategoryView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="BLControls\Product\ProductAddRemove.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="BLControls\Product\ProductView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -151,6 +158,12 @@
 	  <MauiXaml Update="Pages\PopUps\AddressSelectPopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\ProductListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SingleProductPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Resources\Styles\BlackTheme.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -158,6 +171,7 @@
 
 	<ItemGroup>
 	  <Folder Include="BLControls\Picker\" />
+	  <Folder Include="Pages\NewFolder\" />
 	</ItemGroup>
 
 	<ItemGroup>

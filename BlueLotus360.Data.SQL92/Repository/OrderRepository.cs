@@ -886,6 +886,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ItemTypeKey= reader.GetColumn<int>("itmtypKy");
                         oorderV3.ItemTypeName = reader.GetColumn<string>("ItmTypNm");
                         oorderV3.ItemTypeOurCode = reader.GetColumn<string>("ItmTypOurCd");
+                        oorderV3.ReserveAddressKey= reader.GetColumn<int>("ResrAdrKy");
+                        oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
+
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);

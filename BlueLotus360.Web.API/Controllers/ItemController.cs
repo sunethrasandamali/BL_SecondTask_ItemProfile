@@ -1,11 +1,13 @@
 ﻿using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using System.Transactions;
 
 namespace BlueLotus360.Web.API.Controllers
 {
@@ -74,7 +76,16 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok();
         }
 
+        [HttpPost("getAvailableStock")]
 
+        public IActionResult GetAvailableStock(StockAsAtRequest request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            
+            StockAsAtResponse response = _itemService.GetAvailableStock(company, user, request);
+            return Ok(response);
+        }
 
     }
 }

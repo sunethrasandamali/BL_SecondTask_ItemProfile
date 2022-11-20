@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="BlueLotus.Mobile.MAUI.Pages.LoginPage" Title="LoginPage" 
              x:DataType="viewmodel:UserLoginModel">
-    <Grid IgnoreSafeArea="True">
+    <Grid IgnoreSafeArea="False" WidthRequest="800">
         <ScrollView HorizontalScrollBarVisibility="Always">
             <VerticalStackLayout Spacing="0" Padding="0,0" VerticalOptions="Center">
                 <Image Source="bl360.png"

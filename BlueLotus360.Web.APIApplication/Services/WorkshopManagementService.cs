@@ -28,6 +28,12 @@ namespace BlueLotus360.Web.APIApplication.Services
         public IList<Vehicle> GetVehicleDetails(VehicleSearch request,Company company,User user)
         {
             var response =_unitOfWork.WorkShopManagementRepository.SelectVehicle(request, company, user);
+            foreach (var itm in response.Value)
+            {
+                var acc = _unitOfWork.AccountRepository.GetAccountByAddress(itm.RegisteredCustomer, company, user);
+                itm.RegisteredAccount = acc.Value;
+            }
+            
             return response.Value;
         }
 
@@ -134,6 +140,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
                     lineItem.Remarks = item.Remark;
                     lineItem.Description = item.Description;
+                    lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
 
                     //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
                     _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
@@ -379,6 +386,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             foreach (GenericOrderItem item in orderDetails.OrderItems)
             {
                 OrderLineCreateDTO lineItem = new OrderLineCreateDTO();
+
                 if (item.FromOrderDetailKey > 1)
                 {
 
@@ -423,6 +431,8 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
                     lineItem.ProjectKey= (int)orderDetails.OrderProject.ProjectKey;
                     lineItem.Description = item.Description;
+                    lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
+
 
                     _unitOfWork.OrderRepository.UpdateGenericOrderLineItem(lineItem, orderDetails.FormObjectKey, company, user);
                 }
@@ -465,6 +475,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
                     lineItem.BussinessUnitKey = (int)item.BussinessUnit.CodeKey;
                     lineItem.Description = item.Description;
+                    lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
 
                     _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
                 }
@@ -773,6 +784,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Remark = item.Remarks;
                     lineItem.Description = item.Description;
                     lineItem.TransactionUnit = new UnitResponse() { UnitKey=item.UnitKey,UnitName=item.TransactionUnitName};
+                    lineItem.ResourceAddress = new AddressResponse() { AddressKey=item.ReserveAddressKey,AddressName=item.ReserveAddressID};
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;
@@ -819,6 +831,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
         public BaseServerResponse<BLTransaction> SaveWorkOrderTransaction(BLTransaction transaction, Company company, User user, UIObject uIObject)
         {
+            BaseServerResponse<BLTransaction> response = new BaseServerResponse<BLTransaction>();
             if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
             {
                 var address = _unitOfWork.AccountRepository.GetAddressByAccount(company, user, transaction.Account.AccountKey);
@@ -828,7 +841,7 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             if (!transaction.IsPersisted)
             {
-                _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
+                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
 
             }
             else 
@@ -876,15 +889,20 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
             _unitOfWork.TransactionRepository.PostAfterTranSaveActions(company, user, transaction.TransactionKey, transaction.ElementKey);
 
-            return new BaseServerResponse<BLTransaction>();
+            return response;
         }
         public BaseServerResponse<BLTransaction> OpenWorkOrderTransaction(Company company, User user, TransactionOpenRequest request)
         {
-            return _unitOfWork.TransactionRepository.GenericOpenTransaction(company, user, request);
+            return _unitOfWork.TransactionRepository.GenericOpenTransactionV2(company, user, request);
         }
         public BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request)
         {
             return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);
         }
+        public UserRequestValidation WorkorderValidation(WorkOrder dto, Company company, User user)
+        {
+            return _unitOfWork.WorkShopManagementRepository.WorkOrderValidation(dto,company,user);
+        }
+        
     }
 }

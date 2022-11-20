@@ -26,6 +26,9 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.HomePage
         [ObservableProperty]
         private string shellTitle;
 
+        [ObservableProperty]
+        private double loadProgress;
+
         [RelayCommand]
         private async Task OnLogOutClick()
         {

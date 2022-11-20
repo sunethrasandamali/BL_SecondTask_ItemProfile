@@ -7,8 +7,12 @@
              xmlns:pages="clr-namespace:BlueLotus.Mobile.MAUI.Pages"
              xmlns:productCotrols="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
             x:Subclass="BaseUIPage"
-             
+              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           xmlns:model="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+             x:DataType="model:MainOrderModel"
              >
+
+
 
     <Grid ColumnDefinitions="*,*,*" RowDefinitions="50,*"  >
         <Button ClassId="IsPr" Text="Products" Style="{StaticResource TabButton}" Grid.Column="0"/>
@@ -32,49 +36,35 @@
 
 
                         </FlexLayout>
-                        <Grid Background="{StaticResource Alternate}" x:Name="__productPage" IsVisible="false" >
-                            <Grid RowDefinitions="70,*" Margin="0" >
-                                <Grid ColumnDefinitions="70,2*,*"  Padding="10,5" Grid.Column="0" >
-                                    <Label Text="__UNMAPPED__" x:Name="SelectedCategoryName" VerticalOptions="Center"
-                                           FontAttributes="Bold" FontSize="18"
-                                           Margin="10"
-                                           Grid.Column="1"
-                                          
-                                           ></Label>
-                                    <Button Text="&#xf053;"   FontSize="20" FontFamily="FontAwesome" 
-                                            Style="{StaticResource TabButton}"
-                                            Grid.Column="0" Clicked="OnBackButtonClicked" x:Name="__productBackButton"></Button>
 
-                                    <Frame Grid.Column="2" >
-                                        <Entry ></Entry>
-                                    </Frame>
-                                </Grid>
-                            </Grid>
-                            <Grid Grid.Column="1">
-                                <FlexLayout Wrap="Wrap" Direction="Row" 
-                                    JustifyContent="Center" 
-                                    Background="{StaticResource Alternate}" 
-                                     x:Name="__productListView"  IsVisible="true"
-                                  RotationX="0"
-                                    >
-
-
-
-                                </FlexLayout>
-                            </Grid>
-
-
-                        </Grid>
                     </Grid>
 
                 </ScrollView>
                 <Grid Grid.Row="1" Background="{StaticResource Alternate}" >
-                    <Grid x:Name="_selectCustomer">
+                    <Grid x:Name="_selectCustomer" IsVisible="false">
                         <Button ClassId="IsPr" Text="Select Customer" Style="{StaticResource TabButton}" BackgroundColor="{StaticResource Primary}"
                                 TextColor="{StaticResource White}"
                                 Clicked="OnCustomerSelectClick"
                                 />
 
+                    </Grid>
+                    <Grid x:Name="_cartSummary" IsVisible="true" Background="{StaticResource Tertiary}" ColumnDefinitions="60,*,*,60,60,60" Padding="5">
+                        <toolkit:AvatarView Text="CC" HorizontalOptions="Start"
+                                                TextColor="{StaticResource Tertiary}"
+                                                BorderColor="{StaticResource Black}"
+                                                Padding="0"
+                                                BackgroundColor="{StaticResource White}"  
+                                                Margin="0,0,10,0"/>
+                        <Label Text="Demo Customer" FontSize="16" TextColor="White" Grid.Column="1" VerticalOptions="Center"/>
+                        <Button  Grid.Column="3" Text="&#xf07a;" FontFamily="FontAwesome" FontSize="23"></Button>
+                        <Label Text="{Binding TotalQuantity,StringFormat='{0:N0}'}" 
+                               Grid.Column="3" 
+                               HorizontalOptions="End" 
+                               VerticalOptions="Start"
+                               TextColor="White"  
+                               HeightRequest="15" 
+                               WidthRequest="25" FontSize="12"></Label>
+                        <Button FontFamily="FontAwesome" Style="{StaticResource TabButton}" Text="&#xf00d;" Grid.Column="5" />
                     </Grid>
                 </Grid>
             </Grid>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BlueLotus.Mobile.MAUI.Pages.ProductListPage"
+             Title="ProductListPage">
+    <Grid Background="{StaticResource Alternate}" x:Name="__productPage"  >
+        <Grid RowDefinitions="70,*" Margin="0" >
+            <Grid ColumnDefinitions="2*,*"  Padding="10,5" Grid.Row="0" >
+                <Label Text="__UNMAPPED__" x:Name="SelectedCategoryName" VerticalOptions="Center"
+                                           FontAttributes="Bold" FontSize="18"
+                                           Margin="10"
+                                           Grid.Column="0"
+                                          
+                                           ></Label>
+          
+
+               
+            </Grid>
+            <Grid Grid.Row="1">
+                <FlexLayout Wrap="Wrap" Direction="Row" 
+                                    JustifyContent="Center" 
+                                    Background="{StaticResource Alternate}" 
+                                    x:Name="__productListView"  
+                                    IsVisible="true"
+                                     RotationX="0"
+                                    >
+
+                    <ActivityIndicator IsRunning="true" />
+
+                </FlexLayout>
+            </Grid>
+        </Grid>
+
+
+
+    </Grid>
+
+</ContentPage>

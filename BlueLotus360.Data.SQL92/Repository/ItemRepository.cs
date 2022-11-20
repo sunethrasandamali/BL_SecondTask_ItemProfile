@@ -379,5 +379,75 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
         }
+
+        public BaseServerResponse<StockAsAtResponse> GetAvailableStock(Company company, User user, StockAsAtRequest request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                BaseServerResponse<StockAsAtResponse> response=new BaseServerResponse<StockAsAtResponse>();
+                StockAsAtResponse stockResponse = new StockAsAtResponse();
+                string SPName = "ItmAvlQty_SelectWeb";
+
+                IDataReader reader = null;
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", request.ElementKey);
+                    dbCommand.CreateAndAddParameter("@ItmKy", request.ItemKey);
+                    dbCommand.CreateAndAddParameter("@TrnTypKy", request.TrnTypKy);
+                    dbCommand.CreateAndAddParameter("@IsuPrjKy", request.IsuPrjKy);
+                    dbCommand.CreateAndAddParameter("@IsuLocKy", request.IsuLocKy);
+                    dbCommand.CreateAndAddParameter("@TrnUnitKy", request.TrnUnitKy);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        stockResponse.ItemKey = reader.GetColumn<long>("ItmKy");
+                        stockResponse.StockAsAt = reader.GetColumn<decimal>("AvlQty");
+
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value= stockResponse;
+                }
+
+
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                        reader.Dispose();
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+
+
+            }
+        }
     }
 }

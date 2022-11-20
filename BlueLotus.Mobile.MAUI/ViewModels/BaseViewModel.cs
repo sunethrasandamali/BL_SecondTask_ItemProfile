@@ -12,6 +12,12 @@ namespace BlueLotus.Mobile.MAUI.ViewModels
         [ObservableProperty]
         private string applicationName;
 
+       
+
+        public BaseViewModel()
+        {
+            int c = 0;
+        }
 
 
 

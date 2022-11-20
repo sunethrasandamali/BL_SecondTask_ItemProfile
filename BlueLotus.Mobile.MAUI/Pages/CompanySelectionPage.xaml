@@ -7,7 +7,7 @@
              Title="CompanySelectionPage"
              xmlns:blControls="clr-namespace:BlueLotus360.Mobile.CustomControl.Controls;assembly=BlueLotus360.Mobile.CustomControl"
              >
-    <Grid IgnoreSafeArea="True">
+    <Grid IgnoreSafeArea="True" WidthRequest="800">
         <ScrollView HorizontalScrollBarVisibility="Always">
             <VerticalStackLayout Spacing="0" Padding="0,0" VerticalOptions="Center">
                 <Label Text="{Binding ApplicationName}" HorizontalTextAlignment="Center" FontSize="32" />
@@ -22,9 +22,15 @@
           WidthRequest="500"
           HorizontalOptions="Center" />
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
-                        <Frame>
-                            <Picker ItemsSource="{Binding Companies}"  ItemDisplayBinding="{Binding CompanyName}"
-                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"  ></Picker>
+                        <Frame >
+                            <Picker  HorizontalOptions="Center"
+                                    ItemsSource="{Binding Companies}"
+                                    ItemDisplayBinding="{Binding CompanyName}"
+                                    SelectedItem="{Binding SelectedCompany, Mode=TwoWay}"
+                                WidthRequest="700"
+                                >
+                                
+                            </Picker>
 
                         </Frame>
 

@@ -1,5 +1,7 @@
 ﻿using BlueLotus.Mobile.MAUI.Context;
 using BlueLotus.Mobile.MAUI.Pages;
+using BlueLotus.Mobile.MAUI.ViewModels;
+using BlueLotus.Mobile.MAUI.ViewModels.Category;
 using BlueLotus.Mobile.MAUI.ViewModels.HomePage;
 using BlueLotus.Mobile.MAUI.ViewModels.UserAuthentication;
 using BlueLotus.UI.Application;
@@ -10,6 +12,7 @@ using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using System;
@@ -37,10 +40,14 @@ namespace BlueLotus.Mobile.MAUI.Extensions
 
         public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<MainPage>();
-            mauiAppBuilder.Services.AddSingleton<AppShell>();
-            mauiAppBuilder.Services.AddSingleton<LoginPage>();
-            mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+            mauiAppBuilder.Services.AddScoped<MainPage>();
+            mauiAppBuilder.Services.AddScoped<AppShell>();
+            mauiAppBuilder.Services.AddScoped<LoginPage>();
+            mauiAppBuilder.Services.AddTransient<CompanySelectionPage>();
+           // mauiAppBuilder.Services.AddSingleton<ProductListPage>();
+            //mauiAppBuilder.Services.AddScoped<ProductListPage>();
+           
+        
        
             return mauiAppBuilder;
         }
@@ -51,6 +58,8 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddTransient<UserLoginModel>();
             mauiAppBuilder.Services.AddTransient<CompanySelectionModel>();
             mauiAppBuilder.Services.AddSingleton<AppShellModel>();
+            mauiAppBuilder.Services.AddSingleton<MainOrderModel>();
+            mauiAppBuilder.Services.AddSingleton<BaseViewModel>();
             return mauiAppBuilder;
         }
         public static MauiAppBuilder RegisterRouting(this MauiAppBuilder mauiAppBuilder)
@@ -58,6 +67,8 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
             Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
+            Routing.RegisterRoute(nameof(SingleProductPage), typeof(SingleProductPage));
+            Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
             return mauiAppBuilder;
         }
 

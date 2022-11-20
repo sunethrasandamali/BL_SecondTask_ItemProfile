@@ -30,5 +30,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         //carmart insurence
         BaseServerResponse<OrderSaveResponse> SaveIRNOrder(Company company, User user, GenericOrder order);
         BaseServerResponse<OrderSaveResponse> UpdateIRNOrder(Company company, User user, GenericOrder order);
+        UserRequestValidation WorkorderValidation(WorkOrder dto, Company company, User user);
     }
 }

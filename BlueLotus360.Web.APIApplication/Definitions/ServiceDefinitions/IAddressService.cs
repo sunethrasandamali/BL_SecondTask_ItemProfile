@@ -17,5 +17,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<AddressMaster> CustomerValidation(Company company, User user, AddressMaster address);
         BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster);
         BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster);
+        AddressResponse GetAddressDetailsByUserKy(Company company, User user);
     }
 }

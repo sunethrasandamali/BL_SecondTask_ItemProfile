@@ -186,5 +186,17 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
+        [HttpPost("validationWorkOrderEndPoint")]
+        public IActionResult WorkOrderValidation(WorkOrder req)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            UserRequestValidation response = _workshopManagementService.WorkorderValidation(req,company, user);
+
+            return Ok(response);
+
+        }
+
     }
 }

@@ -13,8 +13,10 @@ namespace BlueLotus.Mobile.MAUI;
 public partial class AppShell : Shell
 {
     IAppObjectService _appObjectService;
+    AppShellModel _shellModel;
     public AppShell(IAppObjectService appObject,AppShellModel shellModel)
     {
+        _shellModel= shellModel;
         BindingContext = shellModel;
         _appObjectService = appObject;
         Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
@@ -37,6 +39,7 @@ public partial class AppShell : Shell
 
     public async void SideMenu()
     {
+        _shellModel.LoadProgress = 0.3;
         BaseServerResponse<UIMenu> men = await _appObjectService.FetchSideMenu();
         UIMenu DefaultMenu = null;
         var mobmenu = men.Value.SubMenus.Where(x => x.MenuName.Equals("__MB_MENU_ENTRY__")).FirstOrDefault();
@@ -83,7 +86,14 @@ public partial class AppShell : Shell
         {
            IDictionary<string, object> dict = new Dictionary<string, object>();
             dict.Add("Menu", DefaultMenu);
-            await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+            _shellModel.LoadProgress = 0.7;
+            await Task.Delay(300);
+            _shellModel.LoadProgress = 0.9;
+            await Task.Delay(100);
+              await Shell.Current.GoToAsync(DefaultMenu.MenuName, dict);
+            //MainOrderPage p = new MainOrderPage();
+            //p.Menu = DefaultMenu;
+            //Navigation.PushModalAsync(p);
         }
        
   

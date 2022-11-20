@@ -2,19 +2,20 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.CategoryView" 
-             WidthRequest="245" HeightRequest="330"
+             WidthRequest="200" HeightRequest="150"
              xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
             
              >
 
     <VerticalStackLayout   VerticalOptions="Start">
+        
 
         <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
-            <Grid  RowDefinitions="278,40"  >
+            <Grid  RowDefinitions="120,40"   >
                 <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
-                    <ImageButton Source="{Binding ImagePathName}"  
-                                 HeightRequest="380"
-                                 Clicked="ImageButton_Clicked" />
+                    <ImageButton  Source="{Binding ImagePathName}"
+                                 HeightRequest="170"
+                                 Command="{Binding CatClickCommand}" />
                 </Grid>
                 <Grid Grid.Row="1"  >
                     <Label  Text="{Binding CategoryName}" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>

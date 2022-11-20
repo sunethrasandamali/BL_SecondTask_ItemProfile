@@ -2,29 +2,47 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BlueLotus.Mobile.MAUI.BLControls.Product.ProductView" 
-             WidthRequest="245" HeightRequest="330"
+            
               xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+             xmlns:blc="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
              >
 
-    <VerticalStackLayout   WidthRequest="243" HeightRequest="330" VerticalOptions="Start">
 
         <VerticalStackLayout   VerticalOptions="Start">
 
-            <Frame CornerRadius="5" BorderColor="#EAEAEA" Margin="5" Padding="5">
-                <Grid  RowDefinitions="278,40"  >
+                <Grid  RowDefinitions="120,60,50" Margin="5"  Padding="5" WidthRequest="250">
                     <Grid BackgroundColor="#CFCFCF" Grid.Row="0" >
                         <ImageButton Source="{Binding ImagePathName}"  
-                                 HeightRequest="380"
+                                 WidthRequest="160"
                                  Clicked="ImageButton_Clicked" />
                     </Grid>
-                    <Grid Grid.Row="1"  >
-                        <Label  Text="{Binding ProductName}" FontSize="17" HorizontalTextAlignment="Center" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                    <Grid Grid.Row="1" RowDefinitions="*,*" Padding="0" >
+                        <Label  Text="{Binding ProductName}"
+                                FontSize="14" 
+                                HorizontalTextAlignment="Start" 
+                                FontAttributes="Bold" 
+                                VerticalOptions="Center"
+                                >
+                            
+                        </Label>
+                        <Label  Text="{Binding  SalesPrice,StringFormat='£ {0:N2}'}"
+                                Grid.Row="1"
+                                FontSize="14" 
+                                HorizontalTextAlignment="End" 
+                                FontAttributes="Bold" 
+                                VerticalOptions="Center"
+                                >
+
+                        </Label>
+                    </Grid>
+                    <Grid Grid.Row="2" x:Name="__addremovePanel">
+                      
                     </Grid>
                 </Grid>
-            </Frame>
+           
 
 
         </VerticalStackLayout>
 
-    </VerticalStackLayout>
+ 
 </ContentView>

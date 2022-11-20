@@ -11,4 +11,9 @@ namespace BlueLotus.Mobile.MAUI.Events
     {   
         public CategoryViewModel Category { get; set; }
     }
+
+    public class ProductClickEventArgs : EventArgs
+    {
+        public ProductViewModel Product { get; set; }
+    }
 }
