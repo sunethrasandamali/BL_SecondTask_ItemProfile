@@ -1,12 +1,17 @@
+using BlueLotus.Mobile.MAUI.ViewModels.Category;
 using CommunityToolkit.Maui.Views;
 
 namespace BlueLotus.Mobile.MAUI.Pages.PopUps;
 
 public partial class AddressSelectPopUp : Popup
 {
-	public AddressSelectPopUp()
+    protected readonly MainOrderModel _mainOrderModel;
+
+    public AddressSelectPopUp()
 	{
-		InitializeComponent();
+        _mainOrderModel = MauiProgram.Services.GetService<MainOrderModel>(); 
+        BindingContext = _mainOrderModel;
+        InitializeComponent();
 	}
 
     void OnYesButtonClicked(object? sender, EventArgs e) => Close(true);

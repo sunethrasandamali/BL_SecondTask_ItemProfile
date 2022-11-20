@@ -34,6 +34,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<IAppUserService,AppUserService>();
             mauiAppBuilder.Services.AddSingleton<IAppObjectService, AppObjectService>();
             mauiAppBuilder.Services.AddSingleton<ICodeBaseService, CodeBaseService>();
+            mauiAppBuilder.Services.AddSingleton<IAppAddressService, AppAddressService>();
 
             return mauiAppBuilder;
         }

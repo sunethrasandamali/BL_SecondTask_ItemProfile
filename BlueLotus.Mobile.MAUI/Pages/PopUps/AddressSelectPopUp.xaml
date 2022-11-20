@@ -1,29 +1,30 @@
 <toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                x:Class="BlueLotus.Mobile.MAUI.Pages.PopUps.AddressSelectPopUp"
+               x:Class="BlueLotus.Mobile.MAUI.Pages.PopUps.AddressSelectPopUp"
                xmlns:productCotrols="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
-                            xmlns:blUiControls="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.ListView"
-
+               xmlns:blUiControls="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.ListView"
+               xmlns:model="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
+               x:DataType="model:MainOrderModel"
                >
 
-    
-        <Grid RowDefinitions="70,50,*" MinimumWidthRequest="800">
-            <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70">
-                <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" />
-                <Button Style="{StaticResource TabButton}" Text="X" Grid.Column="1"  Clicked="OnNoButtonClicked"  />
-            </Grid>
-            <Grid Grid.Row="1" >
-                <Entry />
-            </Grid>
-            <Grid Grid.Row="2">
+
+    <Grid RowDefinitions="70,50,*" MinimumWidthRequest="800">
+        <Grid  BackgroundColor="{StaticResource Gray50}" Grid.Row="0" ColumnDefinitions="*,70">
+            <Label Text="Customers" VerticalOptions="Center" Grid.Column="0" />
+            <Button Style="{StaticResource TabButton}" Text="X" Grid.Column="1"  Clicked="OnNoButtonClicked"  />
+        </Grid>
+        <Grid Grid.Row="1" >
+            <Entry />
+        </Grid>
+        <Grid Grid.Row="2">
             <ScrollView>
                 <CollectionView>
-                    
+
                 </CollectionView>
             </ScrollView>
-            </Grid>
         </Grid>
+    </Grid>
 
 
 

@@ -1,5 +1,7 @@
 ﻿using BlueLotus.Mobile.MAUI.Pages;
 using BlueLotus.Mobile.MAUI.ViewModels.Order;
+using BlueLotus.UI.Application.Services.Defintions;
+using BlueLotus360.Core.Domain.Entity.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -24,9 +26,18 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private decimal totalQuantity;
 
+        public IList<AddressResponse> CustomerList { get; set; }
+
         public MainOrderModel()
         {
             currentOrder = new OrderViewModel();
+            var service = MauiProgram.Services.GetService<IAppAddressService>();
+            LoadDataFormServer(service);
+        }
+
+        private async void LoadDataFormServer(IAppAddressService service)
+        {
+            CustomerList = (await service.GetAddressMAUI(new BlueLotus360.Core.Domain.DTOs.RequestDTO.ComboRequestDTO())).Value;
         }
 
         public void TryAddProduct(ProductViewModel view,decimal TransactionRate,decimal TransactionQuantity = 1)
