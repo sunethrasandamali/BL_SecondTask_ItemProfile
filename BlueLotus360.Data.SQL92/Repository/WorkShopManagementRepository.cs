@@ -141,6 +141,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("ObjKy", dto.ObjectKey);
                     dbCommand.CreateAndAddParameter("AdrKy", BaseComboResponse.GetKeyValue(dto.VehicleAddress));
+                    dbCommand.CreateAndAddParameter("isInsurance", Convert.ToInt32(dto.IsInsurence));
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();

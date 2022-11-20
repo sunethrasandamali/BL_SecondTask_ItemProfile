@@ -80,6 +80,25 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
+        [HttpPost("createIRNWorkOrder")]
+        public IActionResult CreateIRNWorkOrder(GenericOrder insurenceOrder) 
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(insurenceOrder.FormObjectKey);
+
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            insurenceOrder.OrderType = ordTyp.Value;
+
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, insurenceOrder.OrderStatus.OurCode, "PrcsFlow");
+            insurenceOrder.OrderStatus = ordsts.Value;
+
+            var ord = _workshopManagementService.SaveIRNOrder(company, user, insurenceOrder);
+            OrderSaveResponse response = ord.Value; 
+
+            return Ok(response);
+        }
+
         [HttpPost("updateWorkOrder")]
         public IActionResult UpdateWorkOrder(GenericOrder orderDetails)
         {
@@ -99,6 +118,25 @@ namespace BlueLotus360.Web.API.Controllers
             OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails);
 
             return Ok(orderServerResponse);
+        }
+
+        [HttpPost("updateIRNWorkOrder")]
+        public IActionResult UpdateIRNWorkOrder(GenericOrder insurenceOrder)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(insurenceOrder.FormObjectKey);
+
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "IRN");
+            insurenceOrder.OrderType = ordTyp.Value;
+
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, insurenceOrder.OrderStatus.OurCode, "PrcsFlow");
+            insurenceOrder.OrderStatus = ordsts.Value;
+
+            var ord = _workshopManagementService.UpdateIRNOrder(company, user, insurenceOrder);
+            OrderSaveResponse response = ord.Value;
+
+            return Ok(response);
         }
 
         [HttpPost("openWorkOrder")]
