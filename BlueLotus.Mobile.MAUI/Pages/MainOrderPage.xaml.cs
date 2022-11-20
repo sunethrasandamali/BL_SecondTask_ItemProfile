@@ -115,8 +115,7 @@ public partial class MainOrderPage : ContentPage
         if (Menu == null && BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
         {
             Menu = (UIMenu)BindingContext;
-            BindingContext = null;
-            BindingContext = __bindContext;
+           
         }
 
 
@@ -137,7 +136,8 @@ public partial class MainOrderPage : ContentPage
                 }
             }
         }
-
+        BindingContext = null;
+        BindingContext = __bindContext;
 
         base.OnNavigatedTo(args);
         await ReadCategories();

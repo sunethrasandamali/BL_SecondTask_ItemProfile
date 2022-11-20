@@ -24,6 +24,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private string description;
 
+
+
         public CategoryViewModel Category { get; set; }
     }
 }

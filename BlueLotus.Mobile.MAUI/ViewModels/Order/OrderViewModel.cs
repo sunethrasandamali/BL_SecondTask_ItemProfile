@@ -26,6 +26,10 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
         [ObservableProperty]
         private CodeBaseResponse location;
 
+
+        [ObservableProperty]
+        private decimal totalProducts;
+
        public IList<OrderItemViewModel> Items { get; set; }
 
 
@@ -34,6 +38,11 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
             Items= new List<OrderItemViewModel>();
         }
 
+
+        public void UpdateVars()
+        {
+            TotalProducts = Items.Sum(x => x.TransactionQuantity);
+        }
 
     }
 

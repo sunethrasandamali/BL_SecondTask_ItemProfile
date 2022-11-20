@@ -16,6 +16,10 @@ public partial class ProductView : ContentView
         _model = model;
         this.BindingContext = _model;
         InitializeComponent();
+        __addremovePanel.Clear();
+        __addremovePanel.Add(new ProductAddRemove() { 
+          Product=model        
+        });
 	}
 
 	private async void ImageButton_Clicked(object sender, EventArgs e)

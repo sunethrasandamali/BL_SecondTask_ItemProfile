@@ -19,6 +19,14 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private OrderViewModel currentOrder;
 
+        [ObservableProperty]
+        private decimal totalQuantity;
+
+        public MainOrderModel()
+        {
+            currentOrder = new OrderViewModel();
+        }
+
         public void TryAddProduct(ProductViewModel view,decimal TransactionRate,decimal TransactionQuantity = 1)
         {
             if(currentOrder== null)
@@ -42,7 +50,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
                 currentOrder.Items.Add(newLineItem);
 
             }
-           
+            currentOrder.UpdateVars();
+            TotalQuantity= currentOrder.TotalProducts;
         }
     }
 }

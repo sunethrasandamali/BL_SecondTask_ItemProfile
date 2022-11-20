@@ -35,8 +35,8 @@
 
                         </Label>
                     </Grid>
-                    <Grid Grid.Row="2">
-                        <blc:ProductAddRemove/>
+                    <Grid Grid.Row="2" x:Name="__addremovePanel">
+                      
                     </Grid>
                 </Grid>
            
