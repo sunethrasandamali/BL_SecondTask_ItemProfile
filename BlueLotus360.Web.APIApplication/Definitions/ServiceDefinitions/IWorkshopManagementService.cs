@@ -26,5 +26,9 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<BLTransaction> SaveWorkOrderTransaction(BLTransaction transaction, Company company, User user, UIObject uIObject);
         BaseServerResponse<BLTransaction> OpenWorkOrderTransaction(Company company, User user, TransactionOpenRequest request);
         BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request);
+
+        //carmart insurence
+        BaseServerResponse<OrderSaveResponse> SaveIRNOrder(Company company, User user, GenericOrder order);
+        BaseServerResponse<OrderSaveResponse> UpdateIRNOrder(Company company, User user, GenericOrder order);
     }
 }

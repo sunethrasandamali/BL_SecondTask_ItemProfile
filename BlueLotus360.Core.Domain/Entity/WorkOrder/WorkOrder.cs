@@ -87,6 +87,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public decimal PreviousMilage { get; set; }
         public string Fuel { get; set; } = "";
         public int IsActive { get; set; }
+        public bool IsInsurence { get; set; } = false;
         public Vehicle()
         {
             VehicleWarrannty = new Warranty();
