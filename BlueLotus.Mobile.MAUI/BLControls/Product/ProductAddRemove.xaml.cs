@@ -16,9 +16,9 @@ public partial class ProductAddRemove : ContentView
         }
         set
         {
-            product= value;
-          
+            product= value;          
             _model.LinkedProductViewModel = product;
+           _model.UpdateProdQty();
            
         }
     }

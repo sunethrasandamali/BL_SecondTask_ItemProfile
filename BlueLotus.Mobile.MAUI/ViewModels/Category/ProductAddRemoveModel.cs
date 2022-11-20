@@ -17,6 +17,12 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         [ObservableProperty]
         private decimal transactionQuantity;
 
+      
+        public ProductAddRemoveModel()
+        {
+           
+        }
+
 
         [RelayCommand]
         private void OnAddButton()
@@ -24,8 +30,28 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
             var mainorderModel =MauiProgram.Services.GetService<MainOrderModel>();
             if(mainorderModel != null)
             {
-                mainorderModel.TryAddProduct(LinkedProductViewModel, 1);
+                mainorderModel.TryAddProduct(LinkedProductViewModel,0.0M,1);
             }
+            UpdateProdQty();
         }
+
+
+        [RelayCommand]
+        private void OnDecreaseButton()
+        {
+            var mainorderModel = MauiProgram.Services.GetService<MainOrderModel>();
+            if (mainorderModel != null)
+            {
+                mainorderModel.TryDecreasProduct(LinkedProductViewModel, 0.0M, 1);
+            }
+            UpdateProdQty();
+        }
+
+        public void UpdateProdQty()
+        {
+            var mainorderModel = MauiProgram.Services.GetService<MainOrderModel>();
+            TransactionQuantity = mainorderModel.RetriveCurrentProductQty(LinkedProductViewModel);
+        }
+
     }
 }

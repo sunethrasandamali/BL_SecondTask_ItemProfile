@@ -44,7 +44,14 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
             TotalProducts = Items.Sum(x => x.TransactionQuantity);
         }
 
+        public void UpdateCustomer(AddressResponse addressResponse)
+        {
+            selectedCustomer = addressResponse;
+
+        }
+
     }
+      
 
 
     public  partial class OrderItemViewModel: ObservableObject
