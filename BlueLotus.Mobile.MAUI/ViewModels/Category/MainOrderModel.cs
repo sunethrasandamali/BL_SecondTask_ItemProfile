@@ -18,7 +18,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
        
 
         [ObservableProperty]    
-        private string customerName;
+        private AddressResponse selectedCustomer;
 
         [ObservableProperty]
         private OrderViewModel currentOrder;
@@ -78,6 +78,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
                 if (lineItem.TransactionQuantity == 1)
                 {
                    CurrentOrder.Items.Remove(lineItem);
+                  
                 }
                 else
                 {
@@ -114,9 +115,18 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
 
         [RelayCommand]
 
-        public async void OnCustomerSelction()
+        public async Task OnCustomerSelction(AddressResponse address)
         {
-
+            SelectedCustomer = address;
+            IsCustomerSelected = SelectedCustomer!=null;
+            await Task.CompletedTask;
         }
+
+        [RelayCommand]
+        public async Task RemoveCustomerSelection()
+        {
+            await OnCustomerSelction(null);
+        }
+
     }
 }

@@ -48,7 +48,7 @@
                                 />
 
                     </Grid>
-                    <Grid x:Name="_cartSummary" IsVisible="true" Background="{StaticResource Tertiary}" ColumnDefinitions="60,*,*,60,60,60" Padding="5">
+                    <Grid x:Name="_cartSummary" IsVisible="{Binding IsCustomerSelected}" Background="{StaticResource Tertiary}" ColumnDefinitions="60,*,*,60,60,60" Padding="5">
                         <toolkit:AvatarView Text="CC" HorizontalOptions="Start"
                                                 TextColor="{StaticResource Tertiary}"
                                                 BorderColor="{StaticResource Black}"
@@ -64,7 +64,7 @@
                                TextColor="White"  
                                HeightRequest="15" 
                                WidthRequest="25" FontSize="12"></Label>
-                        <Button FontFamily="FontAwesome" Style="{StaticResource TabButton}" Text="&#xf00d;" Grid.Column="5" />
+                        <Button FontFamily="FontAwesome" Style="{StaticResource TabButton}" Command="{Binding RemoveCustomerSelectionCommand}" Text="&#xf00d;" Grid.Column="5" />
                     </Grid>
                 </Grid>
             </Grid>
