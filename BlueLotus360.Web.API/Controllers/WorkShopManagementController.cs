@@ -198,5 +198,17 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
+        [HttpPost("getIRNByCategory")]
+        public IActionResult GetIRNByCategory(WorkOrder req)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            IList<WorkOrder> response = _workshopManagementService.GetIRNBasedOnStatus(req, company, user);
+
+            return Ok(response);
+
+        }
+
     }
 }

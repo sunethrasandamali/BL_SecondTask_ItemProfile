@@ -105,7 +105,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
                     lineItem.TransactionRate = item.TransactionRate;
                     lineItem.AddressKey = OH.AddressKey;
-
+                    lineItem.OrderDate = OH.OrderDate;
                     lineItem.ObjectKey = orderDetails.FormObjectKey;
                     lineItem.OrderLineLocation = new CodeBaseResponse();
                     lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
@@ -391,6 +391,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                 {
 
                     lineItem.OrderKey = OH.OrderKey;
+                    lineItem.OrderDate = OH.OrderDate;
                     lineItem.FromOrderDetailKey = item.FromOrderDetailKey;
                     lineItem.OrderType = new CodeBaseResponse();
                     lineItem.OrderType.CodeKey = item.OrderType.CodeKey;
@@ -785,6 +786,8 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Description = item.Description;
                     lineItem.TransactionUnit = new UnitResponse() { UnitKey=item.UnitKey,UnitName=item.TransactionUnitName};
                     lineItem.ResourceAddress = new AddressResponse() { AddressKey=item.ReserveAddressKey,AddressName=item.ReserveAddressID};
+                    lineItem.InsertDate = item.InsertDate;
+                    lineItem.UpdateDate = item.UpdateDate;
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;
@@ -903,6 +906,11 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.WorkShopManagementRepository.WorkOrderValidation(dto,company,user);
         }
-        
+
+        public IList<WorkOrder> GetIRNBasedOnStatus(WorkOrder dto, Company company, User user)
+        {
+            return new List<WorkOrder>();   
+        }
+
     }
 }
