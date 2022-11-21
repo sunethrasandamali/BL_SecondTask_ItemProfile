@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
@@ -30,11 +31,15 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         private bool isCustomerSelected;
         public IList<AddressResponse> CustomerList { get; set; }
 
+
+        public ObservableCollection<OrderViewModel> AllOrderList { get;set; }
+
         public MainOrderModel()
         {
             currentOrder = new OrderViewModel();
             var service = MauiProgram.Services.GetService<IAppAddressService>();
             LoadDataFormServer(service);
+            AllOrderList = new ObservableCollection<OrderViewModel>();
         }
 
         private async void LoadDataFormServer(IAppAddressService service)
@@ -55,6 +60,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
             if(lineItem!=null)
             {
                 lineItem.TransactionQuantity += TransactionQuantity;
+                lineItem.CalculateOtherValues();
             }
             else
             {
@@ -62,8 +68,9 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
                 newLineItem.TransactionQuantity = TransactionQuantity;
                 newLineItem.TransactionItem= view;
                 newLineItem.TransactionRate = TransactionRate;
+                newLineItem.DiscountPercentage = view.DefaultDiscount;
                 currentOrder.Items.Add(newLineItem);
-
+                newLineItem.CalculateOtherValues();
             }
             currentOrder.UpdateVars();
             TotalQuantity= currentOrder.TotalProducts;
@@ -126,6 +133,22 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         public async Task RemoveCustomerSelection()
         {
             await OnCustomerSelction(null);
+        }
+
+        [RelayCommand]
+        public void OnFinalizeClick()
+        {
+            CurrentOrder.IsFinalized = true;
+            AllOrderList.Add(currentOrder);
+            CurrentOrder=new OrderViewModel();
+            TotalQuantity = 0;
+        }
+
+        [RelayCommand]
+        private void OnOrderCancel()
+        {
+            CurrentOrder = new OrderViewModel();
+            TotalQuantity = 0;
         }
 
     }

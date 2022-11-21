@@ -40,13 +40,14 @@ namespace BlueLotus.UI.Application.Context
                 ItemKey = 1440645,
                 ItemCategory7 = new CodeBaseResponse(457385),
                 Base64ImageDocument = "calypsooblemonade.jpg",
-                Description= "Some say if you hold a big seashell to your ear, you can hear the ocean waves crashing. " +
+                Description = "Some say if you hold a big seashell to your ear, you can hear the ocean waves crashing. " +
                               "Jojo says, hold an Ocean Blue Lemonade to your mouth instead." +
                               " It’s a whole tidal wave of blue raspberry flavor that you can hear with your taste buds. " +
-                              "And it’s loud!"
+                              "And it’s loud!",
+                DefaultDiscountPercentage = 5
 
 
-            });
+            }) ;
 
             SampleItems.Add(new ItemExtended()
             {
@@ -58,7 +59,8 @@ namespace BlueLotus.UI.Application.Context
                 Base64ImageDocument = "calypsopplemonade.jpg",
                 Description= "There’s not just one single ‘slice of paradise.’ There are, in fact, SEVERAL slices of paradise." +
                 " There are orange slices, pineapple slices, lemon slices, and if grape and cherry could be sliced," +
-                " we’d put them on the list too."
+                " we’d put them on the list too.",
+
 
             }); 
 
@@ -86,8 +88,9 @@ namespace BlueLotus.UI.Application.Context
                 ItemCategory7 = new CodeBaseResponse(458205),
                 Base64ImageDocument = "arizonacucumber.jpg",
                 Description= "AriZona Green Tea is looking and tasting cool as a Cucumber with this revamp. Cucumber Green Tea BIG AZ CAN™ with Citrus " +
-                "is light and refreshing with a clean finish, keeping you well hydrated while getting your Green Tea fix."
-
+                "is light and refreshing with a clean finish, keeping you well hydrated while getting your Green Tea fix.",
+                DefaultDiscountPercentage=7
+               
   }); 
         }
 

@@ -11,102 +11,175 @@
              xmlns:blcont="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
              >
 
-    <Grid RowDefinitions="70,*">
-        <Grid BackgroundColor="{StaticResource Gray100}" Grid.Row="0">
-            <Grid ColumnDefinitions="*,*" Padding="10" Background="{StaticResource Gray70}">
-                <HorizontalStackLayout Spacing="15">
-                    <Label Text="Customer:" VerticalOptions="Center"></Label>
-                    <Label Text="{Binding SelectedCustomer.AddressName}" FontAttributes="Bold" VerticalOptions="Center"></Label>
-                    <Label Text="Ref:"   VerticalOptions="Center"></Label>
-                    <Label Text="{Binding CurrentOrder.OrderReference}"  FontAttributes="Bold"  VerticalOptions="Center"></Label>
-                    <Label Text="Date"   VerticalOptions="Center"></Label>
-                    <Label Text="{Binding CurrentOrder.TransactionDate, StringFormat='{0:dd-MMM-yyyy}'}" FontAttributes="Bold"  VerticalOptions="Center"></Label>
-                </HorizontalStackLayout>
-                <HorizontalStackLayout Grid.Column="1" FlowDirection="RightToLeft" Spacing="5">
-                    <Button Text="Clear"  Style="{StaticResource TabButton}" />
-                    <Button Text="Save" />
-                </HorizontalStackLayout>
-            </Grid>
-        </Grid>
-        <Grid Grid.Row="1" BackgroundColor="{StaticResource Gray100}" ColumnDefinitions="3*,*">
-            <Grid RowDefinitions="40,*,100">
 
-                <Label  Text="Order Item Details" FontSize="16" FontAttributes="Bold" Padding="10,10"></Label>
-                <ScrollView Grid.Row="1">
-                        <CollectionView ItemsSource="{Binding CurrentOrder.Items}" BackgroundColor="{StaticResource Gray70}"  >
-                            <CollectionView.ItemTemplate>
-                                <DataTemplate x:DataType="or:OrderItemViewModel">
 
-                                    <Grid BackgroundColor="{StaticResource Gray100}" ColumnDefinitions="120,*" Margin="5" Padding="3">
-                                        <Image Source="{Binding TransactionItem.ImagePathName}"  WidthRequest="120"/>
-                                        <Grid  Grid.Column="1" RowDefinitions="*,*" ColumnDefinitions="4*,2,*" Padding="5,5">
-                                            <VerticalStackLayout Spacing="3" Grid.Row="0" Grid.Column="0">
-                                                <Label Text="{Binding TransactionItem.ProductName}" FontAttributes="Bold" />
-                                                <Label  
+    <Grid Grid.Row="1" BackgroundColor="{StaticResource Gray100}" ColumnDefinitions="3*,*">
+        <Grid RowDefinitions="40,*,100">
+
+            <Label  Text="Order Item Details"  FontSize="16" FontAttributes="Bold" Padding="10,10"></Label>
+            <ScrollView Grid.Row="1">
+                <CollectionView ItemsSource="{Binding CurrentOrder.Items}" BackgroundColor="{StaticResource Gray70}"  >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="or:OrderItemViewModel">
+
+                            <Grid BackgroundColor="{StaticResource Gray100}" ColumnDefinitions="120,*" Margin="5" Padding="3">
+                                <Image Source="{Binding TransactionItem.ImagePathName}"  WidthRequest="120"/>
+                                <Grid  Grid.Column="1" RowDefinitions="*,*" ColumnDefinitions="4*,2,*" Padding="5,5">
+                                    <VerticalStackLayout Spacing="3" Grid.Row="0" Grid.Column="0">
+                                        <Label Text="{Binding TransactionItem.ProductName}" FontAttributes="Bold" />
+                                        <Label  
                                                     Text="{Binding TransactionItem.SalesPrice,StringFormat='List Price  £{0:N2}'}"  
                                                     />
-                                            </VerticalStackLayout>
-                                            <Grid  Grid.Row="1" Grid.Column="0" ColumnDefinitions="*,*,*" RowDefinitions="*,*" RowSpacing="1" ColumnSpacing="1" 
+                                    </VerticalStackLayout>
+                                    <Grid  Grid.Row="1" Grid.Column="0" ColumnDefinitions="*,*,*" RowDefinitions="*,*" RowSpacing="1" ColumnSpacing="1" 
                                                    
                                                    >
-                                                <Label Text="Qty"  
+                                        <Label Text="Qty"  
                                                        Grid.Row="0" 
                                                        Grid.Column="0" 
                                                        HorizontalTextAlignment="Center" 
                                                        Style="{StaticResource CellHead}"
                                                        />
-                                                <Label 
+                                        <Label 
                                                     Text="{Binding TransactionQuantity,StringFormat='{0:N2}'}"  
                                                     Grid.Row="1" 
                                                     Grid.Column="0"  
                                                        Style="{StaticResource CellLable}"/>
 
-                                                <Label 
+                                        <Label 
                                                     Text="Discount"  
                                                     Grid.Row="0" 
                                                     Grid.Column="1" 
                                                     HorizontalTextAlignment="Center"
                                                     Style="{StaticResource CellHead}"   
                                                        />
-                                                <Label Text="0.00 %" 
+                                        <Label Text="{Binding DiscountPercentage,StringFormat='{0:N2} %'}" 
                                                        Style="{StaticResource CellLable}"    
                                                        Grid.Row="1" Grid.Column="1"/>
 
 
 
-                                                <Label Text="Total"  
+                                        <Label Text="Total"  
                                                        Style="{StaticResource CellHead}"
                                                        Grid.Row="0" 
                                                        Grid.Column="2" 
                                                        HorizontalTextAlignment="Center"/>
-                                            <Label Text="{Binding  TransactionRate,StringFormat='£ {0:N2}'}"   
+                                        <Label Text="{Binding  LineTotal,StringFormat='£ {0:N2}'}"   
                                                        Style="{StaticResource CellLable}" 
                                                        Grid.Row="1" 
                                                        Grid.Column="2"/>
-                                            </Grid>
-                                            <Grid Grid.Row="2" Grid.Column="2">
-                                               
-                                                    <Grid ColumnDefinitions="*,*,*">
-
-                                                        <Label Text="{Binding TransactionQuantity}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="14"/>
-                                                        <Button Grid.Column="0" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding DecreaseButtonCommand}"/>
-                                                        <Button  Text="+" Grid.Column="2"   FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding AddButtonCommand}"/>
-
-                                                    </Grid>
-                                                
-                                            </Grid>
-                                        </Grid>
-                              
                                     </Grid>
+                                    <Grid Grid.Row="2" Grid.Column="2">
 
-                                </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
-                    </ScrollView>
-                
+                                        <Grid ColumnDefinitions="*,*,*">
+
+                                            <Label Text="{Binding TransactionQuantity}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="14"/>
+                                            <Button Grid.Column="0" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding DecreaseButtonCommand}"/>
+                                            <Button  Text="+" Grid.Column="2"   FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding AddButtonCommand}"/>
+
+                                        </Grid>
+
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+            <Grid Grid.Row="2"  ColumnDefinitions="7*,1*" RowDefinitions="*,*,*,*" RowSpacing="1" ColumnSpacing="1" Padding="7">
+                <Label Text="Total Items" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                           Style="{StaticResource CellHead}"
+                           />
+
+                <Label Text="{Binding TotalQuantity}" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                           Grid.Column="1"
+                           Style="{StaticResource CellLable}"
+                           />
+                <Label Text="Sub Total" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                           Grid.Row="1"
+                             Grid.Column="0"
+                           Style="{StaticResource CellHead}"
+                           />
+
+                <Label Text="{Binding CurrentOrder.SubTotal,StringFormat='£ {0:N2}'}" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                                 Grid.Row="1"
+                           Grid.Column="1"
+                           Style="{StaticResource CellLable}"
+                           />
+
+                <Label Text="Total Discounts" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                           Grid.Row="2"
+                             Grid.Column="0"
+                           Style="{StaticResource CellHead}"
+                           />
+
+                <Label Text="{Binding CurrentOrder.ToalDiscounts,StringFormat='£ {0:N2}'}" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                                 Grid.Row="2"
+                           Grid.Column="1"
+                           Style="{StaticResource CellLable}"
+                           />
+
+
+                <Label Text="Net Total" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                           Grid.Row="23"
+                             Grid.Column="0"
+                           Style="{StaticResource CellHead}"
+                           />
+
+                <Label Text="{Binding CurrentOrder.NetTotal,StringFormat='£ {0:N2}'}" 
+                           HorizontalTextAlignment="End" 
+                           Padding="5,0"
+                                 Grid.Row="3"
+                           Grid.Column="1"
+                           Style="{StaticResource CellLable}"
+                           />
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1" Background="{StaticResource  Gray100}" RowDefinitions="40,*,120">
+            <Label  Text="Other Details" Background="{StaticResource Gray50}"  FontSize="16" FontAttributes="Bold" Padding="10,10"></Label>
+            <Grid Grid.Row="1" BackgroundColor="{StaticResource Gray50}">
+                <ScrollView>
+                    <VerticalStackLayout Padding="5" Spacing="3">
+                        <Label Text="Reference"  FontAttributes="Bold"/>
+                        <Label Text="{Binding CurrentOrder.OrderReference}" />
+                        <Label Text="Customer"  FontAttributes="Bold"/>
+                        <Label Text="{Binding SelectedCustomer.AddressName}" />
+                        <Label Text="Order Date"  FontAttributes="Bold"/>
+                        <DatePicker Date="{Binding CurrentOrder.TransactionDate}" />
+                        <Label Text="Delivery Date"  FontAttributes="Bold"/>
+                        <DatePicker Date="{Binding CurrentOrder.TransactionDate}" />
+                        <Label Text="Notes"  FontAttributes="Bold"/>
+                        <Editor HeightRequest="100" Keyboard="Text">
+                            
+                        </Editor>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Grid>
+            <Grid Grid.Row="2">
+                <VerticalStackLayout Padding="5" Spacing="5">
+                    <Button Text="Cancel" Style="{StaticResource TabButton}" Command="{Binding OrderCancelCommand}"></Button>
+                    <Button Text="Save &amp; Send" Command="{Binding FinalizeClickCommand}" ></Button>
+                </VerticalStackLayout>
             </Grid>
         </Grid>
     </Grid>
+
 
 
 </ContentPage>

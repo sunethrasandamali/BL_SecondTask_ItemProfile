@@ -18,6 +18,8 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
         private string orderReference;
         [ObservableProperty]
         private DateTime transactionDate;
+        [ObservableProperty]
+        private DateTime deliveryDate;
 
         [ObservableProperty]
         private string trancsactionNumber;
@@ -35,7 +37,21 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
         [ObservableProperty]
         private decimal totalProducts;
 
-        
+        [ObservableProperty]
+        private decimal toalDiscounts;
+
+        [ObservableProperty]
+        private decimal subTotal;
+
+        [ObservableProperty]
+        private decimal netTotal;
+
+        [ObservableProperty]
+        private string notes;
+
+        [ObservableProperty]
+        private bool isFinalized;
+
         public ObservableCollection<OrderItemViewModel> Items { get; set; }
 
 
@@ -44,20 +60,25 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
             Items = new ObservableCollection<OrderItemViewModel>();
             OrderReference = Guid.NewGuid().ToString().Substring(0, 6);
             TransactionDate = DateTime.Now;
+            DeliveryDate = DateTime.Now;
         }
 
 
         public void UpdateVars()
         {
             TotalProducts = Items.Sum(x => x.TransactionQuantity);
+            ToalDiscounts = Items.Sum(x => x.DiscountAmount);
+             SubTotal = Items.Sum(x => x.LineTotalBeforeDiscount);
+             NetTotal = Items.Sum(x => x.LineTotal);
         }
 
         public void UpdateCustomer(AddressResponse addressResponse)
         {
             selectedCustomer = addressResponse;
-
         }
 
+
+        
     }
 
 
@@ -85,14 +106,14 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
         [ObservableProperty]
         private decimal lineTotal;
 
+        [ObservableProperty]
+        private decimal lineTotalBeforeDiscount;
 
         public void CalculateOtherValues()
         {
-            DiscountAmount = Math.Max(0, (transactionItem.SalesPrice - transactionRate));
-            DiscountPercentage = (DiscountAmount / transactionItem.SalesPrice) * 100;
-            LineTotal = TransactionQuantity * TransactionRate;
-
-
+            LineTotalBeforeDiscount = transactionQuantity * TransactionRate;
+            DiscountAmount = (lineTotal * DiscountPercentage) / 100;
+            LineTotal = lineTotalBeforeDiscount - DiscountAmount;
         }
 
 
@@ -103,7 +124,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
             var mainorderModel = MauiProgram.Services.GetService<MainOrderModel>();
             if (mainorderModel != null)
             {
-                mainorderModel.TryAddProduct(this.TransactionItem, 0.0M, 1);
+                mainorderModel.TryAddProduct(this.TransactionItem,TransactionItem.SalesPrice, 1);
             }
             CalculateOtherValues();
 
@@ -119,8 +140,10 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Order
             {
                 mainorderModel.TryDecreasProduct(this.TransactionItem, 0.0M, 1);
             }
-            CalculateOtherValues()
+            CalculateOtherValues();
         }
+
+
 
     }
 }

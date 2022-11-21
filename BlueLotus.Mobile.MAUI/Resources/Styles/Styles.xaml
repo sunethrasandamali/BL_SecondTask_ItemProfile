@@ -450,5 +450,18 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="EntrySmall" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HeightRequest" Value="40"/>
+
+
+        <Style.Triggers>
+
+        </Style.Triggers>
+    </Style>
     <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
 </ResourceDictionary>

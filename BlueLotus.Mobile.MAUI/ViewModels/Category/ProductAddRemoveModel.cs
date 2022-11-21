@@ -30,7 +30,7 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
             var mainorderModel =MauiProgram.Services.GetService<MainOrderModel>();
             if(mainorderModel != null)
             {
-                mainorderModel.TryAddProduct(LinkedProductViewModel,0.0M,1);
+                mainorderModel.TryAddProduct(LinkedProductViewModel,LinkedProductViewModel.SalesPrice,1);
             }
             UpdateProdQty();
         }
