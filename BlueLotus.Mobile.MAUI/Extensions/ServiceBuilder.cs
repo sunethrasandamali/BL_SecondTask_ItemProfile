@@ -34,6 +34,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<IAppUserService,AppUserService>();
             mauiAppBuilder.Services.AddSingleton<IAppObjectService, AppObjectService>();
             mauiAppBuilder.Services.AddSingleton<ICodeBaseService, CodeBaseService>();
+            mauiAppBuilder.Services.AddSingleton<IAppAddressService, AppAddressService>();
 
             return mauiAppBuilder;
         }
@@ -69,6 +70,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
             Routing.RegisterRoute(nameof(SingleProductPage), typeof(SingleProductPage));
             Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
+            Routing.RegisterRoute(nameof(OrderSummaryPage), typeof(OrderSummaryPage));
             return mauiAppBuilder;
         }
 

@@ -61,6 +61,34 @@ namespace BlueLotus.UI.Application.Context
                 " we’d put them on the list too."
 
             }); 
+
+
+            SampleItems.Add(new ItemExtended()
+            {
+                ItemCode = "AR-PE-GR-TE",
+                ItemName = "Arizona Green Tea 100ml",
+                SalesPrice = 3.99M,
+                ItemKey = 1441755,
+                ItemCategory7 = new CodeBaseResponse(458205),
+                Base64ImageDocument = "arizonagreentea.jpg",
+                Description= "Craving something that's just a little bit sweet? Then reach for an AriZona Georgia Peach Green Tea BIG AZ CAN™. " +
+                "The combination of real peach juice and premium green tea make for a refreshingly delicious drink. Just the right amount of Panax Ginseng and " +
+                "See Bee® Orange Honey add flavorful finishing touches. "
+
+            }); 
+
+  SampleItems.Add(new ItemExtended()
+            {
+                ItemCode = "AR-CC-UU",
+                ItemName = "Arizona  Cucumber Refresh 100ml",
+                SalesPrice = 3.49M,
+                ItemKey = 1441756,
+                ItemCategory7 = new CodeBaseResponse(458205),
+                Base64ImageDocument = "arizonacucumber.jpg",
+                Description= "AriZona Green Tea is looking and tasting cool as a Cucumber with this revamp. Cucumber Green Tea BIG AZ CAN™ with Citrus " +
+                "is light and refreshing with a clean finish, keeping you well hydrated while getting your Green Tea fix."
+
+  }); 
         }
 
 

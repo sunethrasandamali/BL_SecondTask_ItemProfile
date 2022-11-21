@@ -9,8 +9,8 @@
     <Border StrokeThickness="1" Stroke="{StaticResource Gray70}" Padding="2">
         <Grid ColumnDefinitions="*,*,*">
 
-            <Label Text="0" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="14"/>
-            <Button Grid.Column="0" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2"/>
+            <Label Text="{Binding TransactionQuantity}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" Grid.Column="1" FontSize="14"/>
+            <Button Grid.Column="0" Text="-"  FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding DecreaseButtonCommand}"/>
             <Button  Text="+" Grid.Column="2"   FontSize="15" Padding="0" FontAttributes="Bold" CornerRadius="2" Command="{Binding AddButtonCommand}"/>
 
         </Grid>

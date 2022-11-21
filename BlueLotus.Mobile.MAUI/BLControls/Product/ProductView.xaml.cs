@@ -20,6 +20,9 @@ public partial class ProductView : ContentView
         __addremovePanel.Add(new ProductAddRemove() { 
           Product=model        
         });
+
+       
+        
 	}
 
 	private async void ImageButton_Clicked(object sender, EventArgs e)

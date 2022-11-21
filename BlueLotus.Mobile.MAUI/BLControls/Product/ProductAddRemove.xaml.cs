@@ -8,6 +8,7 @@ public partial class ProductAddRemove : ContentView
     private ProductViewModel product;
     private readonly ProductAddRemoveModel _model;
 
+
     public ProductViewModel Product
     {
         get
@@ -16,9 +17,9 @@ public partial class ProductAddRemove : ContentView
         }
         set
         {
-            product= value;
-          
+            product= value;          
             _model.LinkedProductViewModel = product;
+           _model.UpdateProdQty();
            
         }
     }

@@ -42,7 +42,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal MeterReading { get; set; }
         public User EnteredUser { get; set; }
         public ItemResponse Insurance { get; set; }
-        public AddressResponse EnteredUser { get; set; }
+      
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -64,7 +64,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderControlCondition=new CodeBaseResponse();
             EnteredUser = new User();
             Insurance = new ItemResponse();
-            EnteredUser = new AddressResponse();
+            EnteredUser = new User();
         }
 
     }
