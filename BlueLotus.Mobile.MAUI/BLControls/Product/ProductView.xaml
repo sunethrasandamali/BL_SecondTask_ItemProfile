@@ -5,6 +5,7 @@
             
               xmlns:viewmodel="clr-namespace:BlueLotus.Mobile.MAUI.ViewModels.Category"
              xmlns:blc="clr-namespace:BlueLotus.Mobile.MAUI.BLControls.Product"
+             x:DataType="viewmodel:ProductViewModel"
              >
 
 
@@ -35,7 +36,7 @@
 
                         </Label>
                     </Grid>
-                    <Grid Grid.Row="2" x:Name="__addremovePanel">
+                    <Grid Grid.Row="2" x:Name="__addremovePanel" IsVisible="{Binding MainOrderModel.IsCustomerSelected}">
                       
                     </Grid>
                 </Grid>

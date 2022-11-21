@@ -55,6 +55,7 @@ public partial class ProductListPage : ContentPage
                 model.ImagePathName = item.Base64ImageDocument;
                 model.Category = SelectedCategory;
                 model.Description = item.Description;
+                model.DefaultDiscount = item.DefaultDiscountPercentage;
 
                 ProductView view = new ProductView(model);
                 view.ProductClickEvent += View_ProductClickEvent; ;

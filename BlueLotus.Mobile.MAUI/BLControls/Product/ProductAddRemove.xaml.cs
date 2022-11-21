@@ -8,6 +8,7 @@ public partial class ProductAddRemove : ContentView
     private ProductViewModel product;
     private readonly ProductAddRemoveModel _model;
 
+
     public ProductViewModel Product
     {
         get

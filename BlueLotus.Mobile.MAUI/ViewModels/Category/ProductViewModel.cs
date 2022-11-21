@@ -22,10 +22,18 @@ namespace BlueLotus.Mobile.MAUI.ViewModels.Category
         private decimal salesPrice;
 
         [ObservableProperty]
+        private decimal defaultDiscount;
+
+        [ObservableProperty]
         private string description;
-
-
-
         public CategoryViewModel Category { get; set; }
+
+        [ObservableProperty]
+        private MainOrderModel mainOrderModel;
+
+        public ProductViewModel()
+        {
+            mainOrderModel=MauiProgram.Services.GetService<MainOrderModel>();   
+        }
     }
 }
