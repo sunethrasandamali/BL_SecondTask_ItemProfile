@@ -927,15 +927,16 @@ namespace BlueLotus360.Web.APIApplication.Services
                 irn.OrderItems=new List<GenericOrderItem>();
                 foreach (var i in itm)
                 {
-                    GenericOrderItem goitm = new GenericOrderItem() { 
-                        TransactionItem=new ItemResponse()
+                    GenericOrderItem goitm = new GenericOrderItem() {
+                        TransactionItem = new ItemResponse()
                         {
-                            ItemCode=i.Item.ItemCode,
-                            ItemName=i.Item.ItemName,
-                            ItemKey=i.Item.ItemKey
+                            ItemCode = i.Item.ItemCode,
+                            ItemName = i.Item.ItemName,
+                            ItemKey = i.Item.ItemKey
                         },
-                        TransactionQuantity=i.Quantity,
-                        TransactionRate=i.Rate,
+                        TransactionQuantity = i.Quantity,
+                        TransactionRate = i.Rate,
+                        IsActive = i.IsActive
                         //amount??
                     };
 

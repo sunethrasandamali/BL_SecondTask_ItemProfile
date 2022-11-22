@@ -59,7 +59,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public IList<GenericOrderItem> WorkOrderServices { get; set; }
         public IList<WorkOrder> JobHistory { get; set; }
         public BLTransaction WorkOrderTransaction { get; set; }
-        public WorkOrder()
+		public WorkOrder()
         {
             SelectedVehicle = new Vehicle();
             Department = new CodeBaseResponse();
@@ -152,6 +152,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public decimal Quantity { get; set; }
         public decimal Rate { get; set; }
         public decimal Amount { get; set; }
+        public int IsActive { get; set; }
         public IRNResponse() 
         {
             IRNType= new CodeBaseResponse();

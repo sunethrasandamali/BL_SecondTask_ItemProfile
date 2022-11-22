@@ -125,6 +125,7 @@ namespace BlueLotus360.Core.Domain.DTOs
         public AddressResponse ResourceAddress { get; set; } //technician ,where to map
         public DateTime InsertDate { get; set; } = DateTime.Now;
         public DateTime UpdateDate { get; set; } = DateTime.Now;
+        public CodeBaseResponse AnalysisType1 { get; set; }
         public GenericOrderItem()
         {
             OrderLineLocation = new CodeBaseResponse();
@@ -134,6 +135,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             BaringCompany = new AccountResponse();
             Supplier=new AccountResponse();
             ResourceAddress = new AddressResponse();
+            AnalysisType1 = new CodeBaseResponse();
         }
 
     }

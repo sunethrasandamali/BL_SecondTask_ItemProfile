@@ -479,8 +479,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.Item.ItemKey= reader.GetColumn<int>("ItmKy");
                         order.Item.ItemName = reader.GetColumn<string>("ItmNm");
                         order.Item.ItemCode = reader.GetColumn<string>("ItmCd");
-
-                        list.Add(order);
+						order.IsActive = 1;
+						list.Add(order);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = list;
