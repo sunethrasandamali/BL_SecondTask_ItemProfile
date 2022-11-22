@@ -909,7 +909,44 @@ namespace BlueLotus360.Web.APIApplication.Services
 
         public IList<WorkOrder> GetIRNBasedOnStatus(WorkOrder dto, Company company, User user)
         {
-            return new List<WorkOrder>();   
+            var irnList = _unitOfWork.WorkShopManagementRepository.SelectIRNBasedOnStatus(dto,company,user); 
+            IList<IRNResponse> IRNsResponseList = irnList.Value;
+            IList<WorkOrder> IRNs=new List<WorkOrder>();
+
+            foreach (var itm in IRNsResponseList.ToLookup(x=>x.OrderKey).ToList())
+            {
+                WorkOrder irn = new WorkOrder();
+                irn.OrderKey = (int)(itm.FirstOrDefault()?.OrderKey);
+                irn.OrderNumber = itm.FirstOrDefault()?.OrderNumber;
+                irn.OrderDate = itm.FirstOrDefault().Insertdate;
+                irn.OrderType = itm.FirstOrDefault()?.IRNType;
+                irn.SelectedVehicle.VehicleRegistration.ItemCode= itm.FirstOrDefault()?.VehicleID;
+                irn.OrderRepAddress = itm.FirstOrDefault()?.ServiceAdvisor;
+                irn.BussinessUnit = itm.FirstOrDefault()?.BusinessUnit;
+
+                irn.OrderItems=new List<GenericOrderItem>();
+                foreach (var i in itm)
+                {
+                    GenericOrderItem goitm = new GenericOrderItem() { 
+                        TransactionItem=new ItemResponse()
+                        {
+                            ItemCode=i.Item.ItemCode,
+                            ItemName=i.Item.ItemName,
+                            ItemKey=i.Item.ItemKey
+                        },
+                        TransactionQuantity=i.Quantity,
+                        TransactionRate=i.Rate,
+                        //amount??
+                    };
+
+                    irn.OrderItems.Add(goitm);  
+                }
+
+                IRNs.Add(irn);
+
+            }
+
+            return IRNs;
         }
 
     }

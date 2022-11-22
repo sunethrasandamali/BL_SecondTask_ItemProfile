@@ -444,5 +444,93 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
         }
+
+        public BaseServerResponse<IList<IRNResponse>> SelectIRNBasedOnStatus(WorkOrder dto, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                IList<IRNResponse> list = new List<IRNResponse>();
+                BaseServerResponse<IList<IRNResponse>> response = new BaseServerResponse<IList<IRNResponse>>();
+                string SPName = "CarOrdDetailsByOrdSts_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", dto.FormObjectKey);
+                    dbCommand.CreateAndAddParameter("OrdStsKy ", BaseComboResponse.GetKeyValue(dto.OrderStatus));
+                    dbCommand.CreateAndAddParameter("OrdTypKy ", BaseComboResponse.GetKeyValue(dto.OrderType));
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        IRNResponse order = new IRNResponse();
+                        order.OrderKey = reader.GetColumn<int>("OrdKy");
+                        order.OrderNumber = reader.GetColumn<string>("OrdNo");
+                        order.IRNType.CodeName = reader.GetColumn<string>("OrdCat2");
+                        order.VehicleID = reader.GetColumn<string>("VehAdrID");
+                        order.ServiceAdvisor.AddressName= reader.GetColumn<string>("RepAdrNm");
+                        order.BusinessUnit.CodeName= reader.GetColumn<string>("BU");
+                        order.Insertdate= reader.GetColumn<DateTime>("InsertDt");
+                        order.Item.ItemKey= reader.GetColumn<int>("ItmKy");
+                        order.Item.ItemName = reader.GetColumn<string>("ItmNm");
+                        order.Item.ItemCode = reader.GetColumn<string>("ItmCd");
+
+                        list.Add(order);
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = list;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    if (reader != null)
+                    {
+                        reader.Dispose();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
     }
 }

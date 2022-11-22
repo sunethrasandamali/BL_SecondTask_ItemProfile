@@ -138,4 +138,26 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         }
 
     }
+
+    public class IRNResponse
+    {
+        public long OrderKey { get; set; }
+        public string? OrderNumber { get; set; }
+        public DateTime Insertdate { get; set; }
+        public CodeBaseResponse IRNType { get; set; }
+        public string? VehicleID { get; set; }
+        public AddressResponse ServiceAdvisor { get; set; }
+        public CodeBaseResponse BusinessUnit { get; set; }
+        public ItemResponse Item { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
+        public IRNResponse() 
+        {
+            IRNType= new CodeBaseResponse();
+            ServiceAdvisor = new AddressResponse();
+            BusinessUnit= new CodeBaseResponse();
+            Item= new ItemResponse();
+        }
+    }
 }
