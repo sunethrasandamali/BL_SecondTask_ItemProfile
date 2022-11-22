@@ -480,6 +480,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.Item.ItemName = reader.GetColumn<string>("ItmNm");
                         order.Item.ItemCode = reader.GetColumn<string>("ItmCd");
 						order.IsActive = 1;
+                        order.TransactionUnit = new UnitResponse();
 						list.Add(order);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;

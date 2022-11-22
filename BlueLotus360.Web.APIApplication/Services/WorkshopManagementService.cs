@@ -936,7 +936,8 @@ namespace BlueLotus360.Web.APIApplication.Services
                         },
                         TransactionQuantity = i.Quantity,
                         TransactionRate = i.Rate,
-                        IsActive = i.IsActive
+                        IsActive = i.IsActive,
+                        TransactionUnit=i.TransactionUnit
                         //amount??
                     };
 
