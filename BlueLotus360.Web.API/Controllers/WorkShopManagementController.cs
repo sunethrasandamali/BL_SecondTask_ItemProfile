@@ -198,12 +198,17 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
-        [HttpPost("getIRNByCategory")]
-        public IActionResult GetIRNByCategory(WorkOrder req)
+        [HttpPost("getIRNByStatus")]
+        public IActionResult GetIRNByStatus(WorkOrder req)
         {
             var user = Request.GetAuthenticatedUser();
             var company = Request.GetAssignedCompany();
 
+            var uiObject = _objectService.GetObjectByObjectKey(req.FormObjectKey);
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            req.OrderType = ordTyp.Value;
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, req.OrderStatus.OurCode, "PrcsFlow");
+            req.OrderStatus = ordsts.Value;
             IList<WorkOrder> response = _workshopManagementService.GetIRNBasedOnStatus(req, company, user);
 
             return Ok(response);
