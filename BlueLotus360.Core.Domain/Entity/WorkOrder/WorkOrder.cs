@@ -59,7 +59,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public IList<GenericOrderItem> WorkOrderServices { get; set; }
         public IList<WorkOrder> JobHistory { get; set; }
         public BLTransaction WorkOrderTransaction { get; set; }
-        public WorkOrder()
+		public WorkOrder()
         {
             SelectedVehicle = new Vehicle();
             Department = new CodeBaseResponse();
@@ -91,6 +91,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public decimal PreviousMilage { get; set; }
         public string Fuel { get; set; } = "";
         public int IsActive { get; set; }
+        public bool IsInsurence { get; set; } = false;
         public Vehicle()
         {
             VehicleWarrannty = new Warranty();
@@ -136,5 +137,31 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
             EstimatedServices = new List<GenericOrderItem>();
         }
 
+    }
+
+    public class IRNResponse
+    {
+        public long OrderKey { get; set; }
+        public string? OrderNumber { get; set; }
+        public DateTime Insertdate { get; set; }
+        public CodeBaseResponse IRNType { get; set; }
+        public string? VehicleID { get; set; }
+        public AddressResponse ServiceAdvisor { get; set; }
+        public CodeBaseResponse BusinessUnit { get; set; }
+        public ItemResponse Item { get; set; }
+        public decimal Quantity { get; set; }
+        public decimal Rate { get; set; }
+        public decimal Amount { get; set; }
+        public int IsActive { get; set; }
+        public UnitResponse TransactionUnit { get; set; }
+        public IRNResponse() 
+        {
+            IRNType= new CodeBaseResponse();
+            ServiceAdvisor = new AddressResponse();
+            BusinessUnit= new CodeBaseResponse();
+            Item= new ItemResponse();
+            TransactionUnit = new UnitResponse();
+
+		}
     }
 }

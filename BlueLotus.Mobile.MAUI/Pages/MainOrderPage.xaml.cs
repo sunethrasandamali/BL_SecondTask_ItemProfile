@@ -67,11 +67,11 @@ public partial class MainOrderPage : ContentPage
         }
     }
 
-    private async void  Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
+    private async void Catm_CategoryClickEvent(object sender, Events.CategoryClickEventArgs e)
     {
         IDictionary<string, object> dict = new Dictionary<string, object>();
         dict.Add("SelectedCategory", e.Category);
-         Shell.Current.GoToAsync(nameof(ProductListPage), false,dict);
+        await Shell.Current.GoToAsync(nameof(ProductListPage), true, dict);
 
     }
 
@@ -115,8 +115,7 @@ public partial class MainOrderPage : ContentPage
         if (Menu == null && BindingContext != null && BindingContext.GetType() == typeof(UIMenu))
         {
             Menu = (UIMenu)BindingContext;
-            BindingContext = null;
-            BindingContext = __bindContext;
+
         }
 
 
@@ -137,21 +136,20 @@ public partial class MainOrderPage : ContentPage
                 }
             }
         }
-
+        BindingContext = null;
+        BindingContext = __bindContext;
 
         base.OnNavigatedTo(args);
         await ReadCategories();
     }
 
 
-    
+
 
     protected async void OnCustomerSelectClick(object sender, EventArgs args)
     {
-
-
         AddressSelectPopUp pop = new AddressSelectPopUp();
-        this.ShowPopup(pop);
+        await this.ShowPopupAsync(pop);
 
     }
 

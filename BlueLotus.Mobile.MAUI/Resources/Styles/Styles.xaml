@@ -6,7 +6,7 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     >
-    <System:Int32 x:Key="ControlRadius">25</System:Int32>
+    <System:Int32 x:Key="ControlRadius">5</System:Int32>
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
@@ -170,7 +170,7 @@
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Margin" Value="10,5,0,0" />
+        <Setter Property="Margin" Value="0,0,0,0" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -421,7 +421,47 @@
                     Value="{StaticResource Alternate}" />
             </Trigger>
         </Style.Triggers>
+       
     </Style>
 
+    <Style x:Key="CellLable" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray70}" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
+        
+        <Setter Property="Padding" Value="0"/>
+        <Style.Triggers>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CellHead" TargetType="Label">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
+       
+        <Setter Property="Padding" Value="0"/>
+        <Style.Triggers>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="EntrySmall" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HeightRequest" Value="40"/>
+
+
+        <Style.Triggers>
+
+        </Style.Triggers>
+    </Style>
     <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
 </ResourceDictionary>

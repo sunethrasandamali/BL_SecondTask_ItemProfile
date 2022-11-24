@@ -26,9 +26,9 @@ public partial class ProductListPage : ContentPage
         if (SelectedCategory != null)
         {
             SelectedCategoryName.Text = $"Products Under Category - {SelectedCategory.CategoryName} ";
-           // Action loadProdAction = new Action(LoadProducts);
-            //loadProdAction.Invoke();
-          //  this.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200),loadProdAction);
+            Action loadProdAction = new Action(LoadProducts);
+           // loadProdAction.Invoke();
+            this.Dispatcher.DispatchDelayed(TimeSpan.FromMilliseconds(200), loadProdAction);
             #region MAUI_Unsupported
             //    loadProdAction.BeginInvoke(new AsyncCallback(result =>
             //    {
@@ -55,6 +55,7 @@ public partial class ProductListPage : ContentPage
                 model.ImagePathName = item.Base64ImageDocument;
                 model.Category = SelectedCategory;
                 model.Description = item.Description;
+                model.DefaultDiscount = item.DefaultDiscountPercentage;
 
                 ProductView view = new ProductView(model);
                 view.ProductClickEvent += View_ProductClickEvent; ;

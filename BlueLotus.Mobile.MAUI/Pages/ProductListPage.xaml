@@ -14,9 +14,7 @@
                                            ></Label>
           
 
-                <Frame Grid.Column="1" >
-                    <Entry ></Entry>
-                </Frame>
+               
             </Grid>
             <Grid Grid.Row="1">
                 <FlexLayout Wrap="Wrap" Direction="Row" 

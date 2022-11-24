@@ -105,7 +105,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
                     lineItem.TransactionRate = item.TransactionRate;
                     lineItem.AddressKey = OH.AddressKey;
-
+                    lineItem.OrderDate = OH.OrderDate;
                     lineItem.ObjectKey = orderDetails.FormObjectKey;
                     lineItem.OrderLineLocation = new CodeBaseResponse();
                     lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
@@ -196,6 +196,150 @@ namespace BlueLotus360.Web.APIApplication.Services
             return orderSaveResponse;
         }
 
+        public BaseServerResponse<OrderSaveResponse> SaveIRNOrder(Company company, User user, GenericOrder order) 
+        {
+            OrderHeaderCreateDTO OH = new OrderHeaderCreateDTO();
+            OH.DocumentNumber = order.OrderDocumentNumber;
+            OH.AddressKey = order.OrderCustomer.AddressKey;
+            OH.ObjectKey = order.FormObjectKey;
+            OH.AprroceStatusKey = 1;
+            OH.OrderDate = DateTime.Now;
+            OH.OrderType = new CodeBaseResponse();
+            OH.OrderType.CodeKey = order.OrderType.CodeKey;
+            OH.AccountKey = 1;
+            OH.Description = order.HeaderDescription;
+            OH.PayementTerm = new CodeBaseResponse();
+            OH.PayementTerm.CodeKey = order.OrderPaymentTerm.CodeKey;
+            OH.Location2Key = order.OrderLocation.CodeKey;
+            OH.OrderLocation = new CodeBaseResponse();
+            OH.OrderLocation.CodeKey = order.OrderLocation.CodeKey;
+            OH.RepAddessKey = order.OrderRepAddress.AddressKey;
+            OH.DiscountPercentage = order.HeaderLevelDisountPrecentage;
+            OH.IsActive = 1;
+            OH.IsApproved = 1;
+            OH.OrderCategory1Key = (int)order.OrderCategory1.CodeKey;
+            OH.OrderCategory2Key = (int)order   .OrderCategory2.CodeKey;
+            OH.ProjectKey = (int)order.OrderProject.ProjectKey;
+            OH.Code1Key = order.Cd1Ky;
+            OH.OrderStatusKey = (int)order.OrderStatus.CodeKey;
+            OH.MeterReading = order.MeterReading;
+            OH.DeliveryDate = order.DeliveryDate;
+            OH.Insurance = new ItemResponse();
+            OH.Insurance.ItemKey = order.Insurance.ItemKey;
+
+            if (!BaseComboResponse.IsEntityWithDefaultValue(order.OrderAccount))
+            {
+                OH.AccountKey = order.OrderAccount.AccountKey;
+            }
+            else
+            {
+                var acc = _unitOfWork.AccountRepository.GetAccountByAddress(order.OrderCustomer, company, user);
+                OH.AccountKey = acc.Value.AccountKey;
+
+            }
+
+            _unitOfWork.OrderRepository.CreateOrder(OH, company, user);
+
+            if (order.OrderItems.Count() > 0)
+            {
+                foreach (GenericOrderItem item in order.OrderItems)
+                {
+                    OrderLineCreateDTO lineItem = new OrderLineCreateDTO();
+                    lineItem.ItemKey = item.TransactionItem.ItemKey;
+                    lineItem.OrderKey = OH.OrderKey;
+                    lineItem.TransactionQuantity = item.TransactionQuantity;
+                    lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)order.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
+                    lineItem.TransactionRate = item.TransactionRate;
+                    lineItem.AddressKey = OH.AddressKey;
+
+                    lineItem.ObjectKey = order.FormObjectKey;
+                    lineItem.OrderLineLocation = new CodeBaseResponse();
+                    lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
+                    lineItem.CompanyKey = company.CompanyKey;
+                    lineItem.UserKey = user.UserKey;
+                    lineItem.DiscountPercentage = item.DiscountPercentage;
+                    lineItem.AccountKey = OH.AccountKey;
+                    //  lineItem.TransactionDiscountAmount = Math.Abs(item.GetLineDiscount());
+                    lineItem.LineNumber = item.LineNumber;
+                    lineItem.IsActive = item.IsActive;
+                    lineItem.OriginalQuantity = item.RequestedQuantity;
+
+
+                    lineItem.IsApproved = item.IsApproved;
+                    lineItem.OrderType = new CodeBaseResponse();
+                    lineItem.OrderType.CodeKey = order.OrderType.CodeKey;
+                    lineItem.IsTransfer = item.IsTransfer;
+                    lineItem.IsConfirmed = item.IsTransferConfirmed;
+
+                    lineItem.DisocuntAmount = item.DiscountAmount;
+                    lineItem.TransactionDiscountAmount = item.DiscountAmount;
+                    lineItem.ItemTaxType1 = item.ItemTaxType1;
+                    lineItem.ItemTaxType2 = item.ItemTaxType2;
+                    lineItem.ItemTaxType3 = item.ItemTaxType3;
+                    lineItem.ItemTaxType4 = item.ItemTaxType4;
+                    lineItem.ItemTaxType5 = item.ItemTaxType5;
+
+                    lineItem.ItemTaxType1Per = item.ItemTaxType1Per;
+                    lineItem.ItemTaxType2Per = item.ItemTaxType2Per;
+                    lineItem.ItemTaxType3Per = item.ItemTaxType3Per;
+                    lineItem.ItemTaxType4Per = item.ItemTaxType4Per;
+                    lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
+                    lineItem.Remarks = item.Remark;
+                    lineItem.Description = item.Description;
+
+                    //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
+                    _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = order.FormObjectKey });
+
+
+                    if (item.BaringCompany.AccountKey > 11)
+                    {
+                        WorkOrderAmountByAccount company_accdet = new WorkOrderAmountByAccount()
+                        {
+                            FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                            ObjectKey = lineItem.ObjectKey,
+                            Account = item.BaringCompany,
+                            Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
+                            ControlConKey = order.OrderControlCondition.CodeKey,
+                            LineNumber = (int)lineItem.LineNumber,
+                            Value = item.CompanyPrecentage,
+                            Amount = item.CompanyAmount
+                        };
+                        _unitOfWork.OrderRepository.OrderDetailAccountInsertUpdate(company, user, company_accdet);
+                    }
+
+                    if (item.BaringPrinciple.AccountKey > 11)
+                    {
+                        WorkOrderAmountByAccount principle_accdet = new WorkOrderAmountByAccount()
+                        {
+                            FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                            ObjectKey = lineItem.ObjectKey,
+                            Account = item.BaringPrinciple,
+                            Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
+                            ControlConKey = order.OrderControlCondition.CodeKey,
+                            LineNumber = (int)(lineItem.LineNumber + 1),
+                            Value = item.PrinciplePrecentage,
+                            Amount = item.PrincipleAmount
+                        };
+                        _unitOfWork.OrderRepository.OrderDetailAccountInsertUpdate(company, user, principle_accdet);
+                    }
+                }
+            }
+
+            _unitOfWork.OrderRepository.PostInterLocationTransfers(company, user, OH.OrderKey, order.FormObjectKey);
+
+
+            var ordb = _unitOfWork.OrderRepository.GetGenericOrderByOrderKeyV2(OH.OrderKey, company, user);
+            OrderSaveResponse orderServerResponse = new OrderSaveResponse();
+            orderServerResponse.OrderKey = ordb.Value.OrderKey;
+            orderServerResponse.OrderNumber = ordb.Value.OrderNumber.ToString();
+            orderServerResponse.Prefix = ordb.Value.OrderPrefix.CodeName;
+
+            BaseServerResponse<OrderSaveResponse> orderSaveResponse = new BaseServerResponse<OrderSaveResponse>();
+            orderSaveResponse.Value = orderServerResponse;
+
+            return orderSaveResponse;
+        }
+
         public OrderSaveResponse UpdateWorkOrder(Company company, User user, GenericOrder orderDetails)
         {
             OrderHeaderEditDTO OH = new OrderHeaderEditDTO();
@@ -247,6 +391,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                 {
 
                     lineItem.OrderKey = OH.OrderKey;
+                    lineItem.OrderDate = OH.OrderDate;
                     lineItem.FromOrderDetailKey = item.FromOrderDetailKey;
                     lineItem.OrderType = new CodeBaseResponse();
                     lineItem.OrderType.CodeKey = item.OrderType.CodeKey;
@@ -382,6 +527,192 @@ namespace BlueLotus360.Web.APIApplication.Services
             return orderServerResponse;
         }
 
+        public BaseServerResponse<OrderSaveResponse> UpdateIRNOrder(Company company, User user, GenericOrder orderDetails) 
+        {
+            OrderHeaderEditDTO OH = new OrderHeaderEditDTO();
+            OH.OrderKey = orderDetails.OrderKey;
+            OH.OrderLocation = new CodeBaseResponse();
+            OH.OrderLocation.CodeKey = orderDetails.OrderLocation.CodeKey;
+            OH.OrderDate = orderDetails.OrderDate;
+            OH.OrderType = new CodeBaseResponse();
+            OH.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
+            OH.PayementTerm = new CodeBaseResponse();
+            OH.PayementTerm.CodeKey = orderDetails.OrderPaymentTerm.CodeKey;
+            OH.DocumentNumber = orderDetails.OrderDocumentNumber;
+            OH.DiscountPercentage = orderDetails.HeaderLevelDisountPrecentage;
+            OH.OrderAdress = orderDetails.OrderCustomer;
+            OH.RepAdress = orderDetails.OrderRepAddress;
+            OH.IsActive = orderDetails.IsActive;
+            OH.IsApproved = orderDetails.IsApproved;
+            OH.OrderNumber = Convert.ToInt32(orderDetails.OrderNumber);
+            OH.BussinessUnit = orderDetails.BussinessUnit;
+            OH.ObjectKey = orderDetails.FormObjectKey;
+            OH.ApproveStatus = orderDetails.OrderApproveState;
+            OH.AccountKey = 1;
+            OH.Description = orderDetails.HeaderDescription;
+            OH.OrderCategory1 = new CodeBaseResponse() { CodeKey = (int)orderDetails.OrderCategory1.CodeKey };
+            OH.OrderCategory2 = new CodeBaseResponse() { CodeKey = (int)orderDetails.OrderCategory2.CodeKey };
+            OH.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
+            OH.Code1Key = orderDetails.Cd1Ky;
+            OH.OrderStatus = orderDetails.OrderStatus;
+            OH.MeterReading = orderDetails.MeterReading;
+            OH.DeliveryDate = orderDetails.DeliveryDate;
+            OH.Insurance = new ItemResponse();
+            OH.Insurance.ItemKey = orderDetails.Insurance.ItemKey;
+
+            if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
+            {
+                OH.AccountKey = orderDetails.OrderAccount.AccountKey;
+            }
+            else
+            {
+                var acc = _unitOfWork.AccountRepository.GetAccountByAddress(orderDetails.OrderCustomer, company, user);
+                OH.AccountKey = acc.Value.AccountKey;
+            }
+
+            _unitOfWork.OrderRepository.UpdateGenericOrderHeader(OH, company, user);
+
+            foreach (GenericOrderItem item in orderDetails.OrderItems)
+            {
+                OrderLineCreateDTO lineItem = new OrderLineCreateDTO();
+                if (item.FromOrderDetailKey > 1)
+                {
+
+                    lineItem.OrderKey = OH.OrderKey;
+                    lineItem.FromOrderDetailKey = item.FromOrderDetailKey;
+                    lineItem.OrderType = new CodeBaseResponse();
+                    lineItem.OrderType.CodeKey = item.OrderType.CodeKey;
+                    lineItem.TransactionQuantity = item.TransactionQuantity;
+                    lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
+                    lineItem.TransactionRate = item.TransactionRate;
+                    lineItem.AddressKey = OH.AddressKey;
+                    lineItem.IsActive = item.IsActive;
+                    lineItem.IsApproved = item.IsApproved;
+                    lineItem.OrderLineLocation = new CodeBaseResponse();
+                    lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
+                    lineItem.BussinessUnitKey = (int)item.BussinessUnit.CodeKey;
+                    lineItem.AccountKey = OH.AccountKey;
+                    lineItem.LineNumber = item.LineNumber;
+                    lineItem.ItemKey = item.TransactionItem != null ? item.TransactionItem.ItemKey : 1;
+                    lineItem.OrderItemName = item.TransactionItem != null ? item.TransactionItem.ItemName : "";
+                    lineItem.Rate = item.Rate;
+                    lineItem.TransactionRate = item.TransactionRate;
+                    lineItem.DiscountPercentage = item.DiscountPercentage;
+                    lineItem.DisocuntAmount = item.DiscountAmount;
+                    lineItem.ObjectKey = orderDetails.FormObjectKey;
+                    lineItem.CompanyKey = company.CompanyKey;
+                    lineItem.UserKey = user.UserKey;
+                    lineItem.OriginalQuantity = item.RequestedQuantity;
+                    lineItem.IsTransfer = item.IsTransfer;
+                    lineItem.IsConfirmed = item.IsTransferConfirmed;
+
+                    lineItem.ItemTaxType1 = item.ItemTaxType1;
+                    lineItem.ItemTaxType2 = item.ItemTaxType2;
+                    lineItem.ItemTaxType3 = item.ItemTaxType3;
+                    lineItem.ItemTaxType4 = item.ItemTaxType4;
+                    lineItem.ItemTaxType5 = item.ItemTaxType5;
+
+                    lineItem.ItemTaxType1Per = item.ItemTaxType1Per;
+                    lineItem.ItemTaxType2Per = item.ItemTaxType2Per;
+                    lineItem.ItemTaxType3Per = item.ItemTaxType3Per;
+                    lineItem.ItemTaxType4Per = item.ItemTaxType4Per;
+                    lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
+                    lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
+                    lineItem.Description = item.Description;
+
+                    _unitOfWork.OrderRepository.UpdateGenericOrderLineItem(lineItem, orderDetails.FormObjectKey, company, user);
+                }
+                else
+                {
+                    lineItem.ItemKey = item.TransactionItem.ItemKey;
+                    lineItem.OrderKey = OH.OrderKey;
+                    lineItem.TransactionQuantity = item.TransactionQuantity;
+                    lineItem.Rate = _unitOfWork.ItemRepository.GetCostPriceByLocAndItmKy(company, new CodeBaseResponse((int)orderDetails.OrderLocation.CodeKey), DateTime.Now, item.TransactionItem.ItemKey);
+                    lineItem.TransactionRate = item.TransactionRate;
+                    lineItem.AddressKey = OH.AddressKey;
+                    lineItem.ObjectKey = orderDetails.FormObjectKey;
+                    lineItem.OrderLineLocation = new CodeBaseResponse();
+                    lineItem.OrderLineLocation.CodeKey = item.OrderLineLocation.CodeKey;
+                    lineItem.CompanyKey = company.CompanyKey;
+                    lineItem.UserKey = user.UserKey;
+                    lineItem.DiscountPercentage = item.DiscountPercentage;
+                    lineItem.AccountKey = OH.AccountKey;
+                    lineItem.LineNumber = item.LineNumber;
+                    lineItem.IsActive = 1;
+                    lineItem.OriginalQuantity = item.RequestedQuantity;
+                    lineItem.IsApproved = 1;
+                    lineItem.OrderType = new CodeBaseResponse();
+                    lineItem.OrderType.CodeKey = orderDetails.OrderType.CodeKey;
+                    lineItem.IsTransfer = item.IsTransfer;
+                    lineItem.IsConfirmed = item.IsTransferConfirmed;
+                    lineItem.DisocuntAmount = item.DiscountAmount;
+                    lineItem.TransactionDiscountAmount = item.DiscountAmount;
+                    lineItem.ItemTaxType1 = item.ItemTaxType1;
+                    lineItem.ItemTaxType2 = item.ItemTaxType2;
+                    lineItem.ItemTaxType3 = item.ItemTaxType3;
+                    lineItem.ItemTaxType4 = item.ItemTaxType4;
+                    lineItem.ItemTaxType5 = item.ItemTaxType5;
+
+                    lineItem.ItemTaxType1Per = item.ItemTaxType1Per;
+                    lineItem.ItemTaxType2Per = item.ItemTaxType2Per;
+                    lineItem.ItemTaxType3Per = item.ItemTaxType3Per;
+                    lineItem.ItemTaxType4Per = item.ItemTaxType4Per;
+                    lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
+                    lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
+                    lineItem.BussinessUnitKey = (int)item.BussinessUnit.CodeKey;
+                    lineItem.Description = item.Description;
+
+                    _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
+                }
+
+                if (item.BaringCompany.AccountKey > 11)
+                {
+                    WorkOrderAmountByAccount company_accdet = new WorkOrderAmountByAccount()
+                    {
+                        FromOrderDetailKey = lineItem.OrderLineItemKey,
+                        ObjectKey = lineItem.ObjectKey,
+                        Account = item.BaringCompany,
+                        Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
+                        ControlConKey = orderDetails.OrderControlCondition.CodeKey,
+                        LineNumber = (int)lineItem.LineNumber,
+                        Value = item.CompanyPrecentage,
+                        Amount = item.CompanyAmount
+                    };
+                    _unitOfWork.OrderRepository.OrderDetailAccountInsertUpdate(company, user, company_accdet);
+                }
+
+                if (item.BaringPrinciple.AccountKey > 11)
+                {
+                    WorkOrderAmountByAccount principle_accdet = new WorkOrderAmountByAccount()
+                    {
+                        FromOrderDetailKey = lineItem.OrderLineItemKey,
+                        ObjectKey = lineItem.ObjectKey,
+                        Account = item.BaringPrinciple,
+                        Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
+                        ControlConKey = orderDetails.OrderControlCondition.CodeKey,
+                        LineNumber = (int)(lineItem.LineNumber + 1),
+                        Value = item.PrinciplePrecentage,
+                        Amount = item.PrincipleAmount
+                    };
+                    _unitOfWork.OrderRepository.OrderDetailAccountInsertUpdate(company, user, principle_accdet);
+                }
+            }
+
+            _unitOfWork.OrderRepository.PostInterLocationTransfers(company, user, OH.OrderKey, orderDetails.FormObjectKey);
+
+            var ordb = _unitOfWork.OrderRepository.GetGenericOrderByOrderKeyV2(OH.OrderKey, company, user);
+            OrderSaveResponse orderServerResponse = new OrderSaveResponse();
+            orderServerResponse.OrderKey = ordb.Value.OrderKey;
+            orderServerResponse.OrderNumber = ordb.Value.OrderNumber.ToString();
+            orderServerResponse.Prefix = ordb.Value.OrderPrefix.CodeName;
+
+            BaseServerResponse<OrderSaveResponse> orderSaveResponse = new BaseServerResponse<OrderSaveResponse>();
+            orderSaveResponse.Value = orderServerResponse;
+
+            return orderSaveResponse;
+
+        }
+
         public BaseServerResponse<WorkOrder> OpenWorkOrder(Company company, User user, OrderOpenRequest request)
         {
             var ord = _unitOfWork.OrderRepository.GetGenericOrderByOrderKeyV2(request.OrderKey, company, user);
@@ -455,6 +786,8 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Description = item.Description;
                     lineItem.TransactionUnit = new UnitResponse() { UnitKey=item.UnitKey,UnitName=item.TransactionUnitName};
                     lineItem.ResourceAddress = new AddressResponse() { AddressKey=item.ReserveAddressKey,AddressName=item.ReserveAddressID};
+                    lineItem.InsertDate = item.InsertDate;
+                    lineItem.UpdateDate = item.UpdateDate;
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;
@@ -573,6 +906,50 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.WorkShopManagementRepository.WorkOrderValidation(dto,company,user);
         }
-        
+
+        public IList<WorkOrder> GetIRNBasedOnStatus(WorkOrder dto, Company company, User user)
+        {
+            var irnList = _unitOfWork.WorkShopManagementRepository.SelectIRNBasedOnStatus(dto,company,user); 
+            IList<IRNResponse> IRNsResponseList = irnList.Value;
+            IList<WorkOrder> IRNs=new List<WorkOrder>();
+
+            foreach (var itm in IRNsResponseList.ToLookup(x=>x.OrderKey).ToList())
+            {
+                WorkOrder irn = new WorkOrder();
+                irn.OrderKey = (int)(itm.FirstOrDefault()?.OrderKey);
+                irn.OrderNumber = itm.FirstOrDefault()?.OrderNumber;
+                irn.OrderDate = itm.FirstOrDefault().Insertdate;
+                irn.OrderType = itm.FirstOrDefault()?.IRNType;
+                irn.SelectedVehicle.VehicleRegistration.ItemCode= itm.FirstOrDefault()?.VehicleID;
+                irn.OrderRepAddress = itm.FirstOrDefault()?.ServiceAdvisor;
+                irn.BussinessUnit = itm.FirstOrDefault()?.BusinessUnit;
+
+                irn.OrderItems=new List<GenericOrderItem>();
+                foreach (var i in itm)
+                {
+                    GenericOrderItem goitm = new GenericOrderItem() {
+                        TransactionItem = new ItemResponse()
+                        {
+                            ItemCode = i.Item.ItemCode,
+                            ItemName = i.Item.ItemName,
+                            ItemKey = i.Item.ItemKey
+                        },
+                        TransactionQuantity = i.Quantity,
+                        TransactionRate = i.Rate,
+                        IsActive = i.IsActive,
+                        TransactionUnit=i.TransactionUnit
+                        //amount??
+                    };
+
+                    irn.OrderItems.Add(goitm);  
+                }
+
+                IRNs.Add(irn);
+
+            }
+
+            return IRNs;
+        }
+
     }
 }

@@ -84,6 +84,68 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
+
+        public BaseServerResponse<IList<AddressResponse>> GetMAUIAddresses(Company company, User user, ComboRequestDTO dto)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                string SPName = "AdrIDNm_SelectMobMAUI";
+                BaseServerResponse<IList<AddressResponse>> response = new BaseServerResponse<IList<AddressResponse>>();
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    IList<AddressResponse> addresses = new List<AddressResponse>();
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", dto.RequestingElementKey);
+                    dbCommand.CreateAndAddParameter("@SearchVal", dto.SearchQuery);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        AddressResponse address = new AddressResponse()
+                        {
+                            AddressKey = reader.GetColumn<int>("AdrKy"),
+                            AddressName = reader.GetColumn<string>("AdrNm"),
+                            AddressId = reader.GetColumn<string>("AdrId"),
+                            IsDefault = reader.GetColumn<int>("AdrKy") == reader.GetColumn<int>("DefaultKey")
+                        };
+                        addresses.Add(address);
+
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = addresses;
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null && !reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+            }
+        }
         public BaseServerResponse<AddressMaster> CustomerRegistration(Company company, User user, AddressMaster addressMaster)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())

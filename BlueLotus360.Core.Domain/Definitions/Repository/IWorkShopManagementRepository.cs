@@ -19,5 +19,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<IList<ProjectResponse>> SelectOngoingProjectDetails(Vehicle dto, Company company, User user);
         BaseServerResponse<IList<BookingDetails>> RecentBookingDetails(Vehicle dto, Company company, User user);
         UserRequestValidation WorkOrderValidation(WorkOrder dto, Company company, User user);
+        BaseServerResponse<IList<IRNResponse>> SelectIRNBasedOnStatus(WorkOrder dto, Company company, User user);
     }
 }

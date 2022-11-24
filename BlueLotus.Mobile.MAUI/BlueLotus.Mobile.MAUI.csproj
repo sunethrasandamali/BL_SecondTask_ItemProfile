@@ -65,6 +65,8 @@
 	  <None Remove="Resources\Images\logo_bl360.png" />
 	  <None Remove="Resources\Images\products\no_image.png" />
 	  <None Remove="Resources\Images\products\shoes\AriZona.jpg" />
+	  <None Remove="Resources\Images\products\shoes\arizonacucumber.jpg" />
+	  <None Remove="Resources\Images\products\shoes\arizonagreentea.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypso.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypsooblemonade.jpg" />
 	  <None Remove="Resources\Images\products\shoes\calypsopplemonade.jpg" />
@@ -81,6 +83,8 @@
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\products\shoes\arizona.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\arizonacucumber.jpg" />
+	  <MauiImage Include="Resources\Images\products\shoes\arizonagreentea.jpg" />
 	  <MauiImage Include="Resources\Images\products\shoes\calypso.jpg">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiImage>
@@ -153,6 +157,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\MainTabbedPaged.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\OrderSummaryPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\PopUps\AddressSelectPopUp.xaml">

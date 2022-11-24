@@ -12,6 +12,7 @@ using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Data.APIConsumer.APIConsumer.RestAPIConsumer;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using Microsoft.Maui.LifecycleEvents;
 using System;
@@ -33,16 +34,19 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             mauiAppBuilder.Services.AddSingleton<IAppUserService,AppUserService>();
             mauiAppBuilder.Services.AddSingleton<IAppObjectService, AppObjectService>();
             mauiAppBuilder.Services.AddSingleton<ICodeBaseService, CodeBaseService>();
+            mauiAppBuilder.Services.AddSingleton<IAppAddressService, AppAddressService>();
 
             return mauiAppBuilder;
         }
 
         public static MauiAppBuilder RegisterPages(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<MainPage>();
-            mauiAppBuilder.Services.AddSingleton<AppShell>();
-            mauiAppBuilder.Services.AddSingleton<LoginPage>();
-            mauiAppBuilder.Services.AddSingleton<CompanySelectionPage>();
+            mauiAppBuilder.Services.AddScoped<MainPage>();
+            mauiAppBuilder.Services.AddScoped<AppShell>();
+            mauiAppBuilder.Services.AddScoped<LoginPage>();
+            mauiAppBuilder.Services.AddTransient<CompanySelectionPage>();
+           // mauiAppBuilder.Services.AddSingleton<ProductListPage>();
+            //mauiAppBuilder.Services.AddScoped<ProductListPage>();
            
         
        
@@ -66,6 +70,7 @@ namespace BlueLotus.Mobile.MAUI.Extensions
             Routing.RegisterRoute(nameof(CompanySelectionPage), typeof(CompanySelectionPage));
             Routing.RegisterRoute(nameof(SingleProductPage), typeof(SingleProductPage));
             Routing.RegisterRoute(nameof(ProductListPage), typeof(ProductListPage));
+            Routing.RegisterRoute(nameof(OrderSummaryPage), typeof(OrderSummaryPage));
             return mauiAppBuilder;
         }
 

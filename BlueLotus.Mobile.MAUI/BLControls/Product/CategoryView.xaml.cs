@@ -18,7 +18,7 @@ public partial class CategoryView : ContentView
 
     private async void Model_CategoryClickEvent(object sender, CategoryClickEventArgs e)
     {
-		 Dispatcher.DispatchAsync(new Action(ImageButton_Clicked));
+		 await Dispatcher.DispatchAsync(new Action(ImageButton_Clicked));
     }
 
     private async void ImageButton_Clicked()

@@ -40,7 +40,9 @@ namespace BlueLotus360.Core.Domain.DTOs
         public ProjectResponse OrderProject { get; set; }
         public int Cd1Ky { get; set; } = 1;
         public decimal MeterReading { get; set; }
-        public AddressResponse EnteredUser { get; set; }
+        public User EnteredUser { get; set; }
+        public ItemResponse Insurance { get; set; }
+      
         public GenericOrder()
         {
             OrderLocation = new CodeBaseResponse();
@@ -60,7 +62,9 @@ namespace BlueLotus360.Core.Domain.DTOs
             OrderProject=new ProjectResponse();
             OrderStatus = new CodeBaseResponse();
             OrderControlCondition=new CodeBaseResponse();
-            EnteredUser = new AddressResponse();
+            EnteredUser = new User();
+            Insurance = new ItemResponse();
+            EnteredUser = new User();
         }
 
     }
@@ -119,7 +123,9 @@ namespace BlueLotus360.Core.Domain.DTOs
         public decimal Time { get; set; }
         public AccountResponse Supplier { get; set; }//where to map
         public AddressResponse ResourceAddress { get; set; } //technician ,where to map
-        
+        public DateTime InsertDate { get; set; } = DateTime.Now;
+        public DateTime UpdateDate { get; set; } = DateTime.Now;
+        public CodeBaseResponse AnalysisType1 { get; set; }
         public GenericOrderItem()
         {
             OrderLineLocation = new CodeBaseResponse();
@@ -129,6 +135,7 @@ namespace BlueLotus360.Core.Domain.DTOs
             BaringCompany = new AccountResponse();
             Supplier=new AccountResponse();
             ResourceAddress = new AddressResponse();
+            AnalysisType1 = new CodeBaseResponse();
         }
 
     }
@@ -210,7 +217,9 @@ namespace BlueLotus360.Core.Domain.DTOs
 
         public CodeBaseResponse OrderType { get; set; } = new CodeBaseResponse();
         public decimal MeterReading { get; set; }
-        
+        public ItemResponse Insurance { get; set; } = new ItemResponse();
+
+
     }
 
     public class OrderHeaderEditDTO : OrderHeaderCreateDTO
@@ -354,6 +363,8 @@ namespace BlueLotus360.Core.Domain.DTOs
         public int ItemTypeKey { get; set; }
         public string? ItemTypeName { get; set; }
         public string? ItemTypeOurCode { get; set; }
+        public DateTime InsertDate { get; set; }= DateTime.Now;
+        public DateTime UpdateDate { get; set; } = DateTime.Now;
 
     }
 

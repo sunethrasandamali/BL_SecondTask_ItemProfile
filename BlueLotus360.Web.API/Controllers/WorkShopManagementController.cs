@@ -80,6 +80,25 @@ namespace BlueLotus360.Web.API.Controllers
 
         }
 
+        [HttpPost("createIRNWorkOrder")]
+        public IActionResult CreateIRNWorkOrder(GenericOrder insurenceOrder) 
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(insurenceOrder.FormObjectKey);
+
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            insurenceOrder.OrderType = ordTyp.Value;
+
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, insurenceOrder.OrderStatus.OurCode, "PrcsFlow");
+            insurenceOrder.OrderStatus = ordsts.Value;
+
+            var ord = _workshopManagementService.SaveIRNOrder(company, user, insurenceOrder);
+            OrderSaveResponse response = ord.Value; 
+
+            return Ok(response);
+        }
+
         [HttpPost("updateWorkOrder")]
         public IActionResult UpdateWorkOrder(GenericOrder orderDetails)
         {
@@ -99,6 +118,25 @@ namespace BlueLotus360.Web.API.Controllers
             OrderSaveResponse orderServerResponse = _workshopManagementService.UpdateWorkOrder(company, user, orderDetails);
 
             return Ok(orderServerResponse);
+        }
+
+        [HttpPost("updateIRNWorkOrder")]
+        public IActionResult UpdateIRNWorkOrder(GenericOrder insurenceOrder)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            var uiObject = _objectService.GetObjectByObjectKey(insurenceOrder.FormObjectKey);
+
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            insurenceOrder.OrderType = ordTyp.Value;
+
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, insurenceOrder.OrderStatus.OurCode, "PrcsFlow");
+            insurenceOrder.OrderStatus = ordsts.Value;
+
+            var ord = _workshopManagementService.UpdateIRNOrder(company, user, insurenceOrder);
+            OrderSaveResponse response = ord.Value;
+
+            return Ok(response);
         }
 
         [HttpPost("openWorkOrder")]
@@ -155,6 +193,23 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
 
             UserRequestValidation response = _workshopManagementService.WorkorderValidation(req,company, user);
+
+            return Ok(response);
+
+        }
+
+        [HttpPost("getIRNByStatus")]
+        public IActionResult GetIRNByStatus(WorkOrder req)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var uiObject = _objectService.GetObjectByObjectKey(req.FormObjectKey);
+            var ordTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, uiObject.Value.OurCode, "OrdTyp");
+            req.OrderType = ordTyp.Value;
+            var ordsts = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, req.OrderStatus.OurCode, "PrcsFlow");
+            req.OrderStatus = ordsts.Value;
+            IList<WorkOrder> response = _workshopManagementService.GetIRNBasedOnStatus(req, company, user);
 
             return Ok(response);
 

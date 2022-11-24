@@ -38,6 +38,19 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(addresses);
         }
 
+        [HttpPost("readMAUIAddress")]
+        public IActionResult ReadMAUIAddress(ComboRequestDTO comboRequest)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var result = _addressService.GetMAUIAddresses(company, user, comboRequest);
+            IList<AddressResponse> addresses = result.Value;
+
+            return Ok(addresses);
+        }
+
+
         [HttpPost("createCustomer")]
         public IActionResult CreateCustomer(AddressMaster address)
         {

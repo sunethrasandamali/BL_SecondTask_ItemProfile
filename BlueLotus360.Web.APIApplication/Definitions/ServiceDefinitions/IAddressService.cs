@@ -18,5 +18,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<AddressMaster> CheckAdvanceAnalysisAvailability(Company company, AddressMaster addressMaster);
         BaseServerResponse<AddressMaster> CreateAdvanceAnalysis(Company company, AddressMaster addressMaster);
         AddressResponse GetAddressDetailsByUserKy(Company company, User user);
+        BaseServerResponse<IList<AddressResponse>> GetMAUIAddresses(Company company, User user, ComboRequestDTO dto);
+
     }
 }

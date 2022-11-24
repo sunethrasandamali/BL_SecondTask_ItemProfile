@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -127,6 +128,8 @@ namespace BlueLotus360.Core.Domain.Entity.Base
      
     public class ItemExtended : Item
     {
+
+        public decimal DefaultDiscountPercentage { get; set; }
         public CodeBaseResponse ItemCategory4 { get; set; }
         public CodeBaseResponse ItemCategory5 { get; set; }
         public CodeBaseResponse ItemCategory6 { get; set; }
@@ -196,8 +199,6 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public bool IsItem3 { get; set; }
         public bool IsItem4 { get; set; }
         public bool IsGeneric { get; set; }
-
-
         public bool AllowForTransaction { get; set; }
 
 

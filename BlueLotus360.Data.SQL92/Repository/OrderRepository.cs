@@ -86,6 +86,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
                     dbCommand.CreateAndAddParameter("MeterReading",orderHeader.MeterReading);
+                    dbCommand.CreateAndAddParameter("Adr2Ky", orderHeader.Insurance.ItemKey);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -438,6 +439,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
                     dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
+                    dbCommand.CreateAndAddParameter("Adr2Ky", orderV3.Insurance.ItemKey);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -886,7 +888,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ItemTypeOurCode = reader.GetColumn<string>("ItmTypOurCd");
                         oorderV3.ReserveAddressKey= reader.GetColumn<int>("ResrAdrKy");
                         oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
-
+                        oorderV3.InsertDate= reader.GetColumn<DateTime>("InsertDt");
+                        oorderV3.UpdateDate= reader.GetColumn<DateTime>("UpdtDt");
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);
