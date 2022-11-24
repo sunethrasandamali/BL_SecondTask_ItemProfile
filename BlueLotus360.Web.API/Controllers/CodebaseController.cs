@@ -48,6 +48,18 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(codeBases);
         }
 
+        [HttpPost("ReadCodeByConditionCode")]
+        public IActionResult ReadCodeByConditionCode(CodeBaseResponse comboRequest)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var response = _codebaseService.GetCodesByConditionCode(company, comboRequest);
+            IList<CodeBaseResponse> codeBases = response.Value;
+
+            return Ok(codeBases);
+        }
+
 
     }
 }

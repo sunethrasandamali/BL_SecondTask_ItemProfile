@@ -35,6 +35,8 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<ItemResponse> GetItemsByItemCode(Company company, ItemResponse item);
         BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderKy(Company company, RequestParameters order);
         bool InsertLastOrderSync(RequestParameters request, Company company);
+        bool InsertApiEndPoint(APIRequestParameters request, Company company);
+        BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request);
 
     }
 }

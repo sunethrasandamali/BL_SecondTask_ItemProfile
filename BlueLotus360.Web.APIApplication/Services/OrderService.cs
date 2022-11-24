@@ -503,6 +503,14 @@ namespace BlueLotus360.Web.APIApplication.Services
             return _unitOfWork.OrderRepository.InsertLastOrderSync(request,company);
         }
 
+        public bool InsertApiEndPoint(APIRequestParameters request, Company company)
+        {
+            return _unitOfWork.OrderRepository.InsertApiEndPoint(request, company);
+        }
+        public BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request)
+        {
+            return _unitOfWork.OrderRepository.GetAPIDetailsByMerchantID(request);
+        }
         
 
 
