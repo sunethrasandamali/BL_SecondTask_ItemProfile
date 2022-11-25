@@ -150,7 +150,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     {
                         WorkOrderAmountByAccount company_accdet = new WorkOrderAmountByAccount()
                         {
-                            FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                            FromOrderDetailKey = lineItem.OrderLineItemKey,
                             ObjectKey = lineItem.ObjectKey,
                             Account = item.BaringCompany,
                             Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
@@ -166,7 +166,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     {
                         WorkOrderAmountByAccount principle_accdet = new WorkOrderAmountByAccount()
                         {
-                            FromOrderDetailKey = lineItem.FromOrderDetailKey,
+                            FromOrderDetailKey = lineItem.OrderLineItemKey,
                             ObjectKey = lineItem.ObjectKey,
                             Account = item.BaringPrinciple,
                             Address = new AddressResponse() { AddressKey = lineItem.AddressKey },
