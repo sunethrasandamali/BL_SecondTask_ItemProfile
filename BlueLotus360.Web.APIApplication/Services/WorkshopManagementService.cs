@@ -286,9 +286,11 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
                     lineItem.Remarks = item.Remark;
                     lineItem.Description = item.Description;
+					lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
+                    lineItem.Analysis2Key = (int)item.AnalysisType1.CodeKey;
 
-                    //   TotalDiscount += Math.Abs(item.GetLineDiscount()));
-                    _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = order.FormObjectKey });
+					//   TotalDiscount += Math.Abs(item.GetLineDiscount()));
+					_unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = order.FormObjectKey });
 
 
                     if (item.BaringCompany.AccountKey > 11)
@@ -619,8 +621,9 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ItemTaxType5Per = item.ItemTaxType5Per;
                     lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
                     lineItem.Description = item.Description;
+					lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
 
-                    _unitOfWork.OrderRepository.UpdateGenericOrderLineItem(lineItem, orderDetails.FormObjectKey, company, user);
+					_unitOfWork.OrderRepository.UpdateGenericOrderLineItem(lineItem, orderDetails.FormObjectKey, company, user);
                 }
                 else
                 {
@@ -661,8 +664,9 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
                     lineItem.BussinessUnitKey = (int)item.BussinessUnit.CodeKey;
                     lineItem.Description = item.Description;
+					lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
 
-                    _unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
+					_unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = orderDetails.FormObjectKey });
                 }
 
                 if (item.BaringCompany.AccountKey > 11)
@@ -788,6 +792,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ResourceAddress = new AddressResponse() { AddressKey=item.ReserveAddressKey,AddressName=item.ReserveAddressID};
                     lineItem.InsertDate = item.InsertDate;
                     lineItem.UpdateDate = item.UpdateDate;
+                    lineItem.AnalysisType1.CodeKey = Convert.ToInt64(item.Analysis2Key);
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;
