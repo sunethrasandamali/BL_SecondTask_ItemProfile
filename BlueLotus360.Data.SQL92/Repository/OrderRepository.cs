@@ -2280,5 +2280,124 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+
+        public bool InsertApiEndPoint(APIRequestParameters request, Company company)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                string SPName = "ApiInfEndPoint_InsertWeb";
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ApiInfKy", request.APIIntegrationKey);
+                    dbCommand.CreateAndAddParameter("EndPointNm", request.EndPointName);
+                    dbCommand.CreateAndAddParameter("EndPointURL", request.EndPointURL);
+                    dbCommand.CreateAndAddParameter("EndPointToken", request.EndPointToken);
+                    dbCommand.CreateAndAddParameter("TokenvalidTm", request.TokenValidTillTime);
+
+                    dbCommand.Connection.Open();
+                    dbCommand.ExecuteNonQuery();
+                    return true;
+
+
+                }
+                catch (Exception exp)
+                {
+                    return false;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+
+            }
+        }
+
+        public BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                APIInformation information = new APIInformation();
+                BaseServerResponse<APIInformation> response = new BaseServerResponse<APIInformation>();
+                string SPName = "GetAPIDetailsByMerchantID";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("MechantID", request.APIName);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        information.APIIntegrationKey = reader.GetColumn<int>("ApiIntgrKy");
+                        information.IsActive = reader.GetColumn<int>("IsAct");
+                        information.Location.CodeKey = reader.GetColumn<int>("MappedLocation");
+                        information.Location.CodeName = reader.GetColumn<string>("LocationNm");
+                        information.MappedCompanyKey = reader.GetColumn<int>("MappedCky");
+                        information.MappedLocationKey = reader.GetColumn<int>("MappedLocation");
+                        information.MappedLocationName = reader.GetColumn<string>("LocationNm");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = information;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return response;
+            }
+        }
     }
 }

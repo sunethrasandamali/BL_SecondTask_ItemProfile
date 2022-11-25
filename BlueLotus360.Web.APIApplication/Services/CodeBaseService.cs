@@ -40,6 +40,11 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.CodeBaseRepository.GetCodeBaseByObject(company, user, requestDTO);
         }
+        public BaseServerResponse<IList<CodeBaseResponse>> GetCodesByConditionCode(Company company, CodeBaseResponse request)
+        {
+            return _unitOfWork.CodeBaseRepository.GetCodesByConditionCode(company, request);
+        }
+        
 
     }
 }
