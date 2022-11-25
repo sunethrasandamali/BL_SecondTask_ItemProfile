@@ -323,5 +323,78 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
         }
+
+        public BaseServerResponse<IList<CodeBaseResponse>> GetCodesByConditionCode(Company company,CodeBaseResponse request)
+        {
+            IList<CodeBaseResponse> codeBases = new List<CodeBaseResponse>();
+            BaseServerResponse<IList<CodeBaseResponse>> response = new BaseServerResponse<IList<CodeBaseResponse>>();
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "GetCodesByConCd_SelectWeb";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@ConCd", request.ConditionCode);
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        CodeBaseResponse codeBase = new CodeBaseResponse(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.Code = dataReader.GetColumn<string>("Code");
+                        codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
+                        codeBase.OurCode = dataReader.GetColumn<string>("OurCd");
+
+
+                        codeBases.Add(codeBase);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = codeBases;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
+                }
+                return response;
+            }
+
+        }
     }
 }

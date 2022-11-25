@@ -5,10 +5,13 @@ using BlueLotus360.Core.Domain.Entity.API;
 using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Entity.UberEats;
 using BlueLotus360.Core.Domain.Entity.WorkOrder;
 using BlueLotus360.Core.Domain.Responses;
+using BlueLotus360.Core.Domain.Utility;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
+using BlueLotus360.Web.API.Integrations.Uber;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -137,6 +140,10 @@ namespace BlueLotus360.Web.API.Controllers
         public IActionResult GetAPIDetails(APIRequestParameters request)
         {
             var company = Request.GetAssignedCompany();
+            if (request.APIIntegrationName == "Ubereats")
+            {
+                company.CompanyKey=1;
+            }
             var user = Request.GetAuthenticatedUser();
             APIInformation APIInfo = _orderService.GetAPIDetails(company, user, request).Value;
 
@@ -216,6 +223,97 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(success);
         }
+
+        [HttpPost("GenerateProvisionURL")]
+        public IActionResult GenerateProvisionURL(APIRequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            string Redirect_uri = request.BaseURL + "Order/GenerateProvisionToken?CompanyCode=" + CryptoService.ToEncryptedData(company.CompanyKey.ToString());
+            string link = "https://login.uber.com/oauth/v2/authorize?response_type=code&client_id=" +request.IntegrationID +"&scope=eats.pos_provisioning&redirect_uri=" +Redirect_uri;
+            return Ok(link);
+        }
+
+        [HttpGet("GenerateProvisionToken")]
+        public ContentResult GenerateProvisionToken(string ComapayCode, string code)
+        {
+            var user = Request.GetAuthenticatedUser();
+            string decryptedCompanyKeyAsString = CryptoService.ToDecryptedData(ComapayCode);
+            int decryptedCompanyKey = Convert.ToInt32(decryptedCompanyKeyAsString);
+            UberProvisionHandler uberProvisionHandler = new UberProvisionHandler(_orderService);
+            UberTokenHandler uberTokenHandler = new UberTokenHandler(_orderService);
+            APIInformation APIInfo= uberProvisionHandler.GetCommonUberDetails(user== null ? new Core.Domain.Entity.Base.User():user);
+            if (APIInfo != null)
+            {
+                APIInformation endpointInfo = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, UberEndpointURLS.AuthCode.ToString());
+                uberProvisionHandler.InsertAuthEndpoint(code, APIInfo.APIIntegrationKey, endpointInfo.EndPointURL, decryptedCompanyKey);
+                var RedirectURL = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path;
+                APIInformation ScopeendpointInfo = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, UberTokenEndpoints.Eats_Provisioning_Scope.GetDescription());
+                APIInformation GetProvisionToken = uberTokenHandler.GetUberEatsTokensByEndPointName(APIInfo, ScopeendpointInfo, UberTokenEndpoints.Eats_Provisioning_Scope.GetDescription(), RedirectURL, code, decryptedCompanyKey);
+                if(GetProvisionToken.EndPointToken != string.Empty && GetProvisionToken.EndPointToken != null)
+                {
+                    return new ContentResult
+                    {
+                        ContentType = "text/html",
+                        Content = "<div>Successfully Provisioned with Uber !</div>"
+                    };
+                }
+                else
+                {
+                    return new ContentResult
+                    {
+                        ContentType = "text/html",
+                        Content = "<div>Something went wrong!</div>"
+                    };
+                }
+            }
+            else
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    Content = "<div>Something went wrong!</div>"
+                };
+            }
+        }
+
+        [HttpPost("GenerateUberToken")]
+        public IActionResult GenerateUberToken(APIRequestParameters request)
+        {
+            UberProvisionHandler uberProvisionHandler = new UberProvisionHandler(_orderService);
+            UberTokenHandler uberTokenHandler = new UberTokenHandler(_orderService);
+            APIInformation GetUberToken = new APIInformation();
+            User user = Request.GetAuthenticatedUser();
+            Company company = Request.GetAssignedCompany();
+            APIInformation APIInfo = uberProvisionHandler.GetCommonUberDetails(user == null ? new Core.Domain.Entity.Base.User() : user);
+            if (APIInfo != null)
+            {
+                APIInformation ScopeendpointInfo = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, request.EndPointName);
+                GetUberToken = uberTokenHandler.GetUberEatsTokensByEndPointName(APIInfo, ScopeendpointInfo, request.EndPointName, "", "", company.CompanyKey);
+            }
+                return Ok(GetUberToken);
+        }
+
+        [HttpPost("GetUberEndPoints")]
+        public IActionResult GetUberEndPoints(APIRequestParameters request)
+        {
+            UberProvisionHandler uberProvisionHandler = new UberProvisionHandler(_orderService);
+            APIInformation GetUberEndPoint = new APIInformation();
+            User user = Request.GetAuthenticatedUser();
+            APIInformation APIInfo = uberProvisionHandler.GetCommonUberDetails(user == null ? new Core.Domain.Entity.Base.User() : user);
+            if (APIInfo != null)
+            {
+                GetUberEndPoint = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, request.EndPointName);
+            }
+            return Ok(GetUberEndPoint);
+        }
+
+        [HttpPost("GetAPIDetailsByMerchantID")]
+        public IActionResult GetAPIDetailsByMerchantID(APIRequestParameters request)
+        {
+            APIInformation apiinfo = _orderService.GetAPIDetailsByMerchantID(request).Value;
+            return Ok(apiinfo);
+        }
+
 
     }
 }
