@@ -97,6 +97,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
 
         public bool IsVarcar1On { get; set; }
         public decimal Quantity1 { get; set; }
+        public CodeBaseResponse TransactionControlCondition { get; set; }=new CodeBaseResponse();
 
         public BLTransaction()
         {
@@ -106,6 +107,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
             InvoiceLineItems = new List<GenericTransactionLineItem>();
             YourReferenceDate = DateTime.Now;
             SerialNumber = new ItemSerialNumber();
+            TransactionControlCondition = new CodeBaseResponse();
         }
 
 

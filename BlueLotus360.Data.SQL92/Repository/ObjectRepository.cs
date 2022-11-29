@@ -431,7 +431,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                             uielement.IsFreeze = GetColumn<bool>("IsFreeze", sqlDataReader);
                             uielement.IsEnable = GetColumn<bool>("IsEnable", sqlDataReader);
                             uielement.IsMust = GetColumn<bool>("isMust", sqlDataReader);
-                            uielement.IsVisible = GetColumn<bool>("IsVisible", sqlDataReader);
+                            uielement.IsVisible = GetColumn<bool>("isVisible", sqlDataReader);
                             uielement.ElementCaption = GetColumn<string>("ObjCaptn", sqlDataReader);
                             uielement.ElementKey = sqlDataReader.GetColumn<int>("ObjKy");
                             uielement._internalElementName = sqlDataReader.GetColumn<string>("ObjNm");

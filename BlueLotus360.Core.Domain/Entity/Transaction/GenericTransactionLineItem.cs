@@ -113,11 +113,13 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public decimal MarkupAmount { get; set; }
         public decimal TotalMarkupAmount { get; set; }
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
-        public IList<ItemSerialNumber> SerialNumbers { get; set; }= new List<ItemSerialNumber>();   
+        public IList<ItemSerialNumber> SerialNumbers { get; set; }= new List<ItemSerialNumber>();
 
         // CarMart
+        public AccountResponse BaringPrinciple { get; set; }=new AccountResponse();
         public decimal PrinciplePrecentage { get; set; }
         public decimal PrincipleAmount { get; set; }
+        public AccountResponse BaringCompany { get; set; } = new AccountResponse();
         public decimal CompanyPrecentage { get; set; }
         public decimal CompanyAmount { get; set; }
         public decimal CustomerAmount { get; set; }
@@ -132,6 +134,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
             //TransactionItem = new();
             // TransactionUnit = new UnitResponse();
             SerialNumbers = new List<ItemSerialNumber>();
+            BaringPrinciple = new AccountResponse();
+            BaringCompany= new AccountResponse();   
 
         }
 
