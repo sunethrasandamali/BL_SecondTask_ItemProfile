@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlueLotus360.Core.Domain.Entity.UberEats;
 
 namespace BlueLotus360.Web.APIApplication.Services
 {
@@ -511,9 +512,21 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetAPIDetailsByMerchantID(request);
         }
+        public bool UberProvision_InsertUpdate(APIInformation request, Company company)
+        {
+            return _unitOfWork.OrderRepository.UberProvision_InsertUpdate(request,company);
+        }
+        public BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company)
+        {
+            return _unitOfWork.OrderRepository.GetAllOrderMenuConfiguration(company);
+        }
+        public bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu)
+        {
+            return _unitOfWork.OrderRepository.OrderMenuConfiguration_InsertUpdate(user, orderMenu);
+        }
+
+
         
-
-
 
     }
 }

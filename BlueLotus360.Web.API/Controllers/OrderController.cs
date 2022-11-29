@@ -315,5 +315,32 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
 
+        [HttpPost("UberProvision_InsertUpdate")]
+        public IActionResult UberProvision_InsertUpdate(APIInformation request)
+        {
+            var company = Request.GetAssignedCompany();
+            bool success = _orderService.UberProvision_InsertUpdate(request, company);
+
+            return Ok(success);
+        }
+
+        [HttpPost("GetOrderMenuConfiguration")]
+        public IActionResult GetOrderMenuConfiguration(OrderMenuConfiguration request)
+        {
+            var company = Request.GetAssignedCompany();
+            IList<OrderMenuConfiguration> config = _orderService.GetAllOrderMenuConfiguration(company).Value;
+
+            return Ok(config);
+        }
+
+        [HttpPost("OrderMenuConfiguration_InsertUpdate")]
+        public IActionResult OrderMenuConfiguration_InsertUpdate(OrderMenuConfiguration request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            bool success = _orderService.OrderMenuConfiguration_InsertUpdate(user,request);
+
+            return Ok(success);
+        }
+
     }
 }
