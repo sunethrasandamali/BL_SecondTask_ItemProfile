@@ -1018,7 +1018,6 @@ namespace BlueLotus360.Data.SQL92.Repository
                         lineItem.TransactionItem.ItemCode = reader.GetColumn<string>("ItmCd");
                         lineItem.TransactionLocation = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
                         lineItem.Quantity = reader.GetColumn<decimal>("Qty");
-
                         lineItem.TransactionQuantity = reader.GetColumn<decimal>("TrnQty");
                         lineItem.Rate = reader.GetColumn<decimal>("Rate");
                         lineItem.TransactionRate = reader.GetColumn<decimal>("TrnRate");
@@ -1042,6 +1041,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         lineItem.LineNumber = reader.GetColumn<int>("LiNo");
                         lineItem.IsPersisted = true;
                         lineItem.IsDirty = false;
+                        lineItem.ReservationAddress=new AddressResponse() { AddressKey = reader.GetColumn<long>("ResrAdrID"), AddressName = reader.GetColumn<string>("ResrAdrNm") };
                         //technician,time,car per,principal per
 
                         lineItems.Add(lineItem);
@@ -1141,7 +1141,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.IsLocked = reader.GetColumn<int>("IsLocked");
                         transaction.AccessLevel = new CodeBaseResponse(reader.GetColumn<long>("AcsLvlKy"));
                         transaction.ConfidentialLevel = new CodeBaseResponse(reader.GetColumn<long>("ConFinLvlKy"));
-                        transaction.Rep = new AddressResponse(reader.GetColumn<long>("RepAdrKy"));//need to get rep
+                        transaction.Rep = new AddressResponse() { AddressKey= reader.GetColumn<long>("RepAdrKy") ,AddressName= reader.GetColumn<string>("RepAdrNm") };
                         transaction.Address = new AddressResponse(reader.GetColumn<long>("AdrKy"));
                         transaction.Amount = reader.GetColumn<decimal>("Amt");
                         transaction.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
