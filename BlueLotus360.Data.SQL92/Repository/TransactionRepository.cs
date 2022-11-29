@@ -1018,7 +1018,6 @@ namespace BlueLotus360.Data.SQL92.Repository
                         lineItem.TransactionItem.ItemCode = reader.GetColumn<string>("ItmCd");
                         lineItem.TransactionLocation = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
                         lineItem.Quantity = reader.GetColumn<decimal>("Qty");
-
                         lineItem.TransactionQuantity = reader.GetColumn<decimal>("TrnQty");
                         lineItem.Rate = reader.GetColumn<decimal>("Rate");
                         lineItem.TransactionRate = reader.GetColumn<decimal>("TrnRate");
@@ -1042,6 +1041,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         lineItem.LineNumber = reader.GetColumn<int>("LiNo");
                         lineItem.IsPersisted = true;
                         lineItem.IsDirty = false;
+                        lineItem.ReservationAddress=new AddressResponse() { AddressKey = reader.GetColumn<long>("ResrAdrID"), AddressName = reader.GetColumn<string>("ResrAdrNm") };
                         //technician,time,car per,principal per
 
                         lineItems.Add(lineItem);
@@ -1125,7 +1125,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.Description = reader.GetColumn<string>("Des");
                         transaction.Remarks = reader.GetColumn<string>("Rem");
                         transaction.TransactionCurrency = new CodeBaseResponse(reader.GetColumn<long>("TrnCrnKy"));
-                        transaction.PaymentTerm = new CodeBaseResponse(reader.GetColumn<long>("PmtTrmKy"));
+                        transaction.PaymentTerm =this.GetCdMasByCdKy(reader.GetColumn<int>("PmtTrmKy"));
                         transaction.TransactionExchangeRate = reader.GetColumn<decimal>("TrnExRate");
                         transaction.IsActive = reader.GetColumn<int>("IsAct");
                         transaction.IsApproved = reader.GetColumn<int>("IsApr");
@@ -1135,19 +1135,19 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.Account.AccountKey = reader.GetColumn<long>("AccKy");
                         transaction.AccountObjectKey = reader.GetColumn<long>("AccObjKy");
                         transaction.ContraAccount = new AccountResponse();
-                        transaction.ContraAccount.AccountName = reader.GetColumn<string>("Cu");
+                        transaction.ContraAccount.AccountName = reader.GetColumn<string>("ContraAcc");
                         transaction.ContraAccount.AccountKey = reader.GetColumn<long>("ContraAccKy");
                         transaction.ContraAccountObjectKey = reader.GetColumn<long>("ContraAccObjKy");
                         transaction.IsLocked = reader.GetColumn<int>("IsLocked");
                         transaction.AccessLevel = new CodeBaseResponse(reader.GetColumn<long>("AcsLvlKy"));
                         transaction.ConfidentialLevel = new CodeBaseResponse(reader.GetColumn<long>("ConFinLvlKy"));
-                        transaction.Rep = new AddressResponse(reader.GetColumn<long>("RepAdrKy"));
+                        transaction.Rep = new AddressResponse() { AddressKey= reader.GetColumn<long>("RepAdrKy") ,AddressName= reader.GetColumn<string>("RepAdrNm") };
                         transaction.Address = new AddressResponse(reader.GetColumn<long>("AdrKy"));
                         transaction.Amount = reader.GetColumn<decimal>("Amt");
                         transaction.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
                         transaction.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
                         transaction.IsRecurrence = reader.GetColumn<int>("IsRecur");
-                        transaction.Location = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
+                        transaction.Location = this.GetCdMasByCdKy(reader.GetColumn<int>("LocKy"));
                         transaction.CustomItem = new ItemResponse();
                         transaction.Shift = new CodeBaseResponse(reader.GetColumn<long>("ShiftKy"));
                         transaction.CommisionPercentage = reader.GetColumn<decimal>("ComisPer");
@@ -1175,7 +1175,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.Quantity1 = reader.GetColumn<decimal>("Qty1");
                         //transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
 
-                        //service advisor??
+                        //rep adrky passed but repnm is not passing 
+                        //need to pass resourceadrky and name 
                         //sales
                         //
 
@@ -1223,6 +1224,63 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
 
 
+
+            }
+        }
+
+        private CodeBaseResponse GetCdMasByCdKy(int cdKy)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader dataReader = null;
+                CodeBaseResponse codebase = new CodeBaseResponse();
+                string SPName = "GetCdMasBy_CdKy";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@CdKy", cdKy);
+
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        codebase.Code = dataReader.GetColumn<string>("Code");
+                        codebase.CodeName = dataReader.GetColumn<string>("CdNm");
+                        codebase.ConditionCode = dataReader.GetColumn<string>("ConCd");
+                        codebase.CodeKey = dataReader.GetColumn<int>("CdKy");
+                    }
+
+
+                }
+                catch (Exception exp)
+                {
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                        dataReader.Dispose();
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return codebase;
 
             }
         }

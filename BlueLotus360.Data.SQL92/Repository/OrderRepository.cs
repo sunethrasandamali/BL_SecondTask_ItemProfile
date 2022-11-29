@@ -206,6 +206,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp4Per", item.ItemTaxType4Per);
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp5Per", item.ItemTaxType5Per);
                     dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
+                    dbCommand.CreateAndAddParameter("@Anl2Ky", (int)item.AnalysisType1.CodeKey);
 
                     //  dbCommand.CreateAndAddParameter("ItmPrpKy", item.ItemProperty1);
 
@@ -442,7 +443,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
                     dbCommand.CreateAndAddParameter("Adr2Ky", orderV3.Insurance.ItemKey);
 
-                    response.ExecutionStarted = DateTime.UtcNow;
+					response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
                     while (reader.Read())
@@ -543,8 +544,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@TrnPri", item.TransactionPrice);
                     dbCommand.CreateAndAddParameter("@OrgQty", item.OriginalQuantity);
                     dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
+					dbCommand.CreateAndAddParameter("@Anl2Ky", (int)item.AnalysisType1.CodeKey);
 
-                    response.ExecutionStarted = DateTime.UtcNow;
+					response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
                     while (reader.Read())
@@ -891,6 +893,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
                         oorderV3.InsertDate= reader.GetColumn<DateTime>("InsertDt");
                         oorderV3.UpdateDate= reader.GetColumn<DateTime>("UpdtDt");
+                        oorderV3.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);
