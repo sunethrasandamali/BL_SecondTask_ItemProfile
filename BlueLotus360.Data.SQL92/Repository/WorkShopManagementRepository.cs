@@ -479,7 +479,10 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.Item.ItemKey= reader.GetColumn<int>("ItmKy");
                         order.Item.ItemName = reader.GetColumn<string>("ItmNm");
                         order.Item.ItemCode = reader.GetColumn<string>("ItmCd");
-						order.IsActive = 1;
+                        order.IsActive = reader.GetColumn<int>("isAct");
+                        order.Quantity = reader.GetColumn<decimal>("Qty");
+                        order.Rate = reader.GetColumn<decimal>("TrnPri");
+                        order.Amount = reader.GetColumn<decimal>("Amt");
                         order.TransactionUnit = new UnitResponse();
 						list.Add(order);
                     }
