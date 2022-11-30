@@ -45,7 +45,9 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         bool InsertApiEndPoint(APIRequestParameters request, Company company);
         BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request);
         bool UberProvision_InsertUpdate(APIInformation request, Company company);
-        BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company);
-        bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu);
+       // BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company);
+       // bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu);
+        bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
+        BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
     }
 }

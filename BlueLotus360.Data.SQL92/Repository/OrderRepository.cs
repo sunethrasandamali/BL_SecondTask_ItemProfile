@@ -17,6 +17,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
+using System.Net.Http;
+using BlueLotus360.Core.Domain.Utility;
 
 namespace BlueLotus360.Data.SQL92.Repository
 {
@@ -2451,22 +2453,23 @@ namespace BlueLotus360.Data.SQL92.Repository
             }
         }
 
-        public BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company)
+        public BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company,RequestParameters request)
         {
-            IList<OrderMenuConfiguration> code = new List<OrderMenuConfiguration>();
-            BaseServerResponse<IList<OrderMenuConfiguration>> response = new BaseServerResponse<IList<OrderMenuConfiguration>>();
+            IList<PartnerMenuItem> code = new List<PartnerMenuItem>();
+            BaseServerResponse<IList<PartnerMenuItem>> response = new BaseServerResponse<IList<PartnerMenuItem>>();
 
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
 
                 IDataReader dataReader = null;
-                string SPName = "MenuConfiguration_SelectWeb";
+                string SPName = "MenuUploadToOrderHub";
                 try
                 {
 
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
                     dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@LocKy", request.LocationKey);
 
 
                     response.ExecutionStarted = DateTime.UtcNow;
@@ -2476,17 +2479,17 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     while (dataReader.Read())
                     {
-                        OrderMenuConfiguration codeBase = new OrderMenuConfiguration();
-                        codeBase.PlatformConfigKey = dataReader.GetColumn<int>("AccItmCdKy");
-                        codeBase.Platforms.AccountKey = dataReader.GetColumn<int>("AccKy");
-                        codeBase.Location.CodeKey = dataReader.GetColumn<int>("CdKy");
-                        codeBase.Item.ItemKey = dataReader.GetColumn<int>("ItmKy");
-                        codeBase.Platforms.AccountName = dataReader.GetColumn<string>("AccNm");
-                        codeBase.Location.CodeName = dataReader.GetColumn<string>("CdNm");
-                        codeBase.Item.ItemName = dataReader.GetColumn<string>("ItmNm");
+                        PartnerMenuItem item = new PartnerMenuItem();
+                        item.ItemKey = dataReader.GetColumn<int>("ItmKy");
+                        item.ItemCode = dataReader.GetColumn<string>("ItmCd");
+                        item.ItemName = dataReader.GetColumn<string>("ItmNm");
+                        item.OptionalSalesPrice = dataReader.GetColumn<decimal>("SlsPri");
+                        item.Description = dataReader.GetColumn<string>("Des");
+                        item.CategoryName = dataReader.GetColumn<string>("CdNm");
+                        item.CategoryCode = dataReader.GetColumn<string>("Code");
+                        item.imageArr = dataReader.GetColumn<byte[]>("Image");
 
-
-                        code.Add(codeBase);
+                        code.Add(item);
                     }
 
                     response.ExecutionStarted = DateTime.UtcNow;
@@ -2529,21 +2532,22 @@ namespace BlueLotus360.Data.SQL92.Repository
 
         }
 
-        public bool OrderMenuConfiguration_InsertUpdate(User user,OrderMenuConfiguration orderMenu)
+        
+
+        public bool OrderHubStatus_UpdateWeb(RequestParameters request, User user)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
                 bool isSuccess = false;
-                string SPName = "MenuConfiguration_InsertUpdateWeb";
+                APIInformation information = new APIInformation();
+                string SPName = "OrderHubStatus_UpdateWeb";
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("OrdStsKy", request.StatusKey);
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
-                    dbCommand.CreateAndAddParameter("AccKy", orderMenu.Platforms.AccountKey);
-                    dbCommand.CreateAndAddParameter("CdKy", orderMenu.Location.CodeKey);
-                    dbCommand.CreateAndAddParameter("ItmKy", orderMenu.Item.ItemKey);
-                    dbCommand.CreateAndAddParameter("AccItmCdKy", orderMenu.PlatformConfigKey);
+                    dbCommand.CreateAndAddParameter("OrdKy", request.OrderKey);
 
                     dbCommand.Connection.Open();
                     dbCommand.ExecuteNonQuery();

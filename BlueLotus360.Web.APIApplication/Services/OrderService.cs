@@ -516,16 +516,16 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.UberProvision_InsertUpdate(request,company);
         }
-        public BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company)
+       
+        public bool OrderHubStatus_UpdateWeb(RequestParameters request, User user)
         {
-            return _unitOfWork.OrderRepository.GetAllOrderMenuConfiguration(company);
-        }
-        public bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu)
-        {
-            return _unitOfWork.OrderRepository.OrderMenuConfiguration_InsertUpdate(user, orderMenu);
+            return _unitOfWork.OrderRepository.OrderHubStatus_UpdateWeb(request, user);
         }
 
-
+        public BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request)
+        {
+            return _unitOfWork.OrderRepository.GetAllOrderMenuItems(company,request);
+        }
         
 
     }

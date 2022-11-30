@@ -28,14 +28,16 @@ namespace BlueLotus360.Web.API.Controllers
         IOrderService _orderService;
         IObjectService _objectService;
         ICodeBaseService _codeBaseService;
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment;
         public OrderController(ILogger<OrderController> logger,
                                 IOrderService orderService,
-                                IObjectService objectService, ICodeBaseService codeBaseService)
+                                IObjectService objectService, ICodeBaseService codeBaseService, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
         {
             _logger = logger;
             _orderService = orderService;
             _objectService = objectService;
             _codeBaseService= codeBaseService;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpPost("createGenericOrder")]
@@ -324,23 +326,92 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(success);
         }
 
-        [HttpPost("GetOrderMenuConfiguration")]
-        public IActionResult GetOrderMenuConfiguration(OrderMenuConfiguration request)
-        {
-            var company = Request.GetAssignedCompany();
-            IList<OrderMenuConfiguration> config = _orderService.GetAllOrderMenuConfiguration(company).Value;
+        //[HttpPost("GetOrderMenuConfiguration")]
+        //public IActionResult GetOrderMenuConfiguration(OrderMenuConfiguration request)
+        //{
+        //    var company = Request.GetAssignedCompany();
+        //    IList<OrderMenuConfiguration> config = _orderService.GetAllOrderMenuConfiguration(company).Value;
 
-            return Ok(config);
-        }
+        //    return Ok(config);
+        //}
 
-        [HttpPost("OrderMenuConfiguration_InsertUpdate")]
-        public IActionResult OrderMenuConfiguration_InsertUpdate(OrderMenuConfiguration request)
+        //[HttpPost("OrderMenuConfiguration_InsertUpdate")]
+        //public IActionResult OrderMenuConfiguration_InsertUpdate(OrderMenuConfiguration request)
+        //{
+        //    var user = Request.GetAuthenticatedUser();
+        //    bool success = _orderService.OrderMenuConfiguration_InsertUpdate(user,request);
+
+        //    return Ok(success);
+        //}
+
+        [HttpPost("OrderHubStatus_UpdateWeb")]
+        public IActionResult OrderHubStatus_UpdateWeb(RequestParameters request)
         {
             var user = Request.GetAuthenticatedUser();
-            bool success = _orderService.OrderMenuConfiguration_InsertUpdate(user,request);
+            bool success = _orderService.OrderHubStatus_UpdateWeb(request,user);
 
             return Ok(success);
         }
 
+        //public string SetupItemPicUrl(PartnerMenuItem menuItem, int companyKey, byte[] imgArr)
+        //{
+        //    try
+        //    {
+
+        //        string folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, ("~/ItemImages/" + CryptoService.ToEncryptedData(companyKey.ToString()) + "/"));
+        //        string folderPathforUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/ItemImages/" + CryptoService.ToEncryptedData(companyKey.ToString()) + "/";
+        //        string imageFileName = menuItem.ItemCode + ".jpg";
+        //        if (!Directory.Exists(folderPath))
+        //        {
+        //            Directory.CreateDirectory(folderPath);
+        //        }
+
+        //        //as a url
+        //        using (MemoryStream ms = new MemoryStream(imgArr))
+        //        {
+        //            Image img = Image.FromStream(ms);
+        //            string finalImgPath = folderPath + imageFileName;
+
+        //            if (!File.Exists(finalImgPath))
+        //            {
+
+        //                img.Save(finalImgPath, Imaging.ImageFormat.Png);
+        //            }
+
+
+        //        }
+        //        return folderPathforUrl + imageFileName;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return "";
+        //    }
+        //    finally
+        //    {
+
+        //    }
+
+
+
+
+        //    //menuItem.ItemImageUrl = folderPathforUrl + imageFileName;
+
+
+
+        //}
+
+        [HttpPost("GetAllOrderMenuItems")]
+        public IActionResult GetAllOrderMenuItems(RequestParameters request)
+        {
+            var company = Request.GetAssignedCompany();
+            IList<PartnerMenuItem> items = _orderService.GetAllOrderMenuItems(company,request).Value;
+            //foreach (PartnerMenuItem item in items)
+            //{
+            //    item.ItemImage = Convert.ToBase64String(item.imageArr, 0, item.imageArr.Length);
+            //    item.ItemImageUrl = SetupItemPicUrl(item, company.CompanyKey, item.imageArr);
+            //}
+
+            return Ok(items);
+        }
     }
 }
