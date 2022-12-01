@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlueLotus360.Core.Domain.Entity.UberEats;
 
 namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
@@ -43,5 +44,10 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         bool InsertLastOrderSync(RequestParameters request, Company company);
         bool InsertApiEndPoint(APIRequestParameters request, Company company);
         BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request);
-	}
+        bool UberProvision_InsertUpdate(APIInformation request, Company company);
+       // BaseServerResponse<IList<OrderMenuConfiguration>> GetAllOrderMenuConfiguration(Company company);
+       // bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu);
+        bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
+        BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
+    }
 }
