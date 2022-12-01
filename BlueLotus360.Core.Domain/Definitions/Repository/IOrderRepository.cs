@@ -43,5 +43,5 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         bool InsertLastOrderSync(RequestParameters request, Company company);
         bool InsertApiEndPoint(APIRequestParameters request, Company company);
         BaseServerResponse<APIInformation> GetAPIDetailsByMerchantID(APIRequestParameters request);
-    }
+	}
 }

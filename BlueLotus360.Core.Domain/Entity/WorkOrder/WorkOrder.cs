@@ -154,14 +154,20 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public decimal Amount { get; set; }
         public int IsActive { get; set; }
         public UnitResponse TransactionUnit { get; set; }
-        public IRNResponse() 
+		public ItemResponse Insurance { get; set; }
+        public int HederIsActive { get; set; }
+		public decimal DiscountPercentage { get; set; }
+		public decimal DisocuntAmount { get; set; }
+		public CodeBaseResponse AnalysisType1 { get; set; }
+		public IRNResponse() 
         {
             IRNType= new CodeBaseResponse();
             ServiceAdvisor = new AddressResponse();
             BusinessUnit= new CodeBaseResponse();
             Item= new ItemResponse();
             TransactionUnit = new UnitResponse();
-
+            Insurance = new ItemResponse();
+            AnalysisType1= new CodeBaseResponse();
 		}
     }
 }
