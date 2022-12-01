@@ -19,6 +19,9 @@ using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
 using System.Net.Http;
 using BlueLotus360.Core.Domain.Utility;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace BlueLotus360.Data.SQL92.Repository
 {
@@ -2579,6 +2582,80 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 return isSuccess;
             }
+        }
+
+        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company,ComboRequestDTO request)
+        {
+            IList<CodeBaseResponse> codeBases = new List<CodeBaseResponse>();
+            BaseServerResponse<IList<CodeBaseResponse>> response = new BaseServerResponse<IList<CodeBaseResponse>>();
+            RequestParameters value = JsonConvert.DeserializeObject<RequestParameters>(request.AddtionalData["Status"].ToString());
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "GetNextOrderHubStatusByStatusKey";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@OrdStsKy", value.StatusKey);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        CodeBaseResponse codeBase = new CodeBaseResponse(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.Code = dataReader.GetColumn<string>("Code");
+                        codeBase.CodeName = dataReader.GetColumn<string>("CodeNm");
+                        codeBase.OurCode = dataReader.GetColumn<string>("OurCd");
+
+
+                        codeBases.Add(codeBase);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = codeBases;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
+                }
+                return response;
+            }
+
         }
     }
 }

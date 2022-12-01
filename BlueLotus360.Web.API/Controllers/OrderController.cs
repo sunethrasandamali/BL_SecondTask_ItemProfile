@@ -15,6 +15,7 @@ using BlueLotus360.Web.API.Integrations.Uber;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
 using System.Transactions;
 
 namespace BlueLotus360.Web.API.Controllers
@@ -353,64 +354,81 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(success);
         }
 
-        //public string SetupItemPicUrl(PartnerMenuItem menuItem, int companyKey, byte[] imgArr)
-        //{
-        //    try
-        //    {
+        private string SetupItemPicUrl(PartnerMenuItem menuItem, byte[] imgArr)
+        {
+            try
+            {
+                Company company = Request.GetAssignedCompany();
+                string folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, ("~/ItemImages/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/"));
+                string folderPathforUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/ItemImages/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/";
+                string imageFileName = menuItem.ItemCode + ".jpg";
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
 
-        //        string folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, ("~/ItemImages/" + CryptoService.ToEncryptedData(companyKey.ToString()) + "/"));
-        //        string folderPathforUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/ItemImages/" + CryptoService.ToEncryptedData(companyKey.ToString()) + "/";
-        //        string imageFileName = menuItem.ItemCode + ".jpg";
-        //        if (!Directory.Exists(folderPath))
-        //        {
-        //            Directory.CreateDirectory(folderPath);
-        //        }
+                //as a url
+                using (MemoryStream ms = new MemoryStream(imgArr))
+                {
+                    ms.Position = 0;
+                    Image img = Image.FromStream(ms);
+                    string finalImgPath = folderPath + imageFileName;
 
-        //        //as a url
-        //        using (MemoryStream ms = new MemoryStream(imgArr))
-        //        {
-        //            Image img = Image.FromStream(ms);
-        //            string finalImgPath = folderPath + imageFileName;
+                    if (!System.IO.File.Exists(finalImgPath))
+                    {
 
-        //            if (!File.Exists(finalImgPath))
-        //            {
-
-        //                img.Save(finalImgPath, Imaging.ImageFormat.Png);
-        //            }
-
-
-        //        }
-        //        return folderPathforUrl + imageFileName;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return "";
-        //    }
-        //    finally
-        //    {
-
-        //    }
+                        img.Save(finalImgPath, System.Drawing.Imaging.ImageFormat.Png);
+                    }
 
 
+                }
+                return folderPathforUrl + imageFileName;
+            }
+            catch (Exception e)
+            {
+                return "";
+            }
+            finally
+            {
 
-
-        //    //menuItem.ItemImageUrl = folderPathforUrl + imageFileName;
+            }
 
 
 
-        //}
+
+            //menuItem.ItemImageUrl = folderPathforUrl + imageFileName;
+
+
+
+        }
 
         [HttpPost("GetAllOrderMenuItems")]
         public IActionResult GetAllOrderMenuItems(RequestParameters request)
         {
             var company = Request.GetAssignedCompany();
             IList<PartnerMenuItem> items = _orderService.GetAllOrderMenuItems(company,request).Value;
-            //foreach (PartnerMenuItem item in items)
-            //{
-            //    item.ItemImage = Convert.ToBase64String(item.imageArr, 0, item.imageArr.Length);
-            //    item.ItemImageUrl = SetupItemPicUrl(item, company.CompanyKey, item.imageArr);
-            //}
+            if (items.Count > 0)
+            {
+                foreach (PartnerMenuItem item in items)
+                {
+                    if(item.imageArr != null)
+                    {
+                        item.ItemImage = Convert.ToBase64String(item.imageArr, 0, item.imageArr.Length);
+                        item.ItemImageUrl = SetupItemPicUrl(item, item.imageArr);
+                    }
+                    
+                }
+            }
+            
 
+            return Ok(items);
+        }
+
+        [HttpPost("GetNextOrderHubStatusByStatusKey")]
+        public IActionResult GetNextOrderHubStatusByStatusKey(ComboRequestDTO request)
+        {
+            var company = Request.GetAssignedCompany();
+            IList<CodeBaseResponse> items = _orderService.GetNextOrderHubStatusByStatusKey(company, request).Value;
             return Ok(items);
         }
     }
