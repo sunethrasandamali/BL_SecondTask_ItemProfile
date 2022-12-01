@@ -215,7 +215,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.OrderLocation.CodeKey = order.OrderLocation.CodeKey;
             OH.RepAddessKey = order.OrderRepAddress.AddressKey;
             OH.DiscountPercentage = order.HeaderLevelDisountPrecentage;
-            OH.IsActive = 1;
+            OH.IsActive = order.IsActive;
             OH.IsApproved = 1;
             OH.OrderCategory1Key = (int)order.OrderCategory1.CodeKey;
             OH.OrderCategory2Key = (int)order   .OrderCategory2.CodeKey;
@@ -287,7 +287,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.Remarks = item.Remark;
                     lineItem.Description = item.Description;
 					lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
-                    lineItem.Analysis2Key = (int)item.AnalysisType1.CodeKey;
+                    lineItem.AnalysisType1.CodeKey = item.AnalysisType1.CodeKey;
 
 					//   TotalDiscount += Math.Abs(item.GetLineDiscount()));
 					_unitOfWork.OrderRepository.CreateOrderLineItem(lineItem, company, user, new UIObject() { ObjectId = order.FormObjectKey });
@@ -622,6 +622,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ProjectKey = (int)orderDetails.OrderProject.ProjectKey;
                     lineItem.Description = item.Description;
 					lineItem.ReserveAddressKey = (int)item.ResourceAddress.AddressKey;
+					lineItem.AnalysisType1.CodeKey = item.AnalysisType1.CodeKey;
 
 					_unitOfWork.OrderRepository.UpdateGenericOrderLineItem(lineItem, orderDetails.FormObjectKey, company, user);
                 }
@@ -748,7 +749,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.OrderProject=new ProjectResponse() { ProjectKey=responses.ProjectKey};
             order.OrderStatus = responses.OrderStatus;
             order.MeterReading=responses.MeterReading;
-            order.DeliveryDate=responses.DeliveryDate;  
+            order.DeliveryDate=responses.DeliveryDate;
 
             foreach (OrderLineCreateDTO item in itemList)
             {
@@ -792,7 +793,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.ResourceAddress = new AddressResponse() { AddressKey=item.ReserveAddressKey,AddressName=item.ReserveAddressID};
                     lineItem.InsertDate = item.InsertDate;
                     lineItem.UpdateDate = item.UpdateDate;
-                    lineItem.AnalysisType1.CodeKey = Convert.ToInt64(item.Analysis2Key);
+                    lineItem.AnalysisType1 = item.AnalysisType1;
 
                     var concode  = _unitOfWork.CodeBaseRepository.GetControlConditionCode(company, user, lineItem.ObjectKey, "OrdDetAcc");
                     int controlConKy = (int)concode.Value.CodeKey;
@@ -962,7 +963,9 @@ namespace BlueLotus360.Web.APIApplication.Services
                 irn.SelectedVehicle.VehicleRegistration.ItemCode= itm.FirstOrDefault()?.VehicleID;
                 irn.OrderRepAddress = itm.FirstOrDefault()?.ServiceAdvisor;
                 irn.BussinessUnit = itm.FirstOrDefault()?.BusinessUnit;
-
+                irn.IsActive = (int)itm.FirstOrDefault()?.HederIsActive;
+				irn.Insurance.ItemKey = (int)itm.FirstOrDefault()?.Insurance.ItemKey;
+                
                 irn.OrderItems=new List<GenericOrderItem>();
                 foreach (var i in itm)
                 {
@@ -976,7 +979,10 @@ namespace BlueLotus360.Web.APIApplication.Services
                         TransactionQuantity = i.Quantity,
                         TransactionRate = i.Rate,
                         IsActive = i.IsActive,
-                        TransactionUnit=i.TransactionUnit
+                        TransactionUnit=i.TransactionUnit,
+                        DiscountAmount = i.DisocuntAmount,
+                        DiscountPercentage = i.DiscountPercentage,
+                        AnalysisType1 = i.AnalysisType1
                         //amount??
                     };
 

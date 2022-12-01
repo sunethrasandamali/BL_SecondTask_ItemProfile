@@ -16,6 +16,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using BlueLotus360.Core.Domain.Entity.UberEats;
+using System.Net.Http;
+using BlueLotus360.Core.Domain.Utility;
 
 namespace BlueLotus360.Data.SQL92.Repository
 {
@@ -205,7 +208,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp4Per", item.ItemTaxType4Per);
                     dbCommand.CreateAndAddParameter("@ItmTaxTyp5Per", item.ItemTaxType5Per);
                     dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
-                    dbCommand.CreateAndAddParameter("@Anl2Ky", item.Analysis2Key);
+                    dbCommand.CreateAndAddParameter("@Anl2Ky", (int)item.AnalysisType1.CodeKey);
 
                     //  dbCommand.CreateAndAddParameter("ItmPrpKy", item.ItemProperty1);
 
@@ -543,8 +546,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@TrnPri", item.TransactionPrice);
                     dbCommand.CreateAndAddParameter("@OrgQty", item.OriginalQuantity);
                     dbCommand.CreateAndAddParameter("@PrjKy", item.ProjectKey);
+					dbCommand.CreateAndAddParameter("@Anl2Ky", (int)item.AnalysisType1.CodeKey);
 
-                    response.ExecutionStarted = DateTime.UtcNow;
+					response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
                     while (reader.Read())
@@ -891,7 +895,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
                         oorderV3.InsertDate= reader.GetColumn<DateTime>("InsertDt");
                         oorderV3.UpdateDate= reader.GetColumn<DateTime>("UpdtDt");
-                        oorderV3.Analysis2Key = reader.GetColumn<int>("Anl2Ky");
+                        oorderV3.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
                         //carmrt and principle values customer amount
 
                         itemList.Add(oorderV3);
@@ -2397,6 +2401,183 @@ namespace BlueLotus360.Data.SQL92.Repository
                 }
 
                 return response;
+            }
+        }
+
+        public bool UberProvision_InsertUpdate(APIInformation request,Company company)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                bool isSuccess = false;
+                APIInformation information = new APIInformation();
+                string SPName = "UberProvision_InsertUpdateWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("ApiIntNm", request.APIIntegrationNmae);
+                    dbCommand.CreateAndAddParameter("APPID", request.ApplicationID);
+                    dbCommand.CreateAndAddParameter("LocKy", request.Location.CodeKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("isAct", request.IsActive);
+
+                    dbCommand.Connection.Open();
+                    dbCommand.ExecuteNonQuery();
+
+                    isSuccess= true;
+                   
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    isSuccess = false;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return isSuccess;
+            }
+        }
+
+        public BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company,RequestParameters request)
+        {
+            IList<PartnerMenuItem> code = new List<PartnerMenuItem>();
+            BaseServerResponse<IList<PartnerMenuItem>> response = new BaseServerResponse<IList<PartnerMenuItem>>();
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "MenuUploadToOrderHub";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@LocKy", request.LocationKey);
+
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        PartnerMenuItem item = new PartnerMenuItem();
+                        item.ItemKey = dataReader.GetColumn<int>("ItmKy");
+                        item.ItemCode = dataReader.GetColumn<string>("ItmCd");
+                        item.ItemName = dataReader.GetColumn<string>("ItmNm");
+                        item.OptionalSalesPrice = dataReader.GetColumn<decimal>("SlsPri");
+                        item.Description = dataReader.GetColumn<string>("Des");
+                        item.CategoryName = dataReader.GetColumn<string>("CdNm");
+                        item.CategoryCode = dataReader.GetColumn<string>("Code");
+                        item.imageArr = dataReader.GetColumn<byte[]>("Image");
+
+                        code.Add(item);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = code;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
+                }
+                return response;
+            }
+
+        }
+
+        
+
+        public bool OrderHubStatus_UpdateWeb(RequestParameters request, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                bool isSuccess = false;
+                APIInformation information = new APIInformation();
+                string SPName = "OrderHubStatus_UpdateWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("OrdStsKy", request.StatusKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("OrdKy", request.OrderKey);
+
+                    dbCommand.Connection.Open();
+                    dbCommand.ExecuteNonQuery();
+
+                    isSuccess = true;
+
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    isSuccess = false;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return isSuccess;
             }
         }
     }

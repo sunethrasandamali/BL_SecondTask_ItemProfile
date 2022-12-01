@@ -41,7 +41,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                 }
                 else
                 {
-                    genratedToken = UberTokenGeneratingService(CommonAPIInfo, aPIInformation, EndPointName, CompanyKey);
+                    genratedToken = UberTokenGeneratingService(CommonAPIInfo, aPIInformation, EndPointName, 1);
                 }
 
                 return genratedToken;
@@ -120,7 +120,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                         EndPointName = Scope,
                         EndPointToken = uberTokenResponse.Access_token,
                         EndPointURL = EndPointApiInfo.EndPointURL,
-                        TokenValidTillTime = DateTime.Today.AddDays(365 - 30)
+                        TokenValidTillTime = DateTime.Today.AddDays(30 - 7)
                     };
                     Company Assignedcompany = new Company();
                     Assignedcompany.CompanyKey = CompanyKey;

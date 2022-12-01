@@ -479,8 +479,16 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.Item.ItemKey= reader.GetColumn<int>("ItmKy");
                         order.Item.ItemName = reader.GetColumn<string>("ItmNm");
                         order.Item.ItemCode = reader.GetColumn<string>("ItmCd");
-						order.IsActive = 1;
-                        order.TransactionUnit = new UnitResponse();
+                        order.IsActive = reader.GetColumn<int>("isAct");
+                        order.Quantity = reader.GetColumn<decimal>("Qty");
+                        order.Rate = reader.GetColumn<decimal>("TrnPri");
+                        order.Amount = reader.GetColumn<decimal>("Amt");
+                        order.Insurance.ItemKey = reader.GetColumn<int>("Adr2Ky");
+                        order.HederIsActive = reader.GetColumn<int>("HdrAct");
+                        order.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
+                        order.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+                        order.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
+						order.TransactionUnit = new UnitResponse();
 						list.Add(order);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
@@ -533,5 +541,62 @@ namespace BlueLotus360.Data.SQL92.Repository
                 return response;
             }
         }
-    }
+		public CodeBaseResponse GetCdMasByCdKy(int cdKy)
+		{
+			using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+			{
+				IDataReader dataReader = null;
+				CodeBaseResponse codebase = new CodeBaseResponse();
+				string SPName = "GetCdMasBy_CdKy";
+				try
+				{
+					dbCommand.CommandType = CommandType.StoredProcedure;
+					dbCommand.CommandText = SPName;
+
+					dbCommand.CreateAndAddParameter("@CdKy", cdKy);
+
+
+					dbCommand.Connection.Open();
+					dataReader = dbCommand.ExecuteReader();
+
+					while (dataReader.Read())
+					{
+						codebase.Code = dataReader.GetColumn<string>("Code");
+						codebase.CodeName = dataReader.GetColumn<string>("CdNm");
+						codebase.ConditionCode = dataReader.GetColumn<string>("ConCd");
+						codebase.CodeKey = dataReader.GetColumn<int>("CdKy");
+					}
+
+
+				}
+				catch (Exception exp)
+				{
+				}
+
+				finally
+				{
+					IDbConnection dbConnection = dbCommand.Connection;
+					if (dataReader != null)
+					{
+						if (!dataReader.IsClosed)
+						{
+							dataReader.Close();
+						}
+						dataReader.Dispose();
+					}
+					if (dbConnection.State != ConnectionState.Closed)
+					{
+						dbConnection.Close();
+					}
+
+					dbCommand.Dispose();
+					dbConnection.Dispose();
+				}
+
+				return codebase;
+
+			}
+		}
+
+	}
 }

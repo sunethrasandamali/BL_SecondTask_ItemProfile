@@ -359,4 +359,57 @@ namespace BlueLotus360.Core.Domain.Entity.UberEats
         public string Refresh_token { get; set; }
         public int Last_authenticated { get; set; }
     }
+
+    public class PartnerMenuItem
+    {
+
+        public string? ItemImage { get; set; } //need
+        public string? ItemImageUrl { get; set; } //need
+        public string? ItemName { get; set; } //need
+        public long ItemKey { get; set; }
+        public string? ItemCode { get; set; } //need
+        public string? ItemShortName { get; set; }
+        public string? CategoryName { get; set; } //need
+        public string? CategoryCode { get; set; } //need
+        public string? EAN { get; set; }
+        public string? Description { get; set; } //need
+        public string? Remarks { get; set; }
+        public decimal CostPrice { get; set; }
+        public decimal SalesPrice { get; set; } //need
+        public decimal OptionalSalesPrice { get; set; }
+        public bool IsModifierItem { get; set; }
+        public bool IsCompositeItem { get; set; }
+        public bool IsPayemntType { get; set; }
+        public decimal MaximumDiscount { get; set; }
+        public decimal VatPercentage { get; set; }
+        public bool IsDiscontinued { get; set; } //need
+        public bool IsAgeVerification { get; set; } //need
+        public bool IsPartnerItem { get; set; } //need
+        public bool IsAvailableInPartnerSide { get; set; } //need
+        public PartnerMenuItem ParentItem { get; set; }
+        public DateTime ExpireDate { get; set; }
+        public int ValueForProjectKey { get; set; }
+        public int FoodTypeId { get; set; } = 1;
+        public string FoodTypeName { get; set; } = "";
+        public int UrbanPiperFoodTypeId { get; set; } = 1;
+        public bool IsRecommended { get; set; }
+        public decimal SupplierWarranty { get; set; }
+        public decimal CustomerWarranty { get; set; }
+        public string? ItemComboTitle
+        {
+            get
+            {
+                return ItemCode + " - " + ItemName;
+            }
+        }
+        public string? PartNumber { get; set; }
+        //public CodeBase Model { get; set; }
+        public bool IsSerialNumber { get; set; }
+        public decimal ReOrderLevel { get; set; }
+        public decimal ReOrderQuantity { get; set; }
+        public int SortingOrder { get; set; }
+
+        public byte[] imageArr { get; set; }
+
+    }
 }
