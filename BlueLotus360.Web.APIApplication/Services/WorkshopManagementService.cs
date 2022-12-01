@@ -215,7 +215,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.OrderLocation.CodeKey = order.OrderLocation.CodeKey;
             OH.RepAddessKey = order.OrderRepAddress.AddressKey;
             OH.DiscountPercentage = order.HeaderLevelDisountPrecentage;
-            OH.IsActive = 1;
+            OH.IsActive = order.IsActive;
             OH.IsApproved = 1;
             OH.OrderCategory1Key = (int)order.OrderCategory1.CodeKey;
             OH.OrderCategory2Key = (int)order   .OrderCategory2.CodeKey;
@@ -963,7 +963,9 @@ namespace BlueLotus360.Web.APIApplication.Services
                 irn.SelectedVehicle.VehicleRegistration.ItemCode= itm.FirstOrDefault()?.VehicleID;
                 irn.OrderRepAddress = itm.FirstOrDefault()?.ServiceAdvisor;
                 irn.BussinessUnit = itm.FirstOrDefault()?.BusinessUnit;
-
+                irn.IsActive = (int)itm.FirstOrDefault()?.HederIsActive;
+				irn.Insurance.ItemKey = (int)itm.FirstOrDefault()?.Insurance.ItemKey;
+                
                 irn.OrderItems=new List<GenericOrderItem>();
                 foreach (var i in itm)
                 {
@@ -977,7 +979,10 @@ namespace BlueLotus360.Web.APIApplication.Services
                         TransactionQuantity = i.Quantity,
                         TransactionRate = i.Rate,
                         IsActive = i.IsActive,
-                        TransactionUnit=i.TransactionUnit
+                        TransactionUnit=i.TransactionUnit,
+                        DiscountAmount = i.DisocuntAmount,
+                        DiscountPercentage = i.DiscountPercentage,
+                        AnalysisType1 = i.AnalysisType1
                         //amount??
                     };
 
