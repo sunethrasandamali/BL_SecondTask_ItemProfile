@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 
 namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
@@ -42,5 +43,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
        
         bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
         BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request);
     }
 }

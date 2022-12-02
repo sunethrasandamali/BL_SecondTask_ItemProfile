@@ -221,7 +221,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 IDataReader reader = null;
                 string SPName = "CARCusVeh_ValidateWeb";
                 BaseServerResponse<AddressMaster> response = new BaseServerResponse<AddressMaster>();
-
+                AddressMaster addressvalid = new AddressMaster();
                 try
                 {
                     dbCommand.CommandType = CommandType.StoredProcedure;
@@ -240,10 +240,11 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     while (reader.Read())
                     {
-                        response.Value.Message = reader.GetColumn<string>("Msg");
-                        response.Value.HasError = reader.GetColumn<bool>("hasError");
+                        addressvalid.Message = reader.GetColumn<string>("Msg");
+                        addressvalid.HasError = reader.GetColumn<bool>("hasError");
                     }
 
+                    response.Value = addressvalid;
                     response.ExecutionEnded = DateTime.UtcNow;
 
                 }
