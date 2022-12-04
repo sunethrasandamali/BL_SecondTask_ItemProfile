@@ -95,7 +95,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public decimal DiscountAmount { get; set; } //Total dis Amount
         //uber created date
         public string OrderDate { get; set; } = "";
-        public DateTime PickupTime { get; set; }
+        public string PickupTime { get; set; }
         public string OrderNote { get; set; } = ""; //Order Comment
         public string DeliveryNote { get; set; } = ""; //Delivery Comment
         public string DeliveryBrand { get; set; } = "";
@@ -196,6 +196,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public int StatusKey { get; set; }
         public int OrderKey { get; set; }
         public string PlatformName { get; set; } = "";
+        public string OrderID { get; set; } = "";
 
         public Pagination pagination { get; set; }
     }

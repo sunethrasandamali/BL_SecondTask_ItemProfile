@@ -50,6 +50,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
        // bool OrderMenuConfiguration_InsertUpdate(User user, OrderMenuConfiguration orderMenu);
         bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
         BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
-        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy);
+        BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order);
     }
 }

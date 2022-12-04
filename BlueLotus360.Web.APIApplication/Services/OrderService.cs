@@ -527,9 +527,13 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetAllOrderMenuItems(company,request);
         }
-        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request)
+        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy)
         {
-            return _unitOfWork.OrderRepository.GetNextOrderHubStatusByStatusKey(company, request);
+            return _unitOfWork.OrderRepository.GetNextOrderHubStatusByStatusKey(company, request,OrdStsKy);
+        }
+        public BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order)
+        {
+            return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderID(company, order);
         }
         
     }

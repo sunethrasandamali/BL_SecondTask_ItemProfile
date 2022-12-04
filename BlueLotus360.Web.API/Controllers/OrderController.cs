@@ -17,6 +17,8 @@ using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using System.Transactions;
+using static BlueLotus360.Core.Domain.Entity.UberEats.UberWebHook;
+using static BlueLotus360.Core.Domain.Entity.UberEats.UberWebHook.DelegateSubscriber;
 
 namespace BlueLotus360.Web.API.Controllers
 {
@@ -29,16 +31,20 @@ namespace BlueLotus360.Web.API.Controllers
         IOrderService _orderService;
         IObjectService _objectService;
         ICodeBaseService _codeBaseService;
+        IAddressService _addressService;
         private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _hostingEnvironment;
+        private static readonly Queue<UberWebhookResponseModel> webHookQueue = new Queue<UberWebhookResponseModel>();
+        public static event IncomingWebHookEvent TriggerIncomingWebHookEvent;
         public OrderController(ILogger<OrderController> logger,
                                 IOrderService orderService,
-                                IObjectService objectService, ICodeBaseService codeBaseService, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment)
+                                IObjectService objectService, ICodeBaseService codeBaseService, Microsoft.AspNetCore.Hosting.IHostingEnvironment hostingEnvironment, IAddressService addressService)
         {
             _logger = logger;
             _orderService = orderService;
             _objectService = objectService;
-            _codeBaseService= codeBaseService;
+            _codeBaseService = codeBaseService;
             _hostingEnvironment = hostingEnvironment;
+            _addressService = addressService;
         }
 
         [HttpPost("createGenericOrder")]
@@ -354,13 +360,13 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(success);
         }
 
-        private string SetupItemPicUrl(PartnerMenuItem menuItem, byte[] imgArr)
+        private string SetupItemPicUrl(PartnerMenuItem menuItem, byte[] imgArr,string URL)
         {
             try
             {
                 Company company = Request.GetAssignedCompany();
-                string folderPath = Path.Combine(_hostingEnvironment.ContentRootPath, ("~/ItemImages/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/"));
-                string folderPathforUrl = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/ItemImages/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/";
+                string folderPath =Path.Combine(URL, "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/");
+                string folderPathforUrl = URL + "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/";
                 string imageFileName = menuItem.ItemCode + ".jpg";
                 if (!Directory.Exists(folderPath))
                 {
@@ -414,7 +420,7 @@ namespace BlueLotus360.Web.API.Controllers
                     if(item.imageArr != null)
                     {
                         item.ItemImage = Convert.ToBase64String(item.imageArr, 0, item.imageArr.Length);
-                        item.ItemImageUrl = SetupItemPicUrl(item, item.imageArr);
+                        item.ItemImageUrl = SetupItemPicUrl(item, item.imageArr,request.PlatformName);
                     }
                     
                 }
@@ -428,8 +434,130 @@ namespace BlueLotus360.Web.API.Controllers
         public IActionResult GetNextOrderHubStatusByStatusKey(ComboRequestDTO request)
         {
             var company = Request.GetAssignedCompany();
-            IList<CodeBaseResponse> items = _orderService.GetNextOrderHubStatusByStatusKey(company, request).Value;
+            object StatusKey;
+            int OrdStsKy = 1;
+            if (request.AddtionalData.TryGetValue("StatusKey", out StatusKey))
+            {
+
+                OrdStsKy = Convert.ToInt32(StatusKey);
+            }
+            IList<CodeBaseResponse> items = _orderService.GetNextOrderHubStatusByStatusKey(company, request, OrdStsKy).Value;
             return Ok(items);
+        }
+
+        [HttpPost]
+        public IActionResult UberWebhook(UberWebhookResponseModel model)
+        {
+           
+        /*
+         * 1. set incoming webhook to the webhook queue
+         * 2. check for duplicate events
+         * 3. trigger webhook handleing event
+         * 4. send 200 ok response to uber
+         * 5. process webhook handling method
+         * 6. unsubscribe event
+        */
+
+        var duplicateEvent = webHookQueue.FirstOrDefault(x => x.Event_id == model.Event_id);
+            if (duplicateEvent == null)
+            {
+                //2
+                webHookQueue.Enqueue(model);
+
+                //3
+                TriggerIncomingWebHookEvent += HandleWebHookEvent;
+                TriggerIncomingWebHookEvent.Invoke(new EventArgs());
+            }
+
+
+
+            //4
+            
+            return Ok();
+
+
+
+
+
+        }
+
+        //5
+        public void HandleWebHookEvent(EventArgs args)
+        {
+            try
+            {
+
+                foreach (UberWebhookResponseModel model in webHookQueue)
+                {
+                    /*
+                     * 1.first check the event type
+                     * 2.if notification event call use resource id to call GetUberOrderDetailsByOrderId() in UberOrderApiHandler and save order in database
+                     * 3.if cancel event call change the order status in db using resource id
+                     * 4. proceesed webhook dequeue from the webhook queue
+                     * 5.event needed to trigger notify the react frontend
+                    */
+                    UberOrderHandler orderHandler = new UberOrderHandler(_orderService,_codeBaseService,_addressService);
+                    APIRequestParameters request = new APIRequestParameters()
+                    {
+                        APIName = model.Meta.User_id
+                    };
+                    APIInformation StoreInfo = _orderService.GetAPIDetailsByMerchantID(request).Value;
+                    //1 & 2
+                    if (model.Event_type == "orders.notification")
+                    {
+                        orderHandler.GetUberDetailsByOrderID(model.Meta.Resource_id, model.Meta.User_id);
+                    }
+
+                    //1 & 3
+                    if (model.Event_type == "orders.cancel")
+                    {
+                        //companykey and locationkey must be extract from store id which comes with model.Meta.User_id
+                        RequestParameters orderreq = new RequestParameters()
+                        {
+                            OrderID= model.Meta.Resource_id
+                        };
+                        Company company = new Company();
+                        company.CompanyKey = StoreInfo.MappedCompanyKey;
+                        PartnerOrder partnerorder = _orderService.GetPartnerOrdersByOrderID(company, orderreq).Value;
+                        IList<CodeBaseResponse> orderStatusList = _orderService.GetOrderStatus(company).Value;
+                        CodeBaseResponse CancelStatus = orderStatusList.Where(x => x.CodeName == "Cancelled").FirstOrDefault();
+                        RequestParameters updateeq = new RequestParameters()
+                        {
+                            StatusKey= Convert.ToInt32(CancelStatus.CodeKey),
+                            OrderKey=Convert.ToInt32(partnerorder.PartnerOrderId)
+                        };
+                        _orderService.OrderHubStatus_UpdateWeb(updateeq, new Core.Domain.Entity.Base.User());
+                        
+                    }
+
+                    if (model.Event_type == "store.provisioned")
+                    {
+
+                    }
+
+                    //4
+                    webHookQueue.Dequeue();
+                    //webHookQueue.Peek();
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                if (webHookQueue.Count() > 0)
+                {
+
+                    webHookQueue.Dequeue();
+                }
+                //webHookQueue.Peek();
+
+            }
+            finally
+            {
+                TriggerIncomingWebHookEvent -= HandleWebHookEvent;
+            }
+
+
         }
     }
 }

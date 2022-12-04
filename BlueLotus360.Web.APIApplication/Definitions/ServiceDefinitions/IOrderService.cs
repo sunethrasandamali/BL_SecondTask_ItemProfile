@@ -43,6 +43,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
        
         bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
         BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
-        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy);
+        BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order);
     }
 }
