@@ -980,9 +980,9 @@ namespace BlueLotus360.Web.APIApplication.Services
                         TransactionRate = i.Rate,
                         IsActive = i.IsActive,
                         TransactionUnit=i.TransactionUnit,
-                        DiscountAmount = i.DisocuntAmount,
-                        DiscountPercentage = i.DiscountPercentage,
-                        AnalysisType1 = i.AnalysisType1
+                        //DiscountAmount = i.DisocuntAmount,
+                        //DiscountPercentage = i.DiscountPercentage,
+                        //AnalysisType1 = i.AnalysisType1
                         //amount??
                     };
 
