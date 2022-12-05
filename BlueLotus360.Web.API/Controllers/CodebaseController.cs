@@ -60,6 +60,18 @@ namespace BlueLotus360.Web.API.Controllers
 
             return Ok(codeBases);
         }
+         
+        [HttpPost("GetCodeByOurCodeAndConditionCode")]
+        public IActionResult GetCodeByOurCodeAndConditionCode(CodeBaseResponse request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+            string ConCd = request.ConditionCode;
+            string OurCd = request.OurCode;
+            CodeBaseResponse response = _codebaseService.GetCodeByOurCodeAndConditionCode(company, user, OurCd, ConCd).Value;
+
+            return Ok(response);
+        }
 
         [HttpPost("getApproveStatusComboDetail")]
         public IActionResult GetApproveStatusComboDetail(ComboRequestDTO request)

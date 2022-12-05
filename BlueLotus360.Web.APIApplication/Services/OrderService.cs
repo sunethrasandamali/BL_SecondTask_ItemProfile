@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
+using BlueLotus360.Core.Domain.DTOs.RequestDTO;
 using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Web.APIApplication.Services
@@ -527,8 +528,14 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetAllOrderMenuItems(company,request);
         }
+        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy)
+        {
+            return _unitOfWork.OrderRepository.GetNextOrderHubStatusByStatusKey(company, request,OrdStsKy);
+        }
+        public BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order)
+        {
+            return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderID(company, order);
+        }
         
-        
-
     }
 }
