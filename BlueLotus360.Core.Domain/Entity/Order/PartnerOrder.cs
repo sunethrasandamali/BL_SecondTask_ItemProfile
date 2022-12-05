@@ -31,7 +31,7 @@ namespace BlueLotus360.Core.Domain.Entity
         // public Company AuthorizedCompany { get; set; }
         public CodeBaseResponse Location { get; set; }
         public int OrderLastSyncMinutes { get; set; }
-        public long PartnerOrderId { get; set; } = 1; //auto-genarated
+        public long PartnerOrderId  { get; set; } = 1; //auto-genarated
         public string OrderId { get; set; } = "";// partner order id
         public string OrderReference { get; set; } = "";//partner display id
         public int PaymentKey { get; set; } //uber wallet
@@ -95,7 +95,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public decimal DiscountAmount { get; set; } //Total dis Amount
         //uber created date
         public string OrderDate { get; set; } = "";
-        public string PickupTime { get; set; }
+        public string PickupTime { get; set; } = "";
         public string OrderNote { get; set; } = ""; //Order Comment
         public string DeliveryNote { get; set; } = ""; //Delivery Comment
         public string DeliveryBrand { get; set; } = "";

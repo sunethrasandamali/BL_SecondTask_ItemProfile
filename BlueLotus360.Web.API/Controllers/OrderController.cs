@@ -15,7 +15,10 @@ using BlueLotus360.Web.API.Integrations.Uber;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
 using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Drawing;
+using System.Text.Json;
 using System.Transactions;
 using static BlueLotus360.Core.Domain.Entity.UberEats.UberWebHook;
 using static BlueLotus360.Core.Domain.Entity.UberEats.UberWebHook.DelegateSubscriber;
@@ -436,10 +439,12 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             object StatusKey;
             int OrdStsKy = 1;
+            
             if (request.AddtionalData.TryGetValue("StatusKey", out StatusKey))
             {
-
-                OrdStsKy = Convert.ToInt32(StatusKey);
+                long value = 1;
+                value = Convert.ToInt64(StatusKey.ToString());
+                OrdStsKy = Convert.ToInt32(value);
             }
             IList<CodeBaseResponse> items = _orderService.GetNextOrderHubStatusByStatusKey(company, request, OrdStsKy).Value;
             return Ok(items);

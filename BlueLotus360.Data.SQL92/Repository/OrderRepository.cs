@@ -1524,7 +1524,6 @@ namespace BlueLotus360.Data.SQL92.Repository
                         setPartnerOrder.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
                         setPartnerOrder.OrderDate =reader.GetColumn<DateTime>("OrderDt").ToString("dd/MMM/yyyy hh:mm:ss tt");
                         //setPartnerOrder.PickupTime = reader.GetColumn<DateTime>("PickUpTm");
-                        setPartnerOrder.OrderNote = reader.GetColumn<string>("YurRef");
                         //setPartnerOrder.DeliveryNote = reader.GetColumn<string>("DlvNote");
                         //setPartnerOrder.DeliveryBrand = reader.GetColumn<string>("DlvBrand");
                         //setPartnerOrder.WorkStationKey = reader.GetColumn<long>("WrkStnKy");
