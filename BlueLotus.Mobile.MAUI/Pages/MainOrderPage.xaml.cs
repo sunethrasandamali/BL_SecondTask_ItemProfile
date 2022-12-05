@@ -39,9 +39,10 @@ public partial class MainOrderPage : ContentPage
         InitializeComponent();
     }
     private async Task ReadCategories()
-    {
+    { 
         if (_categoryPage != null)
         {
+
             ComboRequestDTO dto = new ComboRequestDTO();
             dto.RequestingElementKey = (int)_categoryPage.ElementKey;
             var items = await _codeBaseService.ReadProductCategories(dto);
