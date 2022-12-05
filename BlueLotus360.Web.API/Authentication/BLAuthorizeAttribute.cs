@@ -21,8 +21,10 @@ namespace BlueLotus360.Web.API.Authentication
             // skip authorization if action is decorated with [AllowAnonymous] attribute
 
             var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<BLAllowAnonymousAttribute>().Any();
+            
             if (allowAnonymous)
             {
+                context.HttpContext.Items["APIInformation"] = "BQwQi99eVqMsbscszEJNd7MYdt1KMda9";
                 return;
             }
             if (context.HttpContext.Items["APIInformation"]==null)

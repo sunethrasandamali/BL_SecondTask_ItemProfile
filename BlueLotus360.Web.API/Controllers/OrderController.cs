@@ -245,6 +245,7 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(link);
         }
 
+        [BLAllowAnonymous]
         [HttpGet("GenerateProvisionToken")]
         public ContentResult GenerateProvisionToken(string ComapayCode, string code)
         {
