@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Web.APIApplication.Services
 {
@@ -317,7 +318,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.IsApproved = responses.IsApproved;
             order.HeaderDescription = responses.Description;
             order.OrderPrefix = responses.OrderPrefix;
-            order.OrderApproveState = _unitOfWork.OrderRepository.OrderStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
+            order.OrderApproveState = _unitOfWork.OrderRepository.OrderApproveStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
 
             foreach (OrderLineCreateDTO item in itemList)
             {
@@ -526,6 +527,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetAllOrderMenuItems(company,request);
         }
+        
         
 
     }

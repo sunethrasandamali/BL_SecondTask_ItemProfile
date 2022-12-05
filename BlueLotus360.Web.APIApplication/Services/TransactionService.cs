@@ -1,5 +1,6 @@
 ﻿using BlueLotus360.Core.Domain.Definitions.DataLayer;
 using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.Order;
 using BlueLotus360.Core.Domain.Entity.Transaction;
 using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
@@ -35,12 +36,12 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
             if (!transaction.IsPersisted)
             {
-                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
+                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, transaction);
 
             }
             else if (transaction.IsPersisted)
             {
-                _unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction );
+                response = _unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction );
             }
 
             if (transaction.SerialNumber != null && !string.IsNullOrWhiteSpace(transaction.SerialNumber.SerialNumber))
@@ -93,6 +94,24 @@ namespace BlueLotus360.Web.APIApplication.Services
         public BaseServerResponse<IList<GenericTransactionLineItem>> GetTransactionLineItems(Company company, User user, TransactionOpenRequest request)
         {
             return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);    
+        }
+
+        public CodeBaseResponse ChangeTrnHdrAprSts(Company company, User user, int trnky, int aprstsky, int objky, int isAct, string ourcd)
+        {
+            _unitOfWork.TransactionRepository.TransactionHeaderApproveInsert(trnky, aprstsky, objky, isAct,ourcd, company, user);
+            CodeBaseResponse latedtApproveState= _unitOfWork.OrderRepository.OrderApproveStatusFindByOrdKy(company, user, objky, trnky);
+            return latedtApproveState;  
+        }
+        public TransactionPermission CheckSourceDocPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user)
+        {
+            var per=_unitOfWork.TransactionRepository.CheckTranPrintPermission(trnky, aprstsky, objky, trnTypKy, company, user);
+            return per.Value;
+        }
+
+        public CodeBaseResponse TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user)
+        {
+            var per = _unitOfWork.TransactionRepository.TrnHdrNextApproveStatus(aprstsky, objky, trnTypKy, company, user);
+            return per.Value;
         }
     }
 }

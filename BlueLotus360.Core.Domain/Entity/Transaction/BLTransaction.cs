@@ -69,7 +69,7 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public long FromOrderKey { get; set; } = 1;
         public long FromTransactionKey { get; set; } = 1;
         public long RecurenceDeliveryKey { get; set; } = 1;
-        public string? TransactionImageFilePath { get; set; }
+        public string? TransactionImageFilePath { get; set; } = "";
         public int IsMultiCredit { get; set; }
         public decimal ItemTaxType1 { get; set; }
         public decimal ItemTaxType2 { get; set; }
@@ -87,8 +87,8 @@ namespace BlueLotus360.Core.Domain.Entity.Transaction
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
         //
         public DateTime DueDate { get; set; } = DateTime.Now;
-        public string? Prefix { get; set; }
-        public string? PreviewURL { get; set; }
+        public string? Prefix { get; set; } = "";
+        public string? PreviewURL { get; set; } = "";
         public int EntUsrKy { get; set; }
         public IList<GenericTransactionLineItem> InvoiceLineItems { get; set; }= new List<GenericTransactionLineItem>();
 

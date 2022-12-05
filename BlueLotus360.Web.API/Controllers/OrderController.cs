@@ -88,6 +88,8 @@ namespace BlueLotus360.Web.API.Controllers
             return Ok(order.Value);
         }
 
+        
+
         [HttpPost("getFromQuotation")]
         public IActionResult GetFromQuotation(GetFromQuoatationDTO request)
         {
