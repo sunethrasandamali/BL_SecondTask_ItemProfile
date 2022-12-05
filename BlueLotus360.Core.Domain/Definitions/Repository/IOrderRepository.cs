@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
@@ -27,7 +28,7 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<OrderHeaderEditDTO> GetGenericOrderByOrderKey(long Orderkey, Company company, User user);
         BaseServerResponse<OrderHeaderEditDTO> GetGenericOrderByOrderKeyV2(long Orderkey, Company company, User user);
         BaseServerResponse<IList<OrderLineCreateDTO>> GetGenericOrderLineItemsByOrderKey(long Orderkey, long ObjKy, Company company, User user);
-        CodeBaseResponse OrderStatusFindByOrdKy(Company company, User user, int objky, int ordky);
+        CodeBaseResponse OrderApproveStatusFindByOrdKy(Company company, User user, int objky, int ordky);
         BaseServerResponse<IList<GetFromQuotResults>> GenericRetrieveQuotation(GetFromQuoatationDTO request, Company company, User user);
         BaseServerResponse<IList<QuotationDetails>> GenericOpenQuotation(OrderOpenRequest request, Company company, User user);
         BaseServerResponse<WorkOrderAmountByAccount> OrderDetailAccountInsertUpdate(Company company, User user, WorkOrderAmountByAccount accDet);

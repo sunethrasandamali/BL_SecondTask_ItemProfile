@@ -17,5 +17,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<CodeBaseResponse>> ReadCodes(Company company, User user, ComboRequestDTO requestDTO);
         BaseServerResponse<IList<CodeBase>> ReadCategories(Company company, User user, ComboRequestDTO requestDTO);
         BaseServerResponse<IList<CodeBaseResponse>> GetCodesByConditionCode(Company company, CodeBaseResponse request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetAllApproveStatus(int trnky, int aprstsky, int objky, Company company, User user);
     }
 }

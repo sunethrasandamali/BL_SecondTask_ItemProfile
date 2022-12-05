@@ -44,7 +44,10 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.CodeBaseRepository.GetCodesByConditionCode(company, request);
         }
-        
+        public BaseServerResponse<IList<CodeBaseResponse>> GetAllApproveStatus(int trnky, int aprstsky, int objky, Company company, User user)
+        {
+            return _unitOfWork.TransactionRepository.AprStsNmSelect(trnky, aprstsky, objky, company, user);
+        }
 
     }
 }

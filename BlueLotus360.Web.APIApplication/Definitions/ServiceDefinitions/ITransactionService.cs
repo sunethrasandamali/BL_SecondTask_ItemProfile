@@ -15,5 +15,8 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<GenericTransactionFindResponse>> FindTransaction(Company company, User user, TransactionFindRequest request);
         BaseServerResponse<BLTransaction> OpenTransaction(Company company, User user, TransactionOpenRequest request);
         BaseServerResponse<IList<GenericTransactionLineItem>> GetTransactionLineItems(Company company, User user, TransactionOpenRequest request);
+        CodeBaseResponse ChangeTrnHdrAprSts(Company company, User user, int trnky, int aprstsky, int objky, int isAct,string ourcd);
+        TransactionPermission CheckSourceDocPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user);
+        CodeBaseResponse TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user);
     }
 }
