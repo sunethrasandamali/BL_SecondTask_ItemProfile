@@ -1947,8 +1947,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdDt", Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt"));
                     dbCommand.CreateAndAddParameter("OrderNote", request.OrderNote);
                     dbCommand.CreateAndAddParameter("DlvNote", request.DeliveryNote);
-                    dbCommand.CreateAndAddParameter("PickupTm", Convert.ToDateTime(request.PickupTime).ToString("yyyy/MM/dd hh:mm:ss tt"));
-
+                    dbCommand.CreateAndAddParameter("PaymentKy", request.PaymentKey);
+                    dbCommand.CreateAndAddParameter("PickupTm", request.PickupTime==""? Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt") : Convert.ToDateTime(request.PickupTime).ToString("yyyy/MM/dd hh:mm:ss tt"));
+                    
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
