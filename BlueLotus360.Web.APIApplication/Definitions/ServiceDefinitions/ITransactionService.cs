@@ -18,5 +18,6 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         CodeBaseResponse ChangeTrnHdrAprSts(Company company, User user, int trnky, int aprstsky, int objky, int isAct,string ourcd);
         TransactionPermission CheckSourceDocPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user);
         CodeBaseResponse TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user);
+        TransactionPermission GetPermissionForOrderTrn(int aprstsky, int objky, int trnTypKy, int trnky, Company company, User user);
     }
 }

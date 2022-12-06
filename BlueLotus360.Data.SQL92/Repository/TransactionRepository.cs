@@ -55,7 +55,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         CreateAndAddParameter(dbCommand, "AdrKy", transaction.Address == null ? 1 : transaction.Address.AddressKey);
                         CreateAndAddParameter(dbCommand, "ContraAccObjKy", transaction.ContraAccountObjectKey);
                         CreateAndAddParameter(dbCommand, "ContraAccky", transaction.ContraAccount == null ? 1 : transaction.ContraAccount.AccountKey);
-                        CreateAndAddParameter(dbCommand, "AprStsKy", 1);
+                        CreateAndAddParameter(dbCommand, "AprStsKy",BaseComboResponse.GetKeyValue(transaction.ApproveState));
                         CreateAndAddParameter(dbCommand, "LocKy", transaction.Location == null ? 1 : transaction.Location.CodeKey);
                         CreateAndAddParameter(dbCommand, "HdrTrfLnkKy", 1);
                         CreateAndAddParameter(dbCommand, "Amt", transaction.Amount);
@@ -164,7 +164,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         dbCommand.CreateAndAddParameter("AdrKy", transaction.Address == null ? 1 : transaction.Address.AddressKey);
                         dbCommand.CreateAndAddParameter("ContraAccObjKy", transaction.ContraAccountObjectKey);
                         dbCommand.CreateAndAddParameter("ContraAccky", transaction.ContraAccount == null ? 1 : transaction.ContraAccount.AccountKey);
-                        dbCommand.CreateAndAddParameter("AprStsKy", 1);
+                        dbCommand.CreateAndAddParameter("AprStsKy", BaseComboResponse.GetKeyValue(transaction.ApproveState));
                         dbCommand.CreateAndAddParameter("LocKy", transaction.Location == null ? 1 : transaction.Location.CodeKey);
                         dbCommand.CreateAndAddParameter("Amt", transaction.Amount);
                         dbCommand.CreateAndAddParameter("Amt1", transaction.Amount1);
@@ -1427,8 +1427,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("ObjKy", objky);
-                    dbCommand.CreateAndAddParameter("isAct", isAct);
-                    dbCommand.CreateAndAddParameter("AprStsOurCd", ourcd);
+                    //dbCommand.CreateAndAddParameter("isAct", isAct);
+                    //dbCommand.CreateAndAddParameter("AprStsOurCd", null);
 
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
@@ -1631,7 +1631,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("TrnKy", trnky);
                     dbCommand.CreateAndAddParameter("ObjKy", objky);
                     dbCommand.CreateAndAddParameter("AprStsKy", aprstsKy);
-                    dbCommand.CreateAndAddParameter("AprStsOurCd", aprstsKy);
+                    //dbCommand.CreateAndAddParameter("AprStsOurCd", null);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -1644,6 +1644,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         userPermission.IsAllowDelete = reader.GetColumn<int>("isAlwDel");
                         userPermission.IsAllowUpdate = reader.GetColumn<int>("isAlwUpdate");
                         userPermission.Message = reader.GetColumn<string>("Msg");
+                        userPermission.NextApproveStatuis = new CodeBaseResponse() {CodeKey=reader.GetColumn<int>("NxtAprStsKy"),CodeName= reader.GetColumn<string>("AprNm"),Code= reader.GetColumn<string>("AprCd")};
                     }
 
                     response.ExecutionEnded = DateTime.UtcNow;
@@ -1680,7 +1681,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                     {
                         dbConnection.Close();
                     }
-                    reader.Dispose();
+                    if (reader!=null)
+                    {
+                        reader.Dispose();
+                    }
+                    
                     dbCommand.Dispose();
                     dbConnection.Dispose();
                 }

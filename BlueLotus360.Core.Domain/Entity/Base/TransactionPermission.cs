@@ -15,6 +15,12 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public int IsAlwAcs { get; set; }
         public int IsAllowAprrove { get; set; }
         public string? Message { get; set; }
+        public CodeBaseResponse NextApproveStatuis { get; set; } = new CodeBaseResponse();
+
+        public TransactionPermission()
+        {
+            NextApproveStatuis= new CodeBaseResponse();
+        }
 
     }
 }

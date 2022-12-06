@@ -99,7 +99,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         public CodeBaseResponse ChangeTrnHdrAprSts(Company company, User user, int trnky, int aprstsky, int objky, int isAct, string ourcd)
         {
             _unitOfWork.TransactionRepository.TransactionHeaderApproveInsert(trnky, aprstsky, objky, isAct,ourcd, company, user);
-            CodeBaseResponse latedtApproveState= _unitOfWork.OrderRepository.OrderApproveStatusFindByOrdKy(company, user, objky, trnky);
+            CodeBaseResponse latedtApproveState= _unitOfWork.TransactionRepository.TrnrApproveStatusFindByTrnKy(company, user, objky, trnky);
             return latedtApproveState;  
         }
         public TransactionPermission CheckSourceDocPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user)
@@ -111,6 +111,11 @@ namespace BlueLotus360.Web.APIApplication.Services
         public CodeBaseResponse TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user)
         {
             var per = _unitOfWork.TransactionRepository.TrnHdrNextApproveStatus(aprstsky, objky, trnTypKy, company, user);
+            return per.Value;
+        }
+        public TransactionPermission GetPermissionForOrderTrn(int aprstsky, int objky, int trnTypKy,int trnky, Company company, User user)
+        {
+            var per = _unitOfWork.TransactionRepository.GetIsALwAddUpdatePermissionForOrderTrn(company,user, objky, trnky, aprstsky);
             return per.Value;
         }
     }

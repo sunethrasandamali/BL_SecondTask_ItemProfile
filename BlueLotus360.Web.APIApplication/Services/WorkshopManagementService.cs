@@ -456,7 +456,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.DiscountPercentage = item.DiscountPercentage;
                     lineItem.AccountKey = OH.AccountKey;
                     lineItem.LineNumber = item.LineNumber;
-                    lineItem.IsActive = 1;
+                    lineItem.IsActive = item.IsActive;
                     lineItem.OriginalQuantity = item.RequestedQuantity;
                     lineItem.IsApproved = 1;
                     lineItem.OrderType = new CodeBaseResponse();
@@ -754,8 +754,6 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             foreach (OrderLineCreateDTO item in itemList)
             {
-                if (item.IsActive == 1)
-                {
                     GenericOrderItem lineItem = new GenericOrderItem();
                     lineItem.TransactionItem = new ItemResponse() { 
                                                         ItemKey = item.ItemKey, 
@@ -823,7 +821,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     
 
                     order.OrderItems.Add(lineItem);
-                }
+                
 
             }
 

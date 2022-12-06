@@ -120,5 +120,19 @@ namespace BlueLotus360.Web.API.Controllers
             CodeBaseResponse nextApr = _transactionService.TrnHdrNextApproveStatus((int)request.ApproveState.CodeKey, (int)request.ElementKey, (int)request.TransactionType.CodeKey, company, user);
             return Ok(nextApr);
         }
+
+
+        [HttpPost("getOrderTrnPermission")]
+        public IActionResult GetOrderTrnPermission(BLTransaction request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Sale", "TrnTyp");
+            request.TransactionType = trnTyp.Value;
+
+            TransactionPermission per = _transactionService.GetPermissionForOrderTrn((int)request.ApproveState.CodeKey, (int)request.ElementKey, (int)request.TransactionType.CodeKey,(int)request.TransactionKey, company, user);
+            return Ok(per);
+        }
     }
 }
