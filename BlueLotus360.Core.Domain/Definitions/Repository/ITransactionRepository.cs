@@ -28,5 +28,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<CodeBaseResponse> TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user);
         BaseServerResponse<TransactionPermission> GetIsALwAddUpdatePermissionForOrderTrn(Company company, User user, int objky = 1, int trnky = 1, int aprstsKy = 1);
         CodeBaseResponse TrnrApproveStatusFindByTrnKy(Company company, User user, int objky = 1, int trnky = 1);
+        BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItemsV2(Company company, User user, TransactionOpenRequest request);
     }
 }

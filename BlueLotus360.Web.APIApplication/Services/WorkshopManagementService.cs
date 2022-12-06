@@ -40,6 +40,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         public IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user)
         {
             var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
+
             return response.Value;
         }
 
@@ -946,7 +947,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         }
         public BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request)
         {
-            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);
+            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItemsV2(company, user, request);
         }
         public UserRequestValidation WorkorderValidation(WorkOrder dto, Company company, User user)
         {
