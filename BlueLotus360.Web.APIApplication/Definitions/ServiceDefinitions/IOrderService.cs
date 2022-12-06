@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {

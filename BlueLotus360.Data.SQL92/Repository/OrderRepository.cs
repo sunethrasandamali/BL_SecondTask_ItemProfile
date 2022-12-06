@@ -943,7 +943,7 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
-        public CodeBaseResponse OrderStatusFindByOrdKy(Company company, User user, int objky = 1, int ordky = 1)
+        public CodeBaseResponse OrderApproveStatusFindByOrdKy(Company company, User user, int objky = 1, int ordky = 1)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
@@ -1245,6 +1245,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ProjectKey = reader.GetColumn<int>("PrjKy");
                         oorderV3.MeterReading = reader.GetColumn<decimal>("MeterReading");
                         oorderV3.DeliveryDate= reader.GetColumn<DateTime>("DlryDt");
+                        oorderV3.AprroceStatusKey = reader.GetColumn<int>("AprStsKy");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = oorderV3;
@@ -1947,8 +1948,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdDt", Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt"));
                     dbCommand.CreateAndAddParameter("OrderNote", request.OrderNote);
                     dbCommand.CreateAndAddParameter("DlvNote", request.DeliveryNote);
-                    dbCommand.CreateAndAddParameter("PickupTm", Convert.ToDateTime(request.PickupTime).ToString("yyyy/MM/dd hh:mm:ss tt"));
-
+                    dbCommand.CreateAndAddParameter("PaymentKy", request.PaymentKey);
+                    dbCommand.CreateAndAddParameter("PickupTm", request.PickupTime==""? Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt") : Convert.ToDateTime(request.PickupTime).ToString("yyyy/MM/dd hh:mm:ss tt"));
+                    
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();

@@ -1,11 +1,16 @@
-﻿using BlueLotus360.Core.Domain.Entity.Base;
+﻿using BlueLotus360.Core.Domain.DTOs;
+using BlueLotus360.Core.Domain.Entity.Base;
 using BlueLotus360.Core.Domain.Entity.Transaction;
+using BlueLotus360.Core.Domain.Responses;
 using BlueLotus360.Web.API.Authentication;
 using BlueLotus360.Web.API.Extension;
 using BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions;
+using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.Collections.Generic;
+using System.Transactions;
 
 namespace BlueLotus360.Web.API.Controllers
 {
@@ -79,6 +84,41 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             StockAsAtResponse response = _itemService.GetStockAsAtByLocation(company, user, request);
             return Ok(response);
+        }
+
+        [HttpPost("changeTransactionApproveState")]
+        public IActionResult InsertTransactionApproveState(BLTransaction request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+           CodeBaseResponse latest_approvestate = _transactionService.ChangeTrnHdrAprSts(company, user,(int)request.TransactionKey, (int)request.ApproveState.CodeKey, (int)request.ElementKey, request.IsActive,request.ApproveState.OurCode);
+           return Ok(latest_approvestate);
+        }
+        [HttpPost("checkPrintPermission")]
+        public IActionResult CheckPrintPermission(BLTransaction request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Sale", "TrnTyp");
+            request.TransactionType = trnTyp.Value;
+
+           TransactionPermission print_permission= _transactionService.CheckSourceDocPrintPermission((int)request.TransactionKey, (int)request.ApproveState.CodeKey, (int)request.ElementKey, (int)request.TransactionType.CodeKey, company, user);
+            return Ok(print_permission);
+        }
+
+        [HttpPost("getTrnNextApproveStatus")]
+        public IActionResult GetTrnNextApproveStatus(BLTransaction request)
+        {
+            var user = Request.GetAuthenticatedUser();
+            var company = Request.GetAssignedCompany();
+
+            var trnTyp = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Sale", "TrnTyp");
+            request.TransactionType = trnTyp.Value;
+
+            CodeBaseResponse nextApr = _transactionService.TrnHdrNextApproveStatus((int)request.ApproveState.CodeKey, (int)request.ElementKey, (int)request.TransactionType.CodeKey, company, user);
+            return Ok(nextApr);
         }
     }
 }

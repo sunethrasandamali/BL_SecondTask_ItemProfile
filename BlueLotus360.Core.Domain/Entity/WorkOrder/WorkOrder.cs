@@ -83,15 +83,16 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public ItemSerialNumber SerialNumber { get; set; }
         public CodeBaseResponse Category { get; set; }
         public CodeBaseResponse SubCategory { get; set; }
-        public string Brand { get; set; } = "";
-        public string Model { get; set; } = "";
+        public CodeBaseResponse Brand { get; set; } 
+        public CodeBaseResponse Model { get; set; } 
         public Warranty VehicleWarrannty { get; set; }
-        public string MaintenancePackage { get; set; } = "";
+        public CodeBaseResponse MaintenancePackage { get; set; } 
         public decimal CurrentMilage { get; set; }
         public decimal PreviousMilage { get; set; }
         public string Fuel { get; set; } = "";
         public int IsActive { get; set; }
         public bool IsInsurence { get; set; } = false;
+        public CodeBaseResponse Province { get; set; }
         public Vehicle()
         {
             VehicleWarrannty = new Warranty();
@@ -102,6 +103,10 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
             SubCategory = new CodeBaseResponse();
             VehicleAddress=new AddressResponse();
             RegisteredAccount=new AccountResponse();
+            Province=new CodeBaseResponse();
+            Brand=new CodeBaseResponse();  
+            Model= new CodeBaseResponse();  
+            MaintenancePackage= new CodeBaseResponse(); 
         }
     }
 
