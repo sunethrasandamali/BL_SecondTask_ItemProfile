@@ -24,7 +24,7 @@ namespace BlueLotus360.Web.API.Authentication
             
             if (allowAnonymous)
             {
-                context.HttpContext.Items["APIInformation"] = "BQwQi99eVqMsbscszEJNd7MYdt1KMda9";
+              
                 return;
             }
             if (context.HttpContext.Items["APIInformation"]==null)

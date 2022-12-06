@@ -72,6 +72,7 @@ namespace BlueLotus360.Web.API
 
 
             app.MapControllers();
+            app.UseMiddleware<UberDataInjectionMiddleware>();
             app.UseMiddleware<ApplicationAPIBinderMidlleware>();
             app.UseMiddleware<AuthenticationProviderMiddleware>();
 
