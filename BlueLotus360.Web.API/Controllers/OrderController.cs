@@ -249,10 +249,10 @@ namespace BlueLotus360.Web.API.Controllers
 
         [BLAllowAnonymous]
         [HttpGet("GenerateProvisionToken")]
-        public ContentResult GenerateProvisionToken(string ComapayCode, string code)
+        public ContentResult GenerateProvisionToken(string CompanyCode, string code)
         {
             var user = Request.GetAuthenticatedUser();
-            string decryptedCompanyKeyAsString = CryptoService.ToDecryptedData(ComapayCode);
+            string decryptedCompanyKeyAsString = CryptoService.ToDecryptedData(CompanyCode);
             int decryptedCompanyKey = Convert.ToInt32(decryptedCompanyKeyAsString);
             UberProvisionHandler uberProvisionHandler = new UberProvisionHandler(_orderService);
             UberTokenHandler uberTokenHandler = new UberTokenHandler(_orderService);
