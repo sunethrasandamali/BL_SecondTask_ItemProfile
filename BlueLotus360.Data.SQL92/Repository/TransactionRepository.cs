@@ -1223,7 +1223,115 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+        public BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItemsV2(Company company, User user, TransactionOpenRequest request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                BaseServerResponse<IList<GenericTransactionLineItem>> response = new BaseServerResponse<IList<GenericTransactionLineItem>>();
+                IDataReader reader = null;
+                IList<GenericTransactionLineItem> lineItems = new List<GenericTransactionLineItem>();
+                string SPName = "InvoiceItemsStndCarMart_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@TrnKy", request.TransactionKey);
+                    dbCommand.CreateAndAddParameter("@TrnTypKy", request.TrasctionTypeKey);
 
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    int index = 1;
+
+                    while (reader.Read())
+                    {
+                        GenericTransactionLineItem lineItem = new GenericTransactionLineItem();
+                        lineItem.ItemTransactionKey = reader.GetColumn<long>("ItmTrnKy");
+                        lineItem.TransactionKey = reader.GetColumn<long>("TrnKy");
+                        lineItem.EffectiveDate = reader.GetColumn<DateTime>("EftvDt");
+                        lineItem.ItemTransferLinkKey = reader.GetColumn<long>("ItmTrnTrfLnkKy");
+                        lineItem.TransactionItem.ItemKey = reader.GetColumn<long>("ItmKy");
+                        lineItem.TransactionItem.ItemName = reader.GetColumn<string>("ItmNm");
+                        lineItem.TransactionItem.ItemCode = reader.GetColumn<string>("ItmCd");
+                        lineItem.TransactionLocation = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
+                        lineItem.Quantity = reader.GetColumn<decimal>("Qty");
+                        lineItem.TransactionQuantity = reader.GetColumn<decimal>("TrnQty");
+                        lineItem.Rate = reader.GetColumn<decimal>("Rate");
+                        lineItem.TransactionRate = reader.GetColumn<decimal>("TrnRate");
+                        lineItem.TransactionPrice = reader.GetColumn<decimal>("TrnPrice");
+                        lineItem.BussinessUnit = new CodeBaseResponse(reader.GetColumn<long>("BUKy"));
+                        lineItem.TransactionDiscountAmount = reader.GetColumn<decimal>("TrnDisAmt");
+                        lineItem.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        lineItem.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+                        lineItem.TransactionProject = new ProjectResponse();
+                        lineItem.TransactionProject.ProjectKey = reader.GetColumn<long>("PrjKy");
+                        lineItem.ConditionsState = new CodeBaseResponse(reader.GetColumn<long>("CondStateKy"));
+                        lineItem.ConditionsState.Code = reader.GetColumn<string>("CondStateCd");
+                        lineItem.IsInventory = reader.GetColumn<int>("IsInventory");
+                        lineItem.IsCosting = reader.GetColumn<int>("IsCosting");
+                        lineItem.IsSetOff = reader.GetColumn<int>("IsSetOff");
+                        lineItem.IsActive = reader.GetColumn<int>("IsAct");
+                        lineItem.IsApproved = reader.GetColumn<int>("IsApr");
+                        lineItem.TransactionUnit = new UnitResponse();
+                        lineItem.TransactionUnit.UnitKey = reader.GetColumn<long>("TrnUnitKy");
+                        lineItem.TransactionUnit.UnitName = reader.GetColumn<string>("Unit");
+                        lineItem.LineNumber = reader.GetColumn<int>("LiNo");
+                        lineItem.IsPersisted = true;
+                        lineItem.IsDirty = false;
+                        lineItem.ReservationAddress = new AddressResponse() { AddressKey = reader.GetColumn<long>("ResrAdrID"), AddressName = reader.GetColumn<string>("ResrAdrNm") };
+                        lineItem.TransactionItem.ItemType = new CodeBaseResponse() {CodeKey= reader.GetColumn<int>("ItmTypKy"),CodeName= reader.GetColumn<string>("ItmTypNm"),Code = reader.GetColumn<string>("ItmTypOurCd"),OurCode= reader.GetColumn<string>("ItmTypCd") };
+                        //technician,time,car per,principal per
+
+                        lineItems.Add(lineItem);
+                    }
+
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = lineItems;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                        reader.Dispose();
+
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+
+
+
+            }
+        }
         public BaseServerResponse<IList<CodeBaseResponse>> AprStsNmSelect(int trnky, int aprstsky, int objky, Company company, User user)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
