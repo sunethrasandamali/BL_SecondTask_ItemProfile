@@ -454,8 +454,8 @@ namespace BlueLotus360.Web.API.Controllers
         }
 
 
-        [BLAllowAnonymous]
-        [HttpPost]
+        [BLAllowAnonymous]      
+        [HttpPost("UberWebhook")]
         public IActionResult UberWebhook(UberWebhookResponseModel model)
         {
            
@@ -493,6 +493,7 @@ namespace BlueLotus360.Web.API.Controllers
 
         //5
         [BLAllowAnonymous]
+        [HttpPost("HandleWebHookEvent")]
         public void HandleWebHookEvent(EventArgs args)
         {
             try
