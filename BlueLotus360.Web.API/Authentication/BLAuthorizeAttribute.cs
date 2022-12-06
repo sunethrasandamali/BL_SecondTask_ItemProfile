@@ -22,6 +22,7 @@ namespace BlueLotus360.Web.API.Authentication
 
             var allowAnonymous = context.ActionDescriptor.EndpointMetadata.OfType<BLAllowAnonymousAttribute>().Any();
             
+            
             if (allowAnonymous)
             {
               

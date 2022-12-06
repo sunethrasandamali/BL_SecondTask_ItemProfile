@@ -12,7 +12,7 @@ namespace BlueLotus360.Core.Domain.Entity.UberEats
         {
             public string Event_type { get; set; }
             public string Event_id { get; set; }
-            public int Event_time { get; set; }
+            public long Event_time { get; set; }
             public Meta Meta { get; set; }
             public string Resource_href { get; set; }
         }

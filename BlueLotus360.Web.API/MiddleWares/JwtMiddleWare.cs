@@ -55,11 +55,11 @@ namespace BlueLotus360.Web.API.MiddleWares
                 context.Request.EnableBuffering();
                 HMACParameter parameter = new HMACParameter();
                 string BodyString = "";
-                using (StreamReader reader
-                  = new StreamReader(context.Request.Body))
-                {
-                    BodyString =  await reader.ReadToEndAsync();
-                }
+                //using (StreamReader reader
+                //  = new StreamReader(context.Request.Body))
+                //{
+                //    BodyString =  await reader.ReadToEndAsync();
+                //}
                 parameter.HTTPVerb = context.Request.Method;
                 parameter.ContentStrng = BodyString;
                 parameter.ContentType = context.Request.ContentType;
