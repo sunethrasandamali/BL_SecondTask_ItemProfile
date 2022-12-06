@@ -26,13 +26,7 @@ namespace BlueLotus360.Web.API.MiddleWares
         public async Task Invoke(HttpContext context, IAPIService aPIService)
         {
             _apiService = aPIService;
-            var appId = context.Request.Headers["IntegrationID"].FirstOrDefault();
-            if (appId == null)
-            {
-                appId = "BQwQi99eVqMsbscszEJNd7MYdt1KMda9";
-                context.Request.Headers.Add("IntegrationID", "BQwQi99eVqMsbscszEJNd7MYdt1KMda9");
-                
-            }
+            var appId = context.Request.Headers["IntegrationID"].FirstOrDefault();          
             if (appId == null)
             {
                 // context.Items["IntegrationID"] = token;
@@ -48,6 +42,7 @@ namespace BlueLotus360.Web.API.MiddleWares
             var information = _apiService.GetAPIInformationByAppId(appId);
             if (information == null || information.APIIntegrationKey < 11)
             {
+                
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync($"Bad Request: Invalid IntegrationID  '{appId}', " +
