@@ -1718,9 +1718,9 @@ namespace BlueLotus360.Data.SQL92.Repository
                     {
                         approveState = new CodeBaseResponse();
                         approveState.CodeKey = reader.GetColumn<int>("AprStsKy");
-                        approveState.CodeName = reader.GetColumn<string>("AprNm");
-                        approveState.Code = reader.GetColumn<string>("AprCd");
-                        approveState.OurCode= reader.GetColumn<string>("OurCd");
+                        approveState.CodeName = reader.GetColumn<string>("AprNm") ?? "";
+                        approveState.Code = reader.GetColumn<string>("AprCd")??"";
+                        approveState.OurCode = reader.GetColumn<string>("OurCd") ?? "" ;
 
                     }
 
