@@ -46,5 +46,7 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
         BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
         BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy);
         BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order);
+        string PostOrderHubStockResevation(int OrdKy, int OrdTypKy, Company company, User user);
+        string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user);
     }
 }

@@ -121,7 +121,8 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                     partnerOrderDetails.IsApproved = 1;
                     partnerOrderDetails.IsActive = 1;
                     partnerOrderDetails.Remarks = "";
-                    partnerOrderDetails.OrderItem.LineNumber = LiNo + 1;
+                    LiNo = LiNo + 1;
+                    partnerOrderDetails.OrderItem.LineNumber = LiNo;
 
                     saveUberOrder.OrderItemDetails.Add(partnerOrderDetails);
                 }

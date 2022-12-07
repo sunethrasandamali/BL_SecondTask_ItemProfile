@@ -195,6 +195,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public int LocationKey { get; set; }
         public int StatusKey { get; set; }
         public int OrderKey { get; set; }
+        public int OrderTypeKey { get; set; }
         public string PlatformName { get; set; } = "";
         public string OrderID { get; set; } = "";
 
