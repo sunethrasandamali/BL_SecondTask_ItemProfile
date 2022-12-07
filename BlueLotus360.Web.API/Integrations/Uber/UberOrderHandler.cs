@@ -40,7 +40,8 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                 APIRequestParameters EndPointParams = new APIRequestParameters()
                 {
                     EndPointName = UberEndpointURLS.GetOrder.ToString(),
-                    APIIntegrationKey= APIInfo.APIIntegrationKey
+                    APIIntegrationKey= APIInfo.APIIntegrationKey,
+                    LocationKey=1
                 };
                 APIInformation endpointInfo = _orderService.GetAPIEndPoints(new Company(), EndPointParams).Value;
 
@@ -66,6 +67,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
 
         public void SaveUberOrder(UberOrder uberOrder, string merchantId)
         {
+            int LiNo = 0;
             try
             {
                 string OurCd = "CUS";
@@ -87,6 +89,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                 saveUberOrder.DeliveryBrand = uberOrder.Brand;
                 saveUberOrder.IsActive = 1;
                 saveUberOrder.IsApproved = 1;
+                saveUberOrder.DeliveryCharges = Convert.ToDecimal(uberOrder.Payment.Charges.Delivery_fee.Amount/100);
                 saveUberOrder.Platforms.AccountCode = "Uber";
                 saveUberOrder.PaymentKey = Convert.ToInt32(_CodebaseService.GetCodeByOurCodeAndConditionCode(company, new User(), "UberWallet", "PmtTrm").Value.CodeKey);                                                                                                                                                                               //setting up order status
                 saveUberOrder.OrderStatus.CodeName = uberOrder.Current_state;
@@ -118,6 +121,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                     partnerOrderDetails.IsApproved = 1;
                     partnerOrderDetails.IsActive = 1;
                     partnerOrderDetails.Remarks = "";
+                    partnerOrderDetails.OrderItem.LineNumber = LiNo + 1;
 
                     saveUberOrder.OrderItemDetails.Add(partnerOrderDetails);
                 }

@@ -1948,6 +1948,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("OrdDt", Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt"));
                     dbCommand.CreateAndAddParameter("OrderNote", request.OrderNote);
                     dbCommand.CreateAndAddParameter("DlvNote", request.DeliveryNote);
+                    dbCommand.CreateAndAddParameter("DlvCharge", request.DeliveryCharges);
                     dbCommand.CreateAndAddParameter("PaymentKy", request.PaymentKey);
                     dbCommand.CreateAndAddParameter("PickupTm", request.PickupTime==""? Convert.ToDateTime(request.OrderDate).ToString("yyyy/MM/dd hh:mm:ss tt") : Convert.ToDateTime(request.PickupTime).ToString("yyyy/MM/dd hh:mm:ss tt"));
                     
@@ -2186,6 +2187,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         itemDetails.OrderItem.ItemCode = reader.GetColumn<string>("ItmCd");
                         itemDetails.OrderItem.ItemName = reader.GetColumn<string>("ItmNm");
                         itemDetails.OrderItem.ItemKey = reader.GetColumn<int>("ItmKy");
+                        itemDetails.OrderItem.ItemType.CodeKey = reader.GetColumn<int>("ItmTypKy");
+                        itemDetails.OrderItem.ItemType.CodeName = reader.GetColumn<string>("ItmTypNm");
                         setPartnerOrder.OrderItemDetails.Add(itemDetails);
                         setPartnerOrder.Amount = reader.GetColumn<decimal>("TrnAmt");
                         setPartnerOrder.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
