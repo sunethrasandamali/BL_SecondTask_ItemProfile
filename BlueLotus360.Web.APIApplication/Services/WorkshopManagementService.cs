@@ -40,6 +40,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         public IList<WorkOrder> GetJobHistoryDetails(Vehicle request, Company company, User user)
         {
             var response = _unitOfWork.WorkShopManagementRepository.SelectJobhistory(request, company, user);
+
             return response.Value;
         }
 
@@ -455,7 +456,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     lineItem.DiscountPercentage = item.DiscountPercentage;
                     lineItem.AccountKey = OH.AccountKey;
                     lineItem.LineNumber = item.LineNumber;
-                    lineItem.IsActive = 1;
+                    lineItem.IsActive = item.IsActive;
                     lineItem.OriginalQuantity = item.RequestedQuantity;
                     lineItem.IsApproved = 1;
                     lineItem.OrderType = new CodeBaseResponse();
@@ -743,7 +744,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.IsApproved = responses.IsApproved;
             order.HeaderDescription = responses.Description;
             order.OrderPrefix = responses.OrderPrefix;
-            order.OrderApproveState = _unitOfWork.OrderRepository.OrderStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
+            order.OrderApproveState = _unitOfWork.OrderRepository.OrderApproveStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
             order.OrderCategory1 = responses.OrderCategory1;    
             order.OrderCategory2 = responses.OrderCategory2;
             order.OrderProject=new ProjectResponse() { ProjectKey=responses.ProjectKey};
@@ -753,8 +754,6 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             foreach (OrderLineCreateDTO item in itemList)
             {
-                if (item.IsActive == 1)
-                {
                     GenericOrderItem lineItem = new GenericOrderItem();
                     lineItem.TransactionItem = new ItemResponse() { 
                                                         ItemKey = item.ItemKey, 
@@ -822,7 +821,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                     
 
                     order.OrderItems.Add(lineItem);
-                }
+                
 
             }
 
@@ -841,6 +840,7 @@ namespace BlueLotus360.Web.APIApplication.Services
         public BaseServerResponse<BLTransaction> SaveWorkOrderTransaction(BLTransaction transaction, Company company, User user, UIObject uIObject)
         {
             BaseServerResponse<BLTransaction> response = new BaseServerResponse<BLTransaction>();
+            BLTransaction TrnResponse = new BLTransaction();
             if (BaseComboResponse.GetKeyValue(transaction.Address) < 11)
             {
                 var address = _unitOfWork.AccountRepository.GetAddressByAccount(company, user, transaction.Account.AccountKey);
@@ -850,12 +850,12 @@ namespace BlueLotus360.Web.APIApplication.Services
 
             if (!transaction.IsPersisted)
             {
-                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, new BaseServerResponse<BLTransaction>() { Value = transaction });
-
+                response = _unitOfWork.TransactionRepository.SaveGenericTransaction(company, user, transaction);
+                
             }
             else 
             {
-                _unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction);
+                response=_unitOfWork.TransactionRepository.UpdateGenericTransaction(company, user, transaction);
             }
 
             if (transaction.SerialNumber != null && !string.IsNullOrWhiteSpace(transaction.SerialNumber.SerialNumber))
@@ -932,15 +932,20 @@ namespace BlueLotus360.Web.APIApplication.Services
             }
             _unitOfWork.TransactionRepository.PostAfterTranSaveActions(company, user, transaction.TransactionKey, transaction.ElementKey);
 
+
             return response;
         }
         public BaseServerResponse<BLTransaction> OpenWorkOrderTransaction(Company company, User user, TransactionOpenRequest request)
         {
-            return _unitOfWork.TransactionRepository.GenericOpenTransactionV2(company, user, request);
+            var trn= _unitOfWork.TransactionRepository.GenericOpenTransactionV2(company, user, request);
+            BLTransaction bltrn = trn.Value;
+            CodeBaseResponse appr = _unitOfWork.TransactionRepository.TrnrApproveStatusFindByTrnKy(company,user, (int)request.ElementKey,(int)request.TransactionKey);
+            bltrn.ApproveState = appr;
+            return new BaseServerResponse<BLTransaction>() { Value = bltrn, ExecutionStarted = trn.ExecutionStarted, ExecutionEnded = trn.ExecutionEnded, Messages = trn.Messages };
         }
         public BaseServerResponse<IList<GenericTransactionLineItem>> GetWorkOrderTransactionLineItems(Company company, User user, TransactionOpenRequest request)
         {
-            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItems(company, user, request);
+            return _unitOfWork.TransactionRepository.GenericallyGetTransactionLineItemsV2(company, user, request);
         }
         public UserRequestValidation WorkorderValidation(WorkOrder dto, Company company, User user)
         {

@@ -11,8 +11,8 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
 {
     public interface ITransactionRepository
     {
-        BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction);
-        void UpdateGenericTransaction(Company company, User user, BLTransaction transaction);
+        BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BLTransaction transaction);
+        BaseServerResponse<BLTransaction> UpdateGenericTransaction(Company company, User user, BLTransaction transaction);
         void SaveOrUpdateTranHeaderSerialNumber(Company company, User user, ItemSerialNumber serialNumber);
         void SaveTransactionLineItem(Company company, User user, GenericTransactionLineItem lineItem);
         void UpdateTransactionLineItem(Company company, User user, GenericTransactionLineItem lineItem);
@@ -22,5 +22,12 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<BLTransaction> GenericOpenTransaction(Company company, User user, TransactionOpenRequest trnRequest);
         BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItems(Company company, User user, TransactionOpenRequest request);
         BaseServerResponse<BLTransaction> GenericOpenTransactionV2(Company company, User user, TransactionOpenRequest trnRequest);
+        BaseServerResponse<IList<CodeBaseResponse>> AprStsNmSelect(int trnky, int aprstsky, int objky, Company company, User user);
+        void TransactionHeaderApproveInsert(int trnky, int aprstsky, int objky, int isAct,string ourcd, Company company, User user);
+        BaseServerResponse<TransactionPermission> CheckTranPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user);
+        BaseServerResponse<CodeBaseResponse> TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user);
+        BaseServerResponse<TransactionPermission> GetIsALwAddUpdatePermissionForOrderTrn(Company company, User user, int objky = 1, int trnky = 1, int aprstsKy = 1);
+        CodeBaseResponse TrnrApproveStatusFindByTrnKy(Company company, User user, int objky = 1, int trnky = 1);
+        BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItemsV2(Company company, User user, TransactionOpenRequest request);
     }
 }

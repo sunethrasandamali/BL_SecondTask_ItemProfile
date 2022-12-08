@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
 {
@@ -43,6 +44,9 @@ namespace BlueLotus360.Web.APIApplication.Definitions.ServiceDefinitions
        
         bool OrderHubStatus_UpdateWeb(RequestParameters request, User user);
         BaseServerResponse<IList<PartnerMenuItem>> GetAllOrderMenuItems(Company company, RequestParameters request);
-        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request);
+        BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy);
+        BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order);
+        string PostOrderHubStockResevation(int OrdKy, int OrdTypKy, Company company, User user);
+        string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user);
     }
 }

@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BlueLotus360.Core.Domain.Entity.UberEats;
 using BlueLotus360.Core.Domain.DTOs.RequestDTO;
+using BlueLotus360.Core.Domain.Entity.Transaction;
 
 namespace BlueLotus360.Web.APIApplication.Services
 {
@@ -318,7 +319,7 @@ namespace BlueLotus360.Web.APIApplication.Services
             order.IsApproved = responses.IsApproved;
             order.HeaderDescription = responses.Description;
             order.OrderPrefix = responses.OrderPrefix;
-            order.OrderApproveState = _unitOfWork.OrderRepository.OrderStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
+            order.OrderApproveState = _unitOfWork.OrderRepository.OrderApproveStatusFindByOrdKy(company, user, order.FormObjectKey, order.OrderKey);
 
             foreach (OrderLineCreateDTO item in itemList)
             {
@@ -527,9 +528,22 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetAllOrderMenuItems(company,request);
         }
-        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request)
+        public BaseServerResponse<IList<CodeBaseResponse>> GetNextOrderHubStatusByStatusKey(Company company, ComboRequestDTO request,int OrdStsKy)
         {
-            return _unitOfWork.OrderRepository.GetNextOrderHubStatusByStatusKey(company, request);
+            return _unitOfWork.OrderRepository.GetNextOrderHubStatusByStatusKey(company, request,OrdStsKy);
+        }
+        public BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order)
+        {
+            return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderID(company, order);
+        }
+        public string PostOrderHubStockResevation(int OrdKy, int OrdTypKy, Company company, User user)
+        {
+            return _unitOfWork.OrderRepository.PostOrderHubStockResevation(OrdKy, OrdTypKy, company, user);
+        }
+
+        public string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user)
+        {
+            return _unitOfWork.OrderRepository.PostOrderHubStockResevationReversal(OrdKy,company, user);
         }
         
     }

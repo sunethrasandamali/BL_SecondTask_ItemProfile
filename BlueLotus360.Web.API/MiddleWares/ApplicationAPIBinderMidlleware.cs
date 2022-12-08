@@ -26,7 +26,7 @@ namespace BlueLotus360.Web.API.MiddleWares
         public async Task Invoke(HttpContext context, IAPIService aPIService)
         {
             _apiService = aPIService;
-            var appId = context.Request.Headers["IntegrationID"].FirstOrDefault();
+            var appId = context.Request.Headers["IntegrationID"].FirstOrDefault();          
             if (appId == null)
             {
                 // context.Items["IntegrationID"] = token;
@@ -35,13 +35,14 @@ namespace BlueLotus360.Web.API.MiddleWares
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync("Bad Request: IntegrationID Not Defined, " +
-                    "IntegrationID Sould be defined in the Header section of the request EC:20221028");
+                    "IntegrationID Should be defined in the Header section of the request EC:20221028");
 
                 return;
             }
             var information = _apiService.GetAPIInformationByAppId(appId);
             if (information == null || information.APIIntegrationKey < 11)
             {
+                
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 await context.Response.WriteAsJsonAsync($"Bad Request: Invalid IntegrationID  '{appId}', " +

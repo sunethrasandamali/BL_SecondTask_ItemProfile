@@ -62,16 +62,14 @@ namespace BlueLotus360.Data.SQL92.Repository
                         vehicle.SerialNumber=new ItemSerialNumber();
                         vehicle.SerialNumber.SerialNumber= reader.GetColumn<string>("ChassisNo");
                         vehicle.SerialNumber.EngineNumber= reader.GetColumn<string>("EnginNo");
-                        vehicle.Brand = reader.GetColumn<string>("Brand");
-                        vehicle.Model= reader.GetColumn<string>("Model");
-                        vehicle.Category=new CodeBaseResponse();
-                        vehicle.Category.CodeName= reader.GetColumn<string>("Category");
-                        vehicle.SubCategory = new CodeBaseResponse();
-                        vehicle.SubCategory.CodeName = reader.GetColumn<string>("SubCategory");
+                        vehicle.Brand = new CodeBaseResponse() { CodeKey = reader.GetColumn<int>("BrandKy") ,CodeName= reader.GetColumn<string>("Brand") };
+                        vehicle.Model= new CodeBaseResponse() { CodeKey = reader.GetColumn<int>("ModelKy"), CodeName = reader.GetColumn<string>("Model") };
+                        vehicle.Category=new CodeBaseResponse() { CodeKey = reader.GetColumn<int>("AdrCat1Ky"), CodeName = reader.GetColumn<string>("Category") };
+                        vehicle.SubCategory = new CodeBaseResponse() { CodeKey = reader.GetColumn<int>("AdrCat2Ky"), CodeName = reader.GetColumn<string>("SubCategory") };
                         vehicle.Fuel= reader.GetColumn<string>("FuelTyp");
                         vehicle.PreviousMilage= reader.GetColumn<decimal>("Milage");
                         vehicle.VehicleRegisterDate = reader.GetColumn<DateTime>("RegDt");
-
+                        vehicle.Province = new CodeBaseResponse() { CodeKey = reader.GetColumn<int>("AdrCat4Ky"), CodeName = reader.GetColumn<string>("ProvinceNm") };
                         list.Add(vehicle);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
@@ -158,6 +156,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.OrderStatus = new CodeBaseResponse(); 
                         order.OrderStatus.CodeName = reader.GetColumn<string>("Status");
                         order.TrnKy= reader.GetColumn<int>("InvoiceTrnKy");
+                        order.OrderCategory1 = new CodeBaseResponse() { CodeKey= reader.GetColumn<int>("OrdCat1Ky") ,CodeName= reader.GetColumn<string>("OrdCat1") };
                         list.Add(order);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;

@@ -23,7 +23,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                 
         }
 
-        public BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BaseServerResponse<BLTransaction> transaction)
+        public BaseServerResponse<BLTransaction> SaveGenericTransaction(Company company, User user, BLTransaction transaction)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
@@ -35,59 +35,57 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CommandType = CommandType.StoredProcedure;
                     dbCommand.CommandText = SPName;
 
-                    if (transaction!=null && transaction.Value!=null)
+                    if (transaction!=null)
                     {
                         CreateAndAddParameter(dbCommand, "CKy", company.CompanyKey);
-                        CreateAndAddParameter(dbCommand, "TrnDt", transaction.Value.TransactionDate);
-                        CreateAndAddParameter(dbCommand, "TrnTypKy", transaction.Value.TransactionType.CodeKey);
-                        CreateAndAddParameter(dbCommand, "TrnCrnKy", transaction.Value.TransactionCurrency == null ? 1 : transaction.Value.TransactionCurrency.CodeKey);
-                        CreateAndAddParameter(dbCommand, "TrnExRate", transaction.Value.TransactionExchangeRate);
-                        CreateAndAddParameter(dbCommand, "DocNo", transaction.Value.DocumentNumber??"");
-                        CreateAndAddParameter(dbCommand, "YurRef", transaction.Value.YourReference??"");
-                        CreateAndAddParameter(dbCommand, "YurRefDt", transaction.Value.YourReferenceDate);
-                        CreateAndAddParameter(dbCommand, "isRecur", transaction.Value.IsRecurrence);
+                        CreateAndAddParameter(dbCommand, "TrnDt", transaction.TransactionDate);
+                        CreateAndAddParameter(dbCommand, "TrnTypKy", transaction.TransactionType.CodeKey);
+                        CreateAndAddParameter(dbCommand, "TrnCrnKy", transaction.TransactionCurrency == null ? 1 : transaction.TransactionCurrency.CodeKey);
+                        CreateAndAddParameter(dbCommand, "TrnExRate", transaction.TransactionExchangeRate);
+                        CreateAndAddParameter(dbCommand, "DocNo", transaction.DocumentNumber??"");
+                        CreateAndAddParameter(dbCommand, "YurRef", transaction.YourReference??"");
+                        CreateAndAddParameter(dbCommand, "YurRefDt", transaction.YourReferenceDate);
+                        CreateAndAddParameter(dbCommand, "isRecur", transaction.IsRecurrence);
                         CreateAndAddParameter(dbCommand, "UsrKy", user.UserKey);
-                        CreateAndAddParameter(dbCommand, "PrjKy", transaction.Value.TransactionProject == null ? 1 : transaction.Value.TransactionProject.ProjectKey);
-                        CreateAndAddParameter(dbCommand, "BUKy", transaction.Value.BussinessUnit == null ? 1 : transaction.Value.BussinessUnit.CodeKey);
-                        CreateAndAddParameter(dbCommand, "ObjKy", transaction.Value.ElementKey);
-                        CreateAndAddParameter(dbCommand, "AccKy", transaction.Value.Account == null ? 1 : transaction.Value.Account.AccountKey);
-                        CreateAndAddParameter(dbCommand, "AccObjKy", transaction.Value.AccountObjectKey);
-                        CreateAndAddParameter(dbCommand, "AdrKy", transaction.Value.Address == null ? 1 : transaction.Value.Address.AddressKey);
-                        CreateAndAddParameter(dbCommand, "ContraAccObjKy", transaction.Value.ContraAccountObjectKey);
-                        CreateAndAddParameter(dbCommand, "ContraAccky", transaction.Value.ContraAccount == null ? 1 : transaction.Value.ContraAccount.AccountKey);
-                        CreateAndAddParameter(dbCommand, "AprStsKy", 1);
-                        CreateAndAddParameter(dbCommand, "LocKy", transaction.Value.Location == null ? 1 : transaction.Value.Location.CodeKey);
+                        CreateAndAddParameter(dbCommand, "PrjKy", transaction.TransactionProject == null ? 1 : transaction.TransactionProject.ProjectKey);
+                        CreateAndAddParameter(dbCommand, "BUKy", transaction.BussinessUnit == null ? 1 : transaction.BussinessUnit.CodeKey);
+                        CreateAndAddParameter(dbCommand, "ObjKy", transaction.ElementKey);
+                        CreateAndAddParameter(dbCommand, "AccKy", transaction.Account == null ? 1 : transaction.Account.AccountKey);
+                        CreateAndAddParameter(dbCommand, "AccObjKy", transaction.AccountObjectKey);
+                        CreateAndAddParameter(dbCommand, "AdrKy", transaction.Address == null ? 1 : transaction.Address.AddressKey);
+                        CreateAndAddParameter(dbCommand, "ContraAccObjKy", transaction.ContraAccountObjectKey);
+                        CreateAndAddParameter(dbCommand, "ContraAccky", transaction.ContraAccount == null ? 1 : transaction.ContraAccount.AccountKey);
+                        CreateAndAddParameter(dbCommand, "AprStsKy",BaseComboResponse.GetKeyValue(transaction.ApproveState));
+                        CreateAndAddParameter(dbCommand, "LocKy", transaction.Location == null ? 1 : transaction.Location.CodeKey);
                         CreateAndAddParameter(dbCommand, "HdrTrfLnkKy", 1);
-                        CreateAndAddParameter(dbCommand, "Amt", transaction.Value.Amount);
-                        CreateAndAddParameter(dbCommand, "Amt1", transaction.Value.Amount1);
-                        CreateAndAddParameter(dbCommand, "Amt2", transaction.Value.Amount2);
-                        CreateAndAddParameter(dbCommand, "Amt3", transaction.Value.Amount3);
-                        CreateAndAddParameter(dbCommand, "Amt4", transaction.Value.Amount4);
-                        CreateAndAddParameter(dbCommand, "Amt5", transaction.Value.Amount5);
-                        CreateAndAddParameter(dbCommand, "Amt6", transaction.Value.Amount6);
-                        CreateAndAddParameter(dbCommand, "PmtTrmKy", transaction.Value.PaymentTerm == null ? 1 : transaction.Value.PaymentTerm.CodeKey);
-                        CreateAndAddParameter(dbCommand, "RepAdrKy", transaction.Value.Rep == null ? 1 : transaction.Value.Rep.AddressKey);
-                        CreateAndAddParameter(dbCommand, "@FrmTrnKy", transaction.Value.FromTransactionKey);
-                        CreateAndAddParameter(dbCommand, "@IsMultiCr", transaction.Value.IsMultiCredit);
-                        CreateAndAddParameter(dbCommand, "@isFrmImport", transaction.Value.IsFromImport);
-                        CreateAndAddParameter(dbCommand, "@FrmOrdKy", transaction.Value.FromOrderKey);
-                        CreateAndAddParameter(dbCommand, "@CdKy1", BaseComboResponse.GetKeyValue(transaction.Value.Code1));
-                        CreateAndAddParameter(dbCommand, "@CdKy2", BaseComboResponse.GetKeyValue(transaction.Value.Code2));
-                        CreateAndAddParameter(dbCommand, "@IsAct", transaction.Value.IsActive);
-                        CreateAndAddParameter(dbCommand, "@IsApr", transaction.Value.IsApproved);
-                        CreateAndAddParameter(dbCommand, "@HdrDisAmt", transaction.Value.HeaderDiscountAmount);
-                        CreateAndAddParameter(dbCommand, "@DueDt", transaction.Value.DueDate);
-                        CreateAndAddParameter(dbCommand, "@MarkUpAmt", transaction.Value.TotalMarkupValue);
-                        CreateAndAddParameter(dbCommand, "@TrnMarkUpAmt", transaction.Value.TotalMarkupValue);
-                        CreateAndAddParameter(dbCommand, "@MarkUpPer", transaction.Value.MarkupPercentage);
-                        CreateAndAddParameter(dbCommand, "@VarChar1", transaction.Value.IsVarcar1On);
-                        CreateAndAddParameter(dbCommand, "@Qty1", transaction.Value.Quantity1);
-                        CreateAndAddParameter(dbCommand, "@DlryDt", transaction.Value.DeliveryDate);
+                        CreateAndAddParameter(dbCommand, "Amt", transaction.Amount);
+                        CreateAndAddParameter(dbCommand, "Amt1", transaction.Amount1);
+                        CreateAndAddParameter(dbCommand, "Amt2", transaction.Amount2);
+                        CreateAndAddParameter(dbCommand, "Amt3", transaction.Amount3);
+                        CreateAndAddParameter(dbCommand, "Amt4", transaction.Amount4);
+                        CreateAndAddParameter(dbCommand, "Amt5", transaction.Amount5);
+                        CreateAndAddParameter(dbCommand, "Amt6", transaction.Amount6);
+                        CreateAndAddParameter(dbCommand, "PmtTrmKy", transaction.PaymentTerm == null ? 1 : transaction.PaymentTerm.CodeKey);
+                        CreateAndAddParameter(dbCommand, "RepAdrKy", transaction.Rep == null ? 1 : transaction.Rep.AddressKey);
+                        CreateAndAddParameter(dbCommand, "@FrmTrnKy", transaction.FromTransactionKey);
+                        CreateAndAddParameter(dbCommand, "@IsMultiCr", transaction.IsMultiCredit);
+                        CreateAndAddParameter(dbCommand, "@isFrmImport", transaction.IsFromImport);
+                        CreateAndAddParameter(dbCommand, "@FrmOrdKy", transaction.FromOrderKey);
+                        CreateAndAddParameter(dbCommand, "@CdKy1", BaseComboResponse.GetKeyValue(transaction.Code1));
+                        CreateAndAddParameter(dbCommand, "@CdKy2", BaseComboResponse.GetKeyValue(transaction.Code2));
+                        CreateAndAddParameter(dbCommand, "@IsAct", transaction.IsActive);
+                        CreateAndAddParameter(dbCommand, "@IsApr", transaction.IsApproved);
+                        CreateAndAddParameter(dbCommand, "@HdrDisAmt", transaction.HeaderDiscountAmount);
+                        CreateAndAddParameter(dbCommand, "@DueDt", transaction.DueDate);
+                        CreateAndAddParameter(dbCommand, "@MarkUpAmt", transaction.TotalMarkupValue);
+                        CreateAndAddParameter(dbCommand, "@TrnMarkUpAmt", transaction.TotalMarkupValue);
+                        CreateAndAddParameter(dbCommand, "@MarkUpPer", transaction.MarkupPercentage);
+                        CreateAndAddParameter(dbCommand, "@VarChar1", transaction.IsVarcar1On);
+                        CreateAndAddParameter(dbCommand, "@Qty1", transaction.Quantity1);
+                        CreateAndAddParameter(dbCommand, "@DlryDt", transaction.DeliveryDate);
                         //service advisor where to map
                     }
-
-
-                    transaction.ExecutionStarted = DateTime.UtcNow;
+                    response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
                     reader = dbCommand.ExecuteReader();
 
@@ -95,22 +93,23 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     while (reader.Read())
                     {
-                        transaction.Value.TransactionKey = reader.GetColumn<int>("TrnKy");
-                        transaction.Value.TransactionNumber = reader.GetColumn<string>("PrefixTrnNo");
-                        transaction.Value.IsPersisted = true;
+                        transaction.TransactionKey = reader.GetColumn<int>("TrnKy");
+                        transaction.TransactionNumber = reader.GetColumn<string>("PrefixTrnNo");
+                        transaction.IsPersisted = true;
                     }
 
-                    transaction.ExecutionEnded = DateTime.UtcNow;
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = transaction;
                 }
                 catch (Exception exp)
                 {
-                    transaction.ExecutionEnded = DateTime.UtcNow;
-                    transaction.Messages.Add(new ServerResponseMessae()
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
                     {
                         MessageType = ServerResponseMessageType.Exception,
                         Message = $"Error While Executing Proc {SPName}"
                     });
-                    transaction.ExecutionException = exp;
+                    response.ExecutionException = exp;
                 }
 
                 finally
@@ -130,11 +129,12 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 }
 
-                return transaction;
+                return response;
+
             }
         }
 
-        public void UpdateGenericTransaction(Company company, User user, BLTransaction transaction)
+        public BaseServerResponse<BLTransaction> UpdateGenericTransaction(Company company, User user, BLTransaction transaction)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
             {
@@ -164,7 +164,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         dbCommand.CreateAndAddParameter("AdrKy", transaction.Address == null ? 1 : transaction.Address.AddressKey);
                         dbCommand.CreateAndAddParameter("ContraAccObjKy", transaction.ContraAccountObjectKey);
                         dbCommand.CreateAndAddParameter("ContraAccky", transaction.ContraAccount == null ? 1 : transaction.ContraAccount.AccountKey);
-                        dbCommand.CreateAndAddParameter("AprStsKy", 1);
+                        dbCommand.CreateAndAddParameter("AprStsKy", BaseComboResponse.GetKeyValue(transaction.ApproveState));
                         dbCommand.CreateAndAddParameter("LocKy", transaction.Location == null ? 1 : transaction.Location.CodeKey);
                         dbCommand.CreateAndAddParameter("Amt", transaction.Amount);
                         dbCommand.CreateAndAddParameter("Amt1", transaction.Amount1);
@@ -235,7 +235,7 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 }
 
-
+                return response;
             }
         }
 
@@ -582,7 +582,8 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     while (reader.Read())
                     {
-                        //  lineItem.ItemTransactionKey = dataReader.GetColumn<long>("ReturnVal");
+                        lineItem.ItemTransactionKey = reader.GetColumn<long>("ItmTrnKy");
+                        lineItem.IsPersisted = true;
                     }
 
 
@@ -1117,13 +1118,13 @@ namespace BlueLotus360.Data.SQL92.Repository
                     {
                         transaction.TransactionKey = reader.GetColumn<long>("TrnKy");
                         transaction.TransactionType = new CodeBaseResponse(reader.GetColumn<long>("TrnTypKy"));
-                        transaction.TransactionNumber = reader.GetColumn<string>("PrefixTrnNo");
-                        transaction.DocumentNumber = reader.GetColumn<string>("DocNo");
-                        transaction.YourReference = reader.GetColumn<string>("YurRef");
+                        transaction.TransactionNumber = reader.GetColumn<string>("PrefixTrnNo") ?? "";
+                        transaction.DocumentNumber = reader.GetColumn<string>("DocNo") ?? "";
+                        transaction.YourReference = reader.GetColumn<string>("YurRef") ?? "";
                         transaction.YourReferenceDate = reader.GetColumn<DateTime>("YurRefDt");
                         transaction.TransactionDate = reader.GetColumn<DateTime>("TrnDt");
-                        transaction.Description = reader.GetColumn<string>("Des");
-                        transaction.Remarks = reader.GetColumn<string>("Rem");
+                        transaction.Description = reader.GetColumn<string>("Des") ?? "";
+                        transaction.Remarks = reader.GetColumn<string>("Rem")??"";
                         transaction.TransactionCurrency = new CodeBaseResponse(reader.GetColumn<long>("TrnCrnKy"));
                         transaction.PaymentTerm =this.GetCdMasByCdKy(reader.GetColumn<int>("PmtTrmKy"));
                         transaction.TransactionExchangeRate = reader.GetColumn<decimal>("TrnExRate");
@@ -1131,11 +1132,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.IsApproved = reader.GetColumn<int>("IsApr");
                         transaction.IsPrinted = reader.GetColumn<int>("IsPrinted");
                         transaction.Account = new AccountResponse();
-                        transaction.Account.AccountName = reader.GetColumn<string>("CusAcc");
+                        transaction.Account.AccountName = reader.GetColumn<string>("CusAcc") ?? "";
                         transaction.Account.AccountKey = reader.GetColumn<long>("AccKy");
                         transaction.AccountObjectKey = reader.GetColumn<long>("AccObjKy");
                         transaction.ContraAccount = new AccountResponse();
-                        transaction.ContraAccount.AccountName = reader.GetColumn<string>("ContraAcc");
+                        transaction.ContraAccount.AccountName = reader.GetColumn<string>("ContraAcc") ?? "";
                         transaction.ContraAccount.AccountKey = reader.GetColumn<long>("ContraAccKy");
                         transaction.ContraAccountObjectKey = reader.GetColumn<long>("ContraAccObjKy");
                         transaction.IsLocked = reader.GetColumn<int>("IsLocked");
@@ -1174,11 +1175,6 @@ namespace BlueLotus360.Data.SQL92.Repository
                         transaction.IsVarcar1On = !string.IsNullOrWhiteSpace(reader.GetColumn<string>("VarChar1")) && reader.GetColumn<string>("VarChar1").Equals("1");
                         transaction.Quantity1 = reader.GetColumn<decimal>("Qty1");
                         //transaction.TotalMarkupValue = reader.GetColumn<decimal>("TrnMarkUpAmt");
-
-                        //rep adrky passed but repnm is not passing 
-                        //need to pass resourceadrky and name 
-                        //sales
-                        //
 
                     }
 
@@ -1227,7 +1223,529 @@ namespace BlueLotus360.Data.SQL92.Repository
 
             }
         }
+        public BaseServerResponse<IList<GenericTransactionLineItem>> GenericallyGetTransactionLineItemsV2(Company company, User user, TransactionOpenRequest request)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                BaseServerResponse<IList<GenericTransactionLineItem>> response = new BaseServerResponse<IList<GenericTransactionLineItem>>();
+                IDataReader reader = null;
+                IList<GenericTransactionLineItem> lineItems = new List<GenericTransactionLineItem>();
+                string SPName = "InvoiceItemsStndCarMart_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@TrnKy", request.TransactionKey);
+                    dbCommand.CreateAndAddParameter("@TrnTypKy", request.TrasctionTypeKey);
 
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    int index = 1;
+
+                    while (reader.Read())
+                    {
+                        GenericTransactionLineItem lineItem = new GenericTransactionLineItem();
+                        lineItem.ItemTransactionKey = reader.GetColumn<long>("ItmTrnKy");
+                        lineItem.TransactionKey = reader.GetColumn<long>("TrnKy");
+                        lineItem.EffectiveDate = reader.GetColumn<DateTime>("EftvDt");
+                        lineItem.ItemTransferLinkKey = reader.GetColumn<long>("ItmTrnTrfLnkKy");
+                        lineItem.TransactionItem.ItemKey = reader.GetColumn<long>("ItmKy");
+                        lineItem.TransactionItem.ItemName = reader.GetColumn<string>("ItmNm");
+                        lineItem.TransactionItem.ItemCode = reader.GetColumn<string>("ItmCd");
+                        lineItem.TransactionLocation = new CodeBaseResponse(reader.GetColumn<long>("LocKy"));
+                        lineItem.Quantity = reader.GetColumn<decimal>("Qty");
+                        lineItem.TransactionQuantity = reader.GetColumn<decimal>("TrnQty");
+                        lineItem.Rate = reader.GetColumn<decimal>("Rate");
+                        lineItem.TransactionRate = reader.GetColumn<decimal>("TrnRate");
+                        lineItem.TransactionPrice = reader.GetColumn<decimal>("TrnPrice");
+                        lineItem.BussinessUnit = new CodeBaseResponse(reader.GetColumn<long>("BUKy"));
+                        lineItem.TransactionDiscountAmount = reader.GetColumn<decimal>("TrnDisAmt");
+                        lineItem.DiscountAmount = reader.GetColumn<decimal>("DisAmt");
+                        lineItem.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+                        lineItem.TransactionProject = new ProjectResponse();
+                        lineItem.TransactionProject.ProjectKey = reader.GetColumn<long>("PrjKy");
+                        lineItem.ConditionsState = new CodeBaseResponse(reader.GetColumn<long>("CondStateKy"));
+                        lineItem.ConditionsState.Code = reader.GetColumn<string>("CondStateCd");
+                        lineItem.IsInventory = reader.GetColumn<int>("IsInventory");
+                        lineItem.IsCosting = reader.GetColumn<int>("IsCosting");
+                        lineItem.IsSetOff = reader.GetColumn<int>("IsSetOff");
+                        lineItem.IsActive = reader.GetColumn<int>("IsAct");
+                        lineItem.IsApproved = reader.GetColumn<int>("IsApr");
+                        lineItem.TransactionUnit = new UnitResponse();
+                        lineItem.TransactionUnit.UnitKey = reader.GetColumn<long>("TrnUnitKy");
+                        lineItem.TransactionUnit.UnitName = reader.GetColumn<string>("Unit");
+                        lineItem.LineNumber = reader.GetColumn<int>("LiNo");
+                        lineItem.IsPersisted = true;
+                        lineItem.IsDirty = false;
+                        lineItem.ReservationAddress = new AddressResponse() { AddressKey = reader.GetColumn<long>("ResrAdrID"), AddressName = reader.GetColumn<string>("ResrAdrNm") };
+                        lineItem.TransactionItem.ItemType = new CodeBaseResponse() {CodeKey= reader.GetColumn<int>("ItmTypKy"),CodeName= reader.GetColumn<string>("ItmTypNm"),Code = reader.GetColumn<string>("ItmTypOurCd"),OurCode= reader.GetColumn<string>("ItmTypCd") };
+                        //technician,time,car per,principal per
+
+                        lineItems.Add(lineItem);
+                    }
+
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = lineItems;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                        reader.Dispose();
+
+                    }
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+                return response;
+
+
+
+            }
+        }
+        public BaseServerResponse<IList<CodeBaseResponse>> AprStsNmSelect(int trnky, int aprstsky, int objky, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                IList<CodeBaseResponse> results = new List<CodeBaseResponse>();
+                BaseServerResponse<IList<CodeBaseResponse>> response = new BaseServerResponse<IList<CodeBaseResponse>>();
+                string SPName = "AprStsNm_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("TrnKy", trnky);
+                    dbCommand.CreateAndAddParameter("CurAprStsKy", aprstsky);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", objky);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        CodeBaseResponse findResults = new CodeBaseResponse();
+
+                        findResults.CodeKey = reader.GetColumn<int>("CdKy");
+                        findResults.CodeName = reader.GetColumn<string>("CdNm");
+                        findResults.Code = reader.GetColumn<string>("Code");
+
+                        results.Add(findResults);
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = results;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public void TransactionHeaderApproveInsert(int trnky, int aprstsky, int objky, int isAct,string ourcd, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+
+                string SPName = "TrnHdrApr_InsertWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("TrnKy", trnky);
+                    dbCommand.CreateAndAddParameter("AprStsKy", aprstsky);
+                    dbCommand.CreateAndAddParameter("AprResnKy", 1);
+                    dbCommand.CreateAndAddParameter("AprPrtyKy", 1);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", objky);
+                    //dbCommand.CreateAndAddParameter("isAct", isAct);
+                    //dbCommand.CreateAndAddParameter("AprStsOurCd", null);
+
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+
+                    }
+
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    throw exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+            }
+        }
+
+        public BaseServerResponse<TransactionPermission> CheckTranPrintPermission(int trnky, int aprstsky, int objky, int trnTypKy, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                TransactionPermission result = new TransactionPermission();
+                BaseServerResponse<TransactionPermission> response = new BaseServerResponse<TransactionPermission>();
+                string SPName = "ChkPrintPrmsn_SelectWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("TrnKy", trnky);
+                    dbCommand.CreateAndAddParameter("TrnTypKy", trnTypKy);
+                    dbCommand.CreateAndAddParameter("CurAprStsKy", aprstsky);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", objky);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        result.IsAllowSourceDocumentPrint = reader.GetColumn<int>("isAlwSourceDocPrint");
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = result;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<CodeBaseResponse> TrnHdrNextApproveStatus(int aprstsky, int objky, int trnTypKy, Company company, User user)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                CodeBaseResponse findResults = new CodeBaseResponse();
+                BaseServerResponse<CodeBaseResponse> response = new BaseServerResponse<CodeBaseResponse>();
+                string SPName = "TrnHdrApr_NextState";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("TrnTypKy", trnTypKy);
+                    dbCommand.CreateAndAddParameter("CurntAprStsKy", aprstsky);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", objky);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        findResults.CodeKey = reader.GetColumn<int>("AprStsKy");
+                        findResults.CodeName = reader.GetColumn<string>("AprNm");
+                        findResults.Code = reader.GetColumn<string>("AprCd");
+                    }
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = findResults;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+            }
+        }
+
+        public BaseServerResponse<TransactionPermission> GetIsALwAddUpdatePermissionForOrderTrn(Company company, User user, int objky = 1, int trnky = 1, int aprstsKy = 1)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                TransactionPermission userPermission = new TransactionPermission();
+                BaseServerResponse<TransactionPermission> response = new BaseServerResponse<TransactionPermission>();
+                string SPName = "IsAlwTrnUpdateApr_SelectWeb";
+
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("TrnKy", trnky);
+                    dbCommand.CreateAndAddParameter("ObjKy", objky);
+                    dbCommand.CreateAndAddParameter("AprStsKy", aprstsKy);
+                    //dbCommand.CreateAndAddParameter("AprStsOurCd", null);
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        userPermission.IsAlwAcs = reader.GetColumn<int>("isAlwAcs");
+                        userPermission.IsAllowInsert = reader.GetColumn<int>("isAlwAdd");
+                        userPermission.IsAllowDelete = reader.GetColumn<int>("isAlwDel");
+                        userPermission.IsAllowUpdate = reader.GetColumn<int>("isAlwUpdate");
+                        userPermission.Message = reader.GetColumn<string>("Msg");
+                        userPermission.NextApproveStatuis = new CodeBaseResponse() {CodeKey=reader.GetColumn<int>("NxtAprStsKy"),CodeName= reader.GetColumn<string>("AprNm"),Code= reader.GetColumn<string>("AprCd")};
+                    }
+
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Value = userPermission;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    if (reader!=null)
+                    {
+                        reader.Dispose();
+                    }
+                    
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return response;
+
+            }
+        }
+        public CodeBaseResponse TrnrApproveStatusFindByTrnKy(Company company, User user, int objky = 1, int trnky = 1)
+        {
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                CodeBaseResponse approveState = new CodeBaseResponse();
+                string SPName = "TrnHdrApr_LatestState";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+
+                    dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("@ObjKy", objky);
+                    dbCommand.CreateAndAddParameter("@TrnKy", trnky);
+
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        approveState = new CodeBaseResponse();
+                        approveState.CodeKey = reader.GetColumn<int>("AprStsKy");
+                        approveState.CodeName = reader.GetColumn<string>("AprNm") ?? "";
+                        approveState.Code = reader.GetColumn<string>("AprCd")??"";
+                        approveState.OurCode = reader.GetColumn<string>("OurCd") ?? "" ;
+
+                    }
+
+                }
+                catch (Exception exp)
+                {
+
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+                }
+
+                return approveState;
+            }
+        }
         private CodeBaseResponse GetCdMasByCdKy(int cdKy)
         {
             using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
