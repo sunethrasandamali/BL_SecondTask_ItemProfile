@@ -34,5 +34,14 @@ namespace BlueLotus360.Web.API.Controllers
             BaseServerResponse<IList<CustomerDetailsByVehicle>> customers = _bookingModuleService.GetBookingCustomerDetails(company, user, request);
             return Ok(customers.Value);
         }
-    }
+
+        [HttpPost("getBookingList")]
+        public IActionResult GetBookingList(BookingDetails request)
+        {
+			var user = Request.GetAuthenticatedUser();
+			var company = Request.GetAssignedCompany();
+            BaseServerResponse<IList<BookingDetails>> list = _bookingModuleService.GetBookingDetailsOnCalender(company, user, request);
+			return Ok(list.Value);
+		}
+	}
 }
