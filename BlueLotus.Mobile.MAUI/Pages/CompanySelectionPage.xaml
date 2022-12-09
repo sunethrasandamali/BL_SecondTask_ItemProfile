@@ -19,7 +19,7 @@
                         <Image Source="bl360.png"
           HeightRequest="100"
           VerticalOptions="Center"
-          WidthRequest="500"
+          WidthRequest="480"
           HorizontalOptions="Center" />
                         <Label HorizontalOptions="Start" HorizontalTextAlignment="Start" Text="Select a Company" />
                         <Frame >

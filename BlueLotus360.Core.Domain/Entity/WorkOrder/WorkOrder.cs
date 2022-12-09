@@ -164,6 +164,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
 		public decimal DiscountPercentage { get; set; }
 		public decimal DisocuntAmount { get; set; }
 		public CodeBaseResponse AnalysisType1 { get; set; }
+		public CodeBaseResponse OrderLocation { get; set; }
 		public IRNResponse() 
         {
             IRNType= new CodeBaseResponse();
@@ -173,6 +174,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
             TransactionUnit = new UnitResponse();
             Insurance = new ItemResponse();
             AnalysisType1= new CodeBaseResponse();
+			OrderLocation = new CodeBaseResponse();
 		}
     }
 }
