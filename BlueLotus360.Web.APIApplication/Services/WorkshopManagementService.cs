@@ -970,6 +970,7 @@ namespace BlueLotus360.Web.APIApplication.Services
                 irn.BussinessUnit = itm.FirstOrDefault()?.BusinessUnit;
                 irn.IsActive = (int)itm.FirstOrDefault()?.HederIsActive;
 				irn.Insurance.ItemKey = (int)itm.FirstOrDefault()?.Insurance.ItemKey;
+                irn.OrderLocation = itm.FirstOrDefault()?.OrderLocation;
                 
                 irn.OrderItems=new List<GenericOrderItem>();
                 foreach (var i in itm)

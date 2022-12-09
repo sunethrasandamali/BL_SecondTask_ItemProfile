@@ -484,9 +484,10 @@ namespace BlueLotus360.Data.SQL92.Repository
                         order.Amount = reader.GetColumn<decimal>("Amt");
                         order.Insurance.ItemKey = reader.GetColumn<int>("Adr2Ky");
                         order.HederIsActive = reader.GetColumn<int>("HdrAct");
-                        //order.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
-                        //order.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
-                        //order.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
+                        order.OrderLocation = this.GetCdMasByCdKy(reader.GetColumn<int>("LocKy2"));
+						//order.DisocuntAmount = reader.GetColumn<decimal>("DisAmt");
+						//order.DiscountPercentage = reader.GetColumn<decimal>("DisPer");
+						//order.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
 						order.TransactionUnit = new UnitResponse();
 						list.Add(order);
                     }
