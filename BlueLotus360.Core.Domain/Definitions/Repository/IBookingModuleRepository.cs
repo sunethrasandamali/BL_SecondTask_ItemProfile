@@ -12,5 +12,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
     public interface IBookingModuleRepository
     {
         BaseServerResponse<IList<CustomerDetailsByVehicle>> GetBookingCustomerDetails(Company company, User user, BookingVehicleDetails request);
-    }
+        BaseServerResponse<IList<BookingDetails>> GetBookingDetailsOnCalender(Company company, User user, BookingDetails request);
+	}
 }

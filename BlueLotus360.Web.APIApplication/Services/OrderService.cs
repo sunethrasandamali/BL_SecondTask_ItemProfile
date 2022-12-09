@@ -536,6 +536,15 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.GetPartnerOrdersByOrderID(company, order);
         }
+        public string PostOrderHubStockResevation(int OrdKy, int OrdTypKy, Company company, User user)
+        {
+            return _unitOfWork.OrderRepository.PostOrderHubStockResevation(OrdKy, OrdTypKy, company, user);
+        }
+
+        public string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user)
+        {
+            return _unitOfWork.OrderRepository.PostOrderHubStockResevationReversal(OrdKy,company, user);
+        }
         
     }
 }

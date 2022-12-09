@@ -198,7 +198,21 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var user = Request.GetAuthenticatedUser();
             PartnerOrder codes = _orderService.GetOrdersFromOrderPlatforms(company,user, request).Value;
-
+            if (codes.PartnerOrderId > 11)
+            {
+                long ConfirmKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Confirm", "OrdSts").Value.CodeKey;
+                long CancelKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Cancel", "OrdSts").Value.CodeKey;
+                long RejectKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Reject", "OrdSts").Value.CodeKey;
+                long OrdTypKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "SLSORD", "OrdTyp").Value.CodeKey;
+                if (request.OrderStatus.CodeKey == ConfirmKy)
+                {
+                    _orderService.PostOrderHubStockResevation(Convert.ToInt32(codes.PartnerOrderId), Convert.ToInt32(OrdTypKy), company, user);
+                }
+                else if (request.OrderStatus.CodeKey == CancelKy || request.OrderStatus.CodeKey == RejectKy)
+                {
+                    _orderService.PostOrderHubStockResevationReversal(Convert.ToInt32(codes.PartnerOrderId), company, user);
+                }
+            }
             return Ok(codes);
         }
 
@@ -361,8 +375,23 @@ namespace BlueLotus360.Web.API.Controllers
         public IActionResult OrderHubStatus_UpdateWeb(RequestParameters request)
         {
             var user = Request.GetAuthenticatedUser();
+            Company company = Request.GetAssignedCompany();
             bool success = _orderService.OrderHubStatus_UpdateWeb(request,user);
-
+            if (success)
+            {
+                long ConfirmKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Confirm", "OrdSts").Value.CodeKey;
+                long CancelKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Cancel", "OrdSts").Value.CodeKey;
+                long RejectKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Reject", "OrdSts").Value.CodeKey;
+                long OrdTypKy= _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "SLSORD", "OrdTyp").Value.CodeKey;
+                if (request.StatusKey== ConfirmKy)
+                {
+                    _orderService.PostOrderHubStockResevation(request.OrderKey, Convert.ToInt32(OrdTypKy), company, user);
+                }
+                else if(request.StatusKey == CancelKy || request.StatusKey == RejectKy)
+                {
+                    _orderService.PostOrderHubStockResevationReversal(request.OrderKey, company, user);
+                }
+            }
             return Ok(success);
         }
 

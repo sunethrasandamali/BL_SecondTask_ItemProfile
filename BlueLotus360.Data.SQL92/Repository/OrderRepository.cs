@@ -2562,7 +2562,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.ExecuteNonQuery();
 
                     isSuccess = true;
-
+                    
 
 
 
@@ -2807,6 +2807,154 @@ namespace BlueLotus360.Data.SQL92.Repository
                 }
 
                 return isSuccess;
+            }
+        }
+
+        public string PostOrderHubStockResevation(int OrdKy,int OrdTypKy, Company company, User user)
+        {
+            string Message = string.Empty;
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+                
+                string SPName = "POrdKyStkReserve_PostWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("OrdKy", OrdKy);
+                    dbCommand.CreateAndAddParameter("OrdTypKy", OrdTypKy);
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", 194423);
+
+                    //response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Message = reader.GetColumn<string>("Message");
+                        
+                    }
+                    //response.ExecutionEnded = DateTime.UtcNow;
+                    //response.Value = Message;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    //response.ExecutionEnded = DateTime.UtcNow;
+                    //response.Messages.Add(new ServerResponseMessae()
+                    //{
+                    //    MessageType = ServerResponseMessageType.Exception,
+                    //    Message = $"Error While Executing Proc {SPName}"
+                    //});
+                    //response.ExecutionException = exp;
+                    Message = "";
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return Message;
+            }
+        }
+        public string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user)
+        {
+            string Message = string.Empty;
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+                IDataReader reader = null;
+
+                string SPName = "POrdKyStkReserveReverse_PostWeb";
+                try
+                {
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("OrdKy", OrdKy);
+                    dbCommand.CreateAndAddParameter("OurCd", "SLSORD");
+                    dbCommand.CreateAndAddParameter("ConCd", "OrdTyp");
+                    dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
+                    dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
+                    dbCommand.CreateAndAddParameter("ObjKy", 194423);
+
+                    //response.ExecutionStarted = DateTime.UtcNow;
+                    dbCommand.Connection.Open();
+                    reader = dbCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Message = reader.GetColumn<string>("Message");
+
+                    }
+                    //response.ExecutionEnded = DateTime.UtcNow;
+                    //response.Value = Message;
+
+                    if (!reader.IsClosed)
+                    {
+                        reader.Close();
+                    }
+
+
+
+
+                }
+                catch (Exception exp)
+                {
+                    //response.ExecutionEnded = DateTime.UtcNow;
+                    //response.Messages.Add(new ServerResponseMessae()
+                    //{
+                    //    MessageType = ServerResponseMessageType.Exception,
+                    //    Message = $"Error While Executing Proc {SPName}"
+                    //});
+                    //response.ExecutionException = exp;
+                    Message = "";
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (reader != null)
+                    {
+                        if (!reader.IsClosed)
+                        {
+                            reader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    reader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+                }
+
+                return Message;
             }
         }
     }

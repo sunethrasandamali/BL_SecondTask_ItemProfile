@@ -22,5 +22,10 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.BookingModuleRepository.GetBookingCustomerDetails(company, user, request);
         }
-    }
+
+		public BaseServerResponse<IList<BookingDetails>> GetBookingDetailsOnCalender(Company company, User user, BookingDetails request)
+		{
+            return _unitOfWork.BookingModuleRepository.GetBookingDetailsOnCalender(company, user, request);
+		}
+	}
 }
