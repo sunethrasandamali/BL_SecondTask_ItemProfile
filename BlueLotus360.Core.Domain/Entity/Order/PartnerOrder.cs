@@ -201,4 +201,11 @@ namespace BlueLotus360.Core.Domain.Entity
 
         public Pagination pagination { get; set; }
     }
+
+    public class StockInjection
+    {
+        public int OrderKey { get; set; }
+        public string? IntegrationId { get; set; }
+        public string? RequestId { get; set; }
+    }
 }
