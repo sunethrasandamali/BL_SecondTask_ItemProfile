@@ -625,7 +625,7 @@ namespace BlueLotus360.Web.API.Controllers
 
         private bool StockUpdateAfterConfirmation(StockInjection stockInjection)
         {
-            long Timestamp= DateTimeOffset.Now.ToUnixTimeSeconds();
+            string Timestamp= DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
             var client = new RestClient("https://bl360x.com/BLEFutureAPI/api/");
             var request = new RestRequest("Reconciliation/PorpergateStockTransactions", Method.Post);
             request.AddHeader("Timestamp", Timestamp);
