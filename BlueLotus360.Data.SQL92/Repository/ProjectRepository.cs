@@ -30,9 +30,12 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                     dbCommand.CreateAndAddParameter("@Cky", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("@UsrKy", user.UserKey);
-                    dbCommand.CreateAndAddParameter("@PrjNo", request.ProjectNumber ?? "");
+                    dbCommand.CreateAndAddParameter("@PrjNo", request.ProjectNumber ??"");
                     dbCommand.CreateAndAddParameter("@PrjID", request.ProjectID ?? "");
-                    dbCommand.CreateAndAddParameter("@PrjNm", request.ProjectName??"");
+                    if (!string.IsNullOrEmpty(request.ProjectName))
+                    {
+                        dbCommand.CreateAndAddParameter("@PrjNm", request.ProjectName);
+                    }
                     dbCommand.CreateAndAddParameter("@PrjTypKy", BaseComboResponse.GetKeyValue(request.ProjectType));
                     dbCommand.CreateAndAddParameter("@PrntKy", request.ParentKey);
                     dbCommand.CreateAndAddParameter("@Alias", request.Alias??"");

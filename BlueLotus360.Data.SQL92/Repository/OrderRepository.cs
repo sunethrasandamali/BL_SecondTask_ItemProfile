@@ -492,7 +492,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                     {
                         dbConnection.Close();
                     }
-                    reader.Dispose();
+                    if (reader!=null)
+                    {
+                        reader.Dispose();
+                    }
+                    
                     dbCommand.Dispose();
                     dbConnection.Dispose();
                 }
