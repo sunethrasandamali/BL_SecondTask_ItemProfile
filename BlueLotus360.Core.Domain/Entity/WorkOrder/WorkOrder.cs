@@ -159,7 +159,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
         public decimal Amount { get; set; }
         public int IsActive { get; set; }
         public UnitResponse TransactionUnit { get; set; }
-		public ItemResponse Insurance { get; set; }
+		public AccountResponse Insurance { get; set; }
         public int HederIsActive { get; set; }
 		public decimal DiscountPercentage { get; set; }
 		public decimal DisocuntAmount { get; set; }
@@ -172,7 +172,7 @@ namespace BlueLotus360.Core.Domain.Entity.WorkOrder
             BusinessUnit= new CodeBaseResponse();
             Item= new ItemResponse();
             TransactionUnit = new UnitResponse();
-            Insurance = new ItemResponse();
+            Insurance = new AccountResponse();
             AnalysisType1= new CodeBaseResponse();
 			OrderLocation = new CodeBaseResponse();
 		}
