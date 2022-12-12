@@ -15,6 +15,7 @@ namespace BlueLotus360.Core.Domain.Entity
             // AuthorizedCompany = new Company();
             OrderStatus = new CodeBaseResponse();
             Location = new CodeBaseResponse();
+            BU = new CodeBaseResponse();
             Platforms = new AccountResponse();
             Customer = new Person();
             // CreatedBy = new User();
@@ -30,6 +31,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public CodeBaseResponse OrderStatus { get; set; }
         // public Company AuthorizedCompany { get; set; }
         public CodeBaseResponse Location { get; set; }
+        public CodeBaseResponse BU { get; set; }
         public int OrderLastSyncMinutes { get; set; }
         public long PartnerOrderId  { get; set; } = 1; //auto-genarated
         public string OrderId { get; set; } = "";// partner order id
@@ -193,6 +195,7 @@ namespace BlueLotus360.Core.Domain.Entity
         public string FromDate { get; set; } = "";
         public string ToDate { get; set; } = "";
         public int LocationKey { get; set; }
+        public int BUKy { get; set; }
         public int StatusKey { get; set; }
         public int OrderKey { get; set; }
         public int OrderTypeKey { get; set; }

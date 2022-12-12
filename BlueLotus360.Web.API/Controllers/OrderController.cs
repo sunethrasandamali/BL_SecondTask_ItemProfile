@@ -642,5 +642,15 @@ namespace BlueLotus360.Web.API.Controllers
                 return false;
             }
         }
+
+        [HttpPost("GetOrderHubBU")]
+        public IActionResult GetOrderHubBU()
+        {
+            var company = Request.GetAssignedCompany();
+            
+            IList<CodeBaseResponse> items = _orderService.GetOrderHubBU(company).Value;
+            return Ok(items);
+        }
+
     }
 }

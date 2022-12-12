@@ -18,6 +18,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
             APIRequestParameters request = new APIRequestParameters()
             {
                 LocationKey = 1,
+                BUKy=1,
                 APIIntegrationName = "Ubereats",
                 APIName = "Ubereats",
                 EndPointName = ""
@@ -36,6 +37,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
             APIRequestParameters endpointrequest = new APIRequestParameters()
             {
                 LocationKey = 1,
+                BUKy=1,
                 APIIntegrationKey = ApiIntegrationKey,
                 EndPointName = EndpointName
             };

@@ -545,6 +545,10 @@ namespace BlueLotus360.Web.APIApplication.Services
         {
             return _unitOfWork.OrderRepository.PostOrderHubStockResevationReversal(OrdKy,company, user);
         }
+        public BaseServerResponse<IList<CodeBaseResponse>> GetOrderHubBU(Company company)
+        {
+            return _unitOfWork.OrderRepository.GetOrderHubBU(company);
+        }
         
     }
 }

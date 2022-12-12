@@ -41,7 +41,8 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                 {
                     EndPointName = UberEndpointURLS.GetOrder.ToString(),
                     APIIntegrationKey= APIInfo.APIIntegrationKey,
-                    LocationKey=1
+                    LocationKey=1,
+                    BUKy=1
                 };
                 APIInformation endpointInfo = _orderService.GetAPIEndPoints(new Company(), EndPointParams).Value;
 
@@ -82,6 +83,7 @@ namespace BlueLotus360.Web.API.Integrations.Uber
                 //common order details
                 //using uberOrder.Store.Id get relevant company id and location key and set to saveOrder
                 saveUberOrder.Location = StoreInfo.Location;
+                saveUberOrder.BU = StoreInfo.BU;
                 saveUberOrder.OrderId = uberOrder.Id;
                 saveUberOrder.OrderReference = uberOrder.Display_id;
                 saveUberOrder.OrderDate = Convert.ToDateTime(uberOrder.Placed_at).ToString("yyyy/MM/dd hh:mm:ss tt");
