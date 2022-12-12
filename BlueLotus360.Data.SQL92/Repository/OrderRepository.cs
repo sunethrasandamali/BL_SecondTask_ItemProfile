@@ -903,10 +903,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
                         oorderV3.InsertDate= reader.GetColumn<DateTime>("InsertDt");
                         oorderV3.UpdateDate= reader.GetColumn<DateTime>("UpdtDt");
-                        oorderV3.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
-                        //carmrt and principle values customer amount
+                        oorderV3.AnalysisType1.CodeKey = reader.GetColumn<int>("Anl2Ky");
+                        oorderV3.AnalysisType1.CodeName = reader.GetColumn<string>("Anl2Name");
+						//carmrt and principle values customer amount
 
-                        itemList.Add(oorderV3);
+						itemList.Add(oorderV3);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = itemList;
