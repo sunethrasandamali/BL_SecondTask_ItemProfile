@@ -55,5 +55,6 @@ namespace BlueLotus360.Core.Domain.Definitions.Repository
         BaseServerResponse<PartnerOrder> GetPartnerOrdersByOrderID(Company company, RequestParameters order);
         string PostOrderHubStockResevation(int OrdKy, int OrdTypKy, Company company, User user);
         string PostOrderHubStockResevationReversal(int OrdKy, Company company, User user);
+        BaseServerResponse<IList<CodeBaseResponse>> GetOrderHubBU(Company company);
     }
 }
