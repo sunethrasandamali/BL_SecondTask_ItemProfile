@@ -17,6 +17,7 @@ using BlueLotus360.Web.APIApplication.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RestSharp;
 using System.Drawing;
 using System.Text.Json;
 using System.Transactions;
@@ -198,21 +199,21 @@ namespace BlueLotus360.Web.API.Controllers
             var company = Request.GetAssignedCompany();
             var user = Request.GetAuthenticatedUser();
             PartnerOrder codes = _orderService.GetOrdersFromOrderPlatforms(company,user, request).Value;
-            if (codes.PartnerOrderId > 11)
-            {
-                long ConfirmKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Confirm", "OrdSts").Value.CodeKey;
-                long CancelKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Cancel", "OrdSts").Value.CodeKey;
-                long RejectKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Reject", "OrdSts").Value.CodeKey;
-                long OrdTypKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "SLSORD", "OrdTyp").Value.CodeKey;
-                if (request.OrderStatus.CodeKey == ConfirmKy)
-                {
-                    _orderService.PostOrderHubStockResevation(Convert.ToInt32(codes.PartnerOrderId), Convert.ToInt32(OrdTypKy), company, user);
-                }
-                else if (request.OrderStatus.CodeKey == CancelKy || request.OrderStatus.CodeKey == RejectKy)
-                {
-                    _orderService.PostOrderHubStockResevationReversal(Convert.ToInt32(codes.PartnerOrderId), company, user);
-                }
-            }
+            //if (codes.PartnerOrderId > 11)
+            //{
+            //    long ConfirmKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Confirm", "OrdSts").Value.CodeKey;
+            //    long CancelKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Cancel", "OrdSts").Value.CodeKey;
+            //    long RejectKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Reject", "OrdSts").Value.CodeKey;
+            //    long OrdTypKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "SLSORD", "OrdTyp").Value.CodeKey;
+            //    if (request.OrderStatus.CodeKey == ConfirmKy)
+            //    {
+            //        _orderService.PostOrderHubStockResevation(Convert.ToInt32(codes.PartnerOrderId), Convert.ToInt32(OrdTypKy), company, user);
+            //    }
+            //    else if (request.OrderStatus.CodeKey == CancelKy)
+            //    {
+            //        _orderService.PostOrderHubStockResevationReversal(Convert.ToInt32(codes.PartnerOrderId), company, user);
+            //    }
+            //}
             return Ok(codes);
         }
 
@@ -256,7 +257,7 @@ namespace BlueLotus360.Web.API.Controllers
         public IActionResult GenerateProvisionURL(APIRequestParameters request)
         {
             var company = Request.GetAssignedCompany();
-            string Redirect_uri = request.BaseURL + "Order/GenerateProvisionToken?CompanyCode=" + CryptoService.ToEncryptedData(company.CompanyKey.ToString());
+            string Redirect_uri = request.BaseURL +"Order/GenerateProvisionToken?CompanyCode=" + CryptoService.ToEncryptedData(company.CompanyKey.ToString());
             string link = "https://login.uber.com/oauth/v2/authorize?response_type=code&client_id=" +request.IntegrationID +"&scope=eats.pos_provisioning&redirect_uri=" +Redirect_uri;
             return Ok(link);
         }
@@ -266,6 +267,12 @@ namespace BlueLotus360.Web.API.Controllers
         public ContentResult GenerateProvisionToken(string CompanyCode, string code)
         {
             var user = Request.GetAuthenticatedUser();
+            CompanyCode = CompanyCode.Replace(" ", "+");
+            int mod4 = CompanyCode.Length % 4;
+            if (mod4 > 0)
+            {
+                CompanyCode += new string('=', 4 - mod4);
+            }
             string decryptedCompanyKeyAsString = CryptoService.ToDecryptedData(CompanyCode);
             int decryptedCompanyKey = Convert.ToInt32(decryptedCompanyKeyAsString);
             UberProvisionHandler uberProvisionHandler = new UberProvisionHandler(_orderService);
@@ -275,7 +282,7 @@ namespace BlueLotus360.Web.API.Controllers
             {
                 APIInformation endpointInfo = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, UberEndpointURLS.AuthCode.ToString());
                 uberProvisionHandler.InsertAuthEndpoint(code, APIInfo.APIIntegrationKey, endpointInfo.EndPointURL, decryptedCompanyKey);
-                var RedirectURL = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path;
+                var RedirectURL = HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path+ "?CompanyCode=";
                 APIInformation ScopeendpointInfo = uberProvisionHandler.GetEndPoint(APIInfo.APIIntegrationKey, UberTokenEndpoints.Eats_Provisioning_Scope.GetDescription());
                 APIInformation GetProvisionToken = uberTokenHandler.GetUberEatsTokensByEndPointName(APIInfo, ScopeendpointInfo, UberTokenEndpoints.Eats_Provisioning_Scope.GetDescription(), RedirectURL, code, decryptedCompanyKey);
                 if(GetProvisionToken.EndPointToken != string.Empty && GetProvisionToken.EndPointToken != null)
@@ -374,23 +381,38 @@ namespace BlueLotus360.Web.API.Controllers
         [HttpPost("OrderHubStatus_UpdateWeb")]
         public IActionResult OrderHubStatus_UpdateWeb(RequestParameters request)
         {
+            bool success = false;
             var user = Request.GetAuthenticatedUser();
             Company company = Request.GetAssignedCompany();
-            bool success = _orderService.OrderHubStatus_UpdateWeb(request,user);
+            success = _orderService.OrderHubStatus_UpdateWeb(request,user);
             if (success)
             {
                 long ConfirmKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Confirm", "OrdSts").Value.CodeKey;
                 long CancelKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Cancel", "OrdSts").Value.CodeKey;
                 long RejectKy = _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "Reject", "OrdSts").Value.CodeKey;
                 long OrdTypKy= _codeBaseService.GetCodeByOurCodeAndConditionCode(company, user, "SLSORD", "OrdTyp").Value.CodeKey;
-                if (request.StatusKey== ConfirmKy)
+                if (company.CompanyKey == 541 && request.StatusKey == ConfirmKy)
                 {
-                    _orderService.PostOrderHubStockResevation(request.OrderKey, Convert.ToInt32(OrdTypKy), company, user);
+                    StockInjection stockInjection = new StockInjection()
+                    {
+                        OrderKey= request.OrderKey,
+                        IntegrationId= "4824fc92-10fa-4eca-a7d0-e7048892bc84",
+                        RequestId= "JKLL_TST"
+                    };
+                    success= StockUpdateAfterConfirmation(stockInjection);
                 }
-                else if(request.StatusKey == CancelKy || request.StatusKey == RejectKy)
+                else
                 {
-                    _orderService.PostOrderHubStockResevationReversal(request.OrderKey, company, user);
+                    //if (request.StatusKey == ConfirmKy)
+                    //{
+                    //    _orderService.PostOrderHubStockResevation(request.OrderKey, Convert.ToInt32(OrdTypKy), company, user);
+                    //}
+                    //else if (request.StatusKey == CancelKy)
+                    //{
+                    //    _orderService.PostOrderHubStockResevationReversal(request.OrderKey, company, user);
+                    //}
                 }
+               
             }
             return Ok(success);
         }
@@ -599,6 +621,26 @@ namespace BlueLotus360.Web.API.Controllers
             }
 
 
+        }
+
+        private bool StockUpdateAfterConfirmation(StockInjection stockInjection)
+        {
+            string Timestamp= DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+            var client = new RestClient("https://bl360x.com/BLEFutureAPI/api/");
+            var request = new RestRequest("Reconciliation/PorpergateStockTransactions", Method.Post);
+            request.AddHeader("Timestamp", Timestamp);
+            request.AddHeader("Authorization", "Bearer 6a92fb8b0532d2370aef1f912f72568dcda21c6853a6dbc2be531fcb02002e5c");
+            request.AddHeader("Content-Type", "application/json");
+            request.AddParameter("application/json", JsonConvert.SerializeObject(stockInjection), ParameterType.RequestBody);
+            RestResponse response = client.Execute(request);
+            if (response.IsSuccessful)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

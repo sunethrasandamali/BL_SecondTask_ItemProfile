@@ -41,7 +41,7 @@ namespace BlueLotus360.Core.Domain.Entity.Base
         public string? ChassiNumber { get; set; }
         public CodeBaseResponse Make { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse Model { get; set; } = new CodeBaseResponse();
-        public CodeBaseResponse MakeYear { get; set; } = new CodeBaseResponse();
+        public string? MakeYear { get; set; } 
         public CodeBaseResponse Category { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse SubCategory { get; set; } = new CodeBaseResponse();
         public CodeBaseResponse MaintainPackage { get; set; } = new CodeBaseResponse();

@@ -167,7 +167,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@ChassiNo", addressMaster.ChassiNumber);
                     dbCommand.CreateAndAddParameter("@MakeKy", addressMaster.Make.CodeKey);
                     dbCommand.CreateAndAddParameter("@ModelKy", addressMaster.Model.CodeKey);
-                    dbCommand.CreateAndAddParameter("@MakeYr", addressMaster.MakeYear.CodeKey);
+                    dbCommand.CreateAndAddParameter("@MakeYr", addressMaster.MakeYear);
                     dbCommand.CreateAndAddParameter("@AdrCat1Ky", addressMaster.Category.CodeKey);
                     dbCommand.CreateAndAddParameter("@AdrCat2Ky", addressMaster.SubCategory.CodeKey);
                     dbCommand.CreateAndAddParameter("@MaintPckg", addressMaster.MaintainPackage.CodeKey);
