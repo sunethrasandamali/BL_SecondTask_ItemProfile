@@ -229,16 +229,16 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.AccountKey = order.OrderAccount.AccountKey;
             //OH.Insurance.AccountKey = order.Insurance.AccountKey;
 
-            if (!BaseComboResponse.IsEntityWithDefaultValue(order.OrderAccount))
-            {
-                OH.AccountKey = order.OrderAccount.AccountKey;
-            }
-            else
-            {
-                var acc = _unitOfWork.AccountRepository.GetAccountByAddress(order.OrderCustomer, company, user);
-                OH.AccountKey = acc.Value.AccountKey;
+            //if (!BaseComboResponse.IsEntityWithDefaultValue(order.OrderAccount))
+            //{
+            //    OH.AccountKey = order.OrderAccount.AccountKey;
+            //}
+            //else
+            //{
+            //    var acc = _unitOfWork.AccountRepository.GetAccountByAddress(order.OrderCustomer, company, user);
+            //    OH.AccountKey = acc.Value.AccountKey;
 
-            }
+            //}
 
             _unitOfWork.OrderRepository.CreateOrder(OH, company, user);
 
@@ -564,15 +564,15 @@ namespace BlueLotus360.Web.APIApplication.Services
             OH.Insurance = new AccountResponse();
             OH.AccountKey = orderDetails.OrderAccount.AccountKey;
 
-            if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
-            {
-                OH.AccountKey = orderDetails.OrderAccount.AccountKey;
-            }
-            else
-            {
-                var acc = _unitOfWork.AccountRepository.GetAccountByAddress(orderDetails.OrderCustomer, company, user);
-                OH.AccountKey = acc.Value.AccountKey;
-            }
+            //if (!BaseComboResponse.IsEntityWithDefaultValue(orderDetails.OrderAccount))
+            //{
+            //    OH.AccountKey = orderDetails.OrderAccount.AccountKey;
+            //}
+            //else
+            //{
+            //    var acc = _unitOfWork.AccountRepository.GetAccountByAddress(orderDetails.OrderCustomer, company, user);
+            //    OH.AccountKey = acc.Value.AccountKey;
+            //}
 
             _unitOfWork.OrderRepository.UpdateGenericOrderHeader(OH, company, user);
 
