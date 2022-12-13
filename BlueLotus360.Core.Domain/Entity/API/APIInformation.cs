@@ -12,6 +12,7 @@ namespace BlueLotus360.Core.Domain.Entity.API
         public APIInformation()
         {
             Location = new CodeBaseResponse();
+            BU= new CodeBaseResponse();
         }
         public int APIIntegrationKey { get; set; } =1;
         public string? APIIntegrationNmae { get; set; }
@@ -46,6 +47,7 @@ namespace BlueLotus360.Core.Domain.Entity.API
         public DateTime TokenGeneratedTime { get; set; }
         public DateTime TokenValidTillTime { get; set; }
         public CodeBaseResponse Location { get; set; }
+        public CodeBaseResponse BU { get; set; }
     }
 
     public class APIRequestParameters
@@ -54,6 +56,7 @@ namespace BlueLotus360.Core.Domain.Entity.API
         public int APIIntegrationKey { get; set; }
         public string? APIIntegrationName { get; set; }
         public int LocationKey { get; set; }
+        public int BUKy { get; set; }
         public string? APIName { get; set; }
         public string? BaseURL { get; set; }
         public string? IntegrationID { get; set; }

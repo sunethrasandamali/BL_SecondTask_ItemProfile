@@ -92,7 +92,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("PrjKy", orderHeader.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderHeader.Code1Key);
                     dbCommand.CreateAndAddParameter("MeterReading",orderHeader.MeterReading);
-                    dbCommand.CreateAndAddParameter("Adr2Ky", orderHeader.Insurance.ItemKey);
+                    dbCommand.CreateAndAddParameter("Adr2Ky", orderHeader.Insurance.AccountKey);
 
                     response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -446,7 +446,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("PrjKy", orderV3.ProjectKey);
                     dbCommand.CreateAndAddParameter("Cd1Ky", orderV3.Code1Key);
                     dbCommand.CreateAndAddParameter("MeterReading", orderV3.MeterReading);
-                    dbCommand.CreateAndAddParameter("Adr2Ky", orderV3.Insurance.ItemKey);
+                    dbCommand.CreateAndAddParameter("Adr2Ky", orderV3.Insurance.AccountKey);
+					dbCommand.CreateAndAddParameter("@AccKy", orderV3.AccountKey);
 
 					response.ExecutionStarted = DateTime.UtcNow;
                     dbCommand.Connection.Open();
@@ -902,10 +903,11 @@ namespace BlueLotus360.Data.SQL92.Repository
                         oorderV3.ReserveAddressID= reader.GetColumn<string>("ResrAdrID");
                         oorderV3.InsertDate= reader.GetColumn<DateTime>("InsertDt");
                         oorderV3.UpdateDate= reader.GetColumn<DateTime>("UpdtDt");
-                        oorderV3.AnalysisType1 = this.GetCdMasByCdKy(reader.GetColumn<int>("Anl2Ky"));
-                        //carmrt and principle values customer amount
+                        oorderV3.AnalysisType1.CodeKey = reader.GetColumn<int>("Anl2Ky");
+                        oorderV3.AnalysisType1.CodeName = reader.GetColumn<string>("Anl2Name");
+						//carmrt and principle values customer amount
 
-                        itemList.Add(oorderV3);
+						itemList.Add(oorderV3);
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = itemList;
@@ -1439,6 +1441,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CommandText = SPName;
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("LocKy", partnerOrder.LocationKey);
+                    dbCommand.CreateAndAddParameter("BuKy", partnerOrder.BUKy);
                     dbCommand.CreateAndAddParameter("PrtnrStsKy", partnerOrder.StatusKey);
                     dbCommand.CreateAndAddParameter("FrmDt", partnerOrder.FromDate);
                     dbCommand.CreateAndAddParameter("ToDt", partnerOrder.ToDate);
@@ -1503,6 +1506,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("LocKy", order.LocationKey);
+                    dbCommand.CreateAndAddParameter("BuKy", order.BUKy);
                     dbCommand.CreateAndAddParameter("StatusKey", order.StatusKey);
                     dbCommand.CreateAndAddParameter("OrderDt", order.FromDate);
                     dbCommand.CreateAndAddParameter("ToDt", order.ToDate);
@@ -1599,6 +1603,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("BUKy", request.BUKy);
                     dbCommand.CreateAndAddParameter("ApiIntNm", request.APIIntegrationName);
 
                     response.ExecutionStarted = DateTime.UtcNow;
@@ -1622,6 +1627,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                         information.Scheme = reader.GetColumn<string>("Scheme");
                         information.BaseURL = reader.GetColumn<string>("BaseURL");
                         information.AlertnateBaseURL = reader.GetColumn<string>("AltntBaseURL");
+                        information.BU.CodeKey= reader.GetColumn<int>("BUKy");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = information;
@@ -1758,6 +1764,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CommandText = SPName;
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("LocKy", request.LocationKey);
+                    dbCommand.CreateAndAddParameter("BUKy", request.BUKy);
                     dbCommand.CreateAndAddParameter("ApiInfKy", request.APIIntegrationKey);
                     dbCommand.CreateAndAddParameter("EndPointNm", request.EndPointName);
 
@@ -1938,6 +1945,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("@OrderDet", this.GetPartnerDetailsTable(request.OrderItemDetails));
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("LocKy", request.Location.CodeKey);
+                    dbCommand.CreateAndAddParameter("BUKy", request.BU.CodeKey);
                     dbCommand.CreateAndAddParameter("UsrKy", user.UserKey);
                     dbCommand.CreateAndAddParameter("OrdKy", request.PartnerOrderId);
                     dbCommand.CreateAndAddParameter("DisAmt", request.DiscountAmount);
@@ -2369,6 +2377,8 @@ namespace BlueLotus360.Data.SQL92.Repository
                         information.MappedCompanyKey = reader.GetColumn<int>("MappedCky");
                         information.MappedLocationKey = reader.GetColumn<int>("MappedLocation");
                         information.MappedLocationName = reader.GetColumn<string>("LocationNm");
+                        information.BU.CodeKey = reader.GetColumn<int>("BUKy");
+                        information.BU.CodeName = reader.GetColumn<string>("BUNm");
                     }
                     response.ExecutionEnded = DateTime.UtcNow;
                     response.Value = information;
@@ -2431,6 +2441,7 @@ namespace BlueLotus360.Data.SQL92.Repository
                     dbCommand.CreateAndAddParameter("ApiIntNm", request.APIIntegrationNmae);
                     dbCommand.CreateAndAddParameter("APPID", request.ApplicationID);
                     dbCommand.CreateAndAddParameter("LocKy", request.Location.CodeKey);
+                    dbCommand.CreateAndAddParameter("BUKy", request.BU.CodeKey);
                     dbCommand.CreateAndAddParameter("CKy", company.CompanyKey);
                     dbCommand.CreateAndAddParameter("isAct", request.IsActive);
 
@@ -2960,6 +2971,78 @@ namespace BlueLotus360.Data.SQL92.Repository
 
                 return Message;
             }
+        }
+
+        public BaseServerResponse<IList<CodeBaseResponse>> GetOrderHubBU(Company company)
+        {
+            IList<CodeBaseResponse> codeBases = new List<CodeBaseResponse>();
+            BaseServerResponse<IList<CodeBaseResponse>> response = new BaseServerResponse<IList<CodeBaseResponse>>();
+
+            using (IDbCommand dbCommand = _dataLayer.GetCommandAccess())
+            {
+
+                IDataReader dataReader = null;
+                string SPName = "GetOrderHubBU";
+                try
+                {
+
+                    dbCommand.CommandType = CommandType.StoredProcedure;
+                    dbCommand.CommandText = SPName;
+                    dbCommand.CreateAndAddParameter("@CKy", company.CompanyKey);
+
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+
+                    dbCommand.Connection.Open();
+                    dataReader = dbCommand.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        CodeBaseResponse codeBase = new CodeBaseResponse(dataReader.GetColumn<int>("CdKy"));
+                        codeBase.CodeName = dataReader.GetColumn<string>("CdNm");
+
+
+                        codeBases.Add(codeBase);
+                    }
+
+                    response.ExecutionStarted = DateTime.UtcNow;
+                    response.Value = codeBases;
+
+                }
+                catch (Exception exp)
+                {
+                    response.ExecutionEnded = DateTime.UtcNow;
+                    response.Messages.Add(new ServerResponseMessae()
+                    {
+                        MessageType = ServerResponseMessageType.Exception,
+                        Message = $"Error While Executing Proc {SPName}"
+                    });
+                    response.ExecutionException = exp;
+                }
+
+                finally
+                {
+                    IDbConnection dbConnection = dbCommand.Connection;
+                    if (dataReader != null)
+                    {
+                        if (!dataReader.IsClosed)
+                        {
+                            dataReader.Close();
+                        }
+                    }
+                    if (dbConnection.State != ConnectionState.Closed)
+                    {
+                        dbConnection.Close();
+                    }
+                    dataReader.Dispose();
+                    dbCommand.Dispose();
+                    dbConnection.Dispose();
+
+
+                }
+                return response;
+            }
+
         }
     }
 }

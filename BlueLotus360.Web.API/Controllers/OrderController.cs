@@ -422,29 +422,40 @@ namespace BlueLotus360.Web.API.Controllers
             try
             {
                 Company company = Request.GetAssignedCompany();
-                string folderPath =Path.Combine(URL, "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/");
-                string folderPathforUrl = URL + "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/";
-                string imageFileName = menuItem.ItemCode + ".jpg";
-                if (!Directory.Exists(folderPath))
+                string folderPathforUrl = string.Empty;
+                string imageFileName = string.Empty;
+                if (company.CompanyKey == 541)
                 {
-                    Directory.CreateDirectory(folderPath);
+                    folderPathforUrl = "https://bluelotus360.co/3pl/nst/";
+                    imageFileName = menuItem.ItemCode + ".jpg";
                 }
-
-                //as a url
-                using (MemoryStream ms = new MemoryStream(imgArr))
+                else
                 {
-                    ms.Position = 0;
-                    Image img = Image.FromStream(ms);
-                    string finalImgPath = folderPath + imageFileName;
-
-                    if (!System.IO.File.Exists(finalImgPath))
+                    string folderPath = Path.Combine(URL, "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/");
+                    folderPathforUrl = URL + "/" + CryptoService.ToEncryptedData(company.CompanyKey.ToString()) + "/";
+                    imageFileName = menuItem.ItemCode + ".jpg";
+                    if (!Directory.Exists(folderPath))
                     {
-
-                        img.Save(finalImgPath, System.Drawing.Imaging.ImageFormat.Png);
+                        Directory.CreateDirectory(folderPath);
                     }
 
+                    //as a url
+                    using (MemoryStream ms = new MemoryStream(imgArr))
+                    {
+                        ms.Position = 0;
+                        Image img = Image.FromStream(ms);
+                        string finalImgPath = folderPath + imageFileName;
 
+                        if (!System.IO.File.Exists(finalImgPath))
+                        {
+
+                            img.Save(finalImgPath, System.Drawing.Imaging.ImageFormat.Png);
+                        }
+
+
+                    }
                 }
+                
                 return folderPathforUrl + imageFileName;
             }
             catch (Exception e)
@@ -642,5 +653,15 @@ namespace BlueLotus360.Web.API.Controllers
                 return false;
             }
         }
+
+        [HttpPost("GetOrderHubBU")]
+        public IActionResult GetOrderHubBU()
+        {
+            var company = Request.GetAssignedCompany();
+            
+            IList<CodeBaseResponse> items = _orderService.GetOrderHubBU(company).Value;
+            return Ok(items);
+        }
+
     }
 }
