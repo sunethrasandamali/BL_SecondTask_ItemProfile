@@ -367,8 +367,9 @@ namespace BlueLotus360.Core.Domain.DTOs
         public DateTime UpdateDate { get; set; } = DateTime.Now;
 
         public CodeBaseResponse AnalysisType1 = new CodeBaseResponse();
+        public CodeBaseResponse AnalysisType2 = new CodeBaseResponse();
 
-    }
+	}
 
     public class OrderFindDto
     {
