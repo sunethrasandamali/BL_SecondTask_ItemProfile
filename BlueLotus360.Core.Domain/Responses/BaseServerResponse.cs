@@ -1,4 +1,5 @@
 ﻿using BlueLotus360.Core.Domain.Entity.Base;
+using BlueLotus360.Core.Domain.Entity.ItemProfileMobile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace BlueLotus360.Core.Domain.Responses
 
         public string ResponseId { get; set; }
 
+        
     }
 
 
